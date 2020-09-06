@@ -36,7 +36,7 @@ public class Recipes extends RecipeProvider
 
 		ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRANSMITTER)
 				.patternLine("IRI")
-				.patternLine("ICI")
+				.patternLine("RCR")
 				.patternLine("IRI")
 				.key('I', Items.IRON_INGOT)
 				.key('R', Items.REDSTONE_TORCH)
@@ -46,7 +46,7 @@ public class Recipes extends RecipeProvider
 
 		ShapedRecipeBuilder.shapedRecipe(ModBlocks.RECEIVER)
 				.patternLine("IRI")
-				.patternLine("ICI")
+				.patternLine("RCR")
 				.patternLine("IRI")
 				.key('I', Items.IRON_INGOT)
 				.key('R', Items.REDSTONE)
