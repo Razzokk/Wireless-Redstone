@@ -8,6 +8,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -55,8 +56,9 @@ public class ItemFrequency extends Item
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
 		ITextComponent textComponent = new TranslationTextComponent("tooltip." + WirelessRedstone.MODID + ".frequency");
-		textComponent.appendText(": " + getFrequency(stack));
-		textComponent.applyTextStyle(TextFormatting.AQUA);
+		textComponent.appendText(": ");
+		textComponent.applyTextStyle(TextFormatting.GRAY);
+		textComponent.appendSibling(new StringTextComponent(Integer.toString(getFrequency(stack))).applyTextStyle(TextFormatting.AQUA));
 		tooltip.add(textComponent);
 	}
 }

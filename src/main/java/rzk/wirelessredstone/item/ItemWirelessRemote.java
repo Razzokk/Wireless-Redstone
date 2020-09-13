@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.item;
 
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
@@ -10,12 +11,18 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import rzk.lib.mc.util.WorldUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.tile.TileFrequency;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ItemWirelessRemote extends ItemFrequency
 {
@@ -82,5 +89,22 @@ public class ItemWirelessRemote extends ItemFrequency
 		}
 
 		return ActionResult.resultPass(stack);
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag)
+	{
+		super.addInformation(stack, worldIn, tooltip, flag);
+
+		boolean isPowered = isPowered(stack);
+		ITextComponent state = new TranslationTextComponent("tooltip." + WirelessRedstone.MODID + "." + (isPowered ? "on" : "off"));
+		state.applyTextStyle(isPowered ? TextFormatting.GREEN : TextFormatting.DARK_RED);
+
+		ITextComponent stateText = new TranslationTextComponent("tooltip." + WirelessRedstone.MODID + ".state");
+		stateText.appendText(": ");
+		stateText.applyTextStyle(TextFormatting.GRAY);
+		stateText.appendSibling(state);
+
+		tooltip.add(stateText);
 	}
 }

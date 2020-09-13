@@ -11,6 +11,9 @@
   "gui.wirelessredstone.frequency.remote": "Remote Frequency",
 
   "tooltip.wirelessredstone.frequency": "Frequency",
+  "tooltip.wirelessredstone.state": "State",
+  "tooltip.wirelessredstone.on": "On",
+  "tooltip.wirelessredstone.off": "Off",
 
   "itemGroup.wirelessredstone": "Wireless Redstone"
 }

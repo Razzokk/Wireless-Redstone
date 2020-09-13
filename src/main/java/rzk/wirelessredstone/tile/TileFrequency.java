@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.tile;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -42,9 +43,10 @@ public class TileFrequency extends TileEntity
 		if (frequency != this.frequency)
 		{
 			RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+			BlockState state = getBlockState();
 			if (isTransmitter)
 			{
-				if (getBlockState().get(BlockStateProperties.POWERED))
+				if (state.get(BlockStateProperties.POWERED))
 					network.changeActiveTransmitterFrequency(this.frequency, frequency, world);
 			}
 			else
@@ -53,7 +55,7 @@ public class TileFrequency extends TileEntity
 			}
 
 			this.frequency = frequency;
-			world.notifyBlockUpdate(pos, getBlockState(), getBlockState(), 3);
+			world.notifyBlockUpdate(pos, state, state, 3);
 			markDirty();
 		}
 	}
