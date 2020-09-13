@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "wirelessredstone:wireless_circuit"
+      "wirelessredstone:wireless_remote"
     ]
   },
   "criteria": {
@@ -11,19 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:redstone"
-          },
-          {
-            "item": "minecraft:glowstone_dust"
-          },
-          {
-            "item": "minecraft:gold_ingot"
-          },
-          {
-            "item": "minecraft:ender_pearl"
-          },
-          {
-            "item": "minecraft:quartz"
+            "item": "wirelessredstone:wireless_circuit"
           }
         ]
       }
@@ -31,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "wirelessredstone:wireless_circuit"
+        "recipe": "wirelessredstone:wireless_remote"
       }
     }
   },

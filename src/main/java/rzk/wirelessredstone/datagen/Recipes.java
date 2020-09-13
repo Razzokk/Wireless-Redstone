@@ -28,10 +28,10 @@ public class Recipes extends RecipeProvider
 				.patternLine("QGQ")
 				.key('R', Items.REDSTONE)
 				.key('G', Items.GLOWSTONE_DUST)
-				.key('I', Items.IRON_INGOT)
+				.key('I', Items.GOLD_INGOT)
 				.key('E', Items.ENDER_PEARL)
 				.key('Q', Items.QUARTZ)
-				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(Items.REDSTONE, Items.GLOWSTONE_DUST, Items.IRON_INGOT, Items.ENDER_PEARL, Items.QUARTZ))
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(Items.REDSTONE, Items.GLOWSTONE_DUST, Items.GOLD_INGOT, Items.ENDER_PEARL, Items.QUARTZ))
 				.build(consumer);
 
 		ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRANSMITTER)
@@ -50,6 +50,29 @@ public class Recipes extends RecipeProvider
 				.patternLine("IRI")
 				.key('I', Items.IRON_INGOT)
 				.key('R', Items.REDSTONE)
+				.key('C', ModItems.CIRCUIT)
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModItems.REMOTE)
+				.patternLine("TET")
+				.patternLine("ICI")
+				.patternLine("IRI")
+				.key('T', Items.REDSTONE_TORCH)
+				.key('E', Items.ENDER_PEARL)
+				.key('I', Items.IRON_INGOT)
+				.key('C', ModItems.CIRCUIT)
+				.key('R', Items.REDSTONE)
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
+				.build(consumer);
+
+		ShapedRecipeBuilder.shapedRecipe(ModItems.FREQUENCY_COPIER)
+				.patternLine("RTR")
+				.patternLine("ICI")
+				.patternLine(" I ")
+				.key('R', Items.REDSTONE)
+				.key('T', Items.COMPARATOR)
+				.key('I', Items.IRON_INGOT)
 				.key('C', ModItems.CIRCUIT)
 				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
 				.build(consumer);
