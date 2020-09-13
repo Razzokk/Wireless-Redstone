@@ -10,7 +10,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import rzk.lib.mc.tile.ITileRedstoneStates;
 import rzk.lib.mc.tile.TileRedstoneDevice;
-import rzk.lib.mc.util.Utils;
+import rzk.lib.mc.util.WorldUtils;
 
 import javax.annotation.Nullable;
 
@@ -62,13 +62,13 @@ public abstract class BlockRedstoneDeviceEdgeDetection extends BlockRedstoneDevi
 	public void onInputChanged(BlockState state, World world, BlockPos pos, Direction side)
 	{
 		if (!world.isRemote)
-			Utils.getTileAndDo(world, pos, ITileRedstoneStates.class, tile -> updateRedstoneState(world, pos, state, tile, side));
+			WorldUtils.ifTilePresent(world, pos, ITileRedstoneStates.class, tile -> updateRedstoneState(world, pos, state, tile, side));
 	}
 
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
 	{
 		if (!world.isRemote)
-			Utils.getTileAndDo(world, pos, ITileRedstoneStates.class, tile -> Direction.Plane.HORIZONTAL.forEach(side -> updateRedstoneState(world, pos, state, tile, side)));
+			WorldUtils.ifTilePresent(world, pos, ITileRedstoneStates.class, tile -> Direction.Plane.HORIZONTAL.forEach(side -> updateRedstoneState(world, pos, state, tile, side)));
 	}
 }

@@ -7,6 +7,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.lib.mc.registry.ModRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.item.ItemFrequencyCopier;
+import rzk.wirelessredstone.item.ItemWirelessRemote;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +18,8 @@ public class ModItems
 	public static final List<Item> ITEMS = new ArrayList<>();
 
 	public static final Item CIRCUIT = registerItem(new Item(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE)), "wireless_circuit");
-	public static final Item REMOTE = registerItem(new Item(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE)), "wireless_remote");
-	public static final Item FREQUENCY_COPIER = registerItem(new Item(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE)), "frequency_copier");
+	public static final Item REMOTE = registerItem(new ItemWirelessRemote(), "wireless_remote");
+	public static final Item FREQUENCY_COPIER = registerItem(new ItemFrequencyCopier(), "frequency_copier");
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)

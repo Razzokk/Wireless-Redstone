@@ -99,9 +99,9 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
 
-    compile fg.deobf(project.dependencies.create("mcjty.theoneprobe:TheOneProbe-${top_version}") {
+    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}") {
         transitive = false
-    })
+    }
 }
 
 private void createReleaseTag() {

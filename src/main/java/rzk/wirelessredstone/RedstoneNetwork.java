@@ -12,8 +12,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 import rzk.lib.util.ObjectUtils;
-import rzk.wirelessredstone.block.BlockWireless;
+import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
+
+import java.util.List;
+import java.util.Optional;
 
 public class RedstoneNetwork extends WorldSavedData
 {
@@ -33,7 +36,7 @@ public class RedstoneNetwork extends WorldSavedData
 
 	public static RedstoneNetwork getOrCreate(World world)
 	{
-		return ObjectUtils.cast(world, ServerWorld.class).map(value -> value.getSavedData().getOrCreate(RedstoneNetwork::new, NAME)).orElse(null);
+		return ObjectUtils.mapIfCastable(world, ServerWorld.class, serverWorld -> serverWorld.getSavedData().getOrCreate(RedstoneNetwork::new, NAME));
 	}
 
 	public void addActiveTransmitter(int frequency, World world)
@@ -78,7 +81,7 @@ public class RedstoneNetwork extends WorldSavedData
 		}
 
 		if (world.isAreaLoaded(pos, 0))
-			ObjectUtils.castAndDo(ModBlocks.RECEIVER, BlockWireless.class, block ->
+			ObjectUtils.ifCastable(ModBlocks.RECEIVER, BlockFrequency.class, block ->
 					block.setPoweredState(world.getBlockState(pos), world, pos, activeTransmitters.getOrDefault(frequency, 0) > 0));
 
 		markDirty();
@@ -105,7 +108,7 @@ public class RedstoneNetwork extends WorldSavedData
 	public void updateReceiver(World world, BlockPos pos, int frequency)
 	{
 		if (world.isAreaLoaded(pos, 0))
-			ObjectUtils.castAndDo(ModBlocks.RECEIVER, BlockWireless.class, block ->
+			ObjectUtils.ifCastable(ModBlocks.RECEIVER, BlockFrequency.class, block ->
 					block.setPoweredState(world.getBlockState(pos), world, pos, activeTransmitters.getOrDefault(frequency, 0) > 0));
 	}
 
@@ -134,12 +137,12 @@ public class RedstoneNetwork extends WorldSavedData
 		int[] txFrequencies = activeTransmitters.keySet().toIntArray();
 		compound.putIntArray("txFrequencies", txFrequencies);
 		for (int frequency : txFrequencies)
-				compound.putInt("activeTransmitters_" + frequency, activeTransmitters.get(frequency));
+			compound.putInt("activeTransmitters_" + frequency, activeTransmitters.get(frequency));
 
 		int[] rxFrequencies = receivers.keySet().toIntArray();
 		compound.putIntArray("rxFrequencies", rxFrequencies);
 		for (int frequency : rxFrequencies)
-				compound.putLongArray("receiver" + frequency, receivers.get(frequency).toLongArray());
+			compound.putLongArray("receiver" + frequency, receivers.get(frequency).toLongArray());
 
 		return compound;
 	}

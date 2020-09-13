@@ -22,7 +22,8 @@ public class PacketHandler
 
 	public static void registerMessages()
 	{
-		registerMessage(PacketFrequency.class, PacketFrequency::new);
+		registerMessage(PacketFrequencyBlock.class, PacketFrequencyBlock::new);
+		registerMessage(PacketFrequencyItem.class, PacketFrequencyItem::new);
 	}
 
 	public static <P extends Packet> void registerMessage(Class<P> packetType, Function<PacketBuffer, P> decoder)

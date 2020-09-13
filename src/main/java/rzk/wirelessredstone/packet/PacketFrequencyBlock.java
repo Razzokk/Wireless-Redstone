@@ -8,22 +8,23 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
 import rzk.lib.mc.packet.Packet;
 import rzk.lib.mc.util.Utils;
+import rzk.lib.mc.util.WorldUtils;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import java.util.function.Supplier;
 
-public class PacketFrequency extends Packet
+public class PacketFrequencyBlock extends Packet
 {
 	private int frequency;
 	private BlockPos pos;
 
-	public PacketFrequency(int frequency, BlockPos pos)
+	public PacketFrequencyBlock(int frequency, BlockPos pos)
 	{
 		this.frequency = frequency;
 		this.pos = pos;
 	}
 
-	PacketFrequency(PacketBuffer buffer)
+	PacketFrequencyBlock(PacketBuffer buffer)
 	{
 		super(buffer);
 		frequency = buffer.readInt();
@@ -45,7 +46,7 @@ public class PacketFrequency extends Packet
 			ServerPlayerEntity player = ctx.get().getSender();
 			ServerWorld world;
 			if (player != null && (world = player.getServerWorld()).isBlockLoaded(pos))
-				Utils.getTile(world, pos, TileFrequency.class).ifPresent(tile -> tile.setFrequency(frequency));
+				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile -> tile.setFrequency(frequency));
 
 		});
 		ctx.get().setPacketHandled(true);

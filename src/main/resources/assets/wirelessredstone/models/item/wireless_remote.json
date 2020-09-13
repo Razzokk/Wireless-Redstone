@@ -2,5 +2,13 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "wirelessredstone:items/wireless_remote_off"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "powered": 1.0
+      },
+      "model": "wirelessredstone:item/wireless_remote_on"
+    }
+  ]
 }

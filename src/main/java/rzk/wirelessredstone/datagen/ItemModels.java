@@ -3,6 +3,7 @@ package rzk.wirelessredstone.datagen;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import rzk.wirelessredstone.registry.ModBlocks;
@@ -39,7 +40,11 @@ public class ItemModels extends ItemModelProvider
 	public void wirelessRemote(Item item)
 	{
 		String itemName = name(item);
-		singleTexture(itemName, mcLoc("item/generated"), "layer0", modLoc("items/" + itemName + "_off"));
+		singleTexture(itemName, mcLoc("item/generated"), "layer0", modLoc("items/" + itemName + "_off"))
+				.override()
+				.predicate(new ResourceLocation("powered"), 1)
+				.model(singleTexture(itemName + "_on", mcLoc("item/generated"), "layer0", modLoc("items/" + itemName + "_on")))
+				.end();
 	}
 
 	public void wirelessBlock(Block block)

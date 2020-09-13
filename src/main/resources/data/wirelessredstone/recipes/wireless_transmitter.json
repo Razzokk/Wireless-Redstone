@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "IRI",
-    "ICI",
+    "RCR",
     "IRI"
   ],
   "key": {

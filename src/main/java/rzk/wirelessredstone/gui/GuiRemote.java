@@ -1,31 +1,24 @@
 package rzk.wirelessredstone.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 import rzk.lib.mc.gui.widgets.SizedButton;
-import rzk.lib.mc.util.Utils;
-import rzk.lib.mc.util.WorldUtils;
 import rzk.lib.util.MathUtils;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.packet.PacketFrequencyBlock;
+import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
-import rzk.wirelessredstone.tile.TileFrequency;
-
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
-public class GuiFrequency extends Screen
+public class GuiRemote extends Screen
 {
 	public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency.png");
 	int guiLeft;
@@ -41,14 +34,13 @@ public class GuiFrequency extends Screen
 	private Button buttonAdd_10;
 
 	private int frequency;
-	private final BlockPos pos;
+	private Hand hand;
 
-	public GuiFrequency(boolean isTransmitter, BlockPos pos)
+	public GuiRemote(int frequency, Hand hand)
 	{
-		super(new TranslationTextComponent("gui.wirelessredstone.frequency." + (isTransmitter ? "transmitter" : "receiver")));
-		if (!WorldUtils.ifTilePresent(Minecraft.getInstance().world, pos, TileFrequency.class, tile -> frequency = tile.getFrequency()))
-			frequency = 0;
-		this.pos = pos;
+		super(new TranslationTextComponent("gui.wirelessredstone.frequency.remote"));
+		this.frequency = frequency;
+		this.hand = hand;
 	}
 
 	@Override
@@ -182,7 +174,7 @@ public class GuiFrequency extends Screen
 
 	private void sendPacket()
 	{
-		PacketHandler.INSTANCE.sendToServer(new PacketFrequencyBlock(frequency, pos));
+		PacketHandler.INSTANCE.sendToServer(new PacketFrequencyItem(frequency, hand));
 		minecraft.player.closeScreen();
 	}
 }

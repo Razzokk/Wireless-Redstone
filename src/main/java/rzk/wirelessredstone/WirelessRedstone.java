@@ -1,8 +1,10 @@
 package rzk.wirelessredstone;
 
+import com.google.common.collect.Ordering;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -21,6 +23,9 @@ import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 @Mod(WirelessRedstone.MODID)
 public class WirelessRedstone
 {
@@ -29,13 +34,22 @@ public class WirelessRedstone
 
 	public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
+	public static Comparator<ItemStack> comparator;
 	public static final ItemGroup ITEM_GROUP_WIRELESS_REDSTONE = new ItemGroup(MODID)
 	{
 		@Override
 		@OnlyIn(Dist.CLIENT)
 		public ItemStack createIcon()
 		{
-			return Items.REDSTONE.getDefaultInstance();
+			return ModBlocks.TRANSMITTER.asItem().getDefaultInstance();
+		}
+
+		@Override
+		@OnlyIn(Dist.CLIENT)
+		public void fill(NonNullList<ItemStack> items)
+		{
+			super.fill(items);
+			items.sort(comparator);
 		}
 	};
 
@@ -53,5 +67,12 @@ public class WirelessRedstone
 	private void setup(FMLCommonSetupEvent event)
 	{
 		PacketHandler.registerMessages();
+		comparator = Ordering.explicit(
+				ModBlocks.TRANSMITTER.asItem(),
+				ModBlocks.RECEIVER.asItem(),
+				ModItems.REMOTE,
+				ModItems.FREQUENCY_COPIER,
+				ModItems.CIRCUIT)
+				.onResultOf(ItemStack::getItem);
 	}
 }

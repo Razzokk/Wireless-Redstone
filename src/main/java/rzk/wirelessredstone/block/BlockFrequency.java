@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import rzk.lib.mc.block.BlockRedstoneDevice;
+import rzk.lib.mc.util.WorldUtils;
 import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
@@ -24,11 +25,11 @@ import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
 
-public class BlockWireless extends BlockRedstoneDevice
+public class BlockFrequency extends BlockRedstoneDevice
 {
 	public final boolean isTransmitter;
 
-	public BlockWireless(boolean isTransmitter)
+	public BlockFrequency(boolean isTransmitter)
 	{
 		super(Properties.create(Material.IRON));
 		this.isTransmitter = isTransmitter;
@@ -63,7 +64,7 @@ public class BlockWireless extends BlockRedstoneDevice
 			if (state.get(BlockStateProperties.POWERED) != isPowered)
 			{
 				setPoweredState(state, world, pos, isPowered);
-				ObjectUtils.castAndDo(world.getTileEntity(pos), TileFrequency.class, tile ->
+				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
 				{
 					RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
 					if (isPowered)
@@ -95,7 +96,7 @@ public class BlockWireless extends BlockRedstoneDevice
 			if (!world.isRemote)
 			{
 				RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-				ObjectUtils.castAndDo(world.getTileEntity(pos), TileFrequency.class, tile ->
+				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
 				{
 					int frequency = tile.getFrequency();
 					if (isTransmitter && state.get(BlockStateProperties.POWERED))
