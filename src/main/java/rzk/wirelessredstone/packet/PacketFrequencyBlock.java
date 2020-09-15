@@ -1,40 +1,35 @@
 package rzk.wirelessredstone.packet;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkEvent;
-import rzk.lib.mc.packet.Packet;
-import rzk.lib.mc.util.Utils;
 import rzk.lib.mc.util.WorldUtils;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import java.util.function.Supplier;
 
-public class PacketFrequencyBlock extends Packet
+public class PacketFrequencyBlock extends PacketFrequency
 {
-	private int frequency;
-	private BlockPos pos;
+	private final BlockPos pos;
 
-	public PacketFrequencyBlock(int frequency, BlockPos pos)
+	public PacketFrequencyBlock(BlockPos pos)
 	{
-		this.frequency = frequency;
+		super(-1);
 		this.pos = pos;
 	}
 
-	PacketFrequencyBlock(PacketBuffer buffer)
+	public PacketFrequencyBlock(PacketBuffer buffer)
 	{
 		super(buffer);
-		frequency = buffer.readInt();
 		pos = BlockPos.fromLong(buffer.readLong());
 	}
 
 	@Override
 	public void toBytes(PacketBuffer buffer)
 	{
-		buffer.writeInt(frequency);
+		super.toBytes(buffer);
 		buffer.writeLong(pos.toLong());
 	}
 
@@ -44,9 +39,10 @@ public class PacketFrequencyBlock extends Packet
 		ctx.get().enqueueWork(() ->
 		{
 			ServerPlayerEntity player = ctx.get().getSender();
-			ServerWorld world;
-			if (player != null && (world = player.getServerWorld()).isBlockLoaded(pos))
-				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile -> tile.setFrequency(frequency));
+			ServerWorld world = player != null ? player.getServerWorld() : null;
+
+			if (world != null && world.isAreaLoaded(pos, 0))
+				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile -> tile.setFrequency(getFrequency()));
 
 		});
 		ctx.get().setPacketHandled(true);

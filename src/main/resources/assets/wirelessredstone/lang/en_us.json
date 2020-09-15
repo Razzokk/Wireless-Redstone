@@ -6,9 +6,7 @@
   "item.wirelessredstone.wireless_remote": "Wireless Remote",
   "item.wirelessredstone.frequency_copier": "Frequency Copier",
 
-  "gui.wirelessredstone.frequency.transmitter": "Transmitter Frequency",
-  "gui.wirelessredstone.frequency.receiver": "Receiver Frequency",
-  "gui.wirelessredstone.frequency.remote": "Remote Frequency",
+  "gui.wirelessredstone.frequency": "Frequency",
 
   "tooltip.wirelessredstone.frequency": "Frequency",
   "tooltip.wirelessredstone.state": "State",

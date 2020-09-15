@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 import rzk.lib.util.ObjectUtils;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public final class WorldUtils
 {
@@ -16,5 +17,10 @@ public final class WorldUtils
 	public static <T> boolean ifTilePresent(World world, BlockPos pos, Class<T> clazz, Consumer<T> consumer)
 	{
 		return ObjectUtils.ifCastable(world.getTileEntity(pos), clazz, consumer);
+	}
+
+	public static <T, U> U mapTile(World world, BlockPos pos, Class<T> clazz, Function<T, U> function)
+	{
+		return ObjectUtils.mapIfCastable(world.getTileEntity(pos), clazz, function);
 	}
 }

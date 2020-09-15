@@ -7,32 +7,31 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Hand;
 import net.minecraftforge.fml.network.NetworkEvent;
 import rzk.lib.mc.packet.Packet;
+import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.item.ItemFrequency;
 
 import java.util.function.Supplier;
 
-public class PacketFrequencyItem extends Packet
+public class PacketFrequencyItem extends PacketFrequency
 {
-	private int frequency;
-	private Hand hand;
+	private final Hand hand;
 
-	public PacketFrequencyItem(int frequency, Hand hand)
+	public PacketFrequencyItem(Hand hand)
 	{
-		this.frequency = frequency;
+		super(-1);
 		this.hand = hand;
 	}
 
-	PacketFrequencyItem(PacketBuffer buffer)
+	public PacketFrequencyItem(PacketBuffer buffer)
 	{
 		super(buffer);
-		frequency = buffer.readInt();
 		hand = buffer.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
 	}
 
 	@Override
 	public void toBytes(PacketBuffer buffer)
 	{
-		buffer.writeInt(frequency);
+		super.toBytes(buffer);
 		buffer.writeBoolean(hand == Hand.MAIN_HAND);
 	}
 
@@ -42,13 +41,10 @@ public class PacketFrequencyItem extends Packet
 		ctx.get().enqueueWork(() ->
 		{
 			ServerPlayerEntity player = ctx.get().getSender();
-			ItemStack stack;
-			if (player != null && (stack = player.getHeldItem(hand)).getItem() instanceof ItemFrequency)
-			{
-				CompoundNBT compound = new CompoundNBT();
-				compound.putInt("frequency", frequency);
-				stack.setTag(compound);
-			}
+			ItemStack stack = player != null ? player.getHeldItem(hand) : ItemStack.EMPTY;
+
+			if (!stack.isEmpty() && stack.getItem() instanceof ItemFrequency)
+				ObjectUtils.ifCastable(stack.getItem(), ItemFrequency.class, item -> item.setFrequency(stack, getFrequency()));
 
 		});
 		ctx.get().setPacketHandled(true);

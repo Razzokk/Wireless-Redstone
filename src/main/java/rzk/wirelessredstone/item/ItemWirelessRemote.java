@@ -74,21 +74,14 @@ public class ItemWirelessRemote extends ItemFrequency
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
-		ItemStack stack = player.getHeldItem(hand);
-
-		if (player.isSneaking())
+		if (!player.isSneaking())
 		{
-			if (world.isRemote)
-				WirelessRedstone.proxy.openRemoteGui(getFrequency(stack), hand);
-			return ActionResult.resultSuccess(stack);
-		}
-		else if (!player.isSneaking())
-		{
+			ItemStack stack = player.getHeldItem(hand);
 			setPowered(world, stack, !isPowered(stack));
 			return ActionResult.resultConsume(stack);
 		}
 
-		return ActionResult.resultPass(stack);
+		return super.onItemRightClick(world, player, hand);
 	}
 
 	@Override

@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.packet.PacketFrequencyItem;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,14 +27,14 @@ public class ItemFrequency extends Item
 		super(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE).maxStackSize(1));
 	}
 
-	protected void setFrequency(ItemStack stack, int frequency)
+	public void setFrequency(ItemStack stack, int frequency)
 	{
 		CompoundNBT compound = stack.getOrCreateTag();
 		compound.putInt("frequency", frequency);
 		stack.setTag(compound);
 	}
 
-	protected int getFrequency(ItemStack stack)
+	public int getFrequency(ItemStack stack)
 	{
 		return stack.getOrCreateTag().getInt("frequency");
 	}
@@ -45,7 +46,7 @@ public class ItemFrequency extends Item
 		if (player.isSneaking())
 		{
 			if (world.isRemote)
-				WirelessRedstone.proxy.openRemoteGui(getFrequency(stack), hand);
+				WirelessRedstone.proxy.openFrequencyGui(getFrequency(stack), new PacketFrequencyItem(hand));
 			return ActionResult.resultSuccess(stack);
 		}
 		return ActionResult.resultPass(stack);

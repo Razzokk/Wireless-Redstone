@@ -1,11 +1,11 @@
 package rzk.wirelessredstone.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -13,16 +13,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 import rzk.lib.mc.gui.widgets.SizedButton;
-import rzk.lib.mc.util.Utils;
-import rzk.lib.mc.util.WorldUtils;
+import rzk.lib.mc.packet.Packet;
 import rzk.lib.util.MathUtils;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.packet.PacketFrequencyBlock;
+import rzk.wirelessredstone.packet.PacketFrequency;
+import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
-import rzk.wirelessredstone.tile.TileFrequency;
-
-import java.util.Optional;
-import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiFrequency extends Screen
@@ -41,31 +37,30 @@ public class GuiFrequency extends Screen
 	private Button buttonAdd_10;
 
 	private int frequency;
-	private final BlockPos pos;
+	private PacketFrequency frequencyPacket;
 
-	public GuiFrequency(boolean isTransmitter, BlockPos pos)
+	public GuiFrequency(int frequency, PacketFrequency frequencyPacket)
 	{
-		super(new TranslationTextComponent("gui.wirelessredstone.frequency." + (isTransmitter ? "transmitter" : "receiver")));
-		if (!WorldUtils.ifTilePresent(Minecraft.getInstance().world, pos, TileFrequency.class, tile -> frequency = tile.getFrequency()))
-			frequency = 0;
-		this.pos = pos;
+		super(new TranslationTextComponent("gui.wirelessredstone.frequency"));
+		this.frequency = frequency;
+		this.frequencyPacket = frequencyPacket;
 	}
 
 	@Override
 	protected void init()
 	{
 		xSize = 192;
-		ySize = 154;
+		ySize = 96;
 		guiLeft = (width - xSize) / 2;
 		guiTop = (height - ySize) / 2;
 
-		addButton(buttonSubtract_1 = new SizedButton(guiLeft + 38, guiTop + 24, 36, 16, "-1", this::buttonPressed));
-		addButton(buttonSubtract_10 = new SizedButton(guiLeft + 38, guiTop + 44, 36, 16, "-10", this::buttonPressed));
-		addButton(buttonAdd_1 = new SizedButton(guiLeft + 118, guiTop + 24, 36, 16, "+1", this::buttonPressed));
-		addButton(buttonAdd_10 = new SizedButton(guiLeft + 118, guiTop + 44, 36, 16, "+10", this::buttonPressed));
+		addButton(buttonSubtract_1 = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, "-1", this::buttonPressed));
+		addButton(buttonSubtract_10 = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, "-10", this::buttonPressed));
+		addButton(buttonAdd_1 = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, "+1", this::buttonPressed));
+		addButton(buttonAdd_10 = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, "+10", this::buttonPressed));
 		addButton(done = new SizedButton(guiLeft + 80, guiTop + 64, 32, 18, I18n.format("gui.done"), onPress -> sendPacket()));
 
-		frequencyField = new TextFieldWidget(font, guiLeft + 77, guiTop + 30, 38, 16, I18n.format("gui.wirelessredstone.frequency"))
+		frequencyField = new TextFieldWidget(font, guiLeft + 76, guiTop + 33, 38, 16, I18n.format("gui.wirelessredstone.frequency"))
 		{
 			@Override
 			public void writeText(String textToWrite)
@@ -96,13 +91,17 @@ public class GuiFrequency extends Screen
 			}
 		});
 		children.add(frequencyField);
-		validateButtons();
 	}
 
 	private void setFrequency(int frequency)
 	{
 		this.frequency = MathUtils.constrain(frequency, 0, 99999);
-		validateButtons();
+	}
+
+	private void buttonPressed(Button button)
+	{
+		setFrequency(frequency + Integer.parseInt(button.getMessage()));
+		frequencyField.setText(String.valueOf(frequency));
 	}
 
 	@Override
@@ -116,7 +115,6 @@ public class GuiFrequency extends Screen
 				buttonSubtract_10.setMessage("-1000");
 				buttonAdd_1.setMessage("+100");
 				buttonAdd_10.setMessage("+1000");
-				validateButtons();
 				break;
 		}
 
@@ -134,7 +132,6 @@ public class GuiFrequency extends Screen
 				buttonSubtract_10.setMessage("-10");
 				buttonAdd_1.setMessage("+1");
 				buttonAdd_10.setMessage("+10");
-				validateButtons();
 				break;
 		}
 
@@ -147,7 +144,7 @@ public class GuiFrequency extends Screen
 		renderBackground();
 		drawGuiBackgroundTexture(mouseX, mouseY, partialTicks);
 		frequencyField.render(mouseX, mouseY, partialTicks);
-		font.drawString(title.getFormattedText(), guiLeft + (xSize - font.getStringWidth(title.getFormattedText())) / 2, guiTop + 5, 0x404040);
+		font.drawString(title.getFormattedText(), guiLeft + (xSize - font.getStringWidth(title.getFormattedText())) / 2, guiTop + 7, 0x404040);
 		super.render(mouseX, mouseY, partialTicks);
 	}
 
@@ -158,31 +155,10 @@ public class GuiFrequency extends Screen
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
-	void validateButtons()
-	{
-		if (frequency + Integer.parseInt(buttonSubtract_1.getMessage()) < 0)
-			buttonSubtract_1.active = false;
-		else if (frequency + Integer.parseInt(buttonAdd_1.getMessage()) > 99999)
-			buttonAdd_1.active = false;
-		else
-			buttonSubtract_1.active = buttonAdd_1.active = true;
-
-		if (frequency + Integer.parseInt(buttonSubtract_10.getMessage()) < 0)
-			buttonSubtract_10.active = false;
-		else if (frequency + Integer.parseInt(buttonAdd_10.getMessage()) > 99999)
-			buttonAdd_10.active = false;
-		else
-			buttonSubtract_10.active = buttonAdd_10.active = true;
-	}
-
-	private void buttonPressed(Button button)
-	{
-		frequencyField.setText(String.valueOf(frequency + Integer.parseInt(button.getMessage())));
-	}
-
 	private void sendPacket()
 	{
-		PacketHandler.INSTANCE.sendToServer(new PacketFrequencyBlock(frequency, pos));
+		frequencyPacket.setFrequency(frequency);
+		PacketHandler.INSTANCE.sendToServer(frequencyPacket);
 		minecraft.player.closeScreen();
 	}
 }

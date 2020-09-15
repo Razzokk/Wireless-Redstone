@@ -2,6 +2,7 @@ package rzk.wirelessredstone.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -18,9 +19,9 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import rzk.lib.mc.block.BlockRedstoneDevice;
 import rzk.lib.mc.util.WorldUtils;
-import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.packet.PacketFrequencyBlock;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
@@ -35,11 +36,19 @@ public class BlockFrequency extends BlockRedstoneDevice
 		this.isTransmitter = isTransmitter;
 	}
 
+	private int getFrequency(World world, BlockPos pos)
+	{
+		return WorldUtils.mapTile(world, pos, TileFrequency.class, tile -> tile != null ? tile.getFrequency() : -1);
+	}
+
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
-			WirelessRedstone.proxy.openFrequencyGui(isTransmitter, pos);
+		{
+			WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
+					WirelessRedstone.proxy.openFrequencyGui(tile.getFrequency(), new PacketFrequencyBlock(pos)));
+		}
 		return ActionResultType.SUCCESS;
 	}
 
@@ -67,10 +76,12 @@ public class BlockFrequency extends BlockRedstoneDevice
 				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
 				{
 					RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+					int frequency = tile.getFrequency();
+
 					if (isPowered)
-						network.addActiveTransmitter(tile.getFrequency(), world);
+						network.addActiveTransmitter(frequency, world);
 					else
-						network.removeActiveTransmitter(tile.getFrequency(), world);
+						network.removeActiveTransmitter(frequency, world);
 				});
 			}
 		}
@@ -95,10 +106,11 @@ public class BlockFrequency extends BlockRedstoneDevice
 		{
 			if (!world.isRemote)
 			{
-				RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
 				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
 				{
+					RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
 					int frequency = tile.getFrequency();
+
 					if (isTransmitter && state.get(BlockStateProperties.POWERED))
 						network.removeActiveTransmitter(frequency, world);
 					else
