@@ -42,9 +42,9 @@ public class ItemWirelessRemote extends ItemFrequency
 		if (network != null)
 		{
 			if (powered)
-				network.addActiveTransmitter(frequency, world);
+				network.addActiveTransmitter(frequency);
 			else
-				network.removeActiveTransmitter(frequency, world);
+				network.removeActiveTransmitter(frequency);
 		}
 
 		CompoundNBT compound = stack.getOrCreateTag();

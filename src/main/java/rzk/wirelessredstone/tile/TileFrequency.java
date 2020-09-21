@@ -5,7 +5,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import rzk.lib.mc.tile.TileType;
@@ -13,7 +12,7 @@ import rzk.wirelessredstone.RedstoneNetwork;
 
 import javax.annotation.Nullable;
 
-public class TileFrequency extends TileEntity implements ITickableTileEntity
+public class TileFrequency extends TileEntity
 {
 	public static final TileEntityType<TileFrequency> TYPE = new TileType<>(TileFrequency::new);
 
@@ -47,9 +46,9 @@ public class TileFrequency extends TileEntity implements ITickableTileEntity
 			BlockState state = getBlockState();
 
 			if (isTransmitter && state.get(BlockStateProperties.POWERED))
-				network.changeActiveTransmitterFrequency(this.frequency, frequency, world);
+				network.changeActiveTransmitterFrequency(this.frequency, frequency);
 			else if (!isTransmitter)
-				network.changeReceiverFrequency(this.frequency, frequency, pos, world);
+				network.changeReceiverFrequency(this.frequency, frequency, pos);
 
 			this.frequency = frequency;
 			world.notifyBlockUpdate(pos, state, state, 3);
@@ -93,22 +92,16 @@ public class TileFrequency extends TileEntity implements ITickableTileEntity
 	}
 
 	@Override
-	public void tick()
-	{
-		//System.out.println("ticking");
-	}
-
-	@Override
 	public void onChunkUnloaded()
 	{
-		System.out.println(world);
-		System.out.println("unload");
+		if (!world.isRemote && !isTransmitter)
+			RedstoneNetwork.getOrCreate(world).removeReceiver(frequency, pos);
 	}
 
 	@Override
 	public void onLoad()
 	{
-		System.out.println(world);
-		System.out.println("load");
+		if (!world.isRemote && !isTransmitter)
+			RedstoneNetwork.getOrCreate(world).addReceiver(frequency, pos);
 	}
 }

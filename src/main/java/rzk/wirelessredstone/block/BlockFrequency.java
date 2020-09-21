@@ -79,9 +79,9 @@ public class BlockFrequency extends BlockRedstoneDevice
 					int frequency = tile.getFrequency();
 
 					if (isPowered)
-						network.addActiveTransmitter(frequency, world);
+						network.addActiveTransmitter(frequency);
 					else
-						network.removeActiveTransmitter(frequency, world);
+						network.removeActiveTransmitter(frequency);
 				});
 			}
 		}
@@ -95,7 +95,7 @@ public class BlockFrequency extends BlockRedstoneDevice
 			if (isTransmitter)
 				onInputChanged(state, world, pos, null);
 			else
-				RedstoneNetwork.getOrCreate(world).addReceiver(0, pos, world);
+				RedstoneNetwork.getOrCreate(world).addReceiver(0, pos);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class BlockFrequency extends BlockRedstoneDevice
 					int frequency = tile.getFrequency();
 
 					if (isTransmitter && state.get(BlockStateProperties.POWERED))
-						network.removeActiveTransmitter(frequency, world);
+						network.removeActiveTransmitter(frequency);
 					else
 						network.removeReceiver(frequency, pos);
 				});
