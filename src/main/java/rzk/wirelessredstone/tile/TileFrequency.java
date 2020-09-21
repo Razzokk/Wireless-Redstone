@@ -5,16 +5,17 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import rzk.lib.mc.tile.TileType;
 import rzk.wirelessredstone.RedstoneNetwork;
-import rzk.wirelessredstone.registry.ModBlocks;
 
 import javax.annotation.Nullable;
 
-public class TileFrequency extends TileEntity
+public class TileFrequency extends TileEntity implements ITickableTileEntity
 {
-	public static final TileEntityType<TileFrequency> TYPE = TileEntityType.Builder.create(TileFrequency::new, ModBlocks.TRANSMITTER, ModBlocks.RECEIVER).build(null);
+	public static final TileEntityType<TileFrequency> TYPE = new TileType<>(TileFrequency::new);
 
 	private int frequency;
 	private final boolean isTransmitter;
@@ -44,15 +45,11 @@ public class TileFrequency extends TileEntity
 		{
 			RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
 			BlockState state = getBlockState();
-			if (isTransmitter)
-			{
-				if (state.get(BlockStateProperties.POWERED))
-					network.changeActiveTransmitterFrequency(this.frequency, frequency, world);
-			}
-			else
-			{
+
+			if (isTransmitter && state.get(BlockStateProperties.POWERED))
+				network.changeActiveTransmitterFrequency(this.frequency, frequency, world);
+			else if (!isTransmitter)
 				network.changeReceiverFrequency(this.frequency, frequency, pos, world);
-			}
 
 			this.frequency = frequency;
 			world.notifyBlockUpdate(pos, state, state, 3);
@@ -93,5 +90,25 @@ public class TileFrequency extends TileEntity
 	{
 		super.onDataPacket(net, pkt);
 		handleUpdateTag(pkt.getNbtCompound());
+	}
+
+	@Override
+	public void tick()
+	{
+		//System.out.println("ticking");
+	}
+
+	@Override
+	public void onChunkUnloaded()
+	{
+		System.out.println(world);
+		System.out.println("unload");
+	}
+
+	@Override
+	public void onLoad()
+	{
+		System.out.println(world);
+		System.out.println("load");
 	}
 }

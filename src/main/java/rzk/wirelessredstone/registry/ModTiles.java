@@ -22,8 +22,8 @@ public class ModTiles
 		TILES.forEach(event.getRegistry()::register);
 	}
 
-	public static TileEntityType<?> registerTile(TileEntityType<?> tile, String name)
+	public static void registerTile(TileEntityType<?> tile, String name)
 	{
-		return ModRegistry.registerTile(WirelessRedstone.MODID, TILES, tile, name);
+		ModRegistry.registerTile(WirelessRedstone.MODID, TILES, tile, name);
 	}
 }

@@ -15,9 +15,6 @@ import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
 
-import java.util.List;
-import java.util.Optional;
-
 public class RedstoneNetwork extends WorldSavedData
 {
 	public static final String NAME = "RedstoneNetwork";
@@ -67,6 +64,11 @@ public class RedstoneNetwork extends WorldSavedData
 		addActiveTransmitter(newFrequency, world);
 	}
 
+	public int getActiveTransmitters(int frequency)
+	{
+		return activeTransmitters.getOrDefault(frequency, 0);
+	}
+
 	public void addReceiver(int frequency, BlockPos pos, World world)
 	{
 		if (receivers.containsKey(frequency))
@@ -109,7 +111,7 @@ public class RedstoneNetwork extends WorldSavedData
 	{
 		if (world.isAreaLoaded(pos, 0))
 			ObjectUtils.ifCastable(ModBlocks.RECEIVER, BlockFrequency.class, block ->
-					block.setPoweredState(world.getBlockState(pos), world, pos, activeTransmitters.getOrDefault(frequency, 0) > 0));
+					block.setPoweredState(world.getBlockState(pos), world, pos, getActiveTransmitters(frequency) > 0));
 	}
 
 	public void updateReceiversOnFrequency(World world, int frequency)

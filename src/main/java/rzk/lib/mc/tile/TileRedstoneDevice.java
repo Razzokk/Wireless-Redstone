@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntityType;
 
 public class TileRedstoneDevice extends TileEntity implements ITileRedstoneStates
 {
-	public static final TileEntityType<TileRedstoneDevice> TYPE = TileEntityType.Builder.create(TileRedstoneDevice::new).build(null);
+	public static final TileEntityType<TileRedstoneDevice> TYPE = new TileType<>(TileRedstoneDevice::new);
 
 	private byte states;
 

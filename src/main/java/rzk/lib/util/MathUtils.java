@@ -13,19 +13,19 @@ public class MathUtils
 
 	// FUNCTIONS
 
+	public static boolean isEven(int x)
+	{
+		return (x & 1) == 1;
+	}
+
+	public static boolean isOdd(int x)
+	{
+		return !isEven(x);
+	}
+
 	public static int sign(double x)
 	{
 		return x == 0 ? 0 : x < 0 ? -1 : 1;
-	}
-
-	public static boolean isEven(double x)
-	{
-		return x % 2 == 0;
-	}
-
-	public static boolean isOdd(double x)
-	{
-		return !isEven(x);
 	}
 
 	public static boolean isPositive(double x)
