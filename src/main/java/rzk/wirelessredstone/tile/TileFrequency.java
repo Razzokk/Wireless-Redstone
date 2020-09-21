@@ -8,6 +8,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import rzk.lib.mc.tile.TileType;
+import rzk.lib.mc.util.TaskScheduler;
 import rzk.wirelessredstone.RedstoneNetwork;
 
 import javax.annotation.Nullable;
@@ -102,6 +103,10 @@ public class TileFrequency extends TileEntity
 	public void onLoad()
 	{
 		if (!world.isRemote && !isTransmitter)
-			RedstoneNetwork.getOrCreate(world).addReceiver(frequency, pos);
+		{
+			RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+			network.addReceiver(frequency, pos, false);
+			TaskScheduler.scheduleTask(world, 1, () -> network.updateReceiver(frequency, pos));
+		}
 	}
 }
