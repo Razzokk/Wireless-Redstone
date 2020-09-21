@@ -17,7 +17,7 @@ import rzk.wirelessredstone.registry.ModBlocks;
 
 public class RedstoneNetwork extends WorldSavedData
 {
-	public static final String NAME = "RedstoneNetwork";
+	public static final String NAME = "redstone_network";
 	private final Int2IntMap activeTransmitters = new Int2IntArrayMap();
 	private final Int2ObjectMap<LongSet> receivers = new Int2ObjectArrayMap<>();
 	private World world;
