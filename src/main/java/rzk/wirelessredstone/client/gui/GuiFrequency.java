@@ -157,4 +157,10 @@ public class GuiFrequency extends Screen
 		PacketHandler.INSTANCE.sendToServer(frequencyPacket);
 		minecraft.player.closeScreen();
 	}
+
+	@Override
+	public boolean isPauseScreen()
+	{
+		return false;
+	}
 }
