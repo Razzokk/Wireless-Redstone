@@ -1,8 +1,11 @@
 package rzk.wirelessredstone.block;
 
+import mcjty.theoneprobe.api.IProbeHitData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
@@ -15,18 +18,22 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import rzk.lib.mc.block.BlockRedstoneDevice;
 import rzk.lib.mc.util.WorldUtils;
+import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.integration.ProbeInfoProvider;
 import rzk.wirelessredstone.packet.PacketFrequencyBlock;
+import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
 
-public class BlockFrequency extends BlockRedstoneDevice
+public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProvider
 {
 	public final boolean isTransmitter;
 
@@ -126,5 +133,12 @@ public class BlockFrequency extends BlockRedstoneDevice
 	public BlockItem createItem()
 	{
 		return new BlockItem(this, new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE));
+	}
+
+	@Override
+	public void addProbeInfo(ProbeMode mode, IProbeInfo info, PlayerEntity player, World world, BlockState state, IProbeHitData data)
+	{
+		ObjectUtils.ifCastable(world.getTileEntity(data.getPos()), TileFrequency.class, tile ->
+				info.horizontal().text(TextFormatting.GRAY + "Frequency: " + TextFormatting.AQUA + tile.getFrequency()));
 	}
 }
