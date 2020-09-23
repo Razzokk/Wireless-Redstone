@@ -27,7 +27,7 @@ public class ItemFrequency extends Item
 		super(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE).maxStackSize(1));
 	}
 
-	public void setFrequency(ItemStack stack, int frequency)
+	public void setFrequency(World world, ItemStack stack, int frequency)
 	{
 		CompoundNBT compound = stack.getOrCreateTag();
 		compound.putInt("frequency", frequency);

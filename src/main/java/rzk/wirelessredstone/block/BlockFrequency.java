@@ -36,19 +36,12 @@ public class BlockFrequency extends BlockRedstoneDevice
 		this.isTransmitter = isTransmitter;
 	}
 
-	private int getFrequency(World world, BlockPos pos)
-	{
-		return WorldUtils.mapTile(world, pos, TileFrequency.class, tile -> tile != null ? tile.getFrequency() : -1);
-	}
-
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit)
 	{
 		if (world.isRemote)
-		{
 			WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
 					WirelessRedstone.proxy.openFrequencyGui(tile.getFrequency(), new PacketFrequencyBlock(pos)));
-		}
 		return ActionResultType.SUCCESS;
 	}
 
@@ -90,13 +83,8 @@ public class BlockFrequency extends BlockRedstoneDevice
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
 	{
-		if (!world.isRemote)
-		{
-			if (isTransmitter)
-				onInputChanged(state, world, pos, null);
-			else
-				RedstoneNetwork.getOrCreate(world).addReceiver(0, pos);
-		}
+		if (!world.isRemote & isTransmitter)
+			onInputChanged(state, world, pos, null);
 	}
 
 	@Override

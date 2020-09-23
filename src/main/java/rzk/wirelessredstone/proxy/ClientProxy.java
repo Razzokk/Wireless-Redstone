@@ -6,7 +6,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import rzk.wirelessredstone.client.render.TERFrequency;
-import rzk.wirelessredstone.gui.GuiFrequency;
+import rzk.wirelessredstone.client.gui.GuiFrequency;
 import rzk.wirelessredstone.packet.PacketFrequency;
 import rzk.wirelessredstone.tile.TileFrequency;
 

@@ -2,7 +2,6 @@ package rzk.wirelessredstone.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,7 +24,7 @@ public class ItemFrequencyCopier extends ItemFrequency
 				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
 				{
 					if (context.getPlayer().isSneaking())
-						setFrequency(stack, tile.getFrequency());
+						setFrequency(world, stack, tile.getFrequency());
 					else
 						tile.setFrequency(getFrequency(stack));
 				});

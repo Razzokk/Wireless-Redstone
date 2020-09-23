@@ -1,6 +1,8 @@
 package rzk.wirelessredstone.item;
 
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
@@ -16,6 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import rzk.lib.mc.util.WorldUtils;
+import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
@@ -26,21 +29,21 @@ import java.util.List;
 
 public class ItemWirelessRemote extends ItemFrequency
 {
-	private static final IItemPropertyGetter POWERED_GETTER = (stack, world, entity) ->
+	private static final IItemPropertyGetter POWERED = (stack, world, entity) ->
 			stack.getOrCreateTag().getBoolean("powered") ? 1.0F : 0.0F;
 
 	public ItemWirelessRemote()
 	{
-		addPropertyOverride(new ResourceLocation("powered"), POWERED_GETTER);
+		addPropertyOverride(new ResourceLocation("powered"), POWERED);
 	}
 
-	private void setPowered(World world, ItemStack stack, boolean powered)
+	public void setPowered(World world, ItemStack stack, boolean powered)
 	{
 		RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-		int frequency = getFrequency(stack);
 
 		if (network != null)
 		{
+			int frequency = getFrequency(stack);
 			if (powered)
 				network.addActiveTransmitter(frequency);
 			else
@@ -52,9 +55,17 @@ public class ItemWirelessRemote extends ItemFrequency
 		stack.setTag(compound);
 	}
 
-	private boolean isPowered(ItemStack stack)
+	public boolean isPowered(ItemStack stack)
 	{
 		return stack.getOrCreateTag().getBoolean("powered");
+	}
+
+	@Override
+	public void setFrequency(World world, ItemStack stack, int frequency)
+	{
+		if (!world.isRemote && isPowered(stack))
+			RedstoneNetwork.getOrCreate(world).changeActiveTransmitterFrequency(getFrequency(stack), frequency);
+		super.setFrequency(world, stack, frequency);
 	}
 
 	@Override
@@ -65,7 +76,7 @@ public class ItemWirelessRemote extends ItemFrequency
 		if (world.getBlockState(pos).getBlock() instanceof BlockFrequency && context.getPlayer().isSneaking())
 		{
 			if (!world.isRemote)
-				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile -> setFrequency(stack, tile.getFrequency()));
+				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile -> setFrequency(world, stack, tile.getFrequency()));
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
@@ -74,14 +85,34 @@ public class ItemWirelessRemote extends ItemFrequency
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand)
 	{
-		if (!player.isSneaking())
+		ItemStack stack = player.getHeldItem(hand);
+		if (!player.isSneaking() && !isPowered(stack))
 		{
-			ItemStack stack = player.getHeldItem(hand);
-			setPowered(world, stack, !isPowered(stack));
+			setPowered(world, stack, true);
+			player.setActiveHand(hand);
 			return ActionResult.resultConsume(stack);
 		}
-
 		return super.onItemRightClick(world, player, hand);
+	}
+
+	@Override
+	public int getUseDuration(ItemStack stack)
+	{
+		return 72000;
+	}
+
+	@Override
+	public void onPlayerStoppedUsing(ItemStack stack, World world, LivingEntity entityLiving, int timeLeft)
+	{
+		if (isPowered(stack))
+			setPowered(world, stack, false);
+	}
+
+	@Override
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+	{
+		if (!isSelected && isPowered(stack))
+			setPowered(world, stack, false);
 	}
 
 	@Override

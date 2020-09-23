@@ -18,7 +18,7 @@ public class TileFrequency extends TileEntity
 	public static final TileEntityType<TileFrequency> TYPE = new TileType<>(TileFrequency::new);
 
 	private int frequency;
-	private final boolean isTransmitter;
+	private boolean isTransmitter;
 
 	public TileFrequency(boolean isTransmitter)
 	{
@@ -61,6 +61,7 @@ public class TileFrequency extends TileEntity
 	public void read(CompoundNBT compound)
 	{
 		super.read(compound);
+		isTransmitter = compound.getBoolean("isTransmitter");
 		frequency = compound.getInt("frequency");
 	}
 
@@ -68,6 +69,7 @@ public class TileFrequency extends TileEntity
 	public CompoundNBT write(CompoundNBT compound)
 	{
 		super.write(compound);
+		compound.putBoolean("isTransmitter", isTransmitter);
 		compound.putInt("frequency", frequency);
 		return compound;
 	}

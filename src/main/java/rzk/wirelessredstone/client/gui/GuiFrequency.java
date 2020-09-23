@@ -1,23 +1,19 @@
-package rzk.wirelessredstone.gui;
+package rzk.wirelessredstone.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
 import rzk.lib.mc.gui.widgets.SizedButton;
-import rzk.lib.mc.packet.Packet;
 import rzk.lib.util.MathUtils;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.packet.PacketFrequency;
-import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
 
 @OnlyIn(Dist.CLIENT)
