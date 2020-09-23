@@ -15,6 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.packet.PacketFrequencyItem;
 
 import javax.annotation.Nullable;
@@ -56,7 +57,7 @@ public class ItemFrequency extends Item
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
-		ITextComponent textComponent = new TranslationTextComponent("tooltip." + WirelessRedstone.MODID + ".frequency");
+		ITextComponent textComponent = new TranslationTextComponent(LangKeys.Tooltip.FREQUENCY);
 		textComponent.appendText(": ");
 		textComponent.applyTextStyle(TextFormatting.GRAY);
 		textComponent.appendSibling(new StringTextComponent(Integer.toString(getFrequency(stack))).applyTextStyle(TextFormatting.AQUA));

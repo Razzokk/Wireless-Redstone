@@ -22,6 +22,7 @@ import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
+import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
@@ -121,10 +122,10 @@ public class ItemWirelessRemote extends ItemFrequency
 		super.addInformation(stack, worldIn, tooltip, flag);
 
 		boolean isPowered = isPowered(stack);
-		ITextComponent state = new TranslationTextComponent("tooltip." + WirelessRedstone.MODID + "." + (isPowered ? "on" : "off"));
+		ITextComponent state = new TranslationTextComponent(isPowered ? LangKeys.Tooltip.ON : LangKeys.Tooltip.OFF);
 		state.applyTextStyle(isPowered ? TextFormatting.GREEN : TextFormatting.DARK_RED);
 
-		ITextComponent stateText = new TranslationTextComponent("tooltip." + WirelessRedstone.MODID + ".state");
+		ITextComponent stateText = new TranslationTextComponent(LangKeys.Tooltip.STATE);
 		stateText.appendText(": ");
 		stateText.applyTextStyle(TextFormatting.GRAY);
 		stateText.appendSibling(state);

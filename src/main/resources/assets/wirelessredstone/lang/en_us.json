@@ -7,6 +7,11 @@
   "item.wirelessredstone.frequency_copier": "Frequency Copier",
 
   "gui.wirelessredstone.frequency": "Frequency",
+  "gui.wirelessredstone.frequency_name": "Frequency Name",
+  "gui.wirelessredstone.add": "Add",
+  "gui.wirelessredstone.extend": "Extend",
+  "gui.wirelessredstone.reduce": "Reduce",
+  "gui.wirelessredstone.searchbar": "Search Bar",
 
   "tooltip.wirelessredstone.frequency": "Frequency",
   "tooltip.wirelessredstone.state": "State",
