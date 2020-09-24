@@ -9,9 +9,19 @@ import net.minecraft.util.math.MathHelper;
 
 public class SizedButton extends Button
 {
-	public SizedButton(int widthIn, int heightIn, int width, int height, String text, IPressable onPress)
+	private final int textOffsetX;
+	private final int textOffsetY;
+
+	public SizedButton(int widthIn, int heightIn, int width, int height, String text, int textOffsetX, int textOffsetY, IPressable onPress)
 	{
 		super(widthIn, heightIn, width, height, text, onPress);
+		this.textOffsetX = textOffsetX;
+		this.textOffsetY = textOffsetY;
+	}
+
+	public SizedButton(int widthIn, int heightIn, int width, int height, String text, IPressable onPress)
+	{
+		this(widthIn, heightIn, width, height, text, 0, 0, onPress);
 	}
 
 	public void renderButton(int mouseX, int mouseY, float partialTicks) {
@@ -29,6 +39,6 @@ public class SizedButton extends Button
 		blit(x + width / 2, y + height / 2, 200 - width / 2, 46 + i * 20 + 20 - height / 2, width / 2, height / 2);
 		renderBg(minecraft, mouseX, mouseY);
 		int j = getFGColor();
-		drawCenteredString(fontrenderer, getMessage(), x + width / 2, y + (height - 8) / 2, j | MathHelper.ceil(alpha * 255.0F) << 24);
+		drawCenteredString(fontrenderer, getMessage(), x + textOffsetX + width / 2, y + textOffsetY + (height - 8) / 2, j | MathHelper.ceil(alpha * 255.0F) << 24);
 	}
 }

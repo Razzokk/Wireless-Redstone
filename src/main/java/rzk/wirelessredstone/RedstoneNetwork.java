@@ -20,6 +20,7 @@ public class RedstoneNetwork extends WorldSavedData
 	public static final String NAME = "redstone_network";
 	private final Int2IntMap activeTransmitters = new Int2IntArrayMap();
 	private final Int2ObjectMap<LongSet> receivers = new Int2ObjectArrayMap<>();
+	private final Int2ObjectMap<String> frequencyNames = new Int2ObjectArrayMap<>();
 	private World world;
 
 	public RedstoneNetwork(String name)
@@ -132,12 +133,35 @@ public class RedstoneNetwork extends WorldSavedData
 				updateReceiver(frequency, BlockPos.fromLong(pos));
 	}
 
+	public void addFrequencyName(int frequency, String name)
+	{
+		frequencyNames.put(frequency, name);
+		markDirty();
+	}
+
+	public void removeFrequencyName(int frequency)
+	{
+		frequencyNames.remove(frequency);
+		markDirty();
+	}
+
+	public void updateFrequencyName(int frequency, String newName)
+	{
+		frequencyNames.replace(frequency, newName);
+		markDirty();
+	}
+
 	@Override
 	public void read(CompoundNBT compound)
 	{
 		int[] txFrequencies = compound.getIntArray("txFrequencies");
 		for (int frequency : txFrequencies)
 			activeTransmitters.put(frequency, compound.getInt("activeTransmitters_" + frequency));
+
+		CompoundNBT frequencyNamesNBT = compound.getCompound("frequencyNames");
+		int[] frequencies = frequencyNamesNBT.getIntArray("frequencies");
+		for (int frequency : frequencies)
+			frequencyNames.put(frequency, frequencyNamesNBT.getString("frequencyName_" + frequency));
 	}
 
 	@Override
@@ -148,6 +172,13 @@ public class RedstoneNetwork extends WorldSavedData
 		for (int frequency : txFrequencies)
 			compound.putInt("activeTransmitters_" + frequency, activeTransmitters.get(frequency));
 
+		CompoundNBT frequencyNamesNBT = new CompoundNBT();
+		int[] frequencies = frequencyNames.keySet().toIntArray();
+		frequencyNamesNBT.putIntArray("frequencies", frequencies);
+		for (int frequency : frequencies)
+			frequencyNamesNBT.putString("frequencyName_" + frequency, frequencyNames.get(frequency));
+
+		compound.put("frequencyNames", frequencyNamesNBT);
 		return compound;
 	}
 }

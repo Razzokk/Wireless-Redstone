@@ -13,31 +13,45 @@ import org.lwjgl.glfw.GLFW;
 import rzk.lib.mc.gui.widgets.SizedButton;
 import rzk.lib.util.MathUtils;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.packet.PacketFrequency;
 import rzk.wirelessredstone.packet.PacketHandler;
 
 @OnlyIn(Dist.CLIENT)
 public class GuiFrequency extends Screen
 {
-	public static final ResourceLocation GUI_TEXTURE = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency.png");
-	int guiLeft;
-	int guiTop;
+	public static final ResourceLocation GUI_TEXTURE_NORMAL = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency.png");
+	public static final ResourceLocation GUI_TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency_extended.png");
+	private ResourceLocation gui_texture = GUI_TEXTURE_NORMAL;
+
+	private int guiLeft;
+	private int guiTop;
 	private int xSize;
 	private int ySize;
-
-	private TextFieldWidget frequencyField;
-	private Button done;
-	private Button buttonSubtract_1;
-	private Button buttonSubtract_10;
-	private Button buttonAdd_1;
-	private Button buttonAdd_10;
 
 	private int frequency;
 	private PacketFrequency frequencyPacket;
 
+	// Standard GUI
+	private Button close;
+	private TextFieldWidget frequencyField;
+	private Button buttonSubtract_1;
+	private Button buttonSubtract_10;
+	private Button buttonAdd_1;
+	private Button buttonAdd_10;
+	private Button done;
+
+	// Extended GUI
+	private boolean extended;
+	private Button buttonExtend;
+	private TextFieldWidget frequencyName;
+	private Button buttonAddName;
+	private TextFieldWidget searchbar;
+	private GuiListFrequency frequencyList;
+
 	public GuiFrequency(int frequency, PacketFrequency frequencyPacket)
 	{
-		super(new TranslationTextComponent("gui.wirelessredstone.frequency"));
+		super(new TranslationTextComponent(LangKeys.Gui.FREQUENCY));
 		this.frequency = frequency;
 		this.frequencyPacket = frequencyPacket;
 	}
@@ -48,15 +62,18 @@ public class GuiFrequency extends Screen
 		xSize = 192;
 		ySize = 96;
 		guiLeft = (width - xSize) / 2;
-		guiTop = (height - ySize) / 2;
+		guiTop = (height - ySize) / 2 - 40;
 
+		// Standard GUI
+
+		addButton(close = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, "x", 0, -1, button -> minecraft.player.closeScreen()));
 		addButton(buttonSubtract_1 = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, "-1", this::buttonPressed));
 		addButton(buttonSubtract_10 = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, "-10", this::buttonPressed));
 		addButton(buttonAdd_1 = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, "+1", this::buttonPressed));
 		addButton(buttonAdd_10 = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, "+10", this::buttonPressed));
-		addButton(done = new SizedButton(guiLeft + 80, guiTop + 64, 32, 18, I18n.format("gui.done"), onPress -> sendPacket()));
+		addButton(done = new SizedButton(guiLeft + 78, guiTop + 64, 36, 18, I18n.format(LangKeys.Gui.DONE), onPress -> sendPacket()));
 
-		frequencyField = new TextFieldWidget(font, guiLeft + 76, guiTop + 33, 38, 16, I18n.format("gui.wirelessredstone.frequency"))
+		frequencyField = new TextFieldWidget(font, guiLeft + 76, guiTop + 35, 38, 14, I18n.format(LangKeys.Gui.FREQUENCY))
 		{
 			@Override
 			public void writeText(String textToWrite)
@@ -87,6 +104,18 @@ public class GuiFrequency extends Screen
 			}
 		});
 		children.add(frequencyField);
+
+		// Extended GUI
+
+		/*
+		addButton(buttonExtend = new SizedButton(guiLeft + xSize - 48, guiTop + ySize - 22, 42, 16, I18n.format(LangKeys.Gui.EXTEND), this::extend));
+		frequencyName = new TextFieldWidget(font, guiLeft + 7, guiTop + 100, 144, 14, I18n.format(LangKeys.Gui.FREQUENCY_NAME));
+		addButton(buttonAddName = new SizedButton(guiLeft + 154, guiTop + 99, 32, 16, I18n.format(LangKeys.Gui.ADD), onPress -> System.out.println("pressed button")));
+		buttonAddName.visible = extended;
+		searchbar = new TextFieldWidget(font, guiLeft + 7, guiTop + 130, 178, 14, I18n.format(LangKeys.Gui.SEARCHBAR));
+
+		children.add(frequencyName);
+		children.add(searchbar);*/
 	}
 
 	private void setFrequency(int frequency)
@@ -98,6 +127,25 @@ public class GuiFrequency extends Screen
 	{
 		setFrequency(frequency + Integer.parseInt(button.getMessage()));
 		frequencyField.setText(String.valueOf(frequency));
+	}
+
+	private void extend(Button button)
+	{
+		extended = !extended;
+
+		if (extended)
+		{
+			ySize = 176;
+			buttonExtend.setMessage(I18n.format(LangKeys.Gui.REDUCE));
+			gui_texture = GUI_TEXTURE_EXTENDED;
+		}
+		else
+		{
+			ySize = 96;
+			buttonExtend.setMessage(I18n.format(LangKeys.Gui.EXTEND));
+			gui_texture = GUI_TEXTURE_NORMAL;
+		}
+		buttonAddName.visible = extended;
 	}
 
 	@Override
@@ -139,15 +187,26 @@ public class GuiFrequency extends Screen
 	{
 		renderBackground();
 		drawGuiBackgroundTexture(mouseX, mouseY, partialTicks);
-		frequencyField.render(mouseX, mouseY, partialTicks);
+
 		font.drawString(title.getFormattedText(), guiLeft + (xSize - font.getStringWidth(title.getFormattedText())) / 2, guiTop + 7, 0x404040);
+		frequencyField.render(mouseX, mouseY, partialTicks);
+
+		// Extended GUI
+
+		if (extended)
+		{
+			font.drawString(new TranslationTextComponent(LangKeys.Gui.FREQUENCY_NAME).getFormattedText(), guiLeft + 6, guiTop + 80, 0x404040);
+			frequencyName.render(mouseX, mouseY, partialTicks);
+			searchbar.render(mouseX, mouseY, partialTicks);
+		}
+
 		super.render(mouseX, mouseY, partialTicks);
 	}
 
 	private void drawGuiBackgroundTexture(int mouseX, int mouseY, float partialTicks)
 	{
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		minecraft.getTextureManager().bindTexture(GUI_TEXTURE);
+		minecraft.getTextureManager().bindTexture(gui_texture);
 		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 

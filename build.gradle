@@ -23,7 +23,7 @@ repositories {
     }
 }
 
-version = "${mc_version}-v${mod_version}"
+version = "${mc_version}-${mod_version}"
 group = "rzk.${mod_id}"
 archivesBaseName = "${mod_name}"
 
