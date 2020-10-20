@@ -1,0 +1,25 @@
+modLoader = "javafml"
+loaderVersion = "[31,)"
+license="GNU GPL v3"
+
+[[mods]]
+modId = "wirelessredstone"
+version = "${file.jarVersion}"
+displayName = "Wireless Redstone"
+logoFile = "wirelessredstone.png"
+authors = "Razzokk"
+description = '''Wireless Redstone brings wireless Redstone to your Minecraft World'''
+
+[[dependencies.wirelessredstone]]
+modId = "forge"
+mandatory = true
+versionRange = "[31,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.wirelessredstone]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.3]"
+ordering = "NONE"
+side = "BOTH"
