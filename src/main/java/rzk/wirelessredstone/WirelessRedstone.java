@@ -5,6 +5,10 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,6 +22,7 @@ import net.minecraftforge.fml.javafmlmod.FMLModContainer;
 import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.integration.TOPIntegration;
 import rzk.wirelessredstone.packet.PacketHandler;
 import rzk.wirelessredstone.proxy.ClientProxy;
@@ -36,7 +41,7 @@ public class WirelessRedstone
 	public static final String MODID = "wirelessredstone";
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+	public static IProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
 	public static Comparator<ItemStack> comparator;
 	public static final ItemGroup ITEM_GROUP_WIRELESS_REDSTONE = new ItemGroup(MODID)

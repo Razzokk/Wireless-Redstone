@@ -14,6 +14,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -35,7 +36,7 @@ public class ItemWirelessRemote extends ItemFrequency
 
 	public ItemWirelessRemote()
 	{
-		addPropertyOverride(new ResourceLocation("powered"), POWERED);
+		//addPropertyOverride(new ResourceLocation("powered"), POWERED);
 	}
 
 	public void setPowered(World world, ItemStack stack, boolean powered)
@@ -121,14 +122,14 @@ public class ItemWirelessRemote extends ItemFrequency
 	{
 		super.addInformation(stack, worldIn, tooltip, flag);
 
-		boolean isPowered = isPowered(stack);
-		ITextComponent state = new TranslationTextComponent(isPowered ? LangKeys.Tooltip.ON : LangKeys.Tooltip.OFF);
-		state.applyTextStyle(isPowered ? TextFormatting.GREEN : TextFormatting.DARK_RED);
+		ITextComponent stateText = new TranslationTextComponent(LangKeys.Tooltip.STATE).mergeStyle(TextFormatting.GRAY);
+		stateText.getSiblings().add(new StringTextComponent(": "));
 
-		ITextComponent stateText = new TranslationTextComponent(LangKeys.Tooltip.STATE);
-		stateText.appendText(": ");
-		stateText.applyTextStyle(TextFormatting.GRAY);
-		stateText.appendSibling(state);
+		boolean isPowered = isPowered(stack);
+		ITextComponent state = new TranslationTextComponent(isPowered ? LangKeys.Tooltip.ON : LangKeys.Tooltip.OFF)
+				.mergeStyle(isPowered ? TextFormatting.GREEN : TextFormatting.DARK_RED);
+
+		stateText.getSiblings().add(state);
 
 		tooltip.add(stateText);
 	}

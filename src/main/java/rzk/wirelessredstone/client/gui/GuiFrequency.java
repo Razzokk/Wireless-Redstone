@@ -1,11 +1,13 @@
 package rzk.wirelessredstone.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -66,14 +68,14 @@ public class GuiFrequency extends Screen
 
 		// Standard GUI
 
-		addButton(close = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, "x", 0, -1, button -> minecraft.player.closeScreen()));
-		addButton(buttonSubtract_1 = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, "-1", this::buttonPressed));
-		addButton(buttonSubtract_10 = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, "-10", this::buttonPressed));
-		addButton(buttonAdd_1 = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, "+1", this::buttonPressed));
-		addButton(buttonAdd_10 = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, "+10", this::buttonPressed));
-		addButton(done = new SizedButton(guiLeft + 78, guiTop + 64, 36, 18, I18n.format(LangKeys.Gui.DONE), onPress -> sendPacket()));
+		addButton(close = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, new StringTextComponent("x"), 0, -1, button -> minecraft.player.closeScreen()));
+		addButton(buttonSubtract_1 = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, new StringTextComponent("-1"), this::buttonPressed));
+		addButton(buttonSubtract_10 = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, new StringTextComponent("-10"), this::buttonPressed));
+		addButton(buttonAdd_1 = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, new StringTextComponent("+1"), this::buttonPressed));
+		addButton(buttonAdd_10 = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, new StringTextComponent("+10"), this::buttonPressed));
+		addButton(done = new SizedButton(guiLeft + 78, guiTop + 64, 36, 18, new TranslationTextComponent(LangKeys.Gui.DONE), onPress -> sendPacket()));
 
-		frequencyField = new TextFieldWidget(font, guiLeft + 76, guiTop + 35, 38, 14, I18n.format(LangKeys.Gui.FREQUENCY))
+		frequencyField = new TextFieldWidget(font, guiLeft + 76, guiTop + 35, 38, 14, new TranslationTextComponent(LangKeys.Gui.FREQUENCY))
 		{
 			@Override
 			public void writeText(String textToWrite)
@@ -125,7 +127,7 @@ public class GuiFrequency extends Screen
 
 	private void buttonPressed(Button button)
 	{
-		setFrequency(frequency + Integer.parseInt(button.getMessage()));
+		setFrequency(frequency + Integer.parseInt(button.getMessage().getString()));
 		frequencyField.setText(String.valueOf(frequency));
 	}
 
@@ -136,13 +138,13 @@ public class GuiFrequency extends Screen
 		if (extended)
 		{
 			ySize = 176;
-			buttonExtend.setMessage(I18n.format(LangKeys.Gui.REDUCE));
+			buttonExtend.setMessage(new TranslationTextComponent(LangKeys.Gui.REDUCE));
 			gui_texture = GUI_TEXTURE_EXTENDED;
 		}
 		else
 		{
 			ySize = 96;
-			buttonExtend.setMessage(I18n.format(LangKeys.Gui.EXTEND));
+			buttonExtend.setMessage(new TranslationTextComponent(LangKeys.Gui.EXTEND));
 			gui_texture = GUI_TEXTURE_NORMAL;
 		}
 		buttonAddName.visible = extended;
@@ -155,10 +157,10 @@ public class GuiFrequency extends Screen
 		{
 			case GLFW.GLFW_KEY_LEFT_SHIFT:
 			case GLFW.GLFW_KEY_RIGHT_SHIFT:
-				buttonSubtract_1.setMessage("-100");
-				buttonSubtract_10.setMessage("-1000");
-				buttonAdd_1.setMessage("+100");
-				buttonAdd_10.setMessage("+1000");
+				buttonSubtract_1.setMessage(new StringTextComponent("-100"));
+				buttonSubtract_10.setMessage(new StringTextComponent("-1000"));
+				buttonAdd_1.setMessage(new StringTextComponent("+100"));
+				buttonAdd_10.setMessage(new StringTextComponent("+1000"));
 				break;
 		}
 
@@ -172,10 +174,10 @@ public class GuiFrequency extends Screen
 		{
 			case GLFW.GLFW_KEY_LEFT_SHIFT:
 			case GLFW.GLFW_KEY_RIGHT_SHIFT:
-				buttonSubtract_1.setMessage("-1");
-				buttonSubtract_10.setMessage("-10");
-				buttonAdd_1.setMessage("+1");
-				buttonAdd_10.setMessage("+10");
+				buttonSubtract_1.setMessage(new StringTextComponent("-1"));
+				buttonSubtract_10.setMessage(new StringTextComponent("-10"));
+				buttonAdd_1.setMessage(new StringTextComponent("+1"));
+				buttonAdd_10.setMessage(new StringTextComponent("+10"));
 				break;
 		}
 
@@ -183,31 +185,31 @@ public class GuiFrequency extends Screen
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks)
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
-		renderBackground();
-		drawGuiBackgroundTexture(mouseX, mouseY, partialTicks);
+		renderBackground(matrixStack);
+		drawGuiBackgroundTexture(matrixStack, mouseX, mouseY, partialTicks);
 
-		font.drawString(title.getFormattedText(), guiLeft + (xSize - font.getStringWidth(title.getFormattedText())) / 2, guiTop + 7, 0x404040);
-		frequencyField.render(mouseX, mouseY, partialTicks);
+		font.drawString(matrixStack, title.getString(), guiLeft + (xSize - font.getStringWidth(title.getString())) / 2, guiTop + 7, 0x404040);
+		frequencyField.render(matrixStack, mouseX, mouseY, partialTicks);
 
 		// Extended GUI
 
 		if (extended)
 		{
-			font.drawString(new TranslationTextComponent(LangKeys.Gui.FREQUENCY_NAME).getFormattedText(), guiLeft + 6, guiTop + 80, 0x404040);
-			frequencyName.render(mouseX, mouseY, partialTicks);
-			searchbar.render(mouseX, mouseY, partialTicks);
+			font.drawString(matrixStack, new TranslationTextComponent(LangKeys.Gui.FREQUENCY_NAME).getString(), guiLeft + 6, guiTop + 80, 0x404040);
+			frequencyName.render(matrixStack, mouseX, mouseY, partialTicks);
+			searchbar.render(matrixStack, mouseX, mouseY, partialTicks);
 		}
 
-		super.render(mouseX, mouseY, partialTicks);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 
-	private void drawGuiBackgroundTexture(int mouseX, int mouseY, float partialTicks)
+	private void drawGuiBackgroundTexture(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		minecraft.getTextureManager().bindTexture(gui_texture);
-		blit(guiLeft, guiTop, 0, 0, xSize, ySize);
+		blit(matrixStack, guiLeft, guiTop, 0, 0, xSize, ySize);
 	}
 
 	private void sendPacket()

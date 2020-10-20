@@ -58,9 +58,9 @@ public class TileFrequency extends TileEntity
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		isTransmitter = compound.getBoolean("isTransmitter");
 		frequency = compound.getInt("frequency");
 	}
@@ -91,7 +91,7 @@ public class TileFrequency extends TileEntity
 	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt)
 	{
 		super.onDataPacket(net, pkt);
-		handleUpdateTag(pkt.getNbtCompound());
+		handleUpdateTag(getBlockState(), pkt.getNbtCompound());
 	}
 
 	@Override

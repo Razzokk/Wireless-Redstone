@@ -1,5 +1,6 @@
 package rzk.lib.mc.tile;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -42,9 +43,9 @@ public class TileRedstoneDevice extends TileEntity implements ITileRedstoneState
 	}
 
 	@Override
-	public void read(CompoundNBT compound)
+	public void read(BlockState state, CompoundNBT compound)
 	{
-		super.read(compound);
+		super.read(state, compound);
 		states = compound.getByte("states");
 	}
 }

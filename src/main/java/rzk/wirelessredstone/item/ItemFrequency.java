@@ -57,10 +57,9 @@ public class ItemFrequency extends Item
 	@OnlyIn(Dist.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flag)
 	{
-		ITextComponent textComponent = new TranslationTextComponent(LangKeys.Tooltip.FREQUENCY);
-		textComponent.appendText(": ");
-		textComponent.applyTextStyle(TextFormatting.GRAY);
-		textComponent.appendSibling(new StringTextComponent(Integer.toString(getFrequency(stack))).applyTextStyle(TextFormatting.AQUA));
+		ITextComponent textComponent = new TranslationTextComponent(LangKeys.Tooltip.FREQUENCY).mergeStyle(TextFormatting.GRAY);
+		textComponent.getSiblings().add(new StringTextComponent(": "));
+		textComponent.getSiblings().add(new StringTextComponent(String.valueOf(getFrequency(stack))).mergeStyle(TextFormatting.AQUA));
 		tooltip.add(textComponent);
 	}
 }
