@@ -25,7 +25,7 @@ public class ClientProxy implements IProxy
 	public void clientSetup(FMLClientSetupEvent event)
 	{
 		ClientRegistry.bindTileEntityRenderer(TileFrequency.TYPE, TERFrequency::new);
-		ItemModelsProperties.registerProperty(ModItems.REMOTE, new ResourceLocation(WirelessRedstone.MODID, "item_powered"), POWERED);
+		ItemModelsProperties.registerProperty(ModItems.REMOTE, new ResourceLocation("powered"), POWERED);
 	}
 
 	@Override
