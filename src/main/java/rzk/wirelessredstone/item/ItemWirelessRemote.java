@@ -31,14 +31,6 @@ import java.util.List;
 
 public class ItemWirelessRemote extends ItemFrequency
 {
-	private static final IItemPropertyGetter POWERED = (stack, world, entity) ->
-			stack.getOrCreateTag().getBoolean("powered") ? 1.0F : 0.0F;
-
-	public ItemWirelessRemote()
-	{
-		//addPropertyOverride(new ResourceLocation("powered"), POWERED);
-	}
-
 	public void setPowered(World world, ItemStack stack, boolean powered)
 	{
 		RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
