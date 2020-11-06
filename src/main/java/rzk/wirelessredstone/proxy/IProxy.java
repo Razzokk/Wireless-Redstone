@@ -3,7 +3,6 @@ package rzk.wirelessredstone.proxy;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import rzk.wirelessredstone.packet.PacketFrequency;
 
 public interface IProxy
 {

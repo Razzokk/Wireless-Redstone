@@ -26,8 +26,8 @@ public class TOPIntegration
 		@Override
 		public Void apply(ITheOneProbe probe)
 		{
-			probe.registerProvider(new IProbeInfoProvider() {
-
+			probe.registerProvider(new IProbeInfoProvider()
+			{
 				@Override
 				public String getID()
 				{
@@ -37,7 +37,8 @@ public class TOPIntegration
 				@Override
 				public void addProbeInfo(ProbeMode mode, IProbeInfo info, PlayerEntity player, World world, BlockState state, IProbeHitData data)
 				{
-					if (state.getBlock() instanceof ProbeInfoProvider) {
+					if (state.getBlock() instanceof ProbeInfoProvider)
+					{
 						ProbeInfoProvider provider = (ProbeInfoProvider) state.getBlock();
 						provider.addProbeInfo(mode, info, player, world, state, data);
 					}

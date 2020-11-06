@@ -5,7 +5,6 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
 import rzk.lib.mc.item.IItemProvider;
-import rzk.lib.mc.tile.TileType;
 
 import java.util.List;
 

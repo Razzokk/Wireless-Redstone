@@ -16,7 +16,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
-import rzk.wirelessredstone.packet.PacketFrequencyItem;
 
 import javax.annotation.Nullable;
 import java.util.List;

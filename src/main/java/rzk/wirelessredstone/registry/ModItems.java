@@ -1,7 +1,6 @@
 package rzk.wirelessredstone.registry;
 
 import net.minecraft.item.Item;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;

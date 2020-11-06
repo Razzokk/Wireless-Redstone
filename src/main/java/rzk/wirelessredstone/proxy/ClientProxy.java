@@ -6,14 +6,10 @@ import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.client.render.TERFrequency;
 import rzk.wirelessredstone.client.gui.GuiFrequency;
-import rzk.wirelessredstone.packet.PacketFrequency;
+import rzk.wirelessredstone.client.render.TERFrequency;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.tile.TileFrequency;
 

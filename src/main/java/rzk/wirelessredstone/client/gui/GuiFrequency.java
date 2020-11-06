@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +17,6 @@ import rzk.lib.mc.gui.widgets.SizedButton;
 import rzk.lib.util.MathUtils;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
-import rzk.wirelessredstone.packet.PacketFrequency;
 import rzk.wirelessredstone.packet.PacketFrequencyBlock;
 import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
@@ -36,7 +34,6 @@ public class GuiFrequency extends Screen
 	private int ySize;
 
 	private int frequency;
-	private PacketFrequency frequencyPacket;
 
 	// Standard GUI
 	private GuiType guiType = GuiType.NONE;
@@ -127,7 +124,6 @@ public class GuiFrequency extends Screen
 		children.add(frequencyField);
 
 		// Extended GUI
-
 
 		addButton(buttonExtend = new SizedButton(guiLeft + xSize - 48, guiTop + ySize - 22, 42, 16, new TranslationTextComponent(LangKeys.Gui.EXTEND), this::extend));
 		buttonExtend.active = false;
@@ -250,6 +246,6 @@ public class GuiFrequency extends Screen
 	{
 		NONE,
 		ITEM,
-		BLOCK;
+		BLOCK
 	}
 }
