@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[31,)"
+loaderVersion = "[32,)"
 license="GNU GPL v3"
 
 [[mods]]
@@ -13,13 +13,13 @@ description = '''Wireless Redstone brings wireless Redstone to your Minecraft Wo
 [[dependencies.wirelessredstone]]
 modId = "forge"
 mandatory = true
-versionRange = "[31,)"
+versionRange = "[32,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.wirelessredstone]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16.3]"
+versionRange = "[1.16,)"
 ordering = "NONE"
 side = "BOTH"

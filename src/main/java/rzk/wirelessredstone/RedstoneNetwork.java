@@ -57,10 +57,11 @@ public class RedstoneNetwork extends WorldSavedData
 	public void removeActiveTransmitter(int frequency)
 	{
 		int currentTransmitters = activeTransmitters.getOrDefault(frequency, 0);
-		activeTransmitters.replace(frequency, currentTransmitters > 0 ? currentTransmitters - 1 : 0);
 
-		if (activeTransmitters.get(frequency) <= 0)
+		if (currentTransmitters <= 1)
 			activeTransmitters.remove(frequency);
+		else
+			activeTransmitters.replace(frequency, currentTransmitters - 1);
 
 		updateReceiversOnFrequency(frequency);
 		markDirty();
@@ -129,7 +130,7 @@ public class RedstoneNetwork extends WorldSavedData
 	public void updateReceiversOnFrequency(int frequency)
 	{
 		if (receivers.containsKey(frequency))
-			for (Long pos : receivers.get(frequency))
+			for (long pos : receivers.get(frequency))
 				updateReceiver(frequency, BlockPos.fromLong(pos));
 	}
 
@@ -147,8 +148,15 @@ public class RedstoneNetwork extends WorldSavedData
 
 	public void updateFrequencyName(int frequency, String newName)
 	{
-		frequencyNames.replace(frequency, newName);
-		markDirty();
+		if (frequencyNames.containsKey(frequency))
+		{
+			frequencyNames.replace(frequency, newName);
+			markDirty();
+		}
+		else
+		{
+			addFrequencyName(frequency, newName);
+		}
 	}
 
 	@Override

@@ -14,9 +14,9 @@ public class PacketFrequencyBlock extends PacketFrequency
 {
 	private final BlockPos pos;
 
-	public PacketFrequencyBlock(BlockPos pos)
+	public PacketFrequencyBlock(int frequency, BlockPos pos)
 	{
-		super(-1);
+		super(frequency);
 		this.pos = pos;
 	}
 

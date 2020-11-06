@@ -24,11 +24,6 @@ public abstract class PacketFrequency extends Packet
 		buffer.writeInt(frequency);
 	}
 
-	public void setFrequency(int frequency)
-	{
-		this.frequency = frequency;
-	}
-
 	public int getFrequency()
 	{
 		return frequency;

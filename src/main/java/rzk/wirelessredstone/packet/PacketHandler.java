@@ -11,14 +11,14 @@ import java.util.function.Function;
 
 public class PacketHandler
 {
-	private static final String PROTOCOL_VERSION = "1";
+	private static int id = 0;
+	private static final String PROTOCOL_VERSION = "1.0";
 	public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-			new ResourceLocation(WirelessRedstone.MODID, "main"),
+			new ResourceLocation(WirelessRedstone.MODID, "main_channel"),
 			() -> PROTOCOL_VERSION,
 			PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals
 	);
-	private static int id = 0;
 
 	public static void registerMessages()
 	{

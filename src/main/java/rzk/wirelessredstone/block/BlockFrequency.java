@@ -53,7 +53,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 	{
 		if (world.isRemote)
 			WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
-					WirelessRedstone.proxy.openFrequencyGui(tile.getFrequency(), new PacketFrequencyBlock(pos)));
+					WirelessRedstone.proxy.openFrequencyGuiBlock(tile.getFrequency(), pos));
 		return ActionResultType.SUCCESS;
 	}
 
