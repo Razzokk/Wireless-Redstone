@@ -9,14 +9,14 @@ logoFile = "wirelessredstone.png"
 authors = "Razzokk"
 description = '''Wireless Redstone brings wireless Redstone to your Minecraft World'''
 
-[[dependencies.pcg]]
+[[dependencies.wirelessredstone]]
 modId = "forge"
 mandatory = true
 versionRange = "[31,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.pcg]]
+[[dependencies.wirelessredstone]]
 modId = "minecraft"
 mandatory = true
 versionRange = "[1.15.2]"

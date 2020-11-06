@@ -1,0 +1,3 @@
+Version 1.15.2-0.0.2b:
+
+-FIXED: bug so that the frequency was not set when using the frequency gui
