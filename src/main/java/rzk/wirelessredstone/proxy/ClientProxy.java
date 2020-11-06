@@ -1,6 +1,8 @@
 package rzk.wirelessredstone.proxy;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -10,7 +12,6 @@ import rzk.wirelessredstone.client.gui.GuiFrequency;
 import rzk.wirelessredstone.packet.PacketFrequency;
 import rzk.wirelessredstone.tile.TileFrequency;
 
-@OnlyIn(Dist.CLIENT)
 public class ClientProxy implements IProxy
 {
 	@Override
@@ -20,8 +21,14 @@ public class ClientProxy implements IProxy
 	}
 
 	@Override
-	public void openFrequencyGui(int frequency, PacketFrequency frequencyPacket)
+	public void openFrequencyGuiBlock(int frequency, BlockPos pos)
 	{
-		Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, frequencyPacket));
+		Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, pos));
+	}
+
+	@Override
+	public void openFrequencyGuiItem(int frequency, Hand hand)
+	{
+		Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, hand));
 	}
 }

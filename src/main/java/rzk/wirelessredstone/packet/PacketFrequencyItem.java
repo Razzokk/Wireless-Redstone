@@ -14,9 +14,9 @@ public class PacketFrequencyItem extends PacketFrequency
 {
 	private final Hand hand;
 
-	public PacketFrequencyItem(Hand hand)
+	public PacketFrequencyItem(int frequency, Hand hand)
 	{
-		super(-1);
+		super(frequency);
 		this.hand = hand;
 	}
 

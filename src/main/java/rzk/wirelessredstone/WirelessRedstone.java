@@ -70,10 +70,8 @@ public class WirelessRedstone
 
 	private void setup(FMLCommonSetupEvent event)
 	{
-		if (ModList.get().isLoaded("theoneprobe"))
-			TOPIntegration.register();
-
 		PacketHandler.registerMessages();
+
 		comparator = Ordering.explicit(
 				ModBlocks.TRANSMITTER.asItem(),
 				ModBlocks.RECEIVER.asItem(),
@@ -81,5 +79,8 @@ public class WirelessRedstone
 				ModItems.FREQUENCY_COPIER,
 				ModItems.CIRCUIT)
 				.onResultOf(ItemStack::getItem);
+
+		if (ModList.get().isLoaded("theoneprobe"))
+			TOPIntegration.register();
 	}
 }

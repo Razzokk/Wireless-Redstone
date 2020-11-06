@@ -47,7 +47,7 @@ public class ItemFrequency extends Item
 		if (player.isSneaking())
 		{
 			if (world.isRemote)
-				WirelessRedstone.proxy.openFrequencyGui(getFrequency(stack), new PacketFrequencyItem(hand));
+				WirelessRedstone.proxy.openFrequencyGuiItem(getFrequency(stack), hand);
 			return ActionResult.resultSuccess(stack);
 		}
 		return ActionResult.resultPass(stack);

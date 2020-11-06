@@ -5,7 +5,9 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -15,6 +17,8 @@ import rzk.lib.util.MathUtils;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.packet.PacketFrequency;
+import rzk.wirelessredstone.packet.PacketFrequencyBlock;
+import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
 
 @OnlyIn(Dist.CLIENT)
@@ -33,6 +37,9 @@ public class GuiFrequency extends Screen
 	private PacketFrequency frequencyPacket;
 
 	// Standard GUI
+	private GuiType guiType = GuiType.NONE;
+	private Hand hand;
+	private BlockPos pos;
 	private Button close;
 	private TextFieldWidget frequencyField;
 	private Button buttonSubtract_1;
@@ -47,13 +54,25 @@ public class GuiFrequency extends Screen
 	private TextFieldWidget frequencyName;
 	private Button buttonAddName;
 	private TextFieldWidget searchbar;
-	private GuiListFrequency frequencyList;
 
-	public GuiFrequency(int frequency, PacketFrequency frequencyPacket)
+	private GuiFrequency(int frequency)
 	{
 		super(new TranslationTextComponent(LangKeys.Gui.FREQUENCY));
 		this.frequency = frequency;
-		this.frequencyPacket = frequencyPacket;
+	}
+
+	public GuiFrequency(int frequency, BlockPos pos)
+	{
+		this(frequency);
+		this.pos = pos;
+		guiType = GuiType.BLOCK;
+	}
+
+	public GuiFrequency(int frequency, Hand hand)
+	{
+		this(frequency);
+		this.hand = hand;
+		guiType = GuiType.ITEM;
 	}
 
 	@Override
@@ -107,15 +126,16 @@ public class GuiFrequency extends Screen
 
 		// Extended GUI
 
-		/*
 		addButton(buttonExtend = new SizedButton(guiLeft + xSize - 48, guiTop + ySize - 22, 42, 16, I18n.format(LangKeys.Gui.EXTEND), this::extend));
+		buttonExtend.active = false;
+		buttonExtend.visible = false;
 		frequencyName = new TextFieldWidget(font, guiLeft + 7, guiTop + 100, 144, 14, I18n.format(LangKeys.Gui.FREQUENCY_NAME));
-		addButton(buttonAddName = new SizedButton(guiLeft + 154, guiTop + 99, 32, 16, I18n.format(LangKeys.Gui.ADD), onPress -> System.out.println("pressed button")));
+		addButton(buttonAddName = new SizedButton(guiLeft + 154, guiTop + 99, 32, 16, I18n.format(LangKeys.Gui.ADD), onPress -> System.out.println("add to list")));
 		buttonAddName.visible = extended;
 		searchbar = new TextFieldWidget(font, guiLeft + 7, guiTop + 130, 178, 14, I18n.format(LangKeys.Gui.SEARCHBAR));
 
 		children.add(frequencyName);
-		children.add(searchbar);*/
+		children.add(searchbar);
 	}
 
 	private void setFrequency(int frequency)
@@ -191,8 +211,6 @@ public class GuiFrequency extends Screen
 		font.drawString(title.getFormattedText(), guiLeft + (xSize - font.getStringWidth(title.getFormattedText())) / 2, guiTop + 7, 0x404040);
 		frequencyField.render(mouseX, mouseY, partialTicks);
 
-		// Extended GUI
-
 		if (extended)
 		{
 			font.drawString(new TranslationTextComponent(LangKeys.Gui.FREQUENCY_NAME).getFormattedText(), guiLeft + 6, guiTop + 80, 0x404040);
@@ -212,8 +230,10 @@ public class GuiFrequency extends Screen
 
 	private void sendPacket()
 	{
-		frequencyPacket.setFrequency(frequency);
-		PacketHandler.INSTANCE.sendToServer(frequencyPacket);
+		if (guiType == GuiType.BLOCK)
+			PacketHandler.INSTANCE.sendToServer(new PacketFrequencyBlock(frequency, pos));
+		else if (guiType == GuiType.ITEM)
+			PacketHandler.INSTANCE.sendToServer(new PacketFrequencyItem(frequency, hand));
 		minecraft.player.closeScreen();
 	}
 
@@ -221,5 +241,12 @@ public class GuiFrequency extends Screen
 	public boolean isPauseScreen()
 	{
 		return false;
+	}
+
+	public enum GuiType
+	{
+		NONE,
+		ITEM,
+		BLOCK;
 	}
 }
