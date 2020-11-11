@@ -34,7 +34,6 @@ public class GuiFrequency extends Screen
 	private int ySize;
 
 	private int frequency;
-	private PacketFrequency frequencyPacket;
 
 	// Standard GUI
 	private GuiType guiType = GuiType.NONE;
