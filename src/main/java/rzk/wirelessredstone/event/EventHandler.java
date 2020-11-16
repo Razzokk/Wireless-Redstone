@@ -9,8 +9,8 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
+import rzk.lib.mc.util.ObjectUtils;
 import rzk.lib.mc.util.TaskScheduler;
-import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.item.ItemWirelessRemote;
 
 @Mod.EventBusSubscriber

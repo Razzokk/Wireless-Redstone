@@ -6,30 +6,27 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import rzk.lib.mc.tile.TileType;
 import rzk.lib.mc.util.TaskScheduler;
 import rzk.wirelessredstone.RedstoneNetwork;
+import rzk.wirelessredstone.registry.ModTiles;
 
 import javax.annotation.Nullable;
 
 public class TileFrequency extends TileEntity
 {
-	public static final TileEntityType<TileFrequency> TYPE = new TileType<>(TileFrequency::new);
-
 	private int frequency;
 	private boolean isTransmitter;
 
 	public TileFrequency(boolean isTransmitter)
 	{
-		super(TYPE);
+		super(ModTiles.TILE_FREQUENCY.get());
 		frequency = 0;
 		this.isTransmitter = isTransmitter;
 	}
 
 	public TileFrequency()
 	{
-		super(TYPE);
+		super(ModTiles.TILE_FREQUENCY.get());
 		frequency = 0;
 		isTransmitter = false;
 	}

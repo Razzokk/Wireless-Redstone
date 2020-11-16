@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Hand;
 import net.minecraftforge.fml.network.NetworkEvent;
-import rzk.lib.util.ObjectUtils;
+import rzk.lib.mc.util.ObjectUtils;
 import rzk.wirelessredstone.item.ItemFrequency;
 
 import java.util.function.Supplier;
@@ -23,14 +23,14 @@ public class PacketFrequencyItem extends PacketFrequency
 	public PacketFrequencyItem(PacketBuffer buffer)
 	{
 		super(buffer);
-		hand = buffer.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+		hand = buffer.readEnumValue(Hand.class);
 	}
 
 	@Override
 	public void toBytes(PacketBuffer buffer)
 	{
 		super.toBytes(buffer);
-		buffer.writeBoolean(hand == Hand.MAIN_HAND);
+		buffer.writeEnumValue(hand);
 	}
 
 	@Override
@@ -43,7 +43,6 @@ public class PacketFrequencyItem extends PacketFrequency
 
 			if (!stack.isEmpty() && stack.getItem() instanceof ItemFrequency)
 				ObjectUtils.ifCastable(stack.getItem(), ItemFrequency.class, item -> item.setFrequency(player.getServerWorld(), stack, getFrequency()));
-
 		});
 		ctx.get().setPacketHandled(true);
 	}

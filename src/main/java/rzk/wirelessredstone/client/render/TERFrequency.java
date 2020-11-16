@@ -6,11 +6,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.vector.Quaternion;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import rzk.wirelessredstone.tile.TileFrequency;
 
-@OnlyIn(Dist.CLIENT)
 public class TERFrequency extends TileEntityRenderer<TileFrequency>
 {
 	public TERFrequency(TileEntityRendererDispatcher rendererDispatcher)

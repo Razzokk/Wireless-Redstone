@@ -14,8 +14,10 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.client.gui.GuiFrequency;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -46,7 +48,7 @@ public class ItemFrequency extends Item
 		if (player.isSneaking())
 		{
 			if (world.isRemote)
-				WirelessRedstone.proxy.openFrequencyGuiItem(getFrequency(stack), hand);
+				DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GuiFrequency.openGui(getFrequency(stack), hand));
 			return ActionResult.resultSuccess(stack);
 		}
 		return ActionResult.resultPass(stack);

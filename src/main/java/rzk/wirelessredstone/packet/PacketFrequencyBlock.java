@@ -23,14 +23,14 @@ public class PacketFrequencyBlock extends PacketFrequency
 	public PacketFrequencyBlock(PacketBuffer buffer)
 	{
 		super(buffer);
-		pos = BlockPos.fromLong(buffer.readLong());
+		pos = buffer.readBlockPos();
 	}
 
 	@Override
 	public void toBytes(PacketBuffer buffer)
 	{
 		super.toBytes(buffer);
-		buffer.writeLong(pos.toLong());
+		buffer.writeBlockPos(pos);
 	}
 
 	@Override
@@ -43,7 +43,6 @@ public class PacketFrequencyBlock extends PacketFrequency
 
 			if (world != null && world.isAreaLoaded(pos, 0))
 				WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile -> tile.setFrequency(getFrequency()));
-
 		});
 		ctx.get().setPacketHandled(true);
 	}

@@ -1,12 +1,10 @@
 package rzk.lib.mc.item;
 
-import net.minecraft.block.Blocks;
+import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 
+@FunctionalInterface
 public interface IItemProvider
 {
-	BlockItem NO_ITEM = new BlockItem(Blocks.AIR, new Item.Properties());
-
-	BlockItem createItem();
+	BlockItem provideItem(Block block);
 }

@@ -9,4 +9,9 @@ public final class Utils
 	{
 		return Direction.getFacingFromVector(end.getX() - origin.getX(), end.getY() - origin.getY(), end.getZ() - origin.getZ());
 	}
+
+	public static int constrain(int value, int min, int max)
+	{
+		return value > max ? max : Math.max(value, min);
+	}
 }

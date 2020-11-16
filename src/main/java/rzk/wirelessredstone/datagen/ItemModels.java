@@ -24,11 +24,11 @@ public class ItemModels extends ItemModelProvider
 	@Override
 	protected void registerModels()
 	{
-		simpleItem(ModItems.CIRCUIT);
-		simpleItem(ModItems.FREQUENCY_COPIER);
-		wirelessRemote(ModItems.REMOTE);
-		wirelessBlock(ModBlocks.TRANSMITTER);
-		wirelessBlock(ModBlocks.RECEIVER);
+		simpleItem(ModItems.CIRCUIT.get());
+		simpleItem(ModItems.FREQUENCY_COPIER.get());
+		wirelessRemote(ModItems.REMOTE.get());
+		wirelessBlock(ModBlocks.TRANSMITTER.get());
+		wirelessBlock(ModBlocks.RECEIVER.get());
 	}
 
 	public void simpleItem(Item item)

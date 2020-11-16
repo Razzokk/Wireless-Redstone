@@ -2,6 +2,7 @@ package rzk.wirelessredstone.client.gui;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -10,22 +11,20 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import org.lwjgl.glfw.GLFW;
 import rzk.lib.mc.gui.widgets.SizedButton;
-import rzk.lib.util.MathUtils;
+import rzk.lib.mc.util.Utils;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.packet.PacketFrequencyBlock;
 import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiFrequency extends Screen
 {
-	public static final ResourceLocation GUI_TEXTURE_NORMAL = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency.png");
-	public static final ResourceLocation GUI_TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency_extended.png");
+	public static final ResourceLocation GUI_TEXTURE_NORMAL = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency.png");
+	public static final ResourceLocation GUI_TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency_extended.png");
 	private ResourceLocation gui_texture = GUI_TEXTURE_NORMAL;
 
 	private int guiLeft;
@@ -139,7 +138,7 @@ public class GuiFrequency extends Screen
 
 	private void setFrequency(int frequency)
 	{
-		this.frequency = MathUtils.constrain(frequency, 0, 99999);
+		this.frequency = Utils.constrain(frequency, 0, 99999);
 	}
 
 	private void buttonPressed(Button button)
@@ -240,6 +239,16 @@ public class GuiFrequency extends Screen
 	public boolean isPauseScreen()
 	{
 		return false;
+	}
+
+	public static DistExecutor.SafeRunnable openGui(int frequency, BlockPos pos)
+	{
+		return () ->  Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, pos));
+	}
+
+	public static DistExecutor.SafeRunnable openGui(int frequency, Hand hand)
+	{
+		return () ->  Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, hand));
 	}
 
 	public enum GuiType

@@ -17,7 +17,7 @@ import java.util.EnumSet;
 
 import static net.minecraft.state.properties.BlockStateProperties.POWERED;
 
-public abstract class BlockRedstoneDevice extends BlockBase
+public abstract class BlockRedstoneDevice extends Block
 {
 	public BlockRedstoneDevice(Properties properties)
 	{

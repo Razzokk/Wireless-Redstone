@@ -14,16 +14,16 @@ public class SizedButton extends Button
 	private final int textOffsetX;
 	private final int textOffsetY;
 
-	public SizedButton(int widthIn, int heightIn, int width, int height, ITextComponent textComponent, int textOffsetX, int textOffsetY, IPressable onPress)
+	public SizedButton(int x, int y, int width, int height, ITextComponent textComponent, int textOffsetX, int textOffsetY, IPressable onPress)
 	{
-		super(widthIn, heightIn, width, height, textComponent, onPress);
+		super(x, y, width, height, textComponent, onPress);
 		this.textOffsetX = textOffsetX;
 		this.textOffsetY = textOffsetY;
 	}
 
-	public SizedButton(int widthIn, int heightIn, int width, int height, ITextComponent textComponent, IPressable onPress)
+	public SizedButton(int x, int y, int width, int height, ITextComponent textComponent, IPressable onPress)
 	{
-		this(widthIn, heightIn, width, height, textComponent, 0, 0, onPress);
+		this(x, y, width, height, textComponent, 0, 0, onPress);
 	}
 
 	public void renderButton(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)

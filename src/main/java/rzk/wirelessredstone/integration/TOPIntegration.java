@@ -31,7 +31,7 @@ public class TOPIntegration
 				@Override
 				public String getID()
 				{
-					return WirelessRedstone.MODID;
+					return WirelessRedstone.MOD_ID;
 				}
 
 				@Override
@@ -40,7 +40,7 @@ public class TOPIntegration
 					if (state.getBlock() instanceof ProbeInfoProvider)
 					{
 						ProbeInfoProvider provider = (ProbeInfoProvider) state.getBlock();
-						provider.addProbeInfo(mode, info, player, world, state, data);
+						provider.addProbeInfo(info, world, data);
 					}
 				}
 

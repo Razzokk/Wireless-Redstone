@@ -3,13 +3,10 @@ package rzk.wirelessredstone.block;
 import mcjty.theoneprobe.api.CompoundText;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -21,12 +18,14 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import rzk.lib.mc.block.BlockRedstoneDevice;
+import rzk.lib.mc.util.ObjectUtils;
 import rzk.lib.mc.util.WorldUtils;
-import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
-import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.client.gui.GuiFrequency;
 import rzk.wirelessredstone.integration.ProbeInfoProvider;
 import rzk.wirelessredstone.tile.TileFrequency;
 
@@ -47,7 +46,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 	{
 		if (world.isRemote)
 			WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
-					WirelessRedstone.proxy.openFrequencyGuiBlock(tile.getFrequency(), pos));
+					DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GuiFrequency.openGui(tile.getFrequency(), pos)));
 		return ActionResultType.SUCCESS;
 	}
 
@@ -129,13 +128,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 	}
 
 	@Override
-	public BlockItem createItem()
-	{
-		return new BlockItem(this, new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE));
-	}
-
-	@Override
-	public void addProbeInfo(ProbeMode mode, IProbeInfo info, PlayerEntity player, World world, BlockState state, IProbeHitData data)
+	public void addProbeInfo(IProbeInfo info, World world, IProbeHitData data)
 	{
 		ObjectUtils.ifCastable(world.getTileEntity(data.getPos()), TileFrequency.class, tile ->
 				info.horizontal().text(CompoundText.createLabelInfo(new TranslationTextComponent(LangKeys.Tooltip.FREQUENCY).getString() + ": ", tile.getFrequency())));
