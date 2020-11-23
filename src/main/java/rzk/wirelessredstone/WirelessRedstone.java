@@ -27,7 +27,6 @@ import java.util.Comparator;
 public class WirelessRedstone
 {
 	public static final String MOD_ID = "wirelessredstone";
-	public static final Logger LOGGER = LogManager.getLogger();
 
 	public static Comparator<ItemStack> comparator;
 	public static final ItemGroup ITEM_GROUP_WIRELESS_REDSTONE = new ItemGroup(MOD_ID)
@@ -36,7 +35,7 @@ public class WirelessRedstone
 		@OnlyIn(Dist.CLIENT)
 		public ItemStack createIcon()
 		{
-			return ModBlocks.TRANSMITTER.get().asItem().getDefaultInstance();
+			return new ItemStack(ModBlocks.TRANSMITTER.get());
 		}
 
 		@Override
