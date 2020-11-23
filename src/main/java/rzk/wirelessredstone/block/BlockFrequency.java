@@ -4,10 +4,12 @@ import mcjty.theoneprobe.api.CompoundText;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootContext;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -30,6 +32,8 @@ import rzk.wirelessredstone.integration.ProbeInfoProvider;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProvider
 {
@@ -37,7 +41,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 
 	public BlockFrequency(boolean isTransmitter)
 	{
-		super(Properties.create(Material.IRON));
+		super(Properties.create(Material.IRON).hardnessAndResistance(1.5F, 6.0F).sound(SoundType.METAL));
 		this.isTransmitter = isTransmitter;
 	}
 
@@ -125,6 +129,12 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 	public TileEntity createTileEntity(BlockState state, IBlockReader world)
 	{
 		return new TileFrequency(isTransmitter);
+	}
+
+	@Override
+	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
+	{
+		return Collections.singletonList(new ItemStack(this));
 	}
 
 	@Override

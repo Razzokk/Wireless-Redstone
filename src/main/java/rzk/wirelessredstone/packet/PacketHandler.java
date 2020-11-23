@@ -11,8 +11,6 @@ import java.util.function.Function;
 
 public final class PacketHandler
 {
-	private PacketHandler() {}
-
 	private static int id = 0;
 	private static final String PROTOCOL_VERSION = "1.0";
 	public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
@@ -21,6 +19,8 @@ public final class PacketHandler
 			PROTOCOL_VERSION::equals,
 			PROTOCOL_VERSION::equals
 	);
+
+	private PacketHandler() {}
 
 	public static void registerMessages()
 	{

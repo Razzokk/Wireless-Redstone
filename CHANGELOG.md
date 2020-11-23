@@ -1,3 +1,7 @@
+### Version 1.16.3-1.0.0:
+
+- FIXED: Blocks not dropping when destroyed
+
 ### Version 1.16.3-0.0.2b:
 
 - FIXED: bug where the frequency was not set when using the frequency gui
