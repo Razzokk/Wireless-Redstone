@@ -20,8 +20,8 @@ public class DataGenerators
 
 		if (event.includeClient())
 		{
-			generator.addProvider(new BlockModels(generator, WirelessRedstone.MODID, fileHelper));
-			generator.addProvider(new ItemModels(generator, WirelessRedstone.MODID, fileHelper));
+			generator.addProvider(new BlockModels(generator, WirelessRedstone.MOD_ID, fileHelper));
+			generator.addProvider(new ItemModels(generator, WirelessRedstone.MOD_ID, fileHelper));
 		}
 
 		if (event.includeServer())

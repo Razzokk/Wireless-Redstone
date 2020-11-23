@@ -2,7 +2,6 @@ package rzk.lib.mc.util;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import rzk.lib.util.ObjectUtils;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

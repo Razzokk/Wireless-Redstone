@@ -14,9 +14,9 @@ import rzk.lib.mc.util.WorldUtils;
 
 import javax.annotation.Nullable;
 
-public abstract class BlockRedstoneDeviceEdgeDetection extends BlockRedstoneDevice
+public abstract class BlockRedstoneDeviceEdge extends BlockRedstoneDevice
 {
-	public BlockRedstoneDeviceEdgeDetection(Properties properties)
+	public BlockRedstoneDeviceEdge(Properties properties)
 	{
 		super(properties);
 	}

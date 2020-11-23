@@ -5,7 +5,7 @@ import rzk.lib.mc.packet.Packet;
 
 public abstract class PacketFrequency extends Packet
 {
-	private int frequency;
+	private final int frequency;
 
 	public PacketFrequency(int frequency)
 	{

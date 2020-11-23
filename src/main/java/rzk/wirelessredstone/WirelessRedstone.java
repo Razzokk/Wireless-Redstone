@@ -3,49 +3,39 @@ package rzk.wirelessredstone;
 import com.google.common.collect.Ordering;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.javafmlmod.FMLModContainer;
-import net.minecraftforge.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rzk.wirelessredstone.integration.TOPIntegration;
 import rzk.wirelessredstone.packet.PacketHandler;
 import rzk.wirelessredstone.proxy.ClientProxy;
-import rzk.wirelessredstone.proxy.IProxy;
-import rzk.wirelessredstone.proxy.ServerProxy;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
 
-import java.util.Collections;
 import java.util.Comparator;
 
-@Mod(WirelessRedstone.MODID)
+@Mod(WirelessRedstone.MOD_ID)
 public class WirelessRedstone
 {
-	public static final String MODID = "wirelessredstone";
-	public static final Logger LOGGER = LogManager.getLogger();
-
-	public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
+	public static final String MOD_ID = "wirelessredstone";
 
 	public static Comparator<ItemStack> comparator;
-	public static final ItemGroup ITEM_GROUP_WIRELESS_REDSTONE = new ItemGroup(MODID)
+	public static final ItemGroup ITEM_GROUP_WIRELESS_REDSTONE = new ItemGroup(MOD_ID)
 	{
 		@Override
 		@OnlyIn(Dist.CLIENT)
 		public ItemStack createIcon()
 		{
-			return ModBlocks.TRANSMITTER.asItem().getDefaultInstance();
+			return new ItemStack(ModBlocks.TRANSMITTER.get());
 		}
 
 		@Override
@@ -62,24 +52,29 @@ public class WirelessRedstone
 		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		eventBus.addListener(this::setup);
-		eventBus.addListener(proxy::clientSetup);
-		eventBus.register(ModBlocks.class);
-		eventBus.register(ModItems.class);
-		eventBus.register(ModTiles.class);
+		eventBus.addListener(this::imce);
+		eventBus.addListener(ClientProxy::clientSetup);
+
+		ModBlocks.BLOCKS.register(eventBus);
+		ModBlocks.ITEMS.register(eventBus);
+		ModItems.ITEMS.register(eventBus);
+		ModTiles.TILES.register(eventBus);
 	}
 
 	private void setup(FMLCommonSetupEvent event)
 	{
 		PacketHandler.registerMessages();
 
-		comparator = Ordering.explicit(
-				ModBlocks.TRANSMITTER.asItem(),
-				ModBlocks.RECEIVER.asItem(),
-				ModItems.REMOTE,
-				ModItems.FREQUENCY_COPIER,
-				ModItems.CIRCUIT)
-				.onResultOf(ItemStack::getItem);
+		comparator = Comparator.comparing(ItemStack::getItem, Ordering.explicit(
+				ModBlocks.TRANSMITTER.get().asItem(),
+				ModBlocks.RECEIVER.get().asItem(),
+				ModItems.REMOTE.get(),
+				ModItems.FREQUENCY_COPIER.get(),
+				ModItems.CIRCUIT.get()));
+	}
 
+	private void imce(InterModEnqueueEvent event)
+	{
 		if (ModList.get().isLoaded("theoneprobe"))
 			TOPIntegration.register();
 	}

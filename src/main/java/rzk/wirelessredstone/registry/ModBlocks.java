@@ -1,32 +1,39 @@
 package rzk.wirelessredstone.registry;
 
 import net.minecraft.block.Block;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.IForgeRegistry;
-import rzk.lib.mc.registry.ModRegistry;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class ModBlocks
 {
-	public static final List<Block> BLOCKS = new ArrayList<>();
+	public static final DeferredRegister<Block> BLOCKS = new DeferredRegister<>(ForgeRegistries.BLOCKS, WirelessRedstone.MOD_ID);
+	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, WirelessRedstone.MOD_ID);
 
-	public static final Block TRANSMITTER = registerBlock(new BlockFrequency(true), "wireless_transmitter");
-	public static final Block RECEIVER = registerBlock(new BlockFrequency(false), "wireless_receiver");
+	public static final RegistryObject<Block> TRANSMITTER = registerBlock("wireless_transmitter", () -> new BlockFrequency(true));
+	public static final RegistryObject<Block> RECEIVER = registerBlock("wireless_receiver", () -> new BlockFrequency(false));
 
-	@SubscribeEvent
-	public static void registerBlocks(RegistryEvent.Register<Block> event)
+	public static RegistryObject<Block> registerBlock(String name, Supplier<Block> blockSupplier, Function<Block, BlockItem> itemProvider)
 	{
-		IForgeRegistry<Block> registry = event.getRegistry();
-		BLOCKS.forEach(registry::register);
+		RegistryObject<Block> block = BLOCKS.register(name, blockSupplier);
+		ITEMS.register(name, () -> itemProvider.apply(block.get()));
+		return block;
 	}
 
-	public static Block registerBlock(Block block, String name)
+	public static RegistryObject<Block> registerBlock(String name, Supplier<Block> blockSupplier)
 	{
-		return ModRegistry.registerBlock(WirelessRedstone.MODID, BLOCKS, ModItems.ITEMS, block, name);
+		return registerBlock(name, blockSupplier, block -> new BlockItem(block, ModItems.defaultItemProperties()));
+	}
+
+	public static RegistryObject<Block> registerBlockNoItem(String name, Supplier<Block> blockSupplier)
+	{
+		return BLOCKS.register(name, blockSupplier);
 	}
 }

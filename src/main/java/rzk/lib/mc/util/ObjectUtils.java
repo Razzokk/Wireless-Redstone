@@ -1,4 +1,4 @@
-package rzk.lib.util;
+package rzk.lib.mc.util;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

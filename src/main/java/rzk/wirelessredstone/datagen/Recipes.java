@@ -1,7 +1,6 @@
 package rzk.wirelessredstone.datagen;
 
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
 import net.minecraft.data.RecipeProvider;
@@ -22,7 +21,7 @@ public class Recipes extends RecipeProvider
 	@Override
 	protected void registerRecipes(Consumer<IFinishedRecipe> consumer)
 	{
-		ShapedRecipeBuilder.shapedRecipe(ModItems.CIRCUIT, 4)
+		ShapedRecipeBuilder.shapedRecipe(ModItems.CIRCUIT.get(), 4)
 				.patternLine("RGR")
 				.patternLine("IEI")
 				.patternLine("QGQ")
@@ -34,47 +33,47 @@ public class Recipes extends RecipeProvider
 				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(Items.REDSTONE, Items.GLOWSTONE_DUST, Items.GOLD_INGOT, Items.ENDER_PEARL, Items.QUARTZ))
 				.build(consumer);
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRANSMITTER)
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.TRANSMITTER.get())
 				.patternLine("IRI")
 				.patternLine("RCR")
 				.patternLine("IRI")
 				.key('I', Items.IRON_INGOT)
 				.key('R', Items.REDSTONE_TORCH)
-				.key('C', ModItems.CIRCUIT)
-				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
+				.key('C', ModItems.CIRCUIT.get())
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT.get()))
 				.build(consumer);
 
-		ShapedRecipeBuilder.shapedRecipe(ModBlocks.RECEIVER)
+		ShapedRecipeBuilder.shapedRecipe(ModBlocks.RECEIVER.get())
 				.patternLine("IRI")
 				.patternLine("RCR")
 				.patternLine("IRI")
 				.key('I', Items.IRON_INGOT)
 				.key('R', Items.REDSTONE)
-				.key('C', ModItems.CIRCUIT)
-				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
+				.key('C', ModItems.CIRCUIT.get())
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT.get()))
 				.build(consumer);
 
-		ShapedRecipeBuilder.shapedRecipe(ModItems.REMOTE)
+		ShapedRecipeBuilder.shapedRecipe(ModItems.REMOTE.get())
 				.patternLine("TET")
 				.patternLine("ICI")
 				.patternLine("IRI")
 				.key('T', Items.REDSTONE_TORCH)
 				.key('E', Items.ENDER_PEARL)
 				.key('I', Items.IRON_INGOT)
-				.key('C', ModItems.CIRCUIT)
+				.key('C', ModItems.CIRCUIT.get())
 				.key('R', Items.REDSTONE)
-				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT.get()))
 				.build(consumer);
 
-		ShapedRecipeBuilder.shapedRecipe(ModItems.FREQUENCY_COPIER)
+		ShapedRecipeBuilder.shapedRecipe(ModItems.FREQUENCY_COPIER.get())
 				.patternLine("RTR")
 				.patternLine("ICI")
 				.patternLine(" I ")
 				.key('R', Items.REDSTONE)
 				.key('T', Items.COMPARATOR)
 				.key('I', Items.IRON_INGOT)
-				.key('C', ModItems.CIRCUIT)
-				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT))
+				.key('C', ModItems.CIRCUIT.get())
+				.addCriterion("item", InventoryChangeTrigger.Instance.forItems(ModItems.CIRCUIT.get()))
 				.build(consumer);
 	}
 }

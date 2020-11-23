@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
-import rzk.lib.util.ObjectUtils;
+import rzk.lib.mc.util.ObjectUtils;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
 
@@ -117,7 +117,7 @@ public class RedstoneNetwork extends WorldSavedData
 	public void updateReceiver(int frequency, BlockPos pos)
 	{
 		if (world.isAreaLoaded(pos, 0))
-			ObjectUtils.ifCastable(ModBlocks.RECEIVER, BlockFrequency.class, block ->
+			ObjectUtils.ifCastable(ModBlocks.RECEIVER.get(), BlockFrequency.class, block ->
 					block.setPoweredState(world.getBlockState(pos), world, pos, getActiveTransmitters(frequency) > 0));
 	}
 

@@ -1,15 +1,13 @@
 package rzk.wirelessredstone.block;
 
+import mcjty.theoneprobe.api.CompoundText;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
-import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -18,20 +16,24 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import rzk.lib.mc.block.BlockRedstoneDevice;
+import rzk.lib.mc.util.ObjectUtils;
 import rzk.lib.mc.util.WorldUtils;
-import rzk.lib.util.ObjectUtils;
 import rzk.wirelessredstone.RedstoneNetwork;
-import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.client.gui.GuiFrequency;
 import rzk.wirelessredstone.integration.ProbeInfoProvider;
-import rzk.wirelessredstone.packet.PacketFrequencyBlock;
-import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 
 public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProvider
 {
@@ -39,7 +41,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 
 	public BlockFrequency(boolean isTransmitter)
 	{
-		super(Properties.create(Material.IRON));
+		super(Properties.create(Material.IRON).hardnessAndResistance(1.5F, 6.0F).sound(SoundType.METAL));
 		this.isTransmitter = isTransmitter;
 	}
 
@@ -48,7 +50,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 	{
 		if (world.isRemote)
 			WorldUtils.ifTilePresent(world, pos, TileFrequency.class, tile ->
-					WirelessRedstone.proxy.openFrequencyGuiBlock(tile.getFrequency(), pos));
+					DistExecutor.runWhenOn(Dist.CLIENT, () -> GuiFrequency.openGui(tile.getFrequency(), pos)));
 		return ActionResultType.SUCCESS;
 	}
 
@@ -130,15 +132,15 @@ public class BlockFrequency extends BlockRedstoneDevice implements ProbeInfoProv
 	}
 
 	@Override
-	public BlockItem createItem()
+	public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder)
 	{
-		return new BlockItem(this, new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE));
+		return Collections.singletonList(new ItemStack(this));
 	}
 
 	@Override
-	public void addProbeInfo(ProbeMode mode, IProbeInfo info, PlayerEntity player, World world, BlockState state, IProbeHitData data)
+	public void addProbeInfo(IProbeInfo info, World world, IProbeHitData data)
 	{
 		ObjectUtils.ifCastable(world.getTileEntity(data.getPos()), TileFrequency.class, tile ->
-				info.horizontal().text(TextFormatting.GRAY + "Frequency: " + TextFormatting.AQUA + tile.getFrequency()));
+				info.horizontal().text(CompoundText.createLabelInfo(new TranslationTextComponent(LangKeys.Tooltip.FREQUENCY).getString() + ": ", tile.getFrequency())));
 	}
 }

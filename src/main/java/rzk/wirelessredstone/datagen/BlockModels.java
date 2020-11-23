@@ -27,8 +27,8 @@ public class BlockModels extends BlockStateProvider
 	@Override
 	protected void registerStatesAndModels()
 	{
-		wirelessBlock(ModBlocks.TRANSMITTER);
-		wirelessBlock(ModBlocks.RECEIVER);
+		wirelessBlock(ModBlocks.TRANSMITTER.get());
+		wirelessBlock(ModBlocks.RECEIVER.get());
 	}
 
 	private void wirelessBlock(Block block)

@@ -1,6 +1,8 @@
 package rzk.wirelessredstone.client.gui;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -8,24 +10,22 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.DistExecutor;
 import org.lwjgl.glfw.GLFW;
 import rzk.lib.mc.gui.widgets.SizedButton;
-import rzk.lib.util.MathUtils;
+import rzk.lib.mc.util.Utils;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
-import rzk.wirelessredstone.packet.PacketFrequency;
 import rzk.wirelessredstone.packet.PacketFrequencyBlock;
 import rzk.wirelessredstone.packet.PacketFrequencyItem;
 import rzk.wirelessredstone.packet.PacketHandler;
 
-@OnlyIn(Dist.CLIENT)
 public class GuiFrequency extends Screen
 {
-	public static final ResourceLocation GUI_TEXTURE_NORMAL = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency.png");
-	public static final ResourceLocation GUI_TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MODID, "textures/gui/frequency_extended.png");
+	public static final ResourceLocation GUI_TEXTURE_NORMAL = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency.png");
+	public static final ResourceLocation GUI_TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency_extended.png");
 	private ResourceLocation gui_texture = GUI_TEXTURE_NORMAL;
 
 	private int guiLeft;
@@ -139,7 +139,7 @@ public class GuiFrequency extends Screen
 
 	private void setFrequency(int frequency)
 	{
-		this.frequency = MathUtils.constrain(frequency, 0, 99999);
+		this.frequency = Utils.constrain(frequency, 0, 99999);
 	}
 
 	private void buttonPressed(Button button)
@@ -207,12 +207,12 @@ public class GuiFrequency extends Screen
 		renderBackground();
 		drawGuiBackgroundTexture(mouseX, mouseY, partialTicks);
 
-		font.drawString(title.getFormattedText(), guiLeft + (xSize - font.getStringWidth(title.getFormattedText())) / 2, guiTop + 7, 0x404040);
+		font.drawString(title.getString(), guiLeft + (xSize - font.getStringWidth(title.getString())) / 2, guiTop + 7, 0x404040);
 		frequencyField.render(mouseX, mouseY, partialTicks);
 
 		if (extended)
 		{
-			font.drawString(new TranslationTextComponent(LangKeys.Gui.FREQUENCY_NAME).getFormattedText(), guiLeft + 6, guiTop + 80, 0x404040);
+			font.drawString(new TranslationTextComponent(LangKeys.Gui.FREQUENCY_NAME).getString(), guiLeft + 6, guiTop + 80, 0x404040);
 			frequencyName.render(mouseX, mouseY, partialTicks);
 			searchbar.render(mouseX, mouseY, partialTicks);
 		}
@@ -242,10 +242,20 @@ public class GuiFrequency extends Screen
 		return false;
 	}
 
+	public static Runnable openGui(int frequency, BlockPos pos)
+	{
+		return () -> Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, pos));
+	}
+
+	public static Runnable openGui(int frequency, Hand hand)
+	{
+		return () -> Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, hand));
+	}
+
 	public enum GuiType
 	{
 		NONE,
 		ITEM,
-		BLOCK;
+		BLOCK
 	}
 }

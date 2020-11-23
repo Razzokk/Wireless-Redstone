@@ -1,30 +1,33 @@
 package rzk.lib.mc.gui.widgets;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 
 public class SizedButton extends Button
 {
 	private final int textOffsetX;
 	private final int textOffsetY;
 
-	public SizedButton(int widthIn, int heightIn, int width, int height, String text, int textOffsetX, int textOffsetY, IPressable onPress)
+	public SizedButton(int x, int y, int width, int height, String text, int textOffsetX, int textOffsetY, IPressable onPress)
 	{
-		super(widthIn, heightIn, width, height, text, onPress);
+		super(x, y, width, height, text, onPress);
 		this.textOffsetX = textOffsetX;
 		this.textOffsetY = textOffsetY;
 	}
 
-	public SizedButton(int widthIn, int heightIn, int width, int height, String text, IPressable onPress)
+	public SizedButton(int x, int y, int width, int height, String text, IPressable onPress)
 	{
-		this(widthIn, heightIn, width, height, text, 0, 0, onPress);
+		this(x, y, width, height, text, 0, 0, onPress);
 	}
 
-	public void renderButton(int mouseX, int mouseY, float partialTicks) {
+	public void renderButton(int mouseX, int mouseY, float partialTicks)
+	{
 		Minecraft minecraft = Minecraft.getInstance();
 		FontRenderer fontrenderer = minecraft.fontRenderer;
 		minecraft.getTextureManager().bindTexture(WIDGETS_LOCATION);
