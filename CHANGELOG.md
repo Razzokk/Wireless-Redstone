@@ -1,6 +1,7 @@
 ### Version 1.15.2-1.0.0:
 
 - FIXED: Blocks not dropping when destroyed
+- Internal code refactoring
 
 ### Version 1.15.2-0.0.2b:
 
