@@ -243,12 +243,12 @@ public class GuiFrequency extends Screen
 
 	public static DistExecutor.SafeRunnable openGui(int frequency, BlockPos pos)
 	{
-		return () ->  Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, pos));
+		return () -> Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, pos));
 	}
 
 	public static DistExecutor.SafeRunnable openGui(int frequency, Hand hand)
 	{
-		return () ->  Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, hand));
+		return () -> Minecraft.getInstance().displayGuiScreen(new GuiFrequency(frequency, hand));
 	}
 
 	public enum GuiType
