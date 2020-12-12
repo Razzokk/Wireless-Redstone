@@ -15,9 +15,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
-import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.LangKeys;
 import rzk.wirelessredstone.client.gui.GuiFrequency;
+import rzk.wirelessredstone.registry.ModItems;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,7 +26,7 @@ public class ItemFrequency extends Item
 {
 	public ItemFrequency()
 	{
-		super(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE).maxStackSize(1));
+		super(ModItems.defaultItemProperties().maxStackSize(1));
 	}
 
 	public void setFrequency(World world, ItemStack stack, int frequency)

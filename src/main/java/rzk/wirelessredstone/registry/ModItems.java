@@ -12,7 +12,7 @@ public class ModItems
 {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WirelessRedstone.MOD_ID);
 
-	public static final RegistryObject<Item> CIRCUIT = ITEMS.register("wireless_circuit", () -> new Item(new Item.Properties().group(WirelessRedstone.ITEM_GROUP_WIRELESS_REDSTONE)));
+	public static final RegistryObject<Item> CIRCUIT = ITEMS.register("wireless_circuit", () -> new Item(defaultItemProperties()));
 	public static final RegistryObject<Item> REMOTE = ITEMS.register("wireless_remote", ItemWirelessRemote::new);
 	public static final RegistryObject<Item> FREQUENCY_COPIER = ITEMS.register("frequency_copier", ItemFrequencyCopier::new);
 

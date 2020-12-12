@@ -109,16 +109,9 @@ public class GuiFrequency extends Screen
 		frequencyField.setText(String.valueOf(frequency));
 		frequencyField.setResponder(text ->
 		{
-			if (text == null || text.isEmpty())
-			{
-				done.active = false;
-				setFrequency(0);
-			}
-			else
-			{
-				done.active = true;
-				setFrequency(Integer.parseInt(text));
-			}
+			boolean textValid = text != null && !text.isEmpty();
+			done.active = textValid;
+			setFrequency(textValid ?  Integer.parseInt(text) : 0);
 		});
 		children.add(frequencyField);
 
