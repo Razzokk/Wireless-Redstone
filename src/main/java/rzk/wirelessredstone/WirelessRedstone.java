@@ -20,5 +20,6 @@ public class WirelessRedstone
     {
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
+        MinecraftForge.EVENT_BUS.register(WREventHandler.class);
     }
 }

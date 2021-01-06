@@ -4,13 +4,14 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
+
+import java.util.function.Function;
 
 public final class ModBlocks
 {
@@ -23,10 +24,10 @@ public final class ModBlocks
 
     private static void initBlocks()
     {
-        test = registerBlock("test_block", new Block(Material.IRON));
+        test = registerBlockWithoutItem("test_block", new Block(Material.IRON));
     }
 
-    private static Block registerBlockNoItem(String name, Block block)
+    private static Block registerBlockWithoutItem(String name, Block block)
     {
         block.setCreativeTab(WirelessRedstone.CREATIVE_TAB)
                 .setUnlocalizedName(WirelessRedstone.MOD_ID + '.' + name)
@@ -35,9 +36,10 @@ public final class ModBlocks
         return block;
     }
 
-    private static Block registerBlock(String name, Block block, ItemBlock item)
+    private static Block registerBlock(String name, Block block, Function<Block, ItemBlock> itemProvider)
     {
-        registerBlockNoItem(name, block);
+        registerBlockWithoutItem(name, block);
+        ItemBlock item = itemProvider.apply(block);
         item.setRegistryName(block.getRegistryName());
         ITEMS.add(item);
         return block;
@@ -45,7 +47,7 @@ public final class ModBlocks
 
     private static Block registerBlock(String name, Block block)
     {
-        return registerBlock(name, block, new ItemBlock(block));
+        return registerBlock(name, block, ItemBlock::new);
     }
 
     @SubscribeEvent
