@@ -3,13 +3,15 @@ package rzk.wirelessredstone.registry;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.block.BlockFrequency;
+import rzk.wirelessredstone.block.BlockTest;
+import rzk.wirelessredstone.util.FrequencyType;
 
 import java.util.function.Function;
 
@@ -19,12 +21,14 @@ public final class ModBlocks
     public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
     public static Block test;
+    public static Block receiver;
 
     private ModBlocks() {}
 
     private static void initBlocks()
     {
-        test = registerBlockWithoutItem("test_block", new Block(Material.IRON));
+        test = registerBlock("test_block", new BlockTest());
+        receiver = registerBlock("receiver", new BlockFrequency(FrequencyType.RECEIVER));
     }
 
     private static Block registerBlockWithoutItem(String name, Block block)

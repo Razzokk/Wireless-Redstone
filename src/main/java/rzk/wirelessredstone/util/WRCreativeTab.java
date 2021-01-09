@@ -1,8 +1,9 @@
-package rzk.wirelessredstone;
+package rzk.wirelessredstone.util;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import rzk.wirelessredstone.WirelessRedstone;
 
 public class WRCreativeTab extends CreativeTabs
 {

@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.registry.ModTiles;
+import rzk.wirelessredstone.util.WRCreativeTab;
 
 @Mod(modid = WirelessRedstone.MOD_ID)
 public class WirelessRedstone
@@ -20,6 +22,6 @@ public class WirelessRedstone
     {
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
-        MinecraftForge.EVENT_BUS.register(WREventHandler.class);
+        MinecraftForge.EVENT_BUS.register(ModTiles.class);
     }
 }
