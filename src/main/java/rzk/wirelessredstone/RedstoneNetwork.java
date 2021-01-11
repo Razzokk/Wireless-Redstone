@@ -1,16 +1,25 @@
 package rzk.wirelessredstone;
 
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
+import it.unimi.dsi.fastutil.objects.ObjectSet;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
+import rzk.wirelessredstone.block.BlockFrequency;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 public class RedstoneNetwork extends WorldSavedData
 {
     public static final String DATA_NAME = "redstoneNetwork";
 
     private World world;
-    private int placedBlocks = 0;
+    private final Short2ObjectMap<ObjectSet<BlockPos>> transmitters = new Short2ObjectArrayMap<>();
+    private final Short2ObjectMap<ObjectSet<BlockPos>> receivers = new Short2ObjectArrayMap<>();
+    private final Short2ObjectMap<String> frequencyNames = new Short2ObjectArrayMap<>();
 
     public RedstoneNetwork(String name)
     {
@@ -22,33 +31,90 @@ public class RedstoneNetwork extends WorldSavedData
         this(DATA_NAME);
     }
 
-    public World getWorld()
+    public void updateReceivers(short frequency, boolean powered)
     {
-        return world;
+        if (receivers.containsKey(frequency))
+            for (BlockPos pos : receivers.get(frequency))
+                if (world.isBlockLoaded(pos))
+                    ((BlockFrequency) ModBlocks.receiver).updateReceiver(world, pos, powered);
     }
 
-    public void placeBlock()
+    public void addTransmitter(BlockPos pos, short frequency)
     {
-        placedBlocks++;
-        markDirty();
+        transmitters.putIfAbsent(frequency, new ObjectArraySet<>());
+        transmitters.get(frequency).add(pos);
+        frequencyNames.putIfAbsent(frequency, null);
+        updateReceivers(frequency, true);
     }
 
-    public int getPlacedBlocks()
+    public void addReceiver(BlockPos pos, short frequency)
     {
-        return placedBlocks;
+        receivers.putIfAbsent(frequency, new ObjectArraySet<>());
+        receivers.get(frequency).add(pos);
+        frequencyNames.putIfAbsent(frequency, null);
+
+        if (transmitters.containsKey(frequency) && !transmitters.get(frequency).isEmpty())
+            ((BlockFrequency) ModBlocks.receiver).updateReceiver(world, pos, true);
+    }
+
+    public void checkAndRemoveFrequencyNames(short frequency)
+    {
+        if (!transmitters.containsKey(frequency) && !receivers.containsKey(frequency))
+            frequencyNames.remove(frequency);
+    }
+
+    public void removeTransmitter(BlockPos pos, short frequency)
+    {
+        if (transmitters.containsKey(frequency))
+        {
+            transmitters.get(frequency).remove(pos);
+
+            if (transmitters.get(frequency).isEmpty())
+            {
+                transmitters.remove(frequency);
+                updateReceivers(frequency, false);
+            }
+        }
+    }
+
+    public void removeReceiver(BlockPos pos, short frequency)
+    {
+        if (receivers.containsKey(frequency))
+            receivers.get(frequency).remove(pos);
+    }
+
+    public void changeTransmitterFrequency(BlockPos pos, short oldFrequency, short newFrequency)
+    {
+        removeTransmitter(pos, oldFrequency);
+        addTransmitter(pos, newFrequency);
+    }
+
+    public void changeReceiverFrequency(BlockPos pos, short oldFrequency, short newFrequency)
+    {
+        removeReceiver(pos, oldFrequency);
+        addReceiver(pos, newFrequency);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
-        placedBlocks = nbt.getInteger("placed");
+        //placedBlocks = nbt.getInteger("placed");
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
-        nbt.setInteger("placed", placedBlocks);
+        for (short frequency : frequencyNames.keySet())
+        {
+            NBTTagCompound freqNbt = new NBTTagCompound();
+        }
+        //nbt.setShort("placed", placedBlocks);
         return nbt;
+    }
+
+    public World getWorld()
+    {
+        return world;
     }
 
     public static RedstoneNetwork getOrCreate(World world)

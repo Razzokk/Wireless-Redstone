@@ -18,7 +18,7 @@ import java.util.EnumSet;
 
 public class BlockRedstoneDevice extends Block
 {
-    protected static final PropertyBool POWERED = PropertyBool.create("powered");
+    public static final PropertyBool POWERED = PropertyBool.create("powered");
 
     public BlockRedstoneDevice(Material material)
     {
@@ -115,6 +115,18 @@ public class BlockRedstoneDevice extends Block
         EnumFacing side = EnumFacing.getFacingFromVector(neighbor.getX() - pos.getX(), neighbor.getY() - pos.getY(), neighbor.getZ() - pos.getZ());
         if (isInputSide(state, side))
             onInputChanged(state, world, pos, side);
+    }
+
+    @Override
+    public IBlockState getStateFromMeta(int meta)
+    {
+        return getDefaultState().withProperty(POWERED, meta == 1);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state)
+    {
+        return state.getValue(POWERED) ? 1 : 0;
     }
 
     @Override
