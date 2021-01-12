@@ -50,13 +50,6 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
-
-    //compileOnly fg.deobf("mezz.jei:jei_${jei_version}:api")
-    //runtimeOnly fg.deobf("mezz.jei:jei_${jei_version}")
-
-    compile fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}") {
-        transitive = false
-    }
 }
 
 jar {
