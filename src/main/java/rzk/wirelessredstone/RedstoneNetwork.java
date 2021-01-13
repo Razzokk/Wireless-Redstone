@@ -16,8 +16,8 @@ public class RedstoneNetwork extends WorldSavedData
 {
     public static final String DATA_NAME = "redstoneNetwork";
 
-    private final Short2ObjectMap<Channel> basic;
     private World world;
+    private final Short2ObjectMap<Channel> basic;
 
     public RedstoneNetwork(String name)
     {

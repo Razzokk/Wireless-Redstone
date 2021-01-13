@@ -26,8 +26,8 @@ public final class ModBlocks
 
     private static void initBlocks()
     {
-        transmitter = registerBlock("transmitter", new BlockFrequency(DeviceType.TRANSMITTER));
-        receiver = registerBlock("receiver", new BlockFrequency(DeviceType.RECEIVER));
+        transmitter = registerBlock("wireless_transmitter", new BlockFrequency(DeviceType.TRANSMITTER));
+        receiver = registerBlock("wireless_receiver", new BlockFrequency(DeviceType.RECEIVER));
     }
 
     private static Block registerBlockWithoutItem(String name, Block block)
