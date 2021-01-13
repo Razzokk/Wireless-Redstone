@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.util.FrequencyType;
+import rzk.wirelessredstone.util.DeviceType;
 
 import java.util.function.Function;
 
@@ -26,8 +26,8 @@ public final class ModBlocks
 
     private static void initBlocks()
     {
-        transmitter = registerBlock("transmitter", new BlockFrequency(FrequencyType.TRANSMITTER));
-        receiver = registerBlock("receiver", new BlockFrequency(FrequencyType.RECEIVER));
+        transmitter = registerBlock("transmitter", new BlockFrequency(DeviceType.TRANSMITTER));
+        receiver = registerBlock("receiver", new BlockFrequency(DeviceType.RECEIVER));
     }
 
     private static Block registerBlockWithoutItem(String name, Block block)

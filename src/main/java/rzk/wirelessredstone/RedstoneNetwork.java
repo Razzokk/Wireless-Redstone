@@ -1,29 +1,75 @@
 package rzk.wirelessredstone;
 
-import it.unimi.dsi.fastutil.objects.ObjectArraySet;
-import it.unimi.dsi.fastutil.objects.ObjectSet;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.util.DeviceType;
 
 public class RedstoneNetwork extends WorldSavedData
 {
     public static final String DATA_NAME = "redstoneNetwork";
 
+    private final Short2ObjectMap<Channel> basic;
     private World world;
-    private final Short2ObjectMap<ObjectSet<BlockPos>> transmitters = new Short2ObjectArrayMap<>();
-    private final Short2ObjectMap<ObjectSet<BlockPos>> receivers = new Short2ObjectArrayMap<>();
-    private final Short2ObjectMap<String> frequencyNames = new Short2ObjectArrayMap<>();
 
     public RedstoneNetwork(String name)
     {
         super(name);
+        basic = new Short2ObjectArrayMap<>();
+    }
+
+    public void updateReceivers(short frequency)
+    {
+        if (basic.containsKey(frequency))
+        {
+            Channel channel = basic.get(frequency);
+            boolean isActive = channel.isActive();
+
+            for (BlockPos receiver : channel.getReceivers())
+                ((BlockFrequency) ModBlocks.receiver).updateReceiver(world, receiver, isActive);
+        }
+    }
+
+    public void addDevice(short frequency, BlockPos pos, DeviceType type)
+    {
+        basic.putIfAbsent(frequency, Channel.create(frequency, Channel.Type.BASIC));
+        basic.get(frequency).addDevice(pos, type);
+
+        if (type == DeviceType.TRANSMITTER)
+            updateReceivers(frequency);
+
+        markDirty();
+    }
+
+    public void removeDevice(short frequency, BlockPos pos, DeviceType type)
+    {
+        if (basic.containsKey(frequency))
+        {
+            basic.get(frequency).removeDevice(pos, type);
+
+            if (type == DeviceType.TRANSMITTER)
+                updateReceivers(frequency);
+
+            markDirty();
+        }
+    }
+
+    public void changeDeviceFrequency(short oldFrequency, short newFrequency, BlockPos pos, DeviceType type)
+    {
+        removeDevice(oldFrequency, pos, type);
+        addDevice(newFrequency, pos, type);
+    }
+
+    public boolean isChannelActive(short frequency)
+    {
+        return basic.containsKey(frequency) && basic.get(frequency).isActive();
     }
 
     public RedstoneNetwork()
@@ -31,84 +77,30 @@ public class RedstoneNetwork extends WorldSavedData
         this(DATA_NAME);
     }
 
-    public void updateReceivers(short frequency, boolean powered)
-    {
-        if (receivers.containsKey(frequency))
-            for (BlockPos pos : receivers.get(frequency))
-                if (world.isBlockLoaded(pos))
-                    ((BlockFrequency) ModBlocks.receiver).updateReceiver(world, pos, powered);
-    }
-
-    public void addTransmitter(BlockPos pos, short frequency)
-    {
-        transmitters.putIfAbsent(frequency, new ObjectArraySet<>());
-        transmitters.get(frequency).add(pos);
-        frequencyNames.putIfAbsent(frequency, null);
-        updateReceivers(frequency, true);
-    }
-
-    public void addReceiver(BlockPos pos, short frequency)
-    {
-        receivers.putIfAbsent(frequency, new ObjectArraySet<>());
-        receivers.get(frequency).add(pos);
-        frequencyNames.putIfAbsent(frequency, null);
-
-        if (transmitters.containsKey(frequency) && !transmitters.get(frequency).isEmpty())
-            ((BlockFrequency) ModBlocks.receiver).updateReceiver(world, pos, true);
-    }
-
-    public void checkAndRemoveFrequencyNames(short frequency)
-    {
-        if (!transmitters.containsKey(frequency) && !receivers.containsKey(frequency))
-            frequencyNames.remove(frequency);
-    }
-
-    public void removeTransmitter(BlockPos pos, short frequency)
-    {
-        if (transmitters.containsKey(frequency))
-        {
-            transmitters.get(frequency).remove(pos);
-
-            if (transmitters.get(frequency).isEmpty())
-            {
-                transmitters.remove(frequency);
-                updateReceivers(frequency, false);
-            }
-        }
-    }
-
-    public void removeReceiver(BlockPos pos, short frequency)
-    {
-        if (receivers.containsKey(frequency))
-            receivers.get(frequency).remove(pos);
-    }
-
-    public void changeTransmitterFrequency(BlockPos pos, short oldFrequency, short newFrequency)
-    {
-        removeTransmitter(pos, oldFrequency);
-        addTransmitter(pos, newFrequency);
-    }
-
-    public void changeReceiverFrequency(BlockPos pos, short oldFrequency, short newFrequency)
-    {
-        removeReceiver(pos, oldFrequency);
-        addReceiver(pos, newFrequency);
-    }
-
     @Override
     public void readFromNBT(NBTTagCompound nbt)
     {
-        //placedBlocks = nbt.getInteger("placed");
+        if (nbt.hasKey("basic"))
+        {
+            NBTTagList basicNBT = nbt.getTagList("basic", 10);
+            basicNBT.forEach(channelNBT ->
+            {
+                Channel channel = Channel.fromNBT((NBTTagCompound) channelNBT);
+                basic.put(channel.getFrequency(), channel);
+            });
+        }
     }
 
     @Override
     public NBTTagCompound writeToNBT(NBTTagCompound nbt)
     {
-        for (short frequency : frequencyNames.keySet())
+        if (!basic.isEmpty())
         {
-            NBTTagCompound freqNbt = new NBTTagCompound();
+            NBTTagList basicNBT = new NBTTagList();
+            basic.values().forEach(channel -> basicNBT.appendTag(channel.toNBT()));
+            nbt.setTag("basic", basicNBT);
         }
-        //nbt.setShort("placed", placedBlocks);
+
         return nbt;
     }
 
@@ -140,4 +132,5 @@ public class RedstoneNetwork extends WorldSavedData
 
         return instance;
     }
+
 }

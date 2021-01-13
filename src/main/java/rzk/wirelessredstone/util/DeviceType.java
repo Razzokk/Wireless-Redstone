@@ -1,6 +1,6 @@
 package rzk.wirelessredstone.util;
 
-public enum FrequencyType
+public enum DeviceType
 {
     TRANSMITTER,
     RECEIVER

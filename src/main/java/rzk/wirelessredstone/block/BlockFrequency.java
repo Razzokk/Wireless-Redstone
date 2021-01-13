@@ -12,15 +12,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.tile.TileFrequency;
-import rzk.wirelessredstone.util.FrequencyType;
+import rzk.wirelessredstone.util.DeviceType;
 
 import javax.annotation.Nullable;
 
 public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityProvider
 {
-    private final FrequencyType type;
+    private final DeviceType type;
 
-    public BlockFrequency(FrequencyType type)
+    public BlockFrequency(DeviceType type)
     {
         super(Material.CIRCUITS);
         this.type = type;
@@ -53,12 +53,13 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 
             if (isTransmitter() && isPowered(world, pos))
             {
+                network.addDevice((short) 0, pos, type);
                 setPoweredState(state, world, pos, true);
-                network.addTransmitter(pos, (short) 0);
             }
             else if (isReceiver())
             {
-                network.addReceiver(pos, (short) 0);
+                network.addDevice((short) 0, pos, type);
+                setPoweredState(state, world, pos, network.isChannelActive((short) 0));
             }
         }
     }
@@ -81,37 +82,31 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
                     short frequency = ((TileFrequency) tile).getFrequency();
 
                     if (powered)
-                        network.addTransmitter(pos, frequency);
+                        network.addDevice(frequency, pos, DeviceType.TRANSMITTER);
                     else
-                        network.removeTransmitter(pos, frequency);
+                        network.removeDevice(frequency, pos, DeviceType.TRANSMITTER);
                 }
             }
         }
     }
 
     @Override
-    public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack stack)
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        super.harvestBlock(world, player, pos, state, te, stack);
-
-        RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
         TileEntity tile = world.getTileEntity(pos);
 
         if (tile instanceof TileFrequency)
         {
+            RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
             short frequency = ((TileFrequency) tile).getFrequency();
-
-            if (isTransmitter() && world.getBlockState(pos).getValue(POWERED))
-                network.removeTransmitter(pos, frequency);
-            else  if (isReceiver())
-                network.removeReceiver(pos, frequency);
+            network.removeDevice(frequency, pos, type);
         }
     }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        return false;
+        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
     @Nullable
@@ -123,11 +118,11 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 
     private boolean isTransmitter()
     {
-        return type == FrequencyType.TRANSMITTER;
+        return type == DeviceType.TRANSMITTER;
     }
 
     private boolean isReceiver()
     {
-        return type == FrequencyType.RECEIVER;
+        return type == DeviceType.RECEIVER;
     }
 }
