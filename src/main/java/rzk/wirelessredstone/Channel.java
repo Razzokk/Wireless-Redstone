@@ -93,7 +93,7 @@ public class Channel
 
 	public boolean isEmpty()
 	{
-		return transmitters.isEmpty() && receivers.isEmpty();
+		return transmitters.isEmpty() && receivers.isEmpty() && (name == null || name.trim().isEmpty());
 	}
 
 	public NBTTagCompound toNBT()
@@ -103,11 +103,11 @@ public class Channel
 		nbt.setByte("type", (byte) type.index);
 
 		NBTTagList transmitterNBT = new NBTTagList();
-		transmitters.forEach(transmitter -> transmitterNBT.appendTag(NBTUtil.createPosTag(transmitter)));
+		transmitters.forEach(transmitter -> transmitterNBT.appendTag(new NBTTagLong(transmitter.toLong())));
 		nbt.setTag("transmitters", transmitterNBT);
 
 		NBTTagList receiverNBT = new NBTTagList();
-		receivers.forEach(receiver -> receiverNBT.appendTag(NBTUtil.createPosTag(receiver)));
+		receivers.forEach(receiver -> receiverNBT.appendTag(new NBTTagLong(receiver.toLong())));
 		nbt.setTag("receivers", receiverNBT);
 
 		return nbt;
@@ -125,14 +125,14 @@ public class Channel
 
 		if (nbt.hasKey("transmitters", 9))
 		{
-			NBTTagList transmitterNBT = nbt.getTagList("transmitters", 10);
-			transmitterNBT.forEach(transmitter -> channel.addDevice(NBTUtil.getPosFromTag((NBTTagCompound) transmitter), DeviceType.TRANSMITTER));
+			NBTTagList transmitterNBT = nbt.getTagList("transmitters", 4);
+			transmitterNBT.forEach(transmitter -> channel.addDevice(BlockPos.fromLong(((NBTTagLong) transmitter).getLong()), DeviceType.TRANSMITTER));
 		}
 
 		if (nbt.hasKey("receivers", 9))
 		{
-			NBTTagList receiverNBT = nbt.getTagList("receivers", 10);
-			receiverNBT.forEach(receiver -> channel.addDevice(NBTUtil.getPosFromTag((NBTTagCompound) receiver), DeviceType.RECEIVER));
+			NBTTagList receiverNBT = nbt.getTagList("receivers", 4);
+			receiverNBT.forEach(receiver -> channel.addDevice(BlockPos.fromLong(((NBTTagLong) receiver).getLong()), DeviceType.RECEIVER));
 		}
 
 		return channel;

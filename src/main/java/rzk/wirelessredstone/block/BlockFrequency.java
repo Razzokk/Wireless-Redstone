@@ -18,18 +18,12 @@ import javax.annotation.Nullable;
 
 public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityProvider
 {
-    private final DeviceType type;
+    public final DeviceType type;
 
     public BlockFrequency(DeviceType type)
     {
         super(Material.CIRCUITS);
         this.type = type;
-    }
-
-    public void updateReceiver(World world, BlockPos pos, boolean powered)
-    {
-        if (!world.isRemote)
-            world.setBlockState(pos, getDefaultState().withProperty(POWERED, powered));
     }
 
     @Override
@@ -69,16 +63,16 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
     {
         if (isTransmitter() && !world.isRemote)
         {
-            boolean powered = isPowered(world, pos, side);
+            boolean powered = isPowered(world, pos);
 
             if (powered != state.getValue(POWERED))
             {
-                RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-                TileEntity tile = world.getTileEntity(pos);
                 setPoweredState(state, world, pos, powered);
+                TileEntity tile = world.getTileEntity(pos);
 
                 if (tile instanceof TileFrequency)
                 {
+                    RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
                     short frequency = ((TileFrequency) tile).getFrequency();
 
                     if (powered)
@@ -93,20 +87,30 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
     @Override
     public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
     {
-        TileEntity tile = world.getTileEntity(pos);
-
-        if (tile instanceof TileFrequency)
+        if (!world.isRemote)
         {
-            RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-            short frequency = ((TileFrequency) tile).getFrequency();
-            network.removeDevice(frequency, pos, type);
+            TileEntity tile = world.getTileEntity(pos);
+
+            if (tile instanceof TileFrequency)
+            {
+                RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+                short frequency = ((TileFrequency) tile).getFrequency();
+                network.removeDevice(frequency, pos, type);
+            }
         }
     }
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+        if (!world.isRemote)
+        {
+            TileEntity tile = world.getTileEntity(pos);
+
+            if (tile instanceof TileFrequency)
+                ((TileFrequency) tile).setFrequency((short) (((TileFrequency) tile).getFrequency() + 1));
+        }
+        return true;
     }
 
     @Nullable

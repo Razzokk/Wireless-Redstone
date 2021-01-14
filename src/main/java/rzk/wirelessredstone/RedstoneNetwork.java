@@ -2,6 +2,7 @@ package rzk.wirelessredstone;
 
 import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +34,7 @@ public class RedstoneNetwork extends WorldSavedData
             boolean isActive = channel.isActive();
 
             for (BlockPos receiver : channel.getReceivers())
-                ((BlockFrequency) ModBlocks.receiver).updateReceiver(world, receiver, isActive);
+                ((BlockFrequency) ModBlocks.receiver).setPoweredState(world.getBlockState(receiver), world, receiver, isActive);
         }
     }
 
@@ -65,6 +66,9 @@ public class RedstoneNetwork extends WorldSavedData
     {
         removeDevice(oldFrequency, pos, type);
         addDevice(newFrequency, pos, type);
+
+        if (type == DeviceType.RECEIVER)
+            ((BlockFrequency) ModBlocks.receiver).setPoweredState(world.getBlockState(pos), world, pos, basic.get(newFrequency).isActive());
     }
 
     public boolean isChannelActive(short frequency)
@@ -83,11 +87,13 @@ public class RedstoneNetwork extends WorldSavedData
         if (nbt.hasKey("basic"))
         {
             NBTTagList basicNBT = nbt.getTagList("basic", 10);
-            basicNBT.forEach(channelNBT ->
+            for (NBTBase channelNBT : basicNBT)
             {
                 Channel channel = Channel.fromNBT((NBTTagCompound) channelNBT);
-                basic.put(channel.getFrequency(), channel);
-            });
+
+                if (channel != null && !channel.isEmpty())
+                    basic.put(channel.getFrequency(), channel);
+            }
         }
     }
 
@@ -97,6 +103,7 @@ public class RedstoneNetwork extends WorldSavedData
         if (!basic.isEmpty())
         {
             NBTTagList basicNBT = new NBTTagList();
+            basic.short2ObjectEntrySet().removeIf(entry -> entry.getValue().isEmpty());
             basic.values().forEach(channel -> basicNBT.appendTag(channel.toNBT()));
             nbt.setTag("basic", basicNBT);
         }
