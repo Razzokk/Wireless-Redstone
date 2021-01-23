@@ -13,7 +13,7 @@ public class FastTESRFrequency extends FastTESR<TileFrequency>
 	{
 		GlStateManager.pushMatrix();
 		GlStateManager.translate(x + 0.5f, y + 0.5f, z + 0.5f);
-		String s = String.valueOf(tile.getFrequency());
+		String s = String.valueOf(Short.toUnsignedInt(tile.getFrequency()));
 		FontRenderer fontrenderer = getFontRenderer();
 
 		for (int i = 0; i < 4; i++)

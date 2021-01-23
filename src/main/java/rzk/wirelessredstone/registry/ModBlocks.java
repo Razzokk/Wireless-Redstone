@@ -19,15 +19,15 @@ public final class ModBlocks
     public static final ObjectList<Block> BLOCKS = new ObjectArrayList<>();
     public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
-    public static Block transmitter;
-    public static Block receiver;
+    public static Block redstoneTransmitter;
+    public static Block redstoneReceiver;
 
     private ModBlocks() {}
 
     private static void initBlocks()
     {
-        transmitter = registerBlock("wireless_transmitter", new BlockFrequency(DeviceType.TRANSMITTER));
-        receiver = registerBlock("wireless_receiver", new BlockFrequency(DeviceType.RECEIVER));
+        redstoneTransmitter = registerBlock("redstone_transmitter", new BlockFrequency(DeviceType.TRANSMITTER));
+        redstoneReceiver = registerBlock("redstone_receiver", new BlockFrequency(DeviceType.RECEIVER));
     }
 
     private static Block registerBlockWithoutItem(String name, Block block)

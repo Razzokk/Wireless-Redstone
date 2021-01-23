@@ -34,7 +34,7 @@ public class RedstoneNetwork extends WorldSavedData
             boolean isActive = channel.isActive();
 
             for (BlockPos receiver : channel.getReceivers())
-                ((BlockFrequency) ModBlocks.receiver).setPoweredState(world.getBlockState(receiver), world, receiver, isActive);
+                ((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(receiver), world, receiver, isActive);
         }
     }
 
@@ -68,7 +68,7 @@ public class RedstoneNetwork extends WorldSavedData
         addDevice(newFrequency, pos, type);
 
         if (type == DeviceType.RECEIVER)
-            ((BlockFrequency) ModBlocks.receiver).setPoweredState(world.getBlockState(pos), world, pos, basic.get(newFrequency).isActive());
+            ((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, basic.get(newFrequency).isActive());
     }
 
     public boolean isChannelActive(short frequency)

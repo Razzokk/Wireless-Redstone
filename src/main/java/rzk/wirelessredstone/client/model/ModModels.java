@@ -15,10 +15,10 @@ public class ModModels
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event)
 	{
-		registerBlockItem(ModBlocks.transmitter);
-		registerBlockItem(ModBlocks.receiver);
+		registerBlockItem(ModBlocks.redstoneTransmitter);
+		registerBlockItem(ModBlocks.redstoneReceiver);
 		registerItem(ModItems.frequencyTool);
-		registerItem(ModItems.frequencyTool);
+		registerItem(ModItems.debugger, 0, new ResourceLocation("minecraft", "stick"));
 	}
 
 	public static void registerBlockItem(Block block)

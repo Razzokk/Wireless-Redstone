@@ -31,7 +31,7 @@ public class ItemDebug extends Item
 			{
 				for (int z = 0; z < 100; z++)
 				{
-					BlockFrequency block = (BlockFrequency) (rand.nextBoolean() ? ModBlocks.transmitter : ModBlocks.receiver);
+					BlockFrequency block = (BlockFrequency) (rand.nextBoolean() ? ModBlocks.redstoneTransmitter : ModBlocks.redstoneReceiver);
 					ItemBlock item = (ItemBlock) Item.getItemFromBlock(block);
 					BlockPos pos = block.type == DeviceType.TRANSMITTER ? player.getPosition().add(x, -2, z) : player.getPosition().add(x, 2, z);
 					item.placeBlockAt(item.getDefaultInstance(), player, world, pos, null, 0, 0, 0, block.getDefaultState());

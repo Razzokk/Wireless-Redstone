@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.RedstoneNetwork;
+import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.util.DeviceType;
 
 import javax.annotation.Nullable;
@@ -35,9 +36,12 @@ public class TileFrequency extends TileEntity
         if (this.frequency != frequency)
         {
             RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-            network.changeDeviceFrequency(this.frequency, frequency, pos, type);
-            this.frequency = frequency;
             IBlockState state = world.getBlockState(pos);
+
+            if (!(type == DeviceType.TRANSMITTER && !state.getValue(BlockFrequency.POWERED)))
+                network.changeDeviceFrequency(this.frequency, frequency, pos, type);
+
+            this.frequency = frequency;
             world.notifyBlockUpdate(pos, state, state, 3);
             markDirty();
         }
