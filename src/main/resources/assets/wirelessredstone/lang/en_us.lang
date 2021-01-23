@@ -1,0 +1,20 @@
+tile.wirelessredstone.redstone_transmitter.name=Redstone Transmitter
+tile.wirelessredstone.redstone_receiver.name=Redstone Receiver
+
+item.wirelessredstone.circuit.name=Circuit
+item.wirelessredstone.frequency_tool.name=Frequency Tool
+item.wirelessredstone.remote.name=Remote
+
+gui.wirelessredstone.frequency.name=Frequency
+gui.wirelessredstone.extend.name=Extend
+gui.wirelessredstone.reduce.name=Reduce
+gui.wirelessredstone.private.name=Private
+gui.wirelessredstone.public.name=Public
+gui.wirelessredstone.searchbar.name=Search Bar
+
+tooltip.wirelessredstone.frequency.name=Frequency
+tooltip.wirelessredstone.state.name=State
+tooltip.wirelessredstone.on.name=On
+tooltip.wirelessredstone.off.name=Off
+
+itemGroup.wirelessredstone=Wireless Redstone
