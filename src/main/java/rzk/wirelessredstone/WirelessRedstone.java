@@ -11,6 +11,7 @@ import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.proxy.IProxy;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.registry.ModRecipes;
 import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.util.WRCreativeTab;
 import rzk.wirelessredstone.util.WREventHandler;
@@ -37,6 +38,7 @@ public class WirelessRedstone
         MinecraftForge.EVENT_BUS.register(ModBlocks.class);
         MinecraftForge.EVENT_BUS.register(ModItems.class);
         MinecraftForge.EVENT_BUS.register(ModTiles.class);
+        MinecraftForge.EVENT_BUS.register(ModRecipes.class);
         MinecraftForge.EVENT_BUS.register(WREventHandler.class);
     }
 }

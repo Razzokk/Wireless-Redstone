@@ -4,6 +4,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 public class WRCreativeTab extends CreativeTabs
 {
@@ -15,6 +16,6 @@ public class WRCreativeTab extends CreativeTabs
     @Override
     public ItemStack getTabIconItem()
     {
-        return new ItemStack(Items.REDSTONE);
+        return new ItemStack(ModBlocks.redstoneTransmitter);
     }
 }

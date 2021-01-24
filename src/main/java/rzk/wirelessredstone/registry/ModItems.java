@@ -14,6 +14,7 @@ public final class ModItems
 {
     public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
+    public static Item circuit;
     public static Item frequencyTool;
     public static Item remote;
 
@@ -21,6 +22,7 @@ public final class ModItems
 
     private static void initItems()
     {
+        circuit = registerItem("circuit", new Item());
         frequencyTool = registerItem("frequency_tool", new ItemFrequency());
         remote = registerItem("remote", new ItemRemote());
     }

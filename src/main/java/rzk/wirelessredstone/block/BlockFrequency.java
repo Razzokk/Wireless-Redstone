@@ -27,8 +27,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
     public BlockFrequency(DeviceType type)
     {
         super(Material.CIRCUITS);
-        setHardness(1.5f);
-        setResistance(6.0f);
+        setHardness(0.5f);
         setSoundType(SoundType.METAL);
         this.type = type;
     }

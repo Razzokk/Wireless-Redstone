@@ -21,6 +21,7 @@ public class ModModels
 		registerItem(ModItems.frequencyTool);
 		registerItem(ModItems.remote, 0, new ResourceLocation(WirelessRedstone.MOD_ID, "remote_off"));
 		registerItem(ModItems.remote, 1, new ResourceLocation(WirelessRedstone.MOD_ID, "remote_on"));
+		registerItem(ModItems.circuit);
 	}
 
 	public static void registerBlockItem(Block block)
