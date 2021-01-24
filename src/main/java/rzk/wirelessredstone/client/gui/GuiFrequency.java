@@ -42,7 +42,7 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 	public GuiFrequency(PacketFrequency packet)
 	{
 		frequency = packet.getFrequency();
-		extended = packet.isExtended();
+		extended = false;
 		pos = packet.getPos();
 		hand = packet.getHand();
 	}

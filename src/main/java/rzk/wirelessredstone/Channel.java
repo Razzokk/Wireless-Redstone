@@ -2,6 +2,7 @@ package rzk.wirelessredstone;
 
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import it.unimi.dsi.fastutil.objects.ObjectSet;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.*;
 import net.minecraft.util.math.BlockPos;
 import rzk.wirelessredstone.util.DeviceType;
@@ -11,16 +12,20 @@ public class Channel
 	private final short frequency;
 	private final Type type;
 	private String name;
+	// active transmitters (power state: on)
 	private final ObjectSet<BlockPos> transmitters;
 	private final ObjectSet<BlockPos> receivers;
+	// active remote (power state: on)
+	private final ObjectSet<ItemStack> remotes;
 
 	private Channel(short frequency, Type type, String name)
 	{
 		this.frequency = frequency;
 		this.type = type;
 		this.name = name;
-		this.transmitters = new ObjectArraySet<>(1);
-		this.receivers = new ObjectArraySet<>(1);
+		transmitters = new ObjectArraySet<>(1);
+		receivers = new ObjectArraySet<>(1);
+		remotes = new ObjectArraySet<>(1);
 	}
 
 	public static Channel create(short frequency, Type type, String name)
@@ -46,6 +51,11 @@ public class Channel
 	public ObjectSet<BlockPos> getReceivers()
 	{
 		return receivers;
+	}
+
+	public ObjectSet<ItemStack> getRemotes()
+	{
+		return remotes;
 	}
 
 	public String getName()
@@ -86,14 +96,24 @@ public class Channel
 		}
 	}
 
+	public void addRemote(ItemStack stack)
+	{
+		remotes.add(stack);
+	}
+
+	public void removeRemote(ItemStack stack)
+	{
+		remotes.remove(stack);
+	}
+
 	public boolean isActive()
 	{
-		return transmitters.size() > 0;
+		return !transmitters.isEmpty() || !remotes.isEmpty();
 	}
 
 	public boolean isEmpty()
 	{
-		return transmitters.isEmpty() && receivers.isEmpty() && (name == null || name.trim().isEmpty());
+		return transmitters.isEmpty() && receivers.isEmpty() && remotes.isEmpty() && (name == null || name.trim().isEmpty());
 	}
 
 	public NBTTagCompound toNBT()
@@ -109,6 +129,10 @@ public class Channel
 		NBTTagList receiverNBT = new NBTTagList();
 		receivers.forEach(receiver -> receiverNBT.appendTag(new NBTTagLong(receiver.toLong())));
 		nbt.setTag("receivers", receiverNBT);
+
+		NBTTagList remoteNBT = new NBTTagList();
+		remotes.forEach(remote -> remoteNBT.appendTag(remote.serializeNBT()));
+		nbt.setTag("remotes", remoteNBT);
 
 		return nbt;
 	}
@@ -133,6 +157,12 @@ public class Channel
 		{
 			NBTTagList receiverNBT = nbt.getTagList("receivers", 4);
 			receiverNBT.forEach(receiver -> channel.addDevice(BlockPos.fromLong(((NBTTagLong) receiver).getLong()), DeviceType.RECEIVER));
+		}
+
+		if (nbt.hasKey("remotes", 9))
+		{
+			NBTTagList remoteNBT = nbt.getTagList("remotes", 10);
+			remoteNBT.forEach(remote -> channel.addRemote(new ItemStack((NBTTagCompound) remote)));
 		}
 
 		return channel;

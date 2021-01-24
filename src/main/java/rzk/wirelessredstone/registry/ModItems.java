@@ -7,22 +7,22 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.item.ItemDebug;
 import rzk.wirelessredstone.item.ItemFrequency;
+import rzk.wirelessredstone.item.ItemRemote;
 
 public final class ModItems
 {
     public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
-    public static Item debugger;
     public static Item frequencyTool;
+    public static Item remote;
 
     private ModItems() {}
 
     private static void initItems()
     {
         frequencyTool = registerItem("frequency_tool", new ItemFrequency());
-        debugger = registerItem("debugger", new ItemDebug());
+        remote = registerItem("remote", new ItemRemote());
     }
 
     private static Item registerItem(String name, Item item)

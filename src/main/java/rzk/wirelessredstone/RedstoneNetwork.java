@@ -2,6 +2,7 @@ package rzk.wirelessredstone;
 
 import it.unimi.dsi.fastutil.shorts.Short2ObjectArrayMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -10,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import rzk.wirelessredstone.block.BlockFrequency;
+import rzk.wirelessredstone.item.ItemFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.util.DeviceType;
 
@@ -69,6 +71,24 @@ public class RedstoneNetwork extends WorldSavedData
 
         if (type == DeviceType.RECEIVER)
             ((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, basic.get(newFrequency).isActive());
+    }
+
+    public void addRemote(short frequency, ItemStack stack)
+    {
+        basic.putIfAbsent(frequency, Channel.create(frequency, Channel.Type.BASIC));
+        basic.get(frequency).addRemote(stack);
+        updateReceivers(frequency);
+        markDirty();
+    }
+
+    public void removeRemote(short frequency, ItemStack stack)
+    {
+        if (basic.containsKey(frequency))
+        {
+            basic.get(frequency).removeRemote(stack);
+            updateReceivers(frequency);
+            markDirty();
+        }
     }
 
     public boolean isChannelActive(short frequency)

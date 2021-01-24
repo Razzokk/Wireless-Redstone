@@ -7,6 +7,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 
@@ -18,7 +19,8 @@ public class ModModels
 		registerBlockItem(ModBlocks.redstoneTransmitter);
 		registerBlockItem(ModBlocks.redstoneReceiver);
 		registerItem(ModItems.frequencyTool);
-		registerItem(ModItems.debugger, 0, new ResourceLocation("minecraft", "stick"));
+		registerItem(ModItems.remote, 0, new ResourceLocation(WirelessRedstone.MOD_ID, "remote_off"));
+		registerItem(ModItems.remote, 1, new ResourceLocation(WirelessRedstone.MOD_ID, "remote_on"));
 	}
 
 	public static void registerBlockItem(Block block)

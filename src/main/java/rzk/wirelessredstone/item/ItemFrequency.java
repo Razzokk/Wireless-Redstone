@@ -29,7 +29,12 @@ import java.util.List;
 
 public class ItemFrequency extends Item
 {
-	public short getFrequency(ItemStack stack)
+	public ItemFrequency()
+	{
+		setMaxStackSize(1);
+	}
+
+	public static short getFrequency(ItemStack stack)
 	{
 		if (!stack.hasTagCompound())
 			return 0;
@@ -37,7 +42,7 @@ public class ItemFrequency extends Item
 		return stack.getTagCompound().getShort("frequency");
 	}
 
-	public void setFrequency(ItemStack stack, short frequency)
+	public static void setFrequency(ItemStack stack, short frequency)
 	{
 		NBTTagCompound nbt;
 

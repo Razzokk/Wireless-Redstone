@@ -14,7 +14,7 @@ gui.wirelessredstone.searchbar.name=Search Bar
 
 tooltip.wirelessredstone.frequency.name=Frequency
 tooltip.wirelessredstone.state.name=State
-tooltip.wirelessredstone.on.name=On
 tooltip.wirelessredstone.off.name=Off
+tooltip.wirelessredstone.on.name=On
 
 itemGroup.wirelessredstone=Wireless Redstone

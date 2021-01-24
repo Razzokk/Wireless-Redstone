@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "wirelessredstone:items/remote_on"
+    "layer0": "wirelessredstone:items/remote_off"
   }
 }

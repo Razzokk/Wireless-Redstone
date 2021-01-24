@@ -140,7 +140,7 @@ public class PacketFrequency implements IMessage
 						case ITEM:
 							ItemStack stack = player.getHeldItem(message.hand);
 							if (stack.getItem() instanceof ItemFrequency)
-								((ItemFrequency) stack.getItem()).setFrequency(stack, message.frequency);
+								ItemFrequency.setFrequency(stack, message.frequency);
 							break;
 					}
 
