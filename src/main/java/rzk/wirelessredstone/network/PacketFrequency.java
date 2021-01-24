@@ -158,10 +158,7 @@ public class PacketFrequency implements IMessage
 		public IMessage onMessage(PacketFrequency message, MessageContext ctx)
 		{
 			if (ctx.side.isClient())
-			{
-				Minecraft mc = Minecraft.getMinecraft();
-				mc.addScheduledTask(() -> mc.displayGuiScreen(new GuiFrequency(message)));
-			}
+				WirelessRedstone.proxy.openFrequencyGui(message);
 			return null;
 		}
 	}

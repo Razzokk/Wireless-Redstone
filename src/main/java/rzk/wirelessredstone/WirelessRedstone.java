@@ -23,7 +23,7 @@ public class WirelessRedstone
     public static final CreativeTabs CREATIVE_TAB = new WRCreativeTab();
 
     @SidedProxy(clientSide = "rzk.wirelessredstone.proxy.ClientProxy", serverSide = "rzk.wirelessredstone.proxy.ServerProxy")
-    private static IProxy proxy;
+    public static IProxy proxy;
 
     public static Logger logger;
 
