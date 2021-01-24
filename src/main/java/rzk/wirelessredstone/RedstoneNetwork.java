@@ -35,7 +35,8 @@ public class RedstoneNetwork extends WorldSavedData
             boolean isActive = channel.isActive();
 
             for (BlockPos receiver : channel.getReceivers())
-                ((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(receiver), world, receiver, isActive);
+                if (world.isBlockLoaded(receiver))
+                    ((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(receiver), world, receiver, isActive);
         }
     }
 
