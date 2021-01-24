@@ -19,9 +19,9 @@ public class FastTESRFrequency extends FastTESR<TileFrequency>
 		for (int i = 0; i < 4; i++)
 		{
 			GlStateManager.pushMatrix();
-			GlStateManager.rotate(i * 90, 0f, 1f, 0f);
-			GlStateManager.translate(0f, 0.5f, 0.505f);
-			GlStateManager.scale(1f / 96, -1f / 96, 1f / 96);
+			GlStateManager.rotate(i * 90, 0.0f, 1.0f, 0.0f);
+			GlStateManager.translate(0.0f, 0.5f, 0.505f);
+			GlStateManager.scale(1.0f / 96, -1.0f / 96, 1.0f / 96);
 			fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 2, 0);
 			GlStateManager.popMatrix();
 		}

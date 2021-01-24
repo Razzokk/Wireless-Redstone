@@ -1,6 +1,7 @@
 package rzk.wirelessredstone.block;
 
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,9 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
     public BlockFrequency(DeviceType type)
     {
         super(Material.CIRCUITS);
+        setHardness(1.5f);
+        setResistance(6.0f);
+        setSoundType(SoundType.METAL);
         this.type = type;
     }
 

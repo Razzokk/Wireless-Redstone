@@ -11,7 +11,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.MapStorage;
 import net.minecraft.world.storage.WorldSavedData;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.item.ItemFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.util.DeviceType;
 
@@ -73,19 +72,19 @@ public class RedstoneNetwork extends WorldSavedData
             ((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, basic.get(newFrequency).isActive());
     }
 
-    public void addRemote(short frequency, ItemStack stack)
+    public void addRemote(short frequency)
     {
         basic.putIfAbsent(frequency, Channel.create(frequency, Channel.Type.BASIC));
-        basic.get(frequency).addRemote(stack);
+        basic.get(frequency).addRemote();
         updateReceivers(frequency);
         markDirty();
     }
 
-    public void removeRemote(short frequency, ItemStack stack)
+    public void removeRemote(short frequency)
     {
         if (basic.containsKey(frequency))
         {
-            basic.get(frequency).removeRemote(stack);
+            basic.get(frequency).removeRemote();
             updateReceivers(frequency);
             markDirty();
         }

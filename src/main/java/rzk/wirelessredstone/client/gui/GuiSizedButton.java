@@ -28,7 +28,7 @@ public class GuiSizedButton extends GuiButton
 		{
 			FontRenderer fontrenderer = mc.fontRenderer;
 			mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
 			hovered = mouseX >= x && mouseY >= y && mouseX < x + width && mouseY < y + height;
 			int i = getHoverState(hovered);
 			GlStateManager.enableBlend();
