@@ -78,7 +78,7 @@ public class RedstoneNetwork extends WorldSavedData
 		return activeTransmitters.getOrDefault(frequency, 0);
 	}
 
-	public void addReceiver(int frequency, BlockPos pos, boolean updateReceiver)
+	public void addReceiver(int frequency, BlockPos pos)
 	{
 		if (receivers.containsKey(frequency))
 		{
@@ -92,14 +92,7 @@ public class RedstoneNetwork extends WorldSavedData
 		}
 
 		markDirty();
-
-		if (updateReceiver)
-			updateReceiver(frequency, pos);
-	}
-
-	public void addReceiver(int frequency, BlockPos pos)
-	{
-		addReceiver(frequency, pos, true);
+		updateReceiver(frequency, pos);
 	}
 
 	public void removeReceiver(int frequency, BlockPos pos)
