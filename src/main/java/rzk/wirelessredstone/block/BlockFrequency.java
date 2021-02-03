@@ -10,6 +10,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
@@ -90,8 +91,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
         }
     }
 
-    @Override
-    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+    private void onBlockRemoved(World world, BlockPos pos)
     {
         if (!world.isRemote)
         {
@@ -104,6 +104,19 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
                 network.removeDevice(frequency, pos, type);
             }
         }
+    }
+
+    @Override
+    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
+    {
+        onBlockRemoved(world, pos);
+    }
+
+    @Override
+    public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
+    {
+        super.onBlockExploded(world, pos, explosion);
+        onBlockRemoved(world, pos);
     }
 
     @Override

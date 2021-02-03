@@ -1,5 +1,9 @@
 ### Version 1.12.2-0.0.1b:
 
+- FIXED: Active frequency stays active after transmitter exploded
+
+### Version 1.12.2-0.0.1b:
+
 - Initial 1.12.2 version
 - RENAMED: Wireless Transmitter -> Redstone Transmitter
 - RENAMED: Wireless Receiver -> Redstone Receiver
