@@ -1,4 +1,4 @@
-### Version 1.12.2-0.0.1b:
+### Version 1.12.2-1.0.0:
 
 - FIXED: Active frequency stays active after transmitter exploded
 
