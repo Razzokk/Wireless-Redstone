@@ -103,9 +103,11 @@ public class TileFrequency extends TileEntity
 	{
 		if (!world.isRemote && !isTransmitter)
 		{
-			RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-			network.addReceiver(frequency, pos, false);
-			TaskScheduler.scheduleTask(world, 1, () -> network.updateReceiver(frequency, pos));
+			TaskScheduler.scheduleTask(world, 1, () ->
+			{
+				RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+				network.addReceiver(frequency, pos);
+			});
 		}
 	}
 }
