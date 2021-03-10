@@ -10,22 +10,21 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
-import rzk.wirelessredstone.RedstoneNetwork;
+import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.network.PacketFrequency;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.tile.TileFrequency;
-import rzk.wirelessredstone.util.DeviceType;
+import rzk.wirelessredstone.rsnetwork.Device;
 
 import javax.annotation.Nullable;
 
 public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityProvider
 {
-    public final DeviceType type;
+    public final Device.Type type;
 
-    public BlockFrequency(DeviceType type)
+    public BlockFrequency(Device.Type type)
     {
         super(Material.CIRCUITS);
         setHardness(0.5f);
@@ -50,16 +49,16 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
     {
         if (!world.isRemote)
         {
-            RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+            RedstoneNetwork network = RedstoneNetwork.get(world);
 
             if (isTransmitter() && isPowered(world, pos))
             {
-                network.addDevice((short) 0, pos, type);
+                network.addDevice(Device.create((short) 0, type, pos));
                 setPoweredState(state, world, pos, true);
             }
             else if (isReceiver())
             {
-                network.addDevice((short) 0, pos, type);
+                network.addDevice(Device.create((short) 0, type, pos));
                 setPoweredState(state, world, pos, network.isChannelActive((short) 0));
             }
         }
@@ -77,46 +76,18 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
                 setPoweredState(state, world, pos, powered);
                 TileEntity tile = world.getTileEntity(pos);
 
-                if (tile instanceof TileFrequency)
+                if (tile instanceof Device)
                 {
-                    RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-                    short frequency = ((TileFrequency) tile).getFrequency();
+                    RedstoneNetwork network = RedstoneNetwork.get(world);
+                    Device device = (Device) tile;
 
                     if (powered)
-                        network.addDevice(frequency, pos, DeviceType.TRANSMITTER);
+                        network.addDevice(device);
                     else
-                        network.removeDevice(frequency, pos, DeviceType.TRANSMITTER);
+                        network.removeDevice(device);
                 }
             }
         }
-    }
-
-    private void onBlockRemoved(World world, BlockPos pos)
-    {
-        if (!world.isRemote)
-        {
-            TileEntity tile = world.getTileEntity(pos);
-
-            if (tile instanceof TileFrequency)
-            {
-                RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
-                short frequency = ((TileFrequency) tile).getFrequency();
-                network.removeDevice(frequency, pos, type);
-            }
-        }
-    }
-
-    @Override
-    public void onBlockHarvested(World world, BlockPos pos, IBlockState state, EntityPlayer player)
-    {
-        onBlockRemoved(world, pos);
-    }
-
-    @Override
-    public void onBlockExploded(World world, BlockPos pos, Explosion explosion)
-    {
-        super.onBlockExploded(world, pos, explosion);
-        onBlockRemoved(world, pos);
     }
 
     @Override
@@ -147,11 +118,11 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 
     private boolean isTransmitter()
     {
-        return type == DeviceType.TRANSMITTER;
+        return type == Device.Type.TRANSMITTER;
     }
 
     private boolean isReceiver()
     {
-        return type == DeviceType.RECEIVER;
+        return type == Device.Type.RECEIVER;
     }
 }

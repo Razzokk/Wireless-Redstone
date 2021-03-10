@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
-import rzk.wirelessredstone.Channel;
+import rzk.wirelessredstone.rsnetwork.Channel;
 
 public class GuiListChannel extends GuiListExtended
 {

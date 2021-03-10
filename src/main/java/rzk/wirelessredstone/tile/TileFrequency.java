@@ -8,39 +8,46 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import rzk.wirelessredstone.RedstoneNetwork;
+import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.util.DeviceType;
+import rzk.wirelessredstone.rsnetwork.Device;
 
 import javax.annotation.Nullable;
 
-public class TileFrequency extends TileEntity
+public class TileFrequency extends TileEntity implements Device.Block
 {
-	private DeviceType type;
+	private Device.Type type;
 	private short frequency;
 
 	public TileFrequency() {}
 
-	public TileFrequency(DeviceType type)
+	public TileFrequency(Device.Type type)
 	{
 		this.type = type;
 		this.frequency = 0;
 	}
 
+	@Override
 	public short getFrequency()
 	{
 		return frequency;
+	}
+
+	@Override
+	public Type getType()
+	{
+		return type;
 	}
 
 	public void setFrequency(short frequency)
 	{
 		if (this.frequency != frequency)
 		{
-			RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+			RedstoneNetwork network = RedstoneNetwork.get(world);
 			IBlockState state = world.getBlockState(pos);
 
 			if (!(isTransmitter() && !state.getValue(BlockFrequency.POWERED)))
-				network.changeDeviceFrequency(this.frequency, frequency, pos, type);
+				network.changeDeviceFrequency(this, frequency);
 
 			this.frequency = frequency;
 			world.notifyBlockUpdate(pos, state, state, 3);
@@ -78,7 +85,7 @@ public class TileFrequency extends TileEntity
 	{
 		super.readFromNBT(nbt);
 		frequency = nbt.getShort("frequency");
-		type = nbt.getBoolean("type") ? DeviceType.TRANSMITTER : DeviceType.RECEIVER;
+		type = nbt.getBoolean("type") ? Device.Type.TRANSMITTER : Device.Type.RECEIVER;
 	}
 
 	@Override
@@ -98,20 +105,32 @@ public class TileFrequency extends TileEntity
 			WorldServer worldServer = (WorldServer) world;
 			worldServer.addScheduledTask(() ->
 			{
-				RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+				RedstoneNetwork network = RedstoneNetwork.get(world);
 				IBlockState state = world.getBlockState(pos);
 				((BlockFrequency) getBlockType()).setPoweredState(state, world, pos, network.isChannelActive(frequency));
 			});
 		}
 	}
 
+	@Override
+	public void invalidate()
+	{
+		if (!world.isRemote)
+		{
+			RedstoneNetwork network = RedstoneNetwork.get(world, false);
+
+			if (network != null)
+				network.removeDevice(this);
+		}
+	}
+
 	private boolean isTransmitter()
 	{
-		return type == DeviceType.TRANSMITTER;
+		return type == Device.Type.TRANSMITTER;
 	}
 
 	private boolean isReceiver()
 	{
-		return type == DeviceType.RECEIVER;
+		return type == Device.Type.RECEIVER;
 	}
 }

@@ -15,8 +15,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import rzk.wirelessredstone.RedstoneNetwork;
+import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.rsnetwork.Device;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -36,15 +37,16 @@ public class ItemRemote extends ItemFrequency
 	public static void setPowered(World world, ItemStack stack, boolean powered)
 	{
 		stack.setItemDamage(powered ? 1 : 0);
-		RedstoneNetwork network = RedstoneNetwork.getOrCreate(world);
+		RedstoneNetwork network = RedstoneNetwork.get(world);
 
 		if (network != null)
 		{
-			short frequency = getFrequency(stack);
+			Device device = Device.createRemote(getFrequency(stack));
+
 			if (powered)
-				network.addRemote(frequency);
+				network.addDevice(device);
 			else
-				network.removeRemote(frequency);
+				network.removeDevice(device);
 		}
 	}
 
