@@ -1,6 +1,7 @@
 package rzk.wirelessredstone.rsnetwork;
 
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
+import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -16,18 +17,24 @@ public class RedstoneNetwork extends WorldSavedData
 	public static final String DATA_NAME = "redstoneNetwork";
 
 	private World world;
-	private Short2ObjectMap<Channel> basic;
+	private final Short2ObjectMap<Channel> channels;
 
 	public RedstoneNetwork(String name)
 	{
 		super(name);
+		channels = new Short2ObjectOpenHashMap<>();
+	}
+
+	public RedstoneNetwork()
+	{
+		this(DATA_NAME);
 	}
 
 	public void updateReceivers(short frequency)
 	{
-		if (basic.containsKey(frequency))
+		if (channels.containsKey(frequency))
 		{
-			Channel channel = basic.get(frequency);
+			Channel channel = channels.get(frequency);
 			boolean isActive = channel.isActive();
 
 			for (BlockPos receiver : channel.getReceivers())
@@ -43,12 +50,12 @@ public class RedstoneNetwork extends WorldSavedData
 
 		short frequency = device.getFrequency();
 		Device.Type type = device.getType();
-		Channel channel = basic.get(frequency);
+		Channel channel = channels.get(frequency);
 
 		if (channel == null)
 		{
 			channel = Channel.create(frequency);
-			basic.put(frequency, channel);
+			channels.put(frequency, channel);
 		}
 
 		channel.addDevice(device);
@@ -66,7 +73,7 @@ public class RedstoneNetwork extends WorldSavedData
 
 		short frequency = device.getFrequency();
 		Device.Type type = device.getType();
-		Channel channel = basic.get(frequency);
+		Channel channel = channels.get(frequency);
 
 		if (channel != null)
 		{
@@ -86,39 +93,50 @@ public class RedstoneNetwork extends WorldSavedData
 
 		Device.Type type = device.getType();
 		removeDevice(device);
-		addDevice(Device.create(newFrequency, type, null));
+		BlockPos pos = null;
+
+		if (type == Device.Type.TRANSMITTER || type == Device.Type.RECEIVER)
+			pos = ((Device.Block) device).getPos();
+
+		addDevice(Device.create(newFrequency, type, pos));
 
 		if (type == Device.Type.RECEIVER)
-		{
-			BlockPos pos = ((Device.Block) device).getPos();
-			((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, basic.get(newFrequency).isActive());
-		}
+			((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, channels.get(newFrequency).isActive());
 	}
 
 	public boolean isChannelActive(short frequency)
 	{
-		Channel channel = basic.get(frequency);
+		Channel channel = channels.get(frequency);
 		return channel != null && channel.isActive();
-	}
-
-	public RedstoneNetwork()
-	{
-		this(DATA_NAME);
 	}
 
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
-		if (nbt.hasKey("basic"))
+		if (nbt.hasKey("channels"))
 		{
-			NBTTagList basicNBT = nbt.getTagList("basic", 10);
+			NBTTagList channelsNBT = nbt.getTagList("channels", 10);
 
-			for (NBTBase channelNBT : basicNBT)
+			for (NBTBase channelNBT : channelsNBT)
 			{
 				Channel channel = Channel.fromNBT((NBTTagCompound) channelNBT);
 
 				if (channel != null && !channel.isEmpty())
-					basic.put(channel.getFrequency(), channel);
+					channels.put(channel.getFrequency(), channel);
+			}
+		}
+
+		// DO NOT REMOVE: backwards compatibility
+		if (nbt.hasKey("basic"))
+		{
+			NBTTagList channelsNBT = nbt.getTagList("basic", 10);
+
+			for (NBTBase channelNBT : channelsNBT)
+			{
+				Channel channel = Channel.fromNBT((NBTTagCompound) channelNBT);
+
+				if (channel != null && !channel.isEmpty())
+					channels.put(channel.getFrequency(), channel);
 			}
 		}
 	}
@@ -126,15 +144,15 @@ public class RedstoneNetwork extends WorldSavedData
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound nbt)
 	{
-		if (!basic.isEmpty())
+		if (!channels.isEmpty())
 		{
-			NBTTagList basicNBT = new NBTTagList();
-			basic.short2ObjectEntrySet().removeIf(entry -> entry.getValue().isEmpty());
+			channels.short2ObjectEntrySet().removeIf(entry -> entry.getValue().isEmpty());
+			NBTTagList channelNBT = new NBTTagList();
 
-			for (Channel channel : basic.values())
-				basicNBT.appendTag(channel.toNBT());
+			for (Channel channel : channels.values())
+				channelNBT.appendTag(channel.toNBT());
 
-			nbt.setTag("basic", basicNBT);
+			nbt.setTag("channels", channelNBT);
 		}
 
 		return nbt;

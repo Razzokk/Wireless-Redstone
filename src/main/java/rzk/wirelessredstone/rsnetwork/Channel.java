@@ -148,7 +148,7 @@ public class Channel
 
 	public static Channel fromNBT(NBTTagCompound nbt)
 	{
-		if (nbt.hasNoTags() || !nbt.hasKey("frequency") || !nbt.hasKey("type"))
+		if (nbt.hasNoTags() || !nbt.hasKey("frequency"))
 			return null;
 
 		short frequency = nbt.getShort("frequency");
