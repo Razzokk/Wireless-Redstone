@@ -103,6 +103,6 @@ public class ItemFrequency extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		tooltip.add(TextFormatting.GRAY + I18n.format(LangKeys.TOOLTIP_FREQUENCY) + ": " + TextFormatting.AQUA + getFrequency(stack));
+		tooltip.add(TextFormatting.GRAY + I18n.format(LangKeys.TOOLTIP_FREQUENCY) + ": " + TextFormatting.AQUA + Short.toUnsignedInt(getFrequency(stack)));
 	}
 }
