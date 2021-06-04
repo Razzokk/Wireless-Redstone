@@ -17,4 +17,6 @@ tooltip.wirelessredstone.state.name=State
 tooltip.wirelessredstone.off.name=Off
 tooltip.wirelessredstone.on.name=On
 
+command.wirelessredstone.clear.usage=/wr clear <frequency|all>
+
 itemGroup.wirelessredstone=Wireless Redstone

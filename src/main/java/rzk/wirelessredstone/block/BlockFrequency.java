@@ -2,6 +2,7 @@ package rzk.wirelessredstone.block;
 
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,10 +27,17 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 
     public BlockFrequency(Device.Type type)
     {
-        super(Material.CIRCUITS);
+        super(new Material(MapColor.IRON));
         setHardness(0.5f);
         setSoundType(SoundType.METAL);
         this.type = type;
+    }
+
+    @Nullable
+    @Override
+    public String getHarvestTool(IBlockState state)
+    {
+        return "pickaxe";
     }
 
     @Override
@@ -51,7 +59,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
         {
             RedstoneNetwork network = RedstoneNetwork.get(world);
 
-            if (isTransmitter() && isPowered(world, pos))
+            if (isTransmitter() && isGettingPowered(world, pos))
             {
                 network.addDevice(Device.create((short) 0, type, pos));
                 setPoweredState(state, world, pos, true);
@@ -69,7 +77,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
     {
         if (isTransmitter() && !world.isRemote)
         {
-            boolean powered = isPowered(world, pos);
+            boolean powered = isGettingPowered(world, pos);
 
             if (powered != state.getValue(POWERED))
             {
@@ -78,8 +86,8 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 
                 if (tile instanceof Device)
                 {
-                    RedstoneNetwork network = RedstoneNetwork.get(world);
                     Device device = (Device) tile;
+                    RedstoneNetwork network = RedstoneNetwork.get(world);
 
                     if (powered)
                         network.addDevice(device);

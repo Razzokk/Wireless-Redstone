@@ -2,7 +2,6 @@ package rzk.wirelessredstone.item;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
-import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.util.LangKeys;
 import rzk.wirelessredstone.rsnetwork.Device;
 
 import javax.annotation.Nullable;
@@ -24,14 +23,9 @@ import java.util.List;
 
 public class ItemRemote extends ItemFrequency
 {
-	public ItemRemote()
-	{
-		setHasSubtypes(true);
-	}
-
 	public static boolean isPowered(ItemStack stack)
 	{
-		return stack.getMetadata() != 0;
+		return stack.getItem() instanceof ItemRemote && stack.getMetadata() != 0;
 	}
 
 	public static void setPowered(World world, ItemStack stack, boolean powered)
@@ -39,16 +33,20 @@ public class ItemRemote extends ItemFrequency
 		if (stack.getItem() instanceof ItemRemote)
 		{
 			stack.setItemDamage(powered ? 1 : 0);
-			RedstoneNetwork network = RedstoneNetwork.get(world);
 
-			if (network != null)
+			if (!world.isRemote)
 			{
-				Device device = Device.createRemote(getFrequency(stack));
+				RedstoneNetwork network = RedstoneNetwork.get(world);
 
-				if (powered)
-					network.addDevice(device);
-				else
-					network.removeDevice(device);
+				if (network != null)
+				{
+					Device device = Device.createRemote(getFrequency(stack));
+
+					if (powered)
+						network.addDevice(device);
+					else
+						network.removeDevice(device);
+				}
 			}
 		}
 	}
@@ -70,28 +68,23 @@ public class ItemRemote extends ItemFrequency
 
 		ItemStack stack = player.getHeldItem(hand);
 
+		if (!isPowered(stack))
+			setPowered(world, stack, true);
+
 		if (!world.isRemote)
-		{
-			if (!isPowered(stack))
-				setPowered(world, stack, true);
 			player.setActiveHand(hand);
-		}
 
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
 	}
 
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft)
+	public void onPlayerStoppedUsing(ItemStack stack, World world, EntityLivingBase entity, int timeLeft)
 	{
-		if (!world.isRemote && isPowered(stack))
+		if (isPowered(stack))
 			setPowered(world, stack, false);
-	}
 
-	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
-	{
-		if (!world.isRemote && stack.getItem() instanceof ItemRemote && !isSelected)
-			setPowered(world, stack, false);
+		if (entity instanceof EntityPlayer)
+			((EntityPlayer) entity).getCooldownTracker().setCooldown(this, 10);
 	}
 
 	@Override

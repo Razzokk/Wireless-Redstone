@@ -46,7 +46,7 @@ public class TileFrequency extends TileEntity implements Device.Block
 			RedstoneNetwork network = RedstoneNetwork.get(world);
 			IBlockState state = world.getBlockState(pos);
 
-			if (!(isTransmitter() && !state.getValue(BlockFrequency.POWERED)))
+			if (!(isSender() && !state.getValue(BlockFrequency.POWERED)))
 				network.changeDeviceFrequency(this, frequency);
 
 			this.frequency = frequency;
@@ -93,7 +93,7 @@ public class TileFrequency extends TileEntity implements Device.Block
 	{
 		super.writeToNBT(nbt);
 		nbt.setShort("frequency", frequency);
-		nbt.setBoolean("type", isTransmitter());
+		nbt.setBoolean("type", isSender());
 		return nbt;
 	}
 
@@ -122,15 +122,5 @@ public class TileFrequency extends TileEntity implements Device.Block
 			if (network != null)
 				network.removeDevice(this);
 		}
-	}
-
-	private boolean isTransmitter()
-	{
-		return type == Device.Type.TRANSMITTER;
-	}
-
-	private boolean isReceiver()
-	{
-		return type == Device.Type.RECEIVER;
 	}
 }

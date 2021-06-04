@@ -8,6 +8,16 @@ public interface Device
 
 	Type getType();
 
+	default boolean isSender()
+	{
+		return getType() == Type.REMOTE || getType() == Type.TRANSMITTER;
+	}
+
+	default boolean isReceiver()
+	{
+		return getType() == Type.RECEIVER;
+	}
+
 	default boolean isRemote()
 	{
 		return getType() == Type.REMOTE;

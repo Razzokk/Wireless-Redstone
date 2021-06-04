@@ -35,6 +35,12 @@ public class Channel
 		return create(frequency, null);
 	}
 
+	public void clear()
+	{
+		transmitters.clear();
+		remotes = 0;
+	}
+
 	public short getFrequency()
 	{
 		return frequency;
@@ -102,7 +108,8 @@ public class Channel
 				break;
 
 			case REMOTE:
-				remotes--;
+				if (remotes > 0)
+					remotes--;
 				break;
 		}
 	}

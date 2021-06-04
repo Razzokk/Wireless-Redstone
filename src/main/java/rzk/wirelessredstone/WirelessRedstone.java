@@ -5,7 +5,9 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import org.apache.logging.log4j.Logger;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.proxy.IProxy;
@@ -13,6 +15,7 @@ import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModRecipes;
 import rzk.wirelessredstone.registry.ModTiles;
+import rzk.wirelessredstone.util.WRCommand;
 import rzk.wirelessredstone.util.WRCreativeTab;
 import rzk.wirelessredstone.util.WREventHandler;
 
@@ -40,5 +43,11 @@ public class WirelessRedstone
         MinecraftForge.EVENT_BUS.register(ModTiles.class);
         MinecraftForge.EVENT_BUS.register(ModRecipes.class);
         MinecraftForge.EVENT_BUS.register(WREventHandler.class);
+    }
+
+    @EventHandler
+    public void serverStart(FMLServerStartingEvent event)
+    {
+        event.registerServerCommand(new WRCommand());
     }
 }

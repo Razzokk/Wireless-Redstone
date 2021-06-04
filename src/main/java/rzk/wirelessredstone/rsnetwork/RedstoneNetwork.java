@@ -54,7 +54,6 @@ public class RedstoneNetwork extends WorldSavedData
 			return;
 
 		short frequency = device.getFrequency();
-		Device.Type type = device.getType();
 		Channel channel = channels.get(frequency);
 
 		if (channel == null)
@@ -65,7 +64,7 @@ public class RedstoneNetwork extends WorldSavedData
 
 		channel.addDevice(device);
 
-		if (type == Device.Type.TRANSMITTER || type == Device.Type.REMOTE)
+		if (device.isSender())
 			updateReceivers(frequency);
 
 		markDirty();
@@ -77,14 +76,13 @@ public class RedstoneNetwork extends WorldSavedData
 			return;
 
 		short frequency = device.getFrequency();
-		Device.Type type = device.getType();
 		Channel channel = channels.get(frequency);
 
 		if (channel != null)
 		{
 			channel.removeDevice(device);
 
-			if (type == Device.Type.TRANSMITTER)
+			if (device.isSender())
 				updateReceivers(frequency);
 
 			markDirty();
@@ -106,13 +104,33 @@ public class RedstoneNetwork extends WorldSavedData
 		addDevice(Device.create(newFrequency, type, pos));
 
 		if (type == Device.Type.RECEIVER)
-			setReceiverState(pos, channels.get(newFrequency).isActive());
+			setReceiverState(pos, isChannelActive(newFrequency));
 	}
 
 	public boolean isChannelActive(short frequency)
 	{
 		Channel channel = channels.get(frequency);
 		return channel != null && channel.isActive();
+	}
+
+	public void clearFrequency(short frequency)
+	{
+		Channel channel = channels.get(frequency);
+
+		if (channel != null)
+		{
+			channel.clear();
+			updateReceivers(frequency);
+		}
+	}
+
+	public void clearAll()
+	{
+		for (Channel channel : channels.values())
+		{
+			channel.clear();
+			updateReceivers(channel.getFrequency());
+		}
 	}
 
 	@Override

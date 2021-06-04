@@ -4,8 +4,11 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiListExtended;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.rsnetwork.Channel;
 
+@SideOnly(Side.CLIENT)
 public class GuiListChannel extends GuiListExtended
 {
 	private final ObjectList<Channel> channels;

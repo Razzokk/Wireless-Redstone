@@ -9,13 +9,16 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.util.LangKeys;
 import rzk.wirelessredstone.network.PacketFrequency;
 import rzk.wirelessredstone.network.PacketHandler;
 
 import java.io.IOException;
 
+@SideOnly(Side.CLIENT)
 public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResponder
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency.png");

@@ -61,10 +61,10 @@ public class BlockRedstoneDevice extends Block
         return Math.max(i, state.getBlock().equals(Blocks.REDSTONE_WIRE) ? state.getValue(BlockRedstoneWire.POWER) : 0);
     }
 
-    protected boolean isPowered(World world, BlockPos pos, EnumFacing... sides)
+    protected boolean isGettingPowered(World world, BlockPos pos, EnumFacing... sides)
     {
         if (sides == null || sides.length == 0)
-            return isPowered(world, pos, EnumFacing.values());
+            return isGettingPowered(world, pos, EnumFacing.values());
 
         for (EnumFacing side : sides)
             if (getInputPower(world, pos, side) > 0)
@@ -101,10 +101,13 @@ public class BlockRedstoneDevice extends Block
 
     public void setPoweredState(IBlockState state, World world, BlockPos pos, boolean powered)
     {
-        world.setBlockState(pos, state.withProperty(POWERED, powered));
-        for (EnumFacing side : EnumFacing.values())
-            if (isOutputSide(state, side))
-                updateNeighborsInFront(state, world, pos, side);
+        if (state.getBlock() instanceof BlockRedstoneDevice)
+        {
+            world.setBlockState(pos, state.withProperty(POWERED, powered));
+            for (EnumFacing side : EnumFacing.values())
+                if (isOutputSide(state, side))
+                    updateNeighborsInFront(state, world, pos, side);
+        }
     }
 
     protected void onInputChanged(IBlockState state, World world, BlockPos pos, EnumFacing side) {}

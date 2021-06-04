@@ -7,10 +7,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 
+@SideOnly(Side.CLIENT)
 public class ModModels
 {
 	@SubscribeEvent

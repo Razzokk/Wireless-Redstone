@@ -19,7 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.client.LangKeys;
+import rzk.wirelessredstone.util.LangKeys;
 import rzk.wirelessredstone.network.PacketFrequency;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.tile.TileFrequency;
@@ -44,19 +44,13 @@ public class ItemFrequency extends Item
 
 	public static void setFrequency(ItemStack stack, short frequency)
 	{
-		NBTTagCompound nbt;
+		NBTTagCompound nbt = stack.getTagCompound();
 
-		if (stack.hasTagCompound())
-		{
-			nbt = stack.getTagCompound();
-		}
-		else
-		{
+		if (nbt == null)
 			nbt = new NBTTagCompound();
-			stack.setTagCompound(nbt);
-		}
 
 		nbt.setShort("frequency", frequency);
+		stack.setTagCompound(nbt);
 	}
 
 	@Override
@@ -89,13 +83,15 @@ public class ItemFrequency extends Item
 			if (tile instanceof TileFrequency)
 			{
 				ItemStack stack = player.getHeldItem(hand);
+				TileFrequency tileFrequency = (TileFrequency) tile;
 
 				if (player.isSneaking())
-					setFrequency(stack, ((TileFrequency) tile).getFrequency());
+					setFrequency(stack, tileFrequency.getFrequency());
 				else
-					((TileFrequency) tile).setFrequency(getFrequency(stack));
+					tileFrequency.setFrequency(getFrequency(stack));
 			}
 		}
+
 		return EnumActionResult.SUCCESS;
 	}
 

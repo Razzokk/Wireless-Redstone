@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "wirelessredstone",
+  "name": "Wireless Redstone",
+  "description": "Wireless Redstone brings components to your Minecraft World which will let play with your Redstone wirelessly.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Razzokk"],
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

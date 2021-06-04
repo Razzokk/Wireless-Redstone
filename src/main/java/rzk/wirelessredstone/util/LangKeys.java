@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.client;
+package rzk.wirelessredstone.util;
 
 public class LangKeys
 {
@@ -11,4 +11,6 @@ public class LangKeys
 	public static final String TOOLTIP_STATE = "tooltip.wirelessredstone.state.name";
 	public static final String TOOLTIP_OFF = "tooltip.wirelessredstone.off.name";
 	public static final String TOOLTIP_ON = "tooltip.wirelessredstone.on.name";
+
+	public static final String COMMAND_CLEAR = "command.wirelessredstone.clear.usage";
 }
