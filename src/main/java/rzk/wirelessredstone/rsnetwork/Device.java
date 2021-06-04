@@ -8,6 +8,16 @@ public interface Device
 
 	Type getType();
 
+	default boolean isRemote()
+	{
+		return getType() == Type.REMOTE;
+	}
+
+	default boolean isBlock()
+	{
+		return !isRemote();
+	}
+
 	interface Block extends Device
 	{
 		BlockPos getPos();

@@ -30,6 +30,12 @@ public class RedstoneNetwork extends WorldSavedData
 		this(DATA_NAME);
 	}
 
+	void setReceiverState(BlockPos pos, boolean state)
+	{
+		if (world.isBlockLoaded(pos) && world.getBlockState(pos).getBlock() instanceof BlockFrequency)
+			((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, state);
+	}
+
 	public void updateReceivers(short frequency)
 	{
 		if (channels.containsKey(frequency))
@@ -38,8 +44,7 @@ public class RedstoneNetwork extends WorldSavedData
 			boolean isActive = channel.isActive();
 
 			for (BlockPos receiver : channel.getReceivers())
-				if (world.isBlockLoaded(receiver))
-					((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(receiver), world, receiver, isActive);
+				setReceiverState(receiver, isActive);
 		}
 	}
 
@@ -95,13 +100,13 @@ public class RedstoneNetwork extends WorldSavedData
 		removeDevice(device);
 		BlockPos pos = null;
 
-		if (type == Device.Type.TRANSMITTER || type == Device.Type.RECEIVER)
+		if (device.isBlock())
 			pos = ((Device.Block) device).getPos();
 
 		addDevice(Device.create(newFrequency, type, pos));
 
 		if (type == Device.Type.RECEIVER)
-			((BlockFrequency) ModBlocks.redstoneReceiver).setPoweredState(world.getBlockState(pos), world, pos, channels.get(newFrequency).isActive());
+			setReceiverState(pos, channels.get(newFrequency).isActive());
 	}
 
 	public boolean isChannelActive(short frequency)

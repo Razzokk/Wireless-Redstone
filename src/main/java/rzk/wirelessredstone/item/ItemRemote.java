@@ -36,17 +36,20 @@ public class ItemRemote extends ItemFrequency
 
 	public static void setPowered(World world, ItemStack stack, boolean powered)
 	{
-		stack.setItemDamage(powered ? 1 : 0);
-		RedstoneNetwork network = RedstoneNetwork.get(world);
-
-		if (network != null)
+		if (stack.getItem() instanceof ItemRemote)
 		{
-			Device device = Device.createRemote(getFrequency(stack));
+			stack.setItemDamage(powered ? 1 : 0);
+			RedstoneNetwork network = RedstoneNetwork.get(world);
 
-			if (powered)
-				network.addDevice(device);
-			else
-				network.removeDevice(device);
+			if (network != null)
+			{
+				Device device = Device.createRemote(getFrequency(stack));
+
+				if (powered)
+					network.addDevice(device);
+				else
+					network.removeDevice(device);
+			}
 		}
 	}
 

@@ -18,10 +18,4 @@ public class WREventHandler
 		if (!world.isRemote && stack.getItem() instanceof ItemRemote)
 			ItemRemote.setPowered(world, stack, false);
 	}
-
-	@SubscribeEvent
-	public static void onRenderWorldLast(RenderWorldLastEvent event)
-	{
-
-	}
 }

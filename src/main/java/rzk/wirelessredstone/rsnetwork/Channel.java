@@ -81,7 +81,7 @@ public class Channel
 				break;
 
 			case REMOTE:
-				remotes--;
+				remotes++;
 				break;
 		}
 	}
@@ -102,7 +102,7 @@ public class Channel
 				break;
 
 			case REMOTE:
-				remotes++;
+				remotes--;
 				break;
 		}
 	}
