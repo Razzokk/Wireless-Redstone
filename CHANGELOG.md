@@ -1,5 +1,6 @@
 ### Version 1.12.2-1.1.0:
 
+- ADDED: Frequency Sniffer
 - ADDED: Command to clear a frequency from active transmitters
 - ADDED: Wireless Redstone blocks can now be mined faster with a pickaxe
 - ADDED: Cooldown for the remote item (0.5s)

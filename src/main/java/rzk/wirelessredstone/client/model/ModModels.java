@@ -22,6 +22,7 @@ public class ModModels
 		registerBlockItem(ModBlocks.redstoneTransmitter);
 		registerBlockItem(ModBlocks.redstoneReceiver);
 		registerItem(ModItems.frequencyTool);
+		registerItem(ModItems.sniffer);
 		registerItem(ModItems.remote, 0, new ResourceLocation(WirelessRedstone.MOD_ID, "remote_off"));
 		registerItem(ModItems.remote, 1, new ResourceLocation(WirelessRedstone.MOD_ID, "remote_on"));
 		registerItem(ModItems.circuit);

@@ -9,6 +9,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.item.ItemFrequency;
 import rzk.wirelessredstone.item.ItemRemote;
+import rzk.wirelessredstone.item.ItemSniffer;
 
 public final class ModItems
 {
@@ -16,6 +17,7 @@ public final class ModItems
 
     public static Item circuit;
     public static Item frequencyTool;
+    public static Item sniffer;
     public static Item remote;
 
     private ModItems() {}
@@ -24,6 +26,7 @@ public final class ModItems
     {
         circuit = registerItem("circuit", new Item());
         frequencyTool = registerItem("frequency_tool", new ItemFrequency());
+        sniffer = registerItem("sniffer", new ItemSniffer());
         remote = registerItem("remote", new ItemRemote());
     }
 

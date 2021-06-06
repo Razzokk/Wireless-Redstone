@@ -47,10 +47,12 @@ public class ItemFrequency extends Item
 		NBTTagCompound nbt = stack.getTagCompound();
 
 		if (nbt == null)
+		{
 			nbt = new NBTTagCompound();
+			stack.setTagCompound(nbt);
+		}
 
 		nbt.setShort("frequency", frequency);
-		stack.setTagCompound(nbt);
 	}
 
 	@Override

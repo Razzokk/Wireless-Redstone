@@ -37,9 +37,16 @@ public class WRCommand extends CommandBase
 			if (network != null)
 			{
 				if (args[1].equals("all"))
+				{
 					network.clearAll();
+					notifyCommandListener(sender, this, LangKeys.COMMAND_CLEAR_SUCCESS_ALL);
+				}
 				else
-					network.clearFrequency(Short.parseShort(args[1]));
+				{
+					short frequency = Short.parseShort(args[1]);
+					network.clearFrequency(frequency);
+					notifyCommandListener(sender, this, LangKeys.COMMAND_CLEAR_SUCCESS, " " + frequency);
+				}
 			}
 		}
 	}

@@ -4,6 +4,7 @@ tile.wirelessredstone.redstone_receiver.name=Redstone Receiver
 item.wirelessredstone.circuit.name=Circuit
 item.wirelessredstone.frequency_tool.name=Frequency Tool
 item.wirelessredstone.remote.name=Remote
+item.wirelessredstone.sniffer.name=Frequency Sniffer
 
 gui.wirelessredstone.frequency.name=Frequency
 gui.wirelessredstone.extend.name=Extend
@@ -18,5 +19,11 @@ tooltip.wirelessredstone.off.name=Off
 tooltip.wirelessredstone.on.name=On
 
 command.wirelessredstone.clear.usage=/wr clear <frequency|all>
+command.wirelessredstone.clear.success=Cleared frequency from active transmitters:
+command.wirelessredstone.clear.success.all=Cleared all frequencies from active transmitters
+
+message.wirelessredstone.active.transmitters=Active transmitters on this frequency (%s):
+message.wirelessredstone.no.transmitters=There are no active transmitters on this frequency (%s)
+message.wirelessredstone.teleport=Teleport here
 
 itemGroup.wirelessredstone=Wireless Redstone

@@ -51,6 +51,14 @@ public class ModRecipes
 				'I', Items.IRON_INGOT,
 				'C', ModItems.circuit);
 
+		addShapedRecipe(new ItemStack(ModItems.sniffer),
+				"IKI",
+				"ICI",
+				'R', Items.REDSTONE,
+				'K', Items.COMPARATOR,
+				'I', Items.IRON_INGOT,
+				'C', ModItems.circuit);
+
 		addShapedRecipe(new ItemStack(ModItems.remote),
 				"TET",
 				"ICI",

@@ -133,6 +133,11 @@ public class RedstoneNetwork extends WorldSavedData
 		}
 	}
 
+	public Channel getChannel(short frequency)
+	{
+		return channels.get(frequency);
+	}
+
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
 	{
