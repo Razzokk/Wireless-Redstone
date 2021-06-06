@@ -30,7 +30,7 @@ public interface Device
 
 	interface Block extends Device
 	{
-		BlockPos getPos();
+		BlockPos getFreqPos();
 	}
 
 	enum Type

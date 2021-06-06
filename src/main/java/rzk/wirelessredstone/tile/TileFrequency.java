@@ -39,6 +39,12 @@ public class TileFrequency extends TileEntity implements Device.Block
 		return type;
 	}
 
+	@Override
+	public BlockPos getFreqPos()
+	{
+		return pos;
+	}
+
 	public void setFrequency(short frequency)
 	{
 		if (this.frequency != frequency)

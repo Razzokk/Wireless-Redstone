@@ -99,7 +99,7 @@ public class RedstoneNetwork extends WorldSavedData
 		BlockPos pos = null;
 
 		if (device.isBlock())
-			pos = ((Device.Block) device).getPos();
+			pos = ((Device.Block) device).getFreqPos();
 
 		addDevice(Device.create(newFrequency, type, pos));
 

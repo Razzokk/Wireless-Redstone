@@ -36,7 +36,7 @@ public class DeviceImpl implements Device
 		}
 
 		@Override
-		public BlockPos getPos()
+		public BlockPos getFreqPos()
 		{
 			return pos;
 		}

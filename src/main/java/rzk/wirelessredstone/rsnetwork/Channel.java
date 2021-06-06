@@ -79,11 +79,11 @@ public class Channel
 		switch (device.getType())
 		{
 			case TRANSMITTER:
-				transmitters.add(((Device.Block) device).getPos());
+				transmitters.add(((Device.Block) device).getFreqPos());
 				break;
 
 			case RECEIVER:
-				receivers.add(((Device.Block) device).getPos());
+				receivers.add(((Device.Block) device).getFreqPos());
 				break;
 
 			case REMOTE:
@@ -100,11 +100,11 @@ public class Channel
 		switch (device.getType())
 		{
 			case TRANSMITTER:
-				transmitters.remove(((Device.Block) device).getPos());
+				transmitters.remove(((Device.Block) device).getFreqPos());
 				break;
 
 			case RECEIVER:
-				receivers.remove(((Device.Block) device).getPos());
+				receivers.remove(((Device.Block) device).getFreqPos());
 				break;
 
 			case REMOTE:
