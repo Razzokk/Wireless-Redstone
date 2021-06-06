@@ -26,4 +26,6 @@ message.wirelessredstone.active.transmitters=Active transmitters on this frequen
 message.wirelessredstone.no.transmitters=There are no active transmitters on this frequency (%s)
 message.wirelessredstone.teleport=Teleport here
 
+config.wirelessredstone.frequency.color=Frequency Display Color
+
 itemGroup.wirelessredstone=Wireless Redstone
