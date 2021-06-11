@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -76,27 +75,21 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 	@Override
 	protected void onInputChanged(IBlockState state, World world, BlockPos pos, BlockPos neighbor, EnumFacing side)
 	{
-		Block block = world.getBlockState(neighbor).getBlock();
-
-		if (!(block instanceof BlockFrequency && ((BlockFrequency) block).isTransmitter()) && isTransmitter() && !world.isRemote)
+		if (isTransmitter() && !world.isRemote && shouldUpdate(world, pos))
 		{
 			boolean powered = isGettingPowered(world, pos);
+			setPoweredState(state, world, pos, powered);
+			TileEntity tile = world.getTileEntity(pos);
 
-			if (powered != state.getValue(POWERED))
+			if (tile instanceof Device)
 			{
-				setPoweredState(state, world, pos, powered);
-				TileEntity tile = world.getTileEntity(pos);
+				Device device = (Device) tile;
+				RedstoneNetwork network = RedstoneNetwork.get(world);
 
-				if (tile instanceof Device)
-				{
-					Device device = (Device) tile;
-					RedstoneNetwork network = RedstoneNetwork.get(world);
-
-					if (powered)
-						network.addDevice(device);
-					else
-						network.removeDevice(device);
-				}
+				if (powered)
+					network.addDevice(device);
+				else
+					network.removeDevice(device);
 			}
 		}
 	}

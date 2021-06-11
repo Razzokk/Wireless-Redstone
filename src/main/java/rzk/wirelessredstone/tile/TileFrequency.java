@@ -59,7 +59,7 @@ public class TileFrequency extends TileEntity implements Device.Block
 				network.changeDeviceFrequency(this, frequency);
 
 			this.frequency = frequency;
-			world.notifyBlockUpdate(pos, state, state, 3);
+			world.notifyBlockUpdate(pos, state, state, 2);
 			markDirty();
 		}
 	}

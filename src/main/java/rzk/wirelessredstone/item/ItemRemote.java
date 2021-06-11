@@ -2,6 +2,7 @@ package rzk.wirelessredstone.item;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -17,7 +18,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.util.LangKeys;
-import rzk.wirelessredstone.util.TaskScheduler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -70,11 +70,7 @@ public class ItemRemote extends ItemFrequency
 		ItemStack stack = player.getHeldItem(hand);
 
 		if (!isPowered(stack))
-		{
 			setPowered(world, stack, true);
-			if (!world.isRemote)
-				checkIfInHand(world, stack, player, hand);
-		}
 
 		if (!world.isRemote)
 			player.setActiveHand(hand);
@@ -102,19 +98,18 @@ public class ItemRemote extends ItemFrequency
 				(TextFormatting.GREEN + I18n.format(LangKeys.TOOLTIP_ON)) : (TextFormatting.DARK_RED + I18n.format(LangKeys.TOOLTIP_OFF))));
 	}
 
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+	{
+		if (!isSelected && !world.isRemote && entity instanceof EntityPlayer && isPowered(stack))
+		{
+			setPowered(world, stack, false);
+			((EntityPlayer) entity).getCooldownTracker().setCooldown(this, 10);
+		}
+	}
+
 	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 72000;
-	}
-
-	public void checkIfInHand(World world, ItemStack stack, EntityPlayer player, EnumHand hand)
-	{
-		if (stack != null && stack.equals(player.getHeldItem(hand)))
-			TaskScheduler.scheduleTask(world, 10, () -> checkIfInHand(world, stack, player, hand));
-		else
-		{
-			setPowered(world, stack, false);
-			player.getCooldownTracker().setCooldown(this, 10);
-		}
 	}
 }

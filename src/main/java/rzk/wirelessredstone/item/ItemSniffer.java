@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -8,14 +9,17 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.rsnetwork.Channel;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.util.LangKeys;
-import rzk.wirelessredstone.util.TaskScheduler;
 import rzk.wirelessredstone.util.WRConfig;
 
 import java.util.Iterator;
@@ -23,18 +27,7 @@ import java.util.Set;
 
 public class ItemSniffer extends ItemFrequency
 {
-	public static void removeHighlightBlocks(ItemStack stack)
-	{
-		if (stack.getItem() instanceof ItemSniffer)
-		{
-			NBTTagCompound compound = stack.getTagCompound();
-
-			if (compound != null && compound.hasKey("highlight"))
-				compound.removeTag("highlight");
-		}
-	}
-
-	public static void setHighlightedBlocks(World world, ItemStack stack, int[] coords)
+	public void setHighlightedBlocks(World world, ItemStack stack, int[] coords)
 	{
 		if (stack.getItem() instanceof ItemSniffer)
 		{
@@ -46,8 +39,22 @@ public class ItemSniffer extends ItemFrequency
 				stack.setTagCompound(nbt);
 			}
 
+			nbt.setLong("timestamp", world.getTotalWorldTime());
 			nbt.setIntArray("highlight", coords);
-			TaskScheduler.scheduleTask(world, WRConfig.snifferHighlightTime * 20, () -> removeHighlightBlocks(stack));
+		}
+	}
+
+	public void removeHighlightBlocks(ItemStack stack)
+	{
+		if (stack.getItem() instanceof ItemSniffer)
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+
+			if (nbt != null)
+			{
+				nbt.removeTag("timestamp");
+				nbt.removeTag("highlight");
+			}
 		}
 	}
 
@@ -129,7 +136,19 @@ public class ItemSniffer extends ItemFrequency
 				}
 			}
 		}
-
 		return ActionResult.newResult(EnumActionResult.SUCCESS, stack);
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected)
+	{
+		if (isSelected && !world.isRemote && stack.getItem() instanceof ItemSniffer && stack.hasTagCompound())
+		{
+			NBTTagCompound nbt = stack.getTagCompound();
+			long timestamp = nbt.getLong("timestamp");
+
+			if (world.getTotalWorldTime() >= timestamp + WRConfig.snifferHighlightTime * 20L)
+				removeHighlightBlocks(stack);
+		}
 	}
 }

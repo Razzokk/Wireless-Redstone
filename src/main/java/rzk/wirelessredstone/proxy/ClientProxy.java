@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import rzk.wirelessredstone.client.gui.GuiFrequency;
 import rzk.wirelessredstone.client.model.ModModels;
 import rzk.wirelessredstone.client.render.FastTESRFrequency;
+import rzk.wirelessredstone.client.render.HighlightRenderer;
 import rzk.wirelessredstone.network.PacketFrequency;
 import rzk.wirelessredstone.tile.TileFrequency;
 
@@ -16,6 +17,7 @@ public class ClientProxy implements IProxy
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		MinecraftForge.EVENT_BUS.register(ModModels.class);
+		MinecraftForge.EVENT_BUS.register(HighlightRenderer.class);
 		ClientRegistry.bindTileEntitySpecialRenderer(TileFrequency.class, new FastTESRFrequency());
 	}
 

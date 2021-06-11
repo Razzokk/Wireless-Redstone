@@ -73,6 +73,11 @@ public class BlockRedstoneDevice extends Block
 		return false;
 	}
 
+	protected boolean shouldUpdate(World world, BlockPos pos)
+	{
+		return isGettingPowered(world, pos) != world.getBlockState(pos).getValue(POWERED);
+	}
+
 	protected int getOutputPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side)
 	{
 		return state.getValue(POWERED) && isOutputSide(state, side) ? 15 : 0;
@@ -103,7 +108,7 @@ public class BlockRedstoneDevice extends Block
 	{
 		if (state.getBlock() instanceof BlockRedstoneDevice)
 		{
-			world.setBlockState(pos, state.withProperty(POWERED, powered));
+			world.setBlockState(pos, state.withProperty(POWERED, powered), 2);
 			for (EnumFacing side : EnumFacing.values())
 				if (isOutputSide(state, side))
 					updateNeighborsInFront(state, world, pos, side);

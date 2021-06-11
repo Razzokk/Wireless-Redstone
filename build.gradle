@@ -85,6 +85,25 @@ publishing {
     }
 }
 
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", "${mc_version}-${mod_version}"
+    inputs.property "mcversion", "${mc_version}"
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version':"${mc_version}-${mod_version}", 'mcversion':"${mc_version}"
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
 // Todo: remove this when building the mod
 sourceSets {
     main {
