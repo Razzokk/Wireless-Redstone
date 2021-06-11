@@ -2,10 +2,11 @@
 
 - ADDED: Frequency Sniffer
 - ADDED: Config option to color the frequency that is displayed on transmitters/receivers
-- ADDED: Command to clear a frequency from active transmitters
+- ADDED: Command to clear a frequency from active transmitters (Only use this if the frequency is "stuck")
 - ADDED: Wireless Redstone blocks can now be mined faster with a pickaxe
 - ADDED: Cooldown for the remote item (0.5s)
 - FIXED: Potential crashes caused by Remote::onUpdate and BlockFrequency::setPoweredState
+- FIXED: Actual values for the frequency between 0 and 65536
 
 ### Version 1.12.2-1.0.0:
 

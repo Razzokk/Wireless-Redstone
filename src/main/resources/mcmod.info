@@ -2,7 +2,7 @@
 {
   "modid": "wirelessredstone",
   "name": "Wireless Redstone",
-  "description": "Wireless Redstone brings components to your Minecraft World which will let play with your Redstone wirelessly.",
+  "description": "Wireless Redstone adds Blocks and Items to use Redstone remotely",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",

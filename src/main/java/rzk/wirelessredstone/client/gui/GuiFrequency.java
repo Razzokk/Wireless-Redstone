@@ -68,7 +68,7 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 		doneButton = addButton(new GuiSizedButton(6, guiLeft + xSize / 2 - 20, guiTop + 76, 40, 18, I18n.format(LangKeys.GUI_DONE)));
 		closeButton = addButton(new GuiSizedButton(7, guiLeft + xSize - 16, guiTop + 4, 13, 13, "x", 0, -1));
 
-		frequencyField = new GuiTextField(6, fontRenderer, guiLeft + xSize / 2 - 19, guiTop + 36, 38, 16);
+		frequencyField = new GuiTextField(8, fontRenderer, guiLeft + xSize / 2 - 19, guiTop + 36, 38, 16);
 		frequencyField.setValidator(str -> str.matches("^[0-9]*"));
 		frequencyField.setMaxStringLength(5);
 		frequencyField.setGuiResponder(this);
@@ -77,7 +77,7 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 
 	private void setFrequency(int frequency)
 	{
-		this.frequency = (short) Math.max(Math.min(frequency, 0xffff), 0);
+		this.frequency = (short) Math.min(frequency, 0xffff);
 		frequencyField.setText(String.valueOf(Short.toUnsignedInt(this.frequency)));
 	}
 
