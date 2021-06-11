@@ -18,5 +18,5 @@ public class WRConfig
 	@Comment("The time for the sniffer highlighting in seconds")
 	@LangKey(LangKeys.CONFIG_SNIFFER_HIGHLIGHT_TIME)
 	@RangeInt(min = 1)
-	public static int snifferHighlightTime = 5;
+	public static int snifferHighlightTime = 10;
 }
