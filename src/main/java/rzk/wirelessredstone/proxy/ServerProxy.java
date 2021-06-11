@@ -5,9 +5,9 @@ import rzk.wirelessredstone.network.PacketFrequency;
 
 public class ServerProxy implements IProxy
 {
-    @Override
-    public void preInit(FMLPreInitializationEvent event) {}
+	@Override
+	public void preInit(FMLPreInitializationEvent event) {}
 
-    @Override
-    public void openFrequencyGui(PacketFrequency packet) {}
+	@Override
+	public void openFrequencyGui(PacketFrequency packet) {}
 }

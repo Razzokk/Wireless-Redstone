@@ -12,9 +12,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.util.LangKeys;
 import rzk.wirelessredstone.network.PacketFrequency;
 import rzk.wirelessredstone.network.PacketHandler;
+import rzk.wirelessredstone.util.LangKeys;
 
 import java.io.IOException;
 
@@ -61,8 +61,8 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 		buttonList.clear();
 		sub1Button = addButton(new GuiSizedButton(0, guiLeft + 26, guiTop + 26, 34, 16, "-1"));
 		sub10Button = addButton(new GuiSizedButton(1, guiLeft + 26, guiTop + 46, 34, 16, "-10"));
-		add1Button = addButton(new GuiSizedButton(2, guiLeft + xSize - 34 -26, guiTop + 26, 34, 16, "+1"));
-		add10Button = addButton(new GuiSizedButton(3, guiLeft + xSize - 34 -26, guiTop + 46, 34, 16, "+10"));
+		add1Button = addButton(new GuiSizedButton(2, guiLeft + xSize - 34 - 26, guiTop + 26, 34, 16, "+1"));
+		add10Button = addButton(new GuiSizedButton(3, guiLeft + xSize - 34 - 26, guiTop + 46, 34, 16, "+10"));
 		extendButton = addButton(new GuiSizedButton(4, guiLeft + 26, guiTop + 76, 44, 18, I18n.format(extended ? LangKeys.GUI_REDUCE : LangKeys.GUI_EXTEND)));
 		extendButton.visible = false;
 		doneButton = addButton(new GuiSizedButton(6, guiLeft + xSize / 2 - 20, guiTop + 76, 40, 18, I18n.format(LangKeys.GUI_DONE)));

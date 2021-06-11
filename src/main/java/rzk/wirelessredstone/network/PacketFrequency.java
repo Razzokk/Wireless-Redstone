@@ -1,7 +1,6 @@
 package rzk.wirelessredstone.network;
 
 import io.netty.buffer.ByteBuf;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -14,7 +13,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.client.gui.GuiFrequency;
 import rzk.wirelessredstone.item.ItemFrequency;
 import rzk.wirelessredstone.tile.TileFrequency;
 

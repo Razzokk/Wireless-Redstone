@@ -8,9 +8,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.rsnetwork.Device;
+import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
 import javax.annotation.Nullable;
 
@@ -19,12 +19,15 @@ public class TileFrequency extends TileEntity implements Device.Block
 	private Device.Type type;
 	private short frequency;
 
-	public TileFrequency() {}
+	public TileFrequency()
+	{
+		frequency = 0;
+	}
 
 	public TileFrequency(Device.Type type)
 	{
+		this();
 		this.type = type;
-		this.frequency = 0;
 	}
 
 	@Override
@@ -111,9 +114,12 @@ public class TileFrequency extends TileEntity implements Device.Block
 			WorldServer worldServer = (WorldServer) world;
 			worldServer.addScheduledTask(() ->
 			{
-				RedstoneNetwork network = RedstoneNetwork.get(world);
-				IBlockState state = world.getBlockState(pos);
-				((BlockFrequency) getBlockType()).setPoweredState(state, world, pos, network.isChannelActive(frequency));
+				if (world.isBlockLoaded(pos))
+				{
+					RedstoneNetwork network = RedstoneNetwork.get(world);
+					IBlockState state = world.getBlockState(pos);
+					((BlockFrequency) getBlockType()).setPoweredState(state, world, pos, network.isChannelActive(frequency));
+				}
 			});
 		}
 	}

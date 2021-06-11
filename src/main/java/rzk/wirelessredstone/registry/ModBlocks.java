@@ -16,55 +16,55 @@ import java.util.function.Function;
 
 public final class ModBlocks
 {
-    public static final ObjectList<Block> BLOCKS = new ObjectArrayList<>();
-    public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
+	public static final ObjectList<Block> BLOCKS = new ObjectArrayList<>();
+	public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
-    public static Block redstoneTransmitter;
-    public static Block redstoneReceiver;
+	public static Block redstoneTransmitter;
+	public static Block redstoneReceiver;
 
-    private ModBlocks() {}
+	private ModBlocks() {}
 
-    private static void initBlocks()
-    {
-        redstoneTransmitter = registerBlock("redstone_transmitter", new BlockFrequency(Device.Type.TRANSMITTER));
-        redstoneReceiver = registerBlock("redstone_receiver", new BlockFrequency(Device.Type.RECEIVER));
-    }
+	private static void initBlocks()
+	{
+		redstoneTransmitter = registerBlock("redstone_transmitter", new BlockFrequency(Device.Type.TRANSMITTER));
+		redstoneReceiver = registerBlock("redstone_receiver", new BlockFrequency(Device.Type.RECEIVER));
+	}
 
-    private static Block registerBlockWithoutItem(String name, Block block)
-    {
-        block.setCreativeTab(WirelessRedstone.CREATIVE_TAB)
-                .setUnlocalizedName(WirelessRedstone.MOD_ID + '.' + name)
-                .setRegistryName(WirelessRedstone.MOD_ID, name);
-        BLOCKS.add(block);
-        return block;
-    }
+	private static Block registerBlockWithoutItem(String name, Block block)
+	{
+		block.setCreativeTab(WirelessRedstone.CREATIVE_TAB)
+				.setUnlocalizedName(WirelessRedstone.MOD_ID + '.' + name)
+				.setRegistryName(WirelessRedstone.MOD_ID, name);
+		BLOCKS.add(block);
+		return block;
+	}
 
-    private static Block registerBlock(String name, Block block, Function<Block, ItemBlock> itemProvider)
-    {
-        registerBlockWithoutItem(name, block);
-        ItemBlock item = itemProvider.apply(block);
-        item.setRegistryName(block.getRegistryName());
-        ITEMS.add(item);
-        return block;
-    }
+	private static Block registerBlock(String name, Block block, Function<Block, ItemBlock> itemProvider)
+	{
+		registerBlockWithoutItem(name, block);
+		ItemBlock item = itemProvider.apply(block);
+		item.setRegistryName(block.getRegistryName());
+		ITEMS.add(item);
+		return block;
+	}
 
-    private static Block registerBlock(String name, Block block)
-    {
-        return registerBlock(name, block, ItemBlock::new);
-    }
+	private static Block registerBlock(String name, Block block)
+	{
+		return registerBlock(name, block, ItemBlock::new);
+	}
 
-    @SubscribeEvent
-    public static void registerBlocks(RegistryEvent.Register<Block> event)
-    {
-        IForgeRegistry<Block> registry = event.getRegistry();
-        initBlocks();
-        BLOCKS.forEach(registry::register);
-    }
+	@SubscribeEvent
+	public static void registerBlocks(RegistryEvent.Register<Block> event)
+	{
+		IForgeRegistry<Block> registry = event.getRegistry();
+		initBlocks();
+		BLOCKS.forEach(registry::register);
+	}
 
-    @SubscribeEvent
-    public static void registerItems(RegistryEvent.Register<Item> event)
-    {
-        IForgeRegistry<Item> registry = event.getRegistry();
-        ITEMS.forEach(registry::register);
-    }
+	@SubscribeEvent
+	public static void registerItems(RegistryEvent.Register<Item> event)
+	{
+		IForgeRegistry<Item> registry = event.getRegistry();
+		ITEMS.forEach(registry::register);
+	}
 }

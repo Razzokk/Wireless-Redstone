@@ -3,7 +3,6 @@ package rzk.wirelessredstone.client.render;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraftforge.client.model.animation.FastTESR;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,7 +28,6 @@ public class FastTESRFrequency extends FastTESR<TileFrequency>
 			GlStateManager.translate(0.0f, 0.5f, 0.505f);
 			GlStateManager.scale(1.0f / 96, -1.0f / 96, 1.0f / 96);
 			fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, 2, WirelessRedstone.freqColor);
-			GlStateManager.enableFog();
 			GlStateManager.popMatrix();
 		}
 

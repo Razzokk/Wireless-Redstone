@@ -5,7 +5,7 @@ import rzk.wirelessredstone.network.PacketFrequency;
 
 public interface IProxy
 {
-    void preInit(FMLPreInitializationEvent event);
+	void preInit(FMLPreInitializationEvent event);
 
-    void openFrequencyGui(PacketFrequency packet);
+	void openFrequencyGui(PacketFrequency packet);
 }

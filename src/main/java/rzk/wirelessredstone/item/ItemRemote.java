@@ -14,9 +14,10 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.util.LangKeys;
-import rzk.wirelessredstone.rsnetwork.Device;
+import rzk.wirelessredstone.util.TaskScheduler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -25,12 +26,12 @@ public class ItemRemote extends ItemFrequency
 {
 	public static boolean isPowered(ItemStack stack)
 	{
-		return stack.getItem() instanceof ItemRemote && stack.getMetadata() != 0;
+		return stack != null && stack.getItem() instanceof ItemRemote && stack.getMetadata() != 0;
 	}
 
 	public static void setPowered(World world, ItemStack stack, boolean powered)
 	{
-		if (stack.getItem() instanceof ItemRemote)
+		if (stack != null && stack.getItem() instanceof ItemRemote)
 		{
 			stack.setItemDamage(powered ? 1 : 0);
 
@@ -69,7 +70,11 @@ public class ItemRemote extends ItemFrequency
 		ItemStack stack = player.getHeldItem(hand);
 
 		if (!isPowered(stack))
+		{
 			setPowered(world, stack, true);
+			if (!world.isRemote)
+				checkIfInHand(world, stack, player, hand);
+		}
 
 		if (!world.isRemote)
 			player.setActiveHand(hand);
@@ -100,5 +105,16 @@ public class ItemRemote extends ItemFrequency
 	public int getMaxItemUseDuration(ItemStack stack)
 	{
 		return 72000;
+	}
+
+	public void checkIfInHand(World world, ItemStack stack, EntityPlayer player, EnumHand hand)
+	{
+		if (stack != null && stack.equals(player.getHeldItem(hand)))
+			TaskScheduler.scheduleTask(world, 10, () -> checkIfInHand(world, stack, player, hand));
+		else
+		{
+			setPowered(world, stack, false);
+			player.getCooldownTracker().setCooldown(this, 10);
+		}
 	}
 }

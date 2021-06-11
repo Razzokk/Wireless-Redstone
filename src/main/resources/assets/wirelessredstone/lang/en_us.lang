@@ -22,10 +22,11 @@ command.wirelessredstone.clear.usage=/wr clear <frequency|all>
 command.wirelessredstone.clear.success=Cleared frequency from active transmitters:
 command.wirelessredstone.clear.success.all=Cleared all frequencies from active transmitters
 
-message.wirelessredstone.active.transmitters=Active transmitters on this frequency (%s):
+message.wirelessredstone.active.transmitters=Active transmitters on this frequency (%s): %s
 message.wirelessredstone.no.transmitters=There are no active transmitters on this frequency (%s)
 message.wirelessredstone.teleport=Teleport here
 
 config.wirelessredstone.frequency.color=Frequency Display Color
+config.wirelessredstone.sniffer.highlight_time=Sniffer Highlight Time
 
 itemGroup.wirelessredstone=Wireless Redstone

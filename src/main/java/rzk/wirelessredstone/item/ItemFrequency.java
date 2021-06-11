@@ -19,10 +19,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.util.LangKeys;
 import rzk.wirelessredstone.network.PacketFrequency;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.tile.TileFrequency;
+import rzk.wirelessredstone.util.LangKeys;
 
 import javax.annotation.Nullable;
 import java.util.List;
