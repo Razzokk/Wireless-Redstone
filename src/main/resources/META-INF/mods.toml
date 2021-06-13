@@ -1,25 +1,25 @@
-modLoader="javafml"
-loaderVersion="[36,)"
-license="GNU GPL v3"
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "GNU GPL v3"
 
 [[mods]]
-    modId = "wirelessredstone"
-    version = "${file.jarVersion}"
-    displayName = "Wireless Redstone"
-    logoFile = "wirelessredstone.png"
-    authors = "Razzokk"
-    description = '''Wireless Redstone adds Blocks and Items to use Redstone remotely'''
+modId = "wirelessredstone"
+version = "${file.jarVersion}"
+displayName = "Wireless Redstone"
+logoFile = "wirelessredstone.png"
+authors = "Razzokk"
+description = '''Wireless Redstone adds Blocks and Items to use Redstone remotely'''
 
 [[dependencies.wirelessredstone]] #optional
-    modId="forge" #mandatory
-    mandatory=true #mandatory
-    versionRange="[36,)" #mandatory
-    ordering="NONE"
-    side="BOTH"
+modId = "forge" #mandatory
+mandatory = true #mandatory
+versionRange = "[36,)" #mandatory
+ordering = "NONE"
+side = "BOTH"
 
 [[dependencies.wirelessredstone]]
-    modId="minecraft"
-    mandatory=true
-    versionRange="[1.16.5,1.17)"
-    ordering="NONE"
-    side="BOTH"
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5,1.17)"
+ordering = "NONE"
+side = "BOTH"
