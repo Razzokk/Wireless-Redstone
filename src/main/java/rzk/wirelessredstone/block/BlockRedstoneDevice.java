@@ -9,11 +9,11 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 
 import static net.minecraft.state.properties.BlockStateProperties.POWERED;
-import static net.minecraftforge.common.util.Constants.BlockFlags.BLOCK_UPDATE;
 
 public abstract class BlockRedstoneDevice extends Block
 {
@@ -90,7 +90,7 @@ public abstract class BlockRedstoneDevice extends Block
 	{
 		if (state.is(this))
 		{
-			world.setBlock(pos, state.setValue(POWERED, powered), BLOCK_UPDATE);
+			world.setBlock(pos, state.setValue(POWERED, powered), Constants.BlockFlags.BLOCK_UPDATE);
 
 			if (isSignalSource(state))
 				updateNeighbours(state, world, pos);
@@ -124,13 +124,10 @@ public abstract class BlockRedstoneDevice extends Block
 	@Override
 	public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos neighbour, boolean isMoving)
 	{
-		if (!world.isClientSide)
-		{
-			Direction side = getDirectionFromPos(pos, neighbour);
+		Direction side = getDirectionFromPos(pos, neighbour);
 
-			if (isInputSide(state, side))
-				onInputChanged(state, world, pos, block, neighbour, side);
-		}
+		if (isInputSide(state, side))
+			onInputChanged(state, world, pos, block, neighbour, side);
 	}
 
 	@Override
