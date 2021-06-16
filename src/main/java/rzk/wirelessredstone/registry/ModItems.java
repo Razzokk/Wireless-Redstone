@@ -11,11 +11,13 @@ public final class ModItems
 {
 	public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
+	public static Item sniffer;
+
 	private ModItems() {}
 
 	private static void initItems()
 	{
-
+		sniffer = registerItem("sniffer", new Item(new Item.Properties()));
 	}
 
 	public static Item registerItem(String name, Item item)

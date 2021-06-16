@@ -9,7 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.block.BlockBit;
+import rzk.wirelessredstone.block.BlockFrequency;
+import rzk.wirelessredstone.rsnetwork.Device;
 
 import java.util.function.Function;
 
@@ -18,13 +19,15 @@ public final class ModBlocks
 	public static final ObjectList<Block> BLOCKS = new ObjectArrayList<>();
 	public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
-	public static Block testBit;
+	public static Block redstoneTransmitter;
+	public static Block redstoneReceiver;
 
 	private ModBlocks() {}
 
 	private static void initBlocks()
 	{
-		testBit = registerBlock("test_bit", new BlockBit());
+		redstoneTransmitter = registerBlock("redstone_transmitter", new BlockFrequency(Device.Type.TRANSMITTER));
+		redstoneReceiver = registerBlock("redstone_receiver", new BlockFrequency(Device.Type.RECEIVER));
 	}
 
 	public static Block registerBlock(String name, Block block)

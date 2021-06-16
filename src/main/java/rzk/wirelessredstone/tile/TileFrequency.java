@@ -7,8 +7,10 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.server.ServerWorld;
 import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.rsnetwork.Device;
+import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
 import javax.annotation.Nullable;
 
@@ -98,9 +100,11 @@ public class TileFrequency extends TileEntity implements Device.Block
 	}
 
 	@Override
-	protected void invalidateCaps()
+	public void setRemoved()
 	{
-		super.invalidateCaps();
-		//TODO: implement redstone net stuff
+		if (!level.isClientSide)
+			RedstoneNetwork.get((ServerWorld) level).removeDevice(this);
+
+		super.setRemoved();
 	}
 }

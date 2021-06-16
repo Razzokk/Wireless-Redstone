@@ -97,22 +97,21 @@ public abstract class BlockRedstoneDevice extends Block
 		}
 	}
 
+	protected boolean shouldUpdate(BlockState state, World world, BlockPos pos)
+	{
+		return isGettingPowered(state, world, pos) != state.getValue(POWERED);
+	}
+
 	@Override
 	public int getSignal(BlockState state, IBlockReader blockReader, BlockPos pos, Direction side)
 	{
-		if (isPowered(state) && isOutputSide(state, side.getOpposite()))
-			return 10 + side.get3DDataValue();
-
-		return 0;
+		return isPowered(state) && isOutputSide(state, side.getOpposite()) ? 15 : 0;
 	}
 
 	@Override
 	public int getDirectSignal(BlockState state, IBlockReader blockReader, BlockPos pos, Direction side)
 	{
-		if (isPowered(state) && isOutputSide(state, side.getOpposite()))
-			return 1 + side.get3DDataValue();
-
-		return 0;
+		return getSignal(state, blockReader, pos, side);
 	}
 
 	@Override
