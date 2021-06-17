@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.function.Supplier;
 
@@ -20,8 +19,8 @@ public final class TileType<T extends TileEntity> extends TileEntityType<T>
 
 	public TileType(Supplier<? extends T> factory, Block... validBlocks)
 	{
-		super(factory, ImmutableSet.copyOf(validBlocks), null);
-		hasValidBlocks = ArrayUtils.isNotEmpty(validBlocks);
+		super(factory, validBlocks == null ? null : ImmutableSet.copyOf(validBlocks), null);
+		hasValidBlocks = validBlocks != null && validBlocks.length > 0;
 	}
 
 	@Override

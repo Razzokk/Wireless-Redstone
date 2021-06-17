@@ -2,8 +2,8 @@ package rzk.wirelessredstone.util;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 public class WRItemGroup extends ItemGroup
 {
@@ -15,6 +15,6 @@ public class WRItemGroup extends ItemGroup
 	@Override
 	public ItemStack makeIcon()
 	{
-		return new ItemStack(Items.REDSTONE);
+		return new ItemStack(ModBlocks.redstoneTransmitter);
 	}
 }
