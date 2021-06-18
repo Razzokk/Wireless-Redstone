@@ -1,11 +1,14 @@
 package rzk.wirelessredstone;
 
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import rzk.wirelessredstone.packet.PacketHandler;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
@@ -30,6 +33,12 @@ public final class WirelessRedstone
 
 	private void setup(FMLCommonSetupEvent event)
 	{
+		PacketHandler.instance = NetworkRegistry.newSimpleChannel(
+				new ResourceLocation(WirelessRedstone.MOD_ID, "main_channel"),
+				() -> PacketHandler.PROTOCOL_VERSION,
+				PacketHandler.PROTOCOL_VERSION::equals,
+				PacketHandler.PROTOCOL_VERSION::equals);
 
+		PacketHandler.registerMessages();
 	}
 }
