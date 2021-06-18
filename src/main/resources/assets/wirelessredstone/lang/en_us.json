@@ -16,6 +16,7 @@
   "tooltip.wirelessredstone.off.name":"Off",
   "tooltip.wirelessredstone.on.name":"On",
   "command.wirelessredstone.clear.success":"Cleared frequency from active transmitters:",
+  "command.wirelessredstone.clear.failure":"There are no active transmitters on this frequency",
   "command.wirelessredstone.clear.success.all":"Cleared all frequencies from active transmitters",
   "message.wirelessredstone.active.transmitters":"Active transmitters on this frequency (%s): %s",
   "message.wirelessredstone.no.transmitters":"There are no active transmitters on this frequency (%s)",

@@ -21,20 +21,16 @@ public class TERFrequency extends TileEntityRenderer<TileFrequency>
 		FontRenderer fontRenderer = renderer.getFont();
 		String s = String.valueOf(tile.getFrequency());
 		float textOffset = -fontRenderer.width(s) / 2.0f;
-
-		matrixStack.pushPose();
 		matrixStack.translate(0.5, 1, 0.5);
 
 		for (int i = 0; i < 4; i++)
 		{
 			matrixStack.pushPose();
 			matrixStack.mulPose(new Quaternion(0, i * 90, 180, true));
-			matrixStack.translate(0, 0, -0.51);
+			matrixStack.translate(0, 0, -0.5078125);
 			matrixStack.scale(1.0f / 96, 1.0f / 96, 1.0f / 96);
 			fontRenderer.draw(matrixStack, s, textOffset, 2.5f, 0x000000);
 			matrixStack.popPose();
 		}
-
-		matrixStack.popPose();
 	}
 }
