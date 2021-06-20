@@ -33,11 +33,16 @@ public class BlockFrequency extends BlockRedstoneDevice
 		this.type = type;
 	}
 
+	public static boolean isFreqBlock(BlockState state)
+	{
+		return state.is(ModBlocks.redstoneReceiver) || state.is(ModBlocks.redstoneTransmitter);
+	}
+
 	public static void setPoweredState(World world, BlockPos pos, boolean powered)
 	{
 		BlockState state = world.getBlockState(pos);
 
-		if (state.is(ModBlocks.redstoneReceiver) || state.is(ModBlocks.redstoneTransmitter))
+		if (isFreqBlock(state))
 			((BlockFrequency) state.getBlock()).setPowered(state, world, pos, powered);
 	}
 

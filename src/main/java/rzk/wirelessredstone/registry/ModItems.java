@@ -6,17 +6,22 @@ import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.item.ItemFrequency;
 
 public final class ModItems
 {
 	public static final ObjectList<Item> ITEMS = new ObjectArrayList<>();
 
+	public static Item circuit;
+	public static Item frequencyTool;
 	public static Item sniffer;
 
 	private ModItems() {}
 
 	private static void initItems()
 	{
+		circuit = registerItem("circuit", new Item(defaultItemProperties()));
+		frequencyTool = registerItem("frequency_tool", new ItemFrequency(defaultItemProperties()));
 		sniffer = registerItem("sniffer", new Item(new Item.Properties()));
 	}
 
