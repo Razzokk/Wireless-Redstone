@@ -19,7 +19,7 @@ public class TERFrequency extends TileEntityRenderer<TileFrequency>
 	public void render(TileFrequency tile, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
 	{
 		FontRenderer fontRenderer = renderer.getFont();
-		String s = String.valueOf(tile.getFrequency());
+		String s = String.valueOf(Short.toUnsignedInt(tile.getFrequency()));
 		float textOffset = -fontRenderer.width(s) / 2.0f;
 		matrixStack.translate(0.5, 1, 0.5);
 

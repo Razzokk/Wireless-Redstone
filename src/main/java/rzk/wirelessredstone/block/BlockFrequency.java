@@ -5,6 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -16,6 +17,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkDirection;
+import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.packet.PacketFrequencyOpenGui;
+import rzk.wirelessredstone.packet.PacketHandler;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
@@ -80,7 +85,8 @@ public class BlockFrequency extends BlockRedstoneDevice
 			if (tile instanceof TileFrequency)
 			{
 				TileFrequency tileFrequency = (TileFrequency) tile;
-				tileFrequency.setFrequency((short) (tileFrequency.getFrequency() + 1));
+				boolean extended = player.getPersistentData().getBoolean(WirelessRedstone.MOD_ID + ".extended");
+				PacketHandler.sendToPlayer(new PacketFrequencyOpenGui(tileFrequency.getFrequency(), extended, pos), (ServerPlayerEntity) player);
 			}
 		}
 
