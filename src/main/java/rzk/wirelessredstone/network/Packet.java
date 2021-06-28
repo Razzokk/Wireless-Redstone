@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.packet;
+package rzk.wirelessredstone.network;
 
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -9,5 +9,5 @@ public interface Packet
 {
 	void toBytes(PacketBuffer buffer);
 
-	void handle(Supplier<NetworkEvent.Context> ctx);
+	boolean handle(Supplier<NetworkEvent.Context> ctx);
 }

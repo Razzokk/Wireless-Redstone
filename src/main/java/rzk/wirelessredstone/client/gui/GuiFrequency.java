@@ -10,10 +10,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
+import org.lwjgl.glfw.GLFW;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.packet.PacketFrequencyOpenGui;
-import rzk.wirelessredstone.packet.PacketHandler;
-import rzk.wirelessredstone.packet.PacketSetFrequency;
+import rzk.wirelessredstone.network.PacketFrequencyOpenGui;
+import rzk.wirelessredstone.network.PacketHandler;
+import rzk.wirelessredstone.network.PacketSetFrequency;
 import rzk.wirelessredstone.util.LangKeys;
 
 public class GuiFrequency extends Screen
@@ -67,10 +68,10 @@ public class GuiFrequency extends Screen
 		// Standard GUI
 
 		addButton(closeButton = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, new StringTextComponent("x"), 0, -1, button -> minecraft.player.clientSideCloseContainer()));
-		addButton(sub1Button = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, new StringTextComponent("-1"), onPress -> freqButtonPressed(-1)));
-		addButton(sub10Button = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, new StringTextComponent("-10"), onPress -> freqButtonPressed(-10)));
-		addButton(add1Button = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, new StringTextComponent("+1"), onPress -> freqButtonPressed(1)));
-		addButton(add10Button = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, new StringTextComponent("+10"), onPress -> freqButtonPressed(10)));
+		addButton(sub1Button = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, new StringTextComponent(hasShiftDown() ? "-100" : "-1"), onPress -> freqButtonPressed(-1)));
+		addButton(sub10Button = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, new StringTextComponent(hasShiftDown() ? "-1000" : "-10"), onPress -> freqButtonPressed(-10)));
+		addButton(add1Button = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, new StringTextComponent(hasShiftDown() ? "+100" : "+1"), onPress -> freqButtonPressed(1)));
+		addButton(add10Button = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, new StringTextComponent(hasShiftDown() ? "+1000" : "+10"), onPress -> freqButtonPressed(10)));
 		addButton(doneButton = new SizedButton(guiLeft + 78, guiTop + 64, 36, 18, new TranslationTextComponent(LangKeys.GUI_DONE), onPress -> sendPacket()));
 
 		frequencyField = new TextFieldWidget(font, guiLeft + 76, guiTop + 35, 38, 14, new TranslationTextComponent(LangKeys.GUI_FREQUENCY))
@@ -155,6 +156,40 @@ public class GuiFrequency extends Screen
 	}
 
 	@Override
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
+	{
+		switch (keyCode)
+		{
+			case GLFW.GLFW_KEY_LEFT_SHIFT:
+			case GLFW.GLFW_KEY_RIGHT_SHIFT:
+				sub1Button.setMessage(new StringTextComponent("-100"));
+				sub10Button.setMessage(new StringTextComponent("-1000"));
+				add1Button.setMessage(new StringTextComponent("+100"));
+				add10Button.setMessage(new StringTextComponent("+1000"));
+				break;
+		}
+
+		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
+	public boolean keyReleased(int keyCode, int scanCode, int modifiers)
+	{
+		switch (keyCode)
+		{
+			case GLFW.GLFW_KEY_LEFT_SHIFT:
+			case GLFW.GLFW_KEY_RIGHT_SHIFT:
+				sub1Button.setMessage(new StringTextComponent("-1"));
+				sub10Button.setMessage(new StringTextComponent("-10"));
+				add1Button.setMessage(new StringTextComponent("+1"));
+				add10Button.setMessage(new StringTextComponent("+10"));
+				break;
+		}
+
+		return super.keyReleased(keyCode, scanCode, modifiers);
+	}
+
+	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks)
 	{
 		renderBackground(matrixStack);
@@ -186,8 +221,6 @@ public class GuiFrequency extends Screen
 			PacketHandler.instance.sendToServer(new PacketSetFrequency(frequency, extended, pos));
 		else if (hand != null)
 			PacketHandler.instance.sendToServer(new PacketSetFrequency(frequency, extended, hand));
-		//else
-		//	WirelessRedstone.logger.error("BlockPos and Hand are null, something went wrong");
 
 		minecraft.player.clientSideCloseContainer();
 	}

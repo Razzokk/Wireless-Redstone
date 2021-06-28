@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.packet;
+package rzk.wirelessredstone.network;
 
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.PacketBuffer;
@@ -23,7 +23,11 @@ public final class PacketHandler
 
 	public static <P extends Packet> void registerMessage(Class<P> packetType, Function<PacketBuffer, P> decoder)
 	{
-		instance.registerMessage(id++, packetType, Packet::toBytes, decoder, Packet::handle);
+		instance.messageBuilder(packetType, id++)
+				.encoder(Packet::toBytes)
+				.decoder(decoder)
+				.consumer(Packet::handle)
+				.add();
 	}
 
 	public static void sendToPlayer(Packet packet, ServerPlayerEntity player)

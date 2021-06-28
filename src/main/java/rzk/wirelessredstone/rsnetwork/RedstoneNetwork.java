@@ -155,20 +155,6 @@ public class RedstoneNetwork extends WorldSavedData
 					channels.put(channel.getFrequency(), channel);
 			}
 		}
-
-		// DO NOT REMOVE: backwards compatibility
-		if (nbt.contains("basic"))
-		{
-			ListNBT channelsNBT = nbt.getList("basic", Constants.NBT.TAG_COMPOUND);
-
-			for (INBT channelNBT : channelsNBT)
-			{
-				Channel channel = Channel.fromNBT((CompoundNBT) channelNBT);
-
-				if (channel != null && !channel.isEmpty())
-					channels.put(channel.getFrequency(), channel);
-			}
-		}
 	}
 
 	@Override

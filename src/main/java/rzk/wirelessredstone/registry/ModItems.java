@@ -7,6 +7,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.item.ItemFrequency;
+import rzk.wirelessredstone.item.ItemRemote;
+import rzk.wirelessredstone.item.ItemSniffer;
 
 public final class ModItems
 {
@@ -14,6 +16,7 @@ public final class ModItems
 
 	public static Item circuit;
 	public static Item frequencyTool;
+	public static Item remote;
 	public static Item sniffer;
 
 	private ModItems() {}
@@ -21,8 +24,9 @@ public final class ModItems
 	private static void initItems()
 	{
 		circuit = registerItem("circuit", new Item(defaultItemProperties()));
-		frequencyTool = registerItem("frequency_tool", new ItemFrequency(defaultItemProperties()));
-		sniffer = registerItem("sniffer", new Item(new Item.Properties()));
+		frequencyTool = registerItem("frequency_tool", new ItemFrequency());
+		remote = registerItem("remote", new ItemRemote());
+		sniffer = registerItem("sniffer", new ItemSniffer());
 	}
 
 	public static Item registerItem(String name, Item item)

@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.packet;
+package rzk.wirelessredstone.network;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;

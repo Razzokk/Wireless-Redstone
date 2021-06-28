@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.packet;
+package rzk.wirelessredstone.network;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -44,7 +44,7 @@ public class PacketSetFrequency extends PacketFrequency
 	}
 
 	@Override
-	public void handle(Supplier<NetworkEvent.Context> ctx)
+	public boolean handle(Supplier<NetworkEvent.Context> ctx)
 	{
 		if (ctx.get().getDirection().getReceptionSide().isServer())
 		{
@@ -71,5 +71,7 @@ public class PacketSetFrequency extends PacketFrequency
 				nbt.putBoolean(WirelessRedstone.MOD_ID + ".extended", extended);
 			});
 		}
+
+		return true;
 	}
 }

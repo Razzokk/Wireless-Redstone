@@ -20,8 +20,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.packet.PacketFrequencyOpenGui;
-import rzk.wirelessredstone.packet.PacketHandler;
+import rzk.wirelessredstone.network.PacketFrequencyOpenGui;
+import rzk.wirelessredstone.network.PacketHandler;
+import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.tile.TileFrequency;
 import rzk.wirelessredstone.util.LangKeys;
 
@@ -30,9 +31,9 @@ import java.util.List;
 
 public class ItemFrequency extends Item
 {
-	public ItemFrequency(Properties properties)
+	public ItemFrequency()
 	{
-		super(properties.stacksTo(1));
+		super(ModItems.defaultItemProperties().stacksTo(1));
 	}
 
 	public static short getFrequency(ItemStack stack)

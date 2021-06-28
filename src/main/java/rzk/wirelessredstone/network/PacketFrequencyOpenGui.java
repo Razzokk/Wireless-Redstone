@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.packet;
+package rzk.wirelessredstone.network;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,11 +38,11 @@ public class PacketFrequencyOpenGui extends PacketFrequency
 	}
 
 	@Override
-	public void handle(Supplier<NetworkEvent.Context> ctx)
+	public boolean handle(Supplier<NetworkEvent.Context> ctx)
 	{
 		if (ctx.get().getDirection().getReceptionSide().isClient())
 			ctx.get().enqueueWork(() -> Minecraft.getInstance().setScreen(new GuiFrequency(this)));
 
-		ctx.get().setPacketHandled(true);
+		return true;
 	}
 }
