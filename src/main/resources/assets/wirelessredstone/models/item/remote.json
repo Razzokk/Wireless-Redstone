@@ -5,7 +5,9 @@
   },
   "overrides": [
     {
-      "predicate": { "wirelessredstone:powered": 1 },
+      "predicate": {
+        "wirelessredstone:powered": 1
+      },
       "model": "wirelessredstone:item/remote_on"
     }
   ]

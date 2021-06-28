@@ -9,9 +9,9 @@ import java.util.function.Function;
 
 public final class PacketHandler
 {
-	private static int id = 0;
 	public static final String PROTOCOL_VERSION = "1.0";
 	public static SimpleChannel instance;
+	private static int id = 0;
 
 	private PacketHandler() {}
 

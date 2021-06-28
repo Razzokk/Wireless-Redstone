@@ -21,17 +21,16 @@ public class GuiFrequency extends Screen
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency.png");
 	public static final ResourceLocation TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency_extended.png");
-
+	private final BlockPos pos;
+	private final Hand hand;
 	private int xSize;
 	private int ySize;
 	private int guiLeft;
 	private int guiTop;
-
 	private short frequency;
-	private final BlockPos pos;
-	private final Hand hand;
 
 	// Standard GUI
+
 	private SizedButton sub1Button;
 	private SizedButton sub10Button;
 	private SizedButton add1Button;

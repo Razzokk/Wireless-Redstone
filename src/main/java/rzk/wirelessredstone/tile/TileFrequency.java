@@ -41,18 +41,6 @@ public class TileFrequency extends TileEntity implements Device.Block
 		return frequency;
 	}
 
-	@Override
-	public Type getDeviceType()
-	{
-		return type;
-	}
-
-	@Override
-	public BlockPos getFreqPos()
-	{
-		return worldPosition;
-	}
-
 	public void setFrequency(short frequency)
 	{
 		if (this.frequency != frequency && !level.isClientSide)
@@ -67,6 +55,18 @@ public class TileFrequency extends TileEntity implements Device.Block
 			level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.BLOCK_UPDATE);
 			setChanged();
 		}
+	}
+
+	@Override
+	public Type getDeviceType()
+	{
+		return type;
+	}
+
+	@Override
+	public BlockPos getFreqPos()
+	{
+		return worldPosition;
 	}
 
 	@Override

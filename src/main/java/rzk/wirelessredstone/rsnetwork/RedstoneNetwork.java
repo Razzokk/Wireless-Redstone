@@ -15,8 +15,8 @@ public class RedstoneNetwork extends WorldSavedData
 {
 	public static final String DATA_NAME = "redstone_network";
 
-	private ServerWorld world;
 	private final Short2ObjectMap<Channel> channels;
+	private ServerWorld world;
 
 	public RedstoneNetwork(String name)
 	{
@@ -27,6 +27,24 @@ public class RedstoneNetwork extends WorldSavedData
 	public RedstoneNetwork()
 	{
 		this(DATA_NAME);
+	}
+
+	public static RedstoneNetwork get(ServerWorld world)
+	{
+		if (world == null)
+			return null;
+
+		RedstoneNetwork instance = world.getDataStorage().get(RedstoneNetwork::new, DATA_NAME);
+
+		if (instance == null)
+		{
+			instance = new RedstoneNetwork(DATA_NAME);
+			world.getDataStorage().set(instance);
+		}
+
+		instance.world = world;
+
+		return instance;
 	}
 
 	void setReceiverState(BlockPos pos, boolean state)
@@ -172,23 +190,5 @@ public class RedstoneNetwork extends WorldSavedData
 		}
 
 		return nbt;
-	}
-
-	public static RedstoneNetwork get(ServerWorld world)
-	{
-		if (world == null)
-			return null;
-
-		RedstoneNetwork instance = world.getDataStorage().get(RedstoneNetwork::new, DATA_NAME);
-		
-		if (instance == null)
-		{
-			instance = new RedstoneNetwork(DATA_NAME);
-			world.getDataStorage().set(instance);
-		}
-
-		instance.world = world;
-
-		return instance;
 	}
 }

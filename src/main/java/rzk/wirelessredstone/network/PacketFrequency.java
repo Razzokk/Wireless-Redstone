@@ -117,11 +117,6 @@ public abstract class PacketFrequency implements Packet
 			this.index = index;
 		}
 
-		public int getIndex()
-		{
-			return index;
-		}
-
 		public static Type byIndex(int index)
 		{
 			for (Type type : Type.values())
@@ -129,6 +124,11 @@ public abstract class PacketFrequency implements Packet
 					return type;
 
 			return null;
+		}
+
+		public int getIndex()
+		{
+			return index;
 		}
 	}
 }

@@ -16,6 +16,12 @@ import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
 public class WRCommands
 {
+	@SubscribeEvent
+	public static void onRegisterCommands(RegisterCommandsEvent event)
+	{
+		ClearFrequencyCommand.register(event.getDispatcher());
+	}
+
 	public static class ClearFrequencyCommand extends FillCommand
 	{
 		public static void register(CommandDispatcher<CommandSource> dispatcher)
@@ -57,11 +63,5 @@ public class WRCommands
 			source.sendSuccess(new TranslationTextComponent(LangKeys.COMMAND_CLEAR_SUCCESS_ALL), true);
 			return Command.SINGLE_SUCCESS;
 		}
-	}
-
-	@SubscribeEvent
-	public static void onRegisterCommands(RegisterCommandsEvent event)
-	{
-		ClearFrequencyCommand.register(event.getDispatcher());
 	}
 }
