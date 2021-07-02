@@ -8,6 +8,7 @@ import net.minecraftforge.common.config.Config.RequiresMcRestart;
 import rzk.wirelessredstone.WirelessRedstone;
 
 @Config(modid = WirelessRedstone.MOD_ID)
+@LangKey(LangKeys.MOD_NAME)
 public class WRConfig
 {
 	@Comment("Color of the frequency text that is displayed on a transmitter/receiver in hex")

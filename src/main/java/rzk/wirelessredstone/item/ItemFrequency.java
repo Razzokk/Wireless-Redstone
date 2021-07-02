@@ -13,6 +13,10 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -101,6 +105,10 @@ public class ItemFrequency extends Item
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flag)
 	{
-		tooltip.add(TextFormatting.GRAY + I18n.format(LangKeys.TOOLTIP_FREQUENCY) + ": " + TextFormatting.AQUA + Short.toUnsignedInt(getFrequency(stack)));
+		ITextComponent frequency = new TextComponentString(String.valueOf(Short.toUnsignedInt(getFrequency(stack))));
+		frequency.setStyle(new Style().setColor(TextFormatting.AQUA));
+		ITextComponent text = new TextComponentTranslation(LangKeys.TOOLTIP_FREQUENCY, frequency);
+		text.setStyle(new Style().setColor(TextFormatting.GRAY));
+		tooltip.add(text.getFormattedText());
 	}
 }

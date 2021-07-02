@@ -11,6 +11,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -56,7 +59,7 @@ public class ItemRemote extends ItemFrequency
 	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
 	{
 		if (!player.isSneaking())
-			return EnumActionResult.FAIL;
+			return EnumActionResult.PASS;
 
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
@@ -94,8 +97,10 @@ public class ItemRemote extends ItemFrequency
 	{
 		super.addInformation(stack, world, tooltip, flag);
 
-		tooltip.add(TextFormatting.GRAY + I18n.format(LangKeys.TOOLTIP_STATE) + ": " + (isPowered(stack) ?
-				(TextFormatting.GREEN + I18n.format(LangKeys.TOOLTIP_ON)) : (TextFormatting.DARK_RED + I18n.format(LangKeys.TOOLTIP_OFF))));
+		boolean powered = isPowered(stack);
+		Style color = new Style().setColor(powered ? TextFormatting.GREEN : TextFormatting.DARK_RED);
+		ITextComponent state = new TextComponentTranslation(powered ? LangKeys.TOOLTIP_ON : LangKeys.TOOLTIP_OFF).setStyle(color);
+		tooltip.add(new TextComponentTranslation(LangKeys.TOOLTIP_STATE, state).getFormattedText());
 	}
 
 	@Override

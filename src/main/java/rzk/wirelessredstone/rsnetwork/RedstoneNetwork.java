@@ -121,6 +121,7 @@ public class RedstoneNetwork extends WorldSavedData
 		{
 			channel.clear();
 			updateReceivers(frequency);
+			markDirty();
 		}
 	}
 
@@ -131,6 +132,8 @@ public class RedstoneNetwork extends WorldSavedData
 			channel.clear();
 			updateReceivers(channel.getFrequency());
 		}
+
+		markDirty();
 	}
 
 	public Channel getChannel(short frequency)

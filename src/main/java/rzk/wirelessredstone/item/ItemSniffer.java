@@ -62,7 +62,7 @@ public class ItemSniffer extends ItemFrequency
 	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
 	{
 		if (!player.isSneaking())
-			return EnumActionResult.FAIL;
+			return EnumActionResult.PASS;
 
 		return super.onItemUseFirst(player, world, pos, side, hitX, hitY, hitZ, hand);
 	}
@@ -83,7 +83,7 @@ public class ItemSniffer extends ItemFrequency
 			{
 				short frequency = getFrequency(stack);
 				Channel channel = network.getChannel(frequency);
-				ITextComponent freqComponent = new TextComponentString(String.valueOf(Short.toUnsignedInt(frequency))).setStyle(new Style().setColor(TextFormatting.YELLOW));
+				ITextComponent freqComponent = new TextComponentString(String.valueOf(Short.toUnsignedInt(frequency))).setStyle(new Style().setColor(TextFormatting.AQUA));
 
 				if (channel == null || channel.getTransmitters().isEmpty())
 				{
@@ -104,7 +104,7 @@ public class ItemSniffer extends ItemFrequency
 						BlockPos transmitter = iterator.next();
 						ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
 						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentTranslation(LangKeys.MESSAGE_TELEPORT));
-						Style style = new Style().setClickEvent(click).setHoverEvent(hover).setColor(TextFormatting.AQUA);
+						Style style = new Style().setClickEvent(click).setHoverEvent(hover).setColor(TextFormatting.YELLOW);
 						message.appendSibling(new TextComponentString(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).setStyle(style));
 
 						if (iterator.hasNext())

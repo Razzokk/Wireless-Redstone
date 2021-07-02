@@ -16,6 +16,8 @@ import net.minecraftforge.event.ForgeEventFactory;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 
+import static net.minecraftforge.common.util.Constants.BlockFlags.SEND_TO_CLIENTS;
+
 public class BlockRedstoneDevice extends Block
 {
 	public static final PropertyBool POWERED = PropertyBool.create("powered");
@@ -108,7 +110,7 @@ public class BlockRedstoneDevice extends Block
 	{
 		if (state.getBlock() instanceof BlockRedstoneDevice)
 		{
-			world.setBlockState(pos, state.withProperty(POWERED, powered), 2);
+			world.setBlockState(pos, state.withProperty(POWERED, powered), SEND_TO_CLIENTS);
 			for (EnumFacing side : EnumFacing.values())
 				if (isOutputSide(state, side))
 					updateNeighborsInFront(state, world, pos, side);

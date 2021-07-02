@@ -22,4 +22,6 @@ public class LangKeys
 
 	public static final String CONFIG_FREQUENCY_COLOR = "config.wirelessredstone.frequency.color";
 	public static final String CONFIG_SNIFFER_HIGHLIGHT_TIME = "config.wirelessredstone.sniffer.highlight_time";
+
+	public static final String MOD_NAME = "itemGroup.wirelessredstone";
 }

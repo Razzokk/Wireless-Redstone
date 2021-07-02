@@ -13,8 +13,8 @@ gui.wirelessredstone.private.name=Private
 gui.wirelessredstone.public.name=Public
 gui.wirelessredstone.searchbar.name=Search Bar
 
-tooltip.wirelessredstone.frequency.name=Frequency
-tooltip.wirelessredstone.state.name=State
+tooltip.wirelessredstone.frequency.name=Frequency: (%s)
+tooltip.wirelessredstone.state.name=State: %s
 tooltip.wirelessredstone.off.name=Off
 tooltip.wirelessredstone.on.name=On
 
