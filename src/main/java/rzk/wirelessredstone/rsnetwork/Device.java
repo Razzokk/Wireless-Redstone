@@ -1,30 +1,31 @@
 package rzk.wirelessredstone.rsnetwork;
 
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
 public interface Device
 {
-	static Device create(short frequency, Type type, BlockPos pos)
+	static Device create(short frequency, Type type, BlockPos pos, Hand hand)
 	{
 		if (type == Type.REMOTE)
-			return new DeviceImpl(frequency, type);
+			return new DeviceImpl.Item(frequency, type, hand);
 
 		return new DeviceImpl.Block(frequency, type, pos);
 	}
 
 	static Device createTransmitter(short frequency, BlockPos pos)
 	{
-		return create(frequency, Type.TRANSMITTER, pos);
+		return create(frequency, Type.TRANSMITTER, pos, null);
 	}
 
 	static Device createReceiver(short frequency, BlockPos pos)
 	{
-		return create(frequency, Type.RECEIVER, pos);
+		return create(frequency, Type.RECEIVER, pos, null);
 	}
 
-	static Device createRemote(short frequency)
+	static Device createRemote(short frequency, Hand hand)
 	{
-		return create(frequency, Type.REMOTE, null);
+		return create(frequency, Type.REMOTE, null, hand);
 	}
 
 	short getFrequency();
@@ -66,5 +67,10 @@ public interface Device
 	interface Block extends Device
 	{
 		BlockPos getFreqPos();
+	}
+
+	interface Item extends Device
+	{
+		Hand getHand();
 	}
 }

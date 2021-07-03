@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.rsnetwork;
 
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 
 public class DeviceImpl implements Device
@@ -39,6 +40,23 @@ public class DeviceImpl implements Device
 		public BlockPos getFreqPos()
 		{
 			return pos;
+		}
+	}
+
+	public static class Item extends DeviceImpl implements Device.Item
+	{
+		private final Hand hand;
+
+		public Item(short frequency, Type type, Hand hand)
+		{
+			super(frequency, type);
+			this.hand = hand;
+		}
+
+		@Override
+		public Hand getHand()
+		{
+			return hand;
 		}
 	}
 }

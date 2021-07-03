@@ -134,7 +134,7 @@ public class ItemSniffer extends ItemFrequency
 		{
 			CompoundNBT nbt = stack.getOrCreateTag();
 
-			if (world.getGameTime() >= nbt.getLong("timestamp") + 5 * 20L)
+			if (world.getGameTime() >= nbt.getLong("timestamp") + 10 * 20L)
 				removeHighlightBlocks(stack);
 		}
 	}

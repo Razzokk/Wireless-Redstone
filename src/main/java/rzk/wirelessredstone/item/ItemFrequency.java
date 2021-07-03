@@ -2,7 +2,6 @@ package rzk.wirelessredstone.item;
 
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
@@ -18,11 +17,11 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import rzk.wirelessredstone.WirelessRedstone;
+import net.minecraftforge.fml.DistExecutor;
 import rzk.wirelessredstone.block.BlockFrequency;
-import rzk.wirelessredstone.network.PacketFrequencyOpenGui;
-import rzk.wirelessredstone.network.PacketHandler;
+import rzk.wirelessredstone.client.gui.ClientScreens;
 import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.tile.TileFrequency;
 import rzk.wirelessredstone.util.LangKeys;
 
@@ -58,11 +57,8 @@ public class ItemFrequency extends Item
 
 		ItemStack stack = player.getItemInHand(hand);
 
-		if (!world.isClientSide && stack.getItem() instanceof ItemFrequency)
-		{
-			boolean extended = player.getPersistentData().getBoolean(WirelessRedstone.MOD_ID + ".extended");
-			PacketHandler.sendToPlayer(new PacketFrequencyOpenGui(getFrequency(stack), extended, hand), (ServerPlayerEntity) player);
-		}
+		if (world.isClientSide && stack.getItem() instanceof ItemFrequency)
+			ClientScreens.openFreqGui(Device.createRemote(getFrequency(stack), hand));
 
 		return ActionResult.success(stack);
 	}

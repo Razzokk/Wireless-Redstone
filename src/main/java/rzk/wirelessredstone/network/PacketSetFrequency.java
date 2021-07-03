@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -16,31 +15,78 @@ import rzk.wirelessredstone.tile.TileFrequency;
 
 import java.util.function.Supplier;
 
-public class PacketSetFrequency extends PacketFrequency
+public class PacketSetFrequency implements Packet
 {
-	public PacketSetFrequency(short frequency, boolean extended)
-	{
-		super(frequency, extended);
-	}
-
-	public PacketSetFrequency(short frequency, PlayerEntity player)
-	{
-		super(frequency, player);
-	}
+	protected short frequency;
+	protected boolean extended;
+	protected BlockPos pos;
+	protected Hand hand;
+	protected boolean isBlock;
 
 	public PacketSetFrequency(short frequency, boolean extended, BlockPos pos)
 	{
-		super(frequency, extended, pos);
+		this.frequency = frequency;
+		this.extended = extended;
+		this.pos = pos;
+		isBlock = true;
 	}
 
 	public PacketSetFrequency(short frequency, boolean extended, Hand hand)
 	{
-		super(frequency, extended, hand);
+		this.frequency = frequency;
+		this.extended = extended;
+		this.hand = hand;
+		isBlock = false;
 	}
 
 	public PacketSetFrequency(PacketBuffer buffer)
 	{
-		super(buffer);
+		frequency = buffer.readShort();
+		extended = buffer.readBoolean();
+		isBlock = buffer.readBoolean();
+
+		if (isBlock)
+			pos = buffer.readBlockPos();
+		else
+			hand = buffer.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+	}
+
+	@Override
+	public void toBytes(PacketBuffer buffer)
+	{
+		buffer.writeShort(frequency);
+		buffer.writeBoolean(extended);
+		buffer.writeBoolean(isBlock);
+
+		if (isBlock)
+			buffer.writeBlockPos(pos);
+		else
+			buffer.writeBoolean(hand == Hand.MAIN_HAND);
+	}
+
+	public short getFrequency()
+	{
+		return frequency;
+	}
+
+	public boolean isExtended()
+	{
+		return extended;
+	}
+
+	public boolean isBlock()
+	{
+		return isBlock;
+	}
+
+	public BlockPos getPos()
+	{
+		return pos;
+	}
+
+	public Hand getHand()
+	{
+		return hand;
 	}
 
 	@Override
@@ -53,18 +99,17 @@ public class PacketSetFrequency extends PacketFrequency
 
 			ctx.get().enqueueWork(() ->
 			{
-				switch (type)
+				if (isBlock)
 				{
-					case BLOCK:
-						TileEntity tile = world.getBlockEntity(pos);
-						if (tile instanceof TileFrequency)
-							((TileFrequency) tile).setFrequency(frequency);
-						break;
-					case ITEM:
-						ItemStack stack = player.getItemInHand(hand);
-						if (stack.getItem() instanceof ItemFrequency)
-							ItemFrequency.setFrequency(stack, frequency);
-						break;
+					TileEntity tile = world.getBlockEntity(pos);
+					if (tile instanceof TileFrequency)
+						((TileFrequency) tile).setFrequency(frequency);
+				}
+				else
+				{
+					ItemStack stack = player.getItemInHand(hand);
+					if (stack.getItem() instanceof ItemFrequency)
+						ItemFrequency.setFrequency(stack, frequency);
 				}
 
 				CompoundNBT nbt = player.getPersistentData();

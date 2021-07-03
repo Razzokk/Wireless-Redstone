@@ -17,7 +17,6 @@ public final class PacketHandler
 
 	public static void registerMessages()
 	{
-		registerMessage(PacketFrequencyOpenGui.class, PacketFrequencyOpenGui::new);
 		registerMessage(PacketSetFrequency.class, PacketSetFrequency::new);
 	}
 

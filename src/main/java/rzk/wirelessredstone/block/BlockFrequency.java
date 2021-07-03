@@ -5,7 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
@@ -16,10 +15,10 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ToolType;
-import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.network.PacketFrequencyOpenGui;
-import rzk.wirelessredstone.network.PacketHandler;
+import net.minecraftforge.fml.DistExecutor;
+import rzk.wirelessredstone.client.gui.ClientScreens;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
@@ -77,16 +76,12 @@ public class BlockFrequency extends BlockRedstoneDevice
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
 	{
-		if (!world.isClientSide)
+		if (world.isClientSide)
 		{
 			TileEntity tile = world.getBlockEntity(pos);
 
-			if (tile instanceof TileFrequency)
-			{
-				TileFrequency tileFrequency = (TileFrequency) tile;
-				boolean extended = player.getPersistentData().getBoolean(WirelessRedstone.MOD_ID + ".extended");
-				PacketHandler.sendToPlayer(new PacketFrequencyOpenGui(tileFrequency.getFrequency(), extended, pos), (ServerPlayerEntity) player);
-			}
+			if (tile instanceof Device.Block)
+				ClientScreens.openFreqGui((Device.Block) tile);
 		}
 
 		return ActionResultType.SUCCESS;
@@ -101,12 +96,12 @@ public class BlockFrequency extends BlockRedstoneDevice
 
 			if (isTransmitter() && isGettingPowered(state, world, pos))
 			{
-				network.addDevice(Device.create((short) 0, type, pos));
+				network.addDevice(Device.createTransmitter((short) 0, pos));
 				setPowered(state, world, pos, true);
 			}
 			else if (isReceiver())
 			{
-				network.addDevice(Device.create((short) 0, type, pos));
+				network.addDevice(Device.createReceiver((short) 0, pos));
 				setPowered(state, world, pos, network.isChannelActive((short) 0));
 			}
 		}

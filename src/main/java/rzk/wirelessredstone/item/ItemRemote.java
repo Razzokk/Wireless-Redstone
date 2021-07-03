@@ -40,7 +40,7 @@ public class ItemRemote extends ItemFrequency
 
 				if (network != null)
 				{
-					Device device = Device.createRemote(getFrequency(stack));
+					Device device = Device.createRemote(getFrequency(stack), null);
 
 					if (powered)
 						network.addDevice(device);

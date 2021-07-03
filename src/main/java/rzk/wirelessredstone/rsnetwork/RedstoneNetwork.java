@@ -118,9 +118,9 @@ public class RedstoneNetwork extends WorldSavedData
 		if (device.isBlock())
 			pos = ((Device.Block) device).getFreqPos();
 
-		addDevice(Device.create(newFrequency, type, pos));
+		addDevice(Device.create(newFrequency, type, pos, null));
 
-		if (type == Device.Type.RECEIVER)
+		if (device.isReceiver())
 			setReceiverState(pos, isChannelActive(newFrequency));
 	}
 

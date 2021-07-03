@@ -5,7 +5,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -15,13 +14,14 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.client.ClientSubscriber;
 import rzk.wirelessredstone.item.ItemSniffer;
 
 @Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = {Dist.CLIENT})
 public class HighlightRenderer
 {
 	@SubscribeEvent
-	public static void onRenderWorldLast(RenderWorldLastEvent event)
+	public static void renderSnifferHighlights(RenderWorldLastEvent event)
 	{
 		PlayerEntity player = Minecraft.getInstance().player;
 		ItemStack stack = player.getMainHandItem();
@@ -35,33 +35,28 @@ public class HighlightRenderer
 
 			if (coords.length > 0)
 			{
-				RenderSystem.lineWidth(2.5f);
-				RenderSystem.disableDepthTest();
-				RenderSystem.disableLighting();
-				RenderSystem.disableTexture();
-
 				IRenderTypeBuffer.Impl renderTypeBuffer = Minecraft.getInstance().renderBuffers().bufferSource();
-				IVertexBuilder vertexBuilder = renderTypeBuffer.getBuffer(RenderType.LINES);
-				MatrixStack matrixStack = event.getMatrixStack();
 				Vector3d cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-
-				float red = 1.0f;
-				float green = 0.25f;
-				float blue = 0.25f;
+				IVertexBuilder vertexBuilder = renderTypeBuffer.getBuffer(ClientSubscriber.LINES);
+				MatrixStack matrixStack = event.getMatrixStack();
+				matrixStack.pushPose();
+				matrixStack.translate(-cam.x(), -cam.y(),  -cam.z());
 
 				for (int pos = 0; pos < coords.length; pos += 3)
 				{
-					matrixStack.pushPose();
-					matrixStack.translate(cam.x() - coords[pos], cam.y() - coords[pos + 1], cam.z() - coords[pos + 2]);
-					WorldRenderer.renderLineBox(matrixStack, vertexBuilder, coords[pos], coords[pos + 1], coords[pos + 2], coords[pos] + 1, coords[pos + 1] + 1, coords[pos + 2] + 1, red, green, blue, 1f);
-					matrixStack.popPose();
+					int x = coords[pos];
+					int y = coords[pos + 1];
+					int z = coords[pos + 2];
+					player.shouldRender(x, y, z);
+					WorldRenderer.renderLineBox(matrixStack, vertexBuilder, x, y, z, x + 1, y + 1, z + 1, 1.0f, 0.25f, 0.25f, 1f);
 				}
 
-				renderTypeBuffer.endBatch(RenderType.LINES);
-				RenderSystem.enableTexture();
-				RenderSystem.enableLighting();
+				matrixStack.popPose();
+				RenderSystem.disableDepthTest();
+				RenderSystem.depthMask(false);
+				renderTypeBuffer.endBatch(ClientSubscriber.LINES);
 				RenderSystem.enableDepthTest();
-				RenderSystem.lineWidth(1.0f);
+				RenderSystem.depthMask(true);
 			}
 		}
 	}

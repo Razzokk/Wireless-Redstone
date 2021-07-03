@@ -12,17 +12,17 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.lwjgl.glfw.GLFW;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.network.PacketFrequencyOpenGui;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.network.PacketSetFrequency;
+import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.util.LangKeys;
 
 public class GuiFrequency extends Screen
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency.png");
 	public static final ResourceLocation TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency_extended.png");
-	private final BlockPos pos;
-	private final Hand hand;
+	private BlockPos pos;
+	private Hand hand;
 	private int xSize;
 	private int ySize;
 	private int guiLeft;
@@ -40,20 +40,20 @@ public class GuiFrequency extends Screen
 	private SizedButton doneButton;
 	private TextFieldWidget frequencyField;
 
-	// Extended GUI
+	// Extended GUI (WIP)
 	private boolean extended;
 	private Button buttonExtend;
 	private TextFieldWidget frequencyName;
 	private Button buttonAddName;
 	private TextFieldWidget searchbar;
 
-	public GuiFrequency(PacketFrequencyOpenGui packet)
+	public GuiFrequency(Device device)
 	{
 		super(new TranslationTextComponent(LangKeys.GUI_FREQUENCY));
-		frequency = packet.getFrequency();
+		this.frequency = device.getFrequency();
+		pos = device.isBlock() ? ((Device.Block) device).getFreqPos() : null;
+		hand = device.isRemote() ? ((Device.Item) device).getHand() : null;
 		extended = false;
-		pos = packet.getPos();
-		hand = packet.getHand();
 		ySize = extended ? 112 : 176;
 	}
 
