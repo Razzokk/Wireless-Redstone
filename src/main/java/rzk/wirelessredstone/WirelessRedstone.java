@@ -28,6 +28,7 @@ public class WirelessRedstone
 	public static final String MOD_ID = "wirelessredstone";
 	public static final CreativeTabs CREATIVE_TAB = new WRCreativeTab();
 	public static int freqColor = 0;
+	public static int highlightColor = 0;
 
 	@SidedProxy(clientSide = "rzk.wirelessredstone.proxy.ClientProxy", serverSide = "rzk.wirelessredstone.proxy.ServerProxy")
 	public static IProxy proxy;
@@ -53,6 +54,7 @@ public class WirelessRedstone
 	public void postInit(FMLPostInitializationEvent event)
 	{
 		freqColor = Color.decode(WRConfig.freqDisplayColor).getRGB();
+		highlightColor = Color.decode(WRConfig.highlightColor).getRGB();
 	}
 
 	@EventHandler

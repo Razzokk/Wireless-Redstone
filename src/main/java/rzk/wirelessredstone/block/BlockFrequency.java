@@ -29,6 +29,7 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 	{
 		super(new Material(MapColor.IRON));
 		setHardness(0.5f);
+		setResistance(5.0f);
 		setSoundType(SoundType.METAL);
 		this.type = type;
 	}

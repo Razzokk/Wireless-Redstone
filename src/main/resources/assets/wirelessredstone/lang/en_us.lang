@@ -27,6 +27,7 @@ message.wirelessredstone.no.transmitters=There are no active transmitters on thi
 message.wirelessredstone.teleport=Teleport here
 
 config.wirelessredstone.frequency.color=Frequency Display Color
+config.wirelessredstone.highlight.color=Sniffer Highlight Color
 config.wirelessredstone.sniffer.highlight_time=Sniffer Highlight Time
 
 itemGroup.wirelessredstone=Wireless Redstone

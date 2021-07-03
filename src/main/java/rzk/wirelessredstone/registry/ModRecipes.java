@@ -16,7 +16,7 @@ public class ModRecipes
 	@SubscribeEvent
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event)
 	{
-		addShapedRecipe(new ItemStack(ModItems.circuit, 4),
+		addShapedRecipe(new ItemStack(ModItems.circuit, 2),
 				"RGR",
 				"IEI",
 				"QGQ",
@@ -54,6 +54,7 @@ public class ModRecipes
 		addShapedRecipe(new ItemStack(ModItems.sniffer),
 				"IKI",
 				"ICI",
+				"IKI",
 				'K', Items.COMPARATOR,
 				'I', Items.IRON_INGOT,
 				'C', ModItems.circuit);

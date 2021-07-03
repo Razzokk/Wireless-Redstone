@@ -16,6 +16,11 @@ public class WRConfig
 	@RequiresMcRestart
 	public static String freqDisplayColor = "0x000000";
 
+	@Comment("Color of the highlight outline using the sniffer for active transmitters")
+	@LangKey(LangKeys.CONFIG_HIGHLIGHT_COLOR)
+	@RequiresMcRestart
+	public static String highlightColor = "0xFF3F3F";
+
 	@Comment("The time for the sniffer highlighting in seconds")
 	@LangKey(LangKeys.CONFIG_SNIFFER_HIGHLIGHT_TIME)
 	@RangeInt(min = 1)

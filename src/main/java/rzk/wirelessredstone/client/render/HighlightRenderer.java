@@ -12,6 +12,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.item.ItemSniffer;
 
 @SideOnly(Side.CLIENT)
@@ -37,6 +38,10 @@ public class HighlightRenderer
 				GlStateManager.disableLighting();
 				GlStateManager.disableTexture2D();
 
+				float red = (WirelessRedstone.highlightColor & (0xff << 16)) >> 16;
+				float green = (WirelessRedstone.highlightColor & (0xff << 8)) >> 8;
+				float blue = WirelessRedstone.highlightColor & 0xff;
+
 				Tessellator tessellator = Tessellator.getInstance();
 				BufferBuilder buffer = tessellator.getBuffer();
 				double d0 = player.lastTickPosX + (player.posX - player.lastTickPosX) * (double) event.getPartialTicks();
@@ -46,7 +51,13 @@ public class HighlightRenderer
 				buffer.setTranslation(-d0, -d1, -d2);
 
 				for (int pos = 0; pos < coords.length; pos += 3)
-					RenderGlobal.drawBoundingBox(buffer, coords[pos], coords[pos + 1], coords[pos + 2], coords[pos] + 1, coords[pos + 1] + 1, coords[pos + 2] + 1, 1f, 0.25f, 0.25f, 1f);
+				{
+					int x = coords[pos];
+					int y = coords[pos + 1];
+					int z = coords[pos + 2];
+					player.isInRangeToRender3d(x, y, z);
+					RenderGlobal.drawBoundingBox(buffer, x, y, z, x + 1, y + 1, z + 1, red / 256, green / 256, blue / 256, 1f);
+				}
 
 				buffer.setTranslation(0, 0, 0);
 				tessellator.draw();
