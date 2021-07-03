@@ -1,6 +1,21 @@
 ### Version 1.16.5-1.1.0:
 
 - UPDATED: to MC 1.16.5
+- NOT COMPATIBLE WITH EARLIER MOD VERSIONS!
+- ADDED: Frequency Sniffer
+- ADDED: Config option to color the frequency that is displayed on transmitters/receivers
+- ADDED: Command to clear a frequency from active transmitters (Only use this if the frequency is "stuck")
+- ADDED: Wireless Redstone blocks can now be mined faster with a pickaxe
+- ADDED: Cooldown for the remote item (0.5s)
+- CHANGED: Circuit recipe output from 4 to 2
+- FIXED: Potential crashes caused by Remote::onUpdate and BlockFrequency::setPoweredState
+- FIXED: Actual values for the frequency between 0 and 65536
+
+- RENAMED: Wireless Transmitter -> Redstone Transmitter
+- RENAMED: Wireless Receiver -> Redstone Receiver
+- RENAMED: Wireless Remote -> Remote
+- RENAMED: Wireless Circuit -> Circuit
+- RENAMED: Frequency Copier -> Frequency Tool
 
 ### Version 1.16.3-1.0.1:
 
