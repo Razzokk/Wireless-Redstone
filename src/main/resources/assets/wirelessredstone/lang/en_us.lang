@@ -7,11 +7,6 @@ item.wirelessredstone.remote.name=Remote
 item.wirelessredstone.sniffer.name=Frequency Sniffer
 
 gui.wirelessredstone.frequency.name=Frequency
-gui.wirelessredstone.extend.name=Extend
-gui.wirelessredstone.reduce.name=Reduce
-gui.wirelessredstone.private.name=Private
-gui.wirelessredstone.public.name=Public
-gui.wirelessredstone.searchbar.name=Search Bar
 
 tooltip.wirelessredstone.frequency.name=Frequency: (%s)
 tooltip.wirelessredstone.state.name=State: %s
