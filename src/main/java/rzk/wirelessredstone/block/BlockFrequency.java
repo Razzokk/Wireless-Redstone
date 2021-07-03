@@ -2,6 +2,7 @@ package rzk.wirelessredstone.block;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,9 +16,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.fml.DistExecutor;
 import rzk.wirelessredstone.client.gui.ClientScreens;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.rsnetwork.Device;
@@ -32,7 +31,7 @@ public class BlockFrequency extends BlockRedstoneDevice
 
 	public BlockFrequency(Device.Type type)
 	{
-		super(Properties.of(Material.METAL));
+		super(Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).strength(0.5F, 5.0F).sound(SoundType.METAL));
 		this.type = type;
 	}
 
@@ -47,12 +46,6 @@ public class BlockFrequency extends BlockRedstoneDevice
 
 		if (isFreqBlock(state))
 			((BlockFrequency) state.getBlock()).setPowered(state, world, pos, powered);
-	}
-
-	@Override
-	public boolean isToolEffective(BlockState state, ToolType tool)
-	{
-		return tool == ToolType.PICKAXE;
 	}
 
 	@Override
