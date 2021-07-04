@@ -16,6 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.client.ClientSubscriber;
 import rzk.wirelessredstone.item.ItemSniffer;
+import rzk.wirelessredstone.util.WRConfig;
 
 @Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = {Dist.CLIENT})
 public class HighlightRenderer
@@ -42,13 +43,17 @@ public class HighlightRenderer
 				matrixStack.pushPose();
 				matrixStack.translate(-cam.x(), -cam.y(),  -cam.z());
 
+				float red = (float) WRConfig.highlightColorRed / 256;
+				float green = (float) WRConfig.highlightColorGreen / 256;
+				float blue = (float) WRConfig.highlightColorBlue / 256;
+
 				for (int pos = 0; pos < coords.length; pos += 3)
 				{
 					int x = coords[pos];
 					int y = coords[pos + 1];
 					int z = coords[pos + 2];
 					player.shouldRender(x, y, z);
-					WorldRenderer.renderLineBox(matrixStack, vertexBuilder, x, y, z, x + 1, y + 1, z + 1, 1.0f, 0.25f, 0.25f, 1f);
+					WorldRenderer.renderLineBox(matrixStack, vertexBuilder, x, y, z, x + 1, y + 1, z + 1, red, green, blue, 1f);
 				}
 
 				matrixStack.popPose();

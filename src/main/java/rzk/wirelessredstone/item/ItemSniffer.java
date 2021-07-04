@@ -21,6 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 import rzk.wirelessredstone.rsnetwork.Channel;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.util.LangKeys;
+import rzk.wirelessredstone.util.WRConfig;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -84,6 +85,7 @@ public class ItemSniffer extends ItemFrequency
 					Set<BlockPos> transmitters = channel.getTransmitters();
 					Iterator<BlockPos> iterator = transmitters.iterator();
 					ITextComponent message = new TranslationTextComponent(LangKeys.MESSAGE_ACTIVE_TRANSMITTERS, freqComponent, transmitters.size());
+					message.getSiblings().add(new StringTextComponent("\n"));
 					int current = 0;
 
 					while (iterator.hasNext())
@@ -134,7 +136,7 @@ public class ItemSniffer extends ItemFrequency
 		{
 			CompoundNBT nbt = stack.getOrCreateTag();
 
-			if (world.getGameTime() >= nbt.getLong("timestamp") + 10 * 20L)
+			if (world.getGameTime() >= nbt.getLong("timestamp") + WRConfig.snifferHighlightTime * 20L)
 				removeHighlightBlocks(stack);
 		}
 	}

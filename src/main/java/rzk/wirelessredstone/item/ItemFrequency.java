@@ -17,7 +17,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.client.gui.ClientScreens;
 import rzk.wirelessredstone.registry.ModItems;

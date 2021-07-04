@@ -17,7 +17,7 @@ import rzk.wirelessredstone.network.PacketSetFrequency;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.util.LangKeys;
 
-public class GuiFrequency extends Screen
+public class ScreenFrequency extends Screen
 {
 	public static final ResourceLocation TEXTURE = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency.png");
 	public static final ResourceLocation TEXTURE_EXTENDED = new ResourceLocation(WirelessRedstone.MOD_ID, "textures/gui/frequency_extended.png");
@@ -47,7 +47,7 @@ public class GuiFrequency extends Screen
 	private Button buttonAddName;
 	private TextFieldWidget searchbar;
 
-	public GuiFrequency(Device device)
+	public ScreenFrequency(Device device)
 	{
 		super(new TranslationTextComponent(LangKeys.GUI_FREQUENCY));
 		this.frequency = device.getFrequency();
@@ -66,7 +66,7 @@ public class GuiFrequency extends Screen
 
 		// Standard GUI
 
-		addButton(closeButton = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, new StringTextComponent("x"), 0, -1, button -> minecraft.player.clientSideCloseContainer()));
+		addButton(closeButton = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, new StringTextComponent("x"), 0, -1, button -> onClose()));
 		addButton(sub1Button = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, new StringTextComponent(hasShiftDown() ? "-100" : "-1"), onPress -> freqButtonPressed(-1)));
 		addButton(sub10Button = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, new StringTextComponent(hasShiftDown() ? "-1000" : "-10"), onPress -> freqButtonPressed(-10)));
 		addButton(add1Button = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, new StringTextComponent(hasShiftDown() ? "+100" : "+1"), onPress -> freqButtonPressed(1)));
@@ -221,7 +221,7 @@ public class GuiFrequency extends Screen
 		else if (hand != null)
 			PacketHandler.instance.sendToServer(new PacketSetFrequency(frequency, extended, hand));
 
-		minecraft.player.clientSideCloseContainer();
+		onClose();
 	}
 
 	@Override

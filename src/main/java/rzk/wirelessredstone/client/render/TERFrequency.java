@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.util.math.vector.Quaternion;
 import rzk.wirelessredstone.tile.TileFrequency;
+import rzk.wirelessredstone.util.WRConfig;
 
 public class TERFrequency extends TileEntityRenderer<TileFrequency>
 {
@@ -29,7 +30,7 @@ public class TERFrequency extends TileEntityRenderer<TileFrequency>
 			matrixStack.mulPose(new Quaternion(0, i * 90, 180, true));
 			matrixStack.translate(0, 0, -0.5078125);
 			matrixStack.scale(1.0f / 96, 1.0f / 96, 1.0f / 96);
-			fontRenderer.draw(matrixStack, s, textOffset, 2.5f, 0x000000);
+			fontRenderer.draw(matrixStack, s, textOffset, 2.5f, WRConfig.freqDisplayColor);
 			matrixStack.popPose();
 		}
 	}
