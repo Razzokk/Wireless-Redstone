@@ -100,7 +100,7 @@ public class ItemSniffer extends ItemFrequency
 						if (iterator.hasNext())
 							message.getSiblings().add(new StringTextComponent("," + (current % 2 == 0 ? '\n' : ' ')));
 
-						if (message.getContents().length() >= 1000)
+						if (message.getString().length() >= 1000)
 						{
 							message.getSiblings().add(new StringTextComponent("..."));
 							break;
