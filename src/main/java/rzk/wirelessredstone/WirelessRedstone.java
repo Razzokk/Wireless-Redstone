@@ -18,6 +18,7 @@ import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.util.WRCommands;
 import rzk.wirelessredstone.util.WRConfig;
+import rzk.wirelessredstone.util.WREventHandler;
 import rzk.wirelessredstone.util.WRItemGroup;
 
 @Mod(WirelessRedstone.MOD_ID)
@@ -25,6 +26,7 @@ public final class WirelessRedstone
 {
 	public static final String MOD_ID = "wirelessredstone";
 	public static final ItemGroup ITEM_GROUP = new WRItemGroup();
+	public static boolean hasMissingBlockMappings = false;
 
 	public WirelessRedstone()
 	{
@@ -36,6 +38,7 @@ public final class WirelessRedstone
 		eventBus.register(ModTiles.class);
 		eventBus.register(ModItems.class);
 
+		MinecraftForge.EVENT_BUS.register(WREventHandler.class);
 		MinecraftForge.EVENT_BUS.register(WRCommands.class);
 
 		ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ClientScreens::openConfigGui);

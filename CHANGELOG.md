@@ -1,7 +1,7 @@
 ### Version 1.16.5-1.1.0:
 
 - UPDATED: to MC 1.16.5
-- NOT COMPATIBLE WITH EARLIER MOD VERSIONS!
+- NOTE: Due to huge internal changes I suggest making a world backup!
 - ADDED: Frequency Sniffer
 - ADDED: Config option to color the frequency that is displayed on transmitters/receivers
 - ADDED: Command to clear a frequency from active transmitters (Only use this if the frequency is "stuck")

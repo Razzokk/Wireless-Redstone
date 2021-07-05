@@ -10,6 +10,7 @@ import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
+import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModTiles;
@@ -94,6 +95,10 @@ public class TileFrequency extends TileEntity implements Device.Block
 		super.load(state, nbt);
 		type = nbt.getBoolean("transmitter") ? Type.TRANSMITTER : Type.RECEIVER;
 		frequency = nbt.getShort("frequency");
+
+		// Backwards compatibility
+		if (nbt.contains("isTransmitter"))
+			type = nbt.getBoolean("isTransmitter") ? Type.TRANSMITTER : Type.RECEIVER;
 	}
 
 	@Override
@@ -109,6 +114,20 @@ public class TileFrequency extends TileEntity implements Device.Block
 	public void onLoad()
 	{
 		super.onLoad();
+
+		// For backwards compatibility
+		if (WirelessRedstone.hasMissingBlockMappings && !level.isClientSide)
+		{
+			level.getServer().tell(new TickDelayedTask(1, () ->
+			{
+				if (level.isLoaded(worldPosition) && isReceiver() || (isTransmitter() && getBlockState().hasProperty(BlockStateProperties.POWERED) && getBlockState().getValue(BlockStateProperties.POWERED)))
+				{
+					RedstoneNetwork network = RedstoneNetwork.get((ServerWorld) level);
+					network.addDevice(this);
+				}
+			}));
+		}
+		// End backwards compatibility
 
 		if (!level.isClientSide && isReceiver())
 		{

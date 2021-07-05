@@ -10,6 +10,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 import rzk.wirelessredstone.block.BlockFrequency;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 public class RedstoneNetwork extends WorldSavedData
 {
@@ -49,7 +50,7 @@ public class RedstoneNetwork extends WorldSavedData
 
 	void setReceiverState(BlockPos pos, boolean state)
 	{
-		if (world.isLoaded(pos) && world.getBlockState(pos).getBlock() instanceof BlockFrequency)
+		if (world.isLoaded(pos) && world.getBlockState(pos).is(ModBlocks.redstoneReceiver))
 			BlockFrequency.setPoweredState(world, pos, state);
 	}
 
