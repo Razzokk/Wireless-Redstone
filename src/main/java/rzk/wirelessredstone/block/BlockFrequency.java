@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
@@ -24,6 +22,7 @@ import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockFrequency extends BlockRedstoneDevice
 {
@@ -66,6 +65,8 @@ public class BlockFrequency extends BlockRedstoneDevice
 		return isReceiver();
 	}
 
+
+
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
 	{
@@ -81,21 +82,29 @@ public class BlockFrequency extends BlockRedstoneDevice
 	}
 
 	@Override
-	public void setPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack)
+	public void onPlace(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving)
+	{
+		if (!world.isClientSide)
+			world.getBlockTicks().scheduleTick(pos, this, 1);
+	}
+
+	@Override
+	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
 	{
 		if (!world.isClientSide)
 		{
-			RedstoneNetwork network = RedstoneNetwork.get((ServerWorld) world);
+			RedstoneNetwork network = RedstoneNetwork.get(world);
+			TileEntity tile = world.getBlockEntity(pos);
 
 			if (isTransmitter() && isGettingPowered(state, world, pos))
 			{
-				network.addDevice(Device.createTransmitter((short) 0, pos));
 				setPowered(state, world, pos, true);
+				if (tile instanceof TileFrequency)
+					network.addDevice((TileFrequency) tile);
 			}
-			else if (isReceiver())
+			else if (isReceiver() && tile instanceof TileFrequency)
 			{
-				network.addDevice(Device.createReceiver((short) 0, pos));
-				setPowered(state, world, pos, network.isChannelActive((short) 0));
+				network.addDevice((TileFrequency) tile);
 			}
 		}
 	}

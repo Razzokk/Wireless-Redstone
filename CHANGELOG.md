@@ -1,3 +1,7 @@
+### Version 1.16.5-1.1.1:
+
+- FIXED: Post-placement state changes
+
 ### Version 1.16.5-1.1.0:
 
 - UPDATED: to MC 1.16.5

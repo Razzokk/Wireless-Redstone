@@ -84,6 +84,8 @@ public class RedstoneNetwork extends WorldSavedData
 
 		if (device.isSender())
 			updateReceivers(frequency);
+		else if (device.isReceiver() && device.isBlock() && channel.isActive())
+			setReceiverState(((Device.Block) device).getFreqPos(), true);
 
 		setDirty();
 	}
