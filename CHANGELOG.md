@@ -1,3 +1,9 @@
+### Version 1.12.2-1.1.1:
+
+- FIXED: NBT data used correctly when placing nbt stored receiver/transmitter in world
+- FIXED: (Project Red interaction) Red alloy wire can now be placed on the side of receiver/transmitter
+- FIXED: (Project Red interaction) when moving receiver/transmitter with frames it was messed up
+
 ### Version 1.12.2-1.1.0:
 
 - ADDED: Frequency Sniffer

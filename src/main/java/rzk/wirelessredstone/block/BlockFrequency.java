@@ -11,6 +11,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.network.PacketFrequency;
@@ -20,6 +21,7 @@ import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityProvider
 {
@@ -54,21 +56,37 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 	}
 
 	@Override
+	public boolean isSideSolid(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side)
+	{
+		return true;
+	}
+
+	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
+	{
+		if (!world.isRemote && isTransmitter() && isGettingPowered(world, pos))
+			setPoweredState(state, world, pos, true);
+
+		world.scheduleUpdate(pos, this, 1);
+	}
+
+	@Override
+	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand)
 	{
 		if (!world.isRemote)
 		{
 			RedstoneNetwork network = RedstoneNetwork.get(world);
+			TileEntity tile = world.getTileEntity(pos);
 
 			if (isTransmitter() && isGettingPowered(world, pos))
 			{
-				network.addDevice(Device.create((short) 0, type, pos));
 				setPoweredState(state, world, pos, true);
+				if (tile instanceof TileFrequency)
+					network.addDevice((TileFrequency) tile);
 			}
-			else if (isReceiver())
+			else if (isReceiver() && tile instanceof TileFrequency)
 			{
-				network.addDevice(Device.create((short) 0, type, pos));
-				setPoweredState(state, world, pos, network.isChannelActive((short) 0));
+				network.addDevice((TileFrequency) tile);
 			}
 		}
 	}
