@@ -64,9 +64,6 @@ public class BlockFrequency extends BlockRedstoneDevice implements ITileEntityPr
 	@Override
 	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
 	{
-		if (!world.isRemote && isTransmitter() && isGettingPowered(world, pos))
-			setPoweredState(state, world, pos, true);
-
 		world.scheduleUpdate(pos, this, 1);
 	}
 
