@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IKI",
+    "ICI",
+    "IKI"
+  ],
+  "key": {
+    "K": {
+      "item": "minecraft:comparator"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "wirelessredstone:circuit"
+    }
+  },
+  "result": {
+    "item": "wirelessredstone:sniffer"
+  }
+}
