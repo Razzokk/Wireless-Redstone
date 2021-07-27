@@ -17,6 +17,8 @@ import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
+import javax.annotation.Nullable;
+
 public abstract class TileFrequency extends BlockEntity implements Device.Block
 {
 	protected short frequency;
@@ -65,6 +67,13 @@ public abstract class TileFrequency extends BlockEntity implements Device.Block
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
 		load(pkt.getTag());
+	}
+
+	@Nullable
+	@Override
+	public ClientboundBlockEntityDataPacket getUpdatePacket()
+	{
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, getUpdateTag());
 	}
 
 	@Override

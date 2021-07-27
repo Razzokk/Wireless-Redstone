@@ -33,4 +33,9 @@ public final class PacketHandler
 	{
 		instance.sendTo(packet, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
 	}
+
+	public static void sendToServer(Packet packet)
+	{
+		instance.sendToServer(packet);
+	}
 }

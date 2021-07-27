@@ -66,12 +66,12 @@ public class ScreenFrequency extends Screen
 
 		// Standard GUI
 
-		addWidget(closeButton = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, new TextComponent("x"), 0, -1, onPress -> onClose()));
-		addWidget(sub1Button = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, new TextComponent(hasShiftDown() ? "-100" : "-1"), onPress -> freqButtonPressed(-1)));
-		addWidget(sub10Button = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, new TextComponent(hasShiftDown() ? "-1000" : "-10"), onPress -> freqButtonPressed(-10)));
-		addWidget(add1Button = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, new TextComponent(hasShiftDown() ? "+100" : "+1"), onPress -> freqButtonPressed(1)));
-		addWidget(add10Button = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, new TextComponent(hasShiftDown() ? "+1000" : "+10"), onPress -> freqButtonPressed(10)));
-		addWidget(doneButton = new SizedButton(guiLeft + 78, guiTop + 64, 36, 18, new TranslatableComponent(LangKeys.GUI_DONE), onPress -> sendPacket()));
+		addRenderableWidget(closeButton = new SizedButton(guiLeft + xSize - 18, guiTop + 6, 12, 12, new TextComponent("x"), 0, -1, onPress -> onClose()));
+		addRenderableWidget(sub1Button = new SizedButton(guiLeft + 28, guiTop + 24, 36, 16, new TextComponent(hasShiftDown() ? "-100" : "-1"), onPress -> freqButtonPressed(-1)));
+		addRenderableWidget(sub10Button = new SizedButton(guiLeft + 28, guiTop + 44, 36, 16, new TextComponent(hasShiftDown() ? "-1000" : "-10"), onPress -> freqButtonPressed(-10)));
+		addRenderableWidget(add1Button = new SizedButton(guiLeft + 128, guiTop + 24, 36, 16, new TextComponent(hasShiftDown() ? "+100" : "+1"), onPress -> freqButtonPressed(1)));
+		addRenderableWidget(add10Button = new SizedButton(guiLeft + 128, guiTop + 44, 36, 16, new TextComponent(hasShiftDown() ? "+1000" : "+10"), onPress -> freqButtonPressed(10)));
+		addRenderableWidget(doneButton = new SizedButton(guiLeft + 78, guiTop + 64, 36, 18, new TranslatableComponent(LangKeys.GUI_DONE), onPress -> sendPacket()));
 
 		addWidget(frequencyField = new EditBox(font, guiLeft + 76, guiTop + 35, 38, 14, new TranslatableComponent(LangKeys.GUI_FREQUENCY))
 		{
@@ -110,11 +110,11 @@ public class ScreenFrequency extends Screen
 
 		// Extended GUI
 
-		addWidget(buttonExtend = new SizedButton(guiLeft + xSize - 48, guiTop + ySize - 22, 42, 16, new TranslatableComponent(LangKeys.GUI_EXTEND), this::extend));
+		addRenderableWidget(buttonExtend = new SizedButton(guiLeft + xSize - 48, guiTop + ySize - 22, 42, 16, new TranslatableComponent(LangKeys.GUI_EXTEND), this::extend));
 		buttonExtend.active = false;
 		buttonExtend.visible = false;
 		addWidget(frequencyName = new EditBox(font, guiLeft + 7, guiTop + 100, 144, 14, new TranslatableComponent(LangKeys.GUI_FREQUENCY)));
-		addWidget(buttonAddName = new SizedButton(guiLeft + 154, guiTop + 99, 32, 16, new TranslatableComponent(LangKeys.GUI_DONE), onPress -> System.out.println("add to list")));
+		addRenderableWidget(buttonAddName = new SizedButton(guiLeft + 154, guiTop + 99, 32, 16, new TranslatableComponent(LangKeys.GUI_DONE), onPress -> System.out.println("add to list")));
 		buttonAddName.visible = extended;
 		addWidget(searchbar = new EditBox(font, guiLeft + 7, guiTop + 130, 178, 14, new TranslatableComponent(LangKeys.GUI_REDUCE)));
 	}
@@ -153,15 +153,23 @@ public class ScreenFrequency extends Screen
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		switch (keyCode)
+		if (minecraft.options.keyInventory.matches(keyCode, scanCode))
 		{
-			case GLFW.GLFW_KEY_LEFT_SHIFT:
-			case GLFW.GLFW_KEY_RIGHT_SHIFT:
-				sub1Button.setMessage(new TextComponent("-100"));
-				sub10Button.setMessage(new TextComponent("-1000"));
-				add1Button.setMessage(new TextComponent("+100"));
-				add10Button.setMessage(new TextComponent("+1000"));
-				break;
+			onClose();
+			return true;
+		}
+		else
+		{
+			switch (keyCode)
+			{
+				case GLFW.GLFW_KEY_LEFT_SHIFT:
+				case GLFW.GLFW_KEY_RIGHT_SHIFT:
+					sub1Button.setMessage(new TextComponent("-100"));
+					sub10Button.setMessage(new TextComponent("-1000"));
+					add1Button.setMessage(new TextComponent("+100"));
+					add10Button.setMessage(new TextComponent("+1000"));
+					break;
+			}
 		}
 
 		return super.keyPressed(keyCode, scanCode, modifiers);
@@ -213,9 +221,11 @@ public class ScreenFrequency extends Screen
 	private void sendPacket()
 	{
 		if (pos != null)
-			PacketHandler.instance.sendToServer(new PacketSetFrequency(frequency, extended, pos));
+			PacketHandler.sendToServer(new PacketSetFrequency(frequency, extended, pos));
 		else if (hand != null)
-			PacketHandler.instance.sendToServer(new PacketSetFrequency(frequency, extended, hand));
+			PacketHandler.sendToServer(new PacketSetFrequency(frequency, extended, hand));
+		else
+			WirelessRedstone.LOGGER.error("BlockPos and Hand are null at: Trying to send frequency packet!");
 
 		onClose();
 	}

@@ -15,12 +15,14 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.client.screen.RenderTypeLine;
 import rzk.wirelessredstone.item.ItemSniffer;
 import rzk.wirelessredstone.util.WRConfig;
 
 @Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = {Dist.CLIENT})
 public class HighlightRenderer
 {
+	// TODO: Fix this
 	@SubscribeEvent
 	public static void renderSnifferHighlights(RenderWorldLastEvent event)
 	{
@@ -37,8 +39,8 @@ public class HighlightRenderer
 			if (coords.length > 0)
 			{
 				MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+				VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderTypeLine.LINES);
 				Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-				VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.LINES);
 				PoseStack poseStack = event.getMatrixStack();
 				poseStack.pushPose();
 				poseStack.translate(-cam.x(), -cam.y(),  -cam.z());
@@ -57,11 +59,7 @@ public class HighlightRenderer
 				}
 
 				poseStack.popPose();
-				RenderSystem.disableDepthTest();
-				RenderSystem.depthMask(false);
 				bufferSource.endBatch(RenderType.LINES);
-				RenderSystem.enableDepthTest();
-				RenderSystem.depthMask(true);
 			}
 		}
 	}

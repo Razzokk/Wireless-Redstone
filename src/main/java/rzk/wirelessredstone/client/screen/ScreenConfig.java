@@ -63,10 +63,10 @@ public class ScreenConfig extends Screen
 
 		addWidget(options);
 
-		addWidget(new Button((width - BUTTON_WIDTH) / 2, height - BUTTON_TOP_OFFSET, BUTTON_WIDTH,
+		addRenderableWidget(new Button((width - BUTTON_WIDTH) / 2, height - BUTTON_TOP_OFFSET, BUTTON_WIDTH,
 				BUTTON_HEIGHT, new TranslatableComponent(LangKeys.GUI_DONE), button -> onClose()));
 
-		addWidget(new Button(width - RESET_BUTTON_WIDTH - 8, height - BUTTON_TOP_OFFSET, RESET_BUTTON_WIDTH,
+		addRenderableWidget(new Button(width - RESET_BUTTON_WIDTH - 8, height - BUTTON_TOP_OFFSET, RESET_BUTTON_WIDTH,
 				BUTTON_HEIGHT, new TranslatableComponent(LangKeys.GUI_RESET), button -> onReset()));
 	}
 

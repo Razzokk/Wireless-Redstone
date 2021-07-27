@@ -29,7 +29,7 @@ public class SizedButton extends Button
 	{
 		Minecraft minecraft = Minecraft.getInstance();
 		Font font = minecraft.font;
-		minecraft.getTextureManager().bindForSetup(WIDGETS_LOCATION);
+		RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, alpha);
 		int i = getYImage(isHovered());
 		RenderSystem.enableBlend();

@@ -15,11 +15,6 @@ import rzk.wirelessredstone.registry.ModTiles;
 @Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
 public class ClientSubscriber
 {
-	/*public static final RenderType LINES = RenderType.create("wr_line_render", DefaultVertexFormat.POSITION_COLOR, 1, 256, RenderType.CompositeState.builder()
-			.setLineState(new RenderS.LineState(OptionalDouble.empty()))
-			.setDepthTestState(new RenderState.DepthTestState("always", 519))
-			.createCompositeState(false));*/
-
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{

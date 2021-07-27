@@ -9,21 +9,23 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.util.WRCommands;
 import rzk.wirelessredstone.util.WRConfig;
-import rzk.wirelessredstone.util.WREventHandler;
 import rzk.wirelessredstone.util.WRCreativeModeTab;
+import rzk.wirelessredstone.util.WREventHandler;
 
 @Mod(WirelessRedstone.MOD_ID)
 public final class WirelessRedstone
 {
 	public static final String MOD_ID = "wirelessredstone";
 	public static final CreativeModeTab CREATIVE_MODE_TAB = new WRCreativeModeTab();
-	public static boolean hasMissingBlockMappings = false;
+	public static final Logger LOGGER = LogManager.getLogger();
 
 	public WirelessRedstone()
 	{
@@ -37,8 +39,6 @@ public final class WirelessRedstone
 
 		MinecraftForge.EVENT_BUS.register(WREventHandler.class);
 		MinecraftForge.EVENT_BUS.register(WRCommands.class);
-
-		//ModLoadingContext.get().registerExtensionPoint(IExtensionPoint.CONFIGGUIFACTORY, () -> ClientScreens::openConfigGui);
 	}
 
 	private void setup(FMLCommonSetupEvent event)
