@@ -7,6 +7,8 @@ import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.rsnetwork.Device;
@@ -35,10 +37,10 @@ public final class ModBlocks
 		return registerBlock(name, block, blockToItem -> new ItemNameBlockItem(blockToItem, ModItems.defaultItemProperties()));
 	}
 
-	public static Block registerBlock(String name, Block block, Function<Block, BlockItem> itemProvider)
+	public static Block registerBlock(String name, Block block, Function<Block, Item> itemProvider)
 	{
 		registerBlockNoItem(name, block);
-		BlockItem item = itemProvider.apply(block);
+		Item item = itemProvider.apply(block);
 		item.setRegistryName(block.getRegistryName());
 		ITEMS.add(item);
 		return block;
@@ -55,12 +57,21 @@ public final class ModBlocks
 	public static void registerBlocks(RegistryEvent.Register<Block> event)
 	{
 		initBlocks();
-		BLOCKS.forEach(event.getRegistry()::register);
+		IForgeRegistry<Block> blockRegistry = event.getRegistry();
+		BLOCKS.forEach(blockRegistry::register);
 	}
 
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
-		ITEMS.forEach(event.getRegistry()::register);
+		IForgeRegistry<Item> itemRegistry = event.getRegistry();
+		ITEMS.forEach(itemRegistry::register);
+	}
+
+	@SubscribeEvent
+	public static void loadComplete(FMLLoadCompleteEvent event)
+	{
+		BLOCKS.clear();
+		ITEMS.clear();
 	}
 }

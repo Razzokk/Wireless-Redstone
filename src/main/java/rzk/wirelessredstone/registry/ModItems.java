@@ -1,7 +1,6 @@
 package rzk.wirelessredstone.registry;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -48,5 +47,6 @@ public final class ModItems
 	{
 		initItems();
 		ITEMS.forEach(event.getRegistry()::register);
+		ITEMS.clear();
 	}
 }

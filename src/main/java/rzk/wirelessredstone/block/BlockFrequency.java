@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.common.ToolType;
 import rzk.wirelessredstone.client.screen.ClientScreens;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.rsnetwork.Device;
@@ -30,8 +29,14 @@ public class BlockFrequency extends BlockRedstoneDevice implements EntityBlock
 
 	public BlockFrequency(Device.Type type)
 	{
-		super(Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).strength(0.5F, 5.0F).sound(SoundType.METAL));
+		super(Properties.of(Material.METAL).strength(0.5F, 5.0F).sound(SoundType.METAL));
 		this.type = type;
+	}
+
+	@Override
+	public float defaultDestroyTime()
+	{
+		return super.defaultDestroyTime();
 	}
 
 	public static boolean isFreqBlock(BlockState state)
