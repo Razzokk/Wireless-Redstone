@@ -124,6 +124,15 @@ public class BlockFrequency extends BlockRedstoneDevice implements EntityBlock
 		}
 	}
 
+	@Override
+	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving)
+	{
+		if (!level.isClientSide && level.getBlockEntity(pos) instanceof TileFrequency tile)
+			RedstoneNetwork.get((ServerLevel) level).removeDevice(tile);
+
+		super.onRemove(state, level, pos, newState, isMoving);
+	}
+
 	@Nullable
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)

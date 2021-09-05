@@ -60,20 +60,24 @@ public abstract class TileFrequency extends BlockEntity implements Device.Block
 	@Override
 	public CompoundTag getUpdateTag()
 	{
-		return save(new CompoundTag());
+		CompoundTag nbt = super.getUpdateTag();
+		nbt.putShort("frequency", frequency);
+		return nbt;
 	}
 
 	@Override
 	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt)
 	{
-		load(pkt.getTag());
+		frequency = pkt.getTag().getShort("frequency");
 	}
 
 	@Nullable
 	@Override
 	public ClientboundBlockEntityDataPacket getUpdatePacket()
 	{
-		return new ClientboundBlockEntityDataPacket(worldPosition, 0, getUpdateTag());
+		CompoundTag nbt = new CompoundTag();
+		nbt.putShort("frequency", frequency);
+		return new ClientboundBlockEntityDataPacket(worldPosition, 0, nbt);
 	}
 
 	@Override
@@ -89,15 +93,6 @@ public abstract class TileFrequency extends BlockEntity implements Device.Block
 		super.save(nbt);
 		nbt.putShort("frequency", frequency);
 		return nbt;
-	}
-
-	@Override
-	public void setRemoved()
-	{
-		if (!level.isClientSide)
-			RedstoneNetwork.get((ServerLevel) level).removeDevice(this);
-
-		super.setRemoved();
 	}
 
 	public static class Transmitter extends TileFrequency
@@ -128,21 +123,19 @@ public abstract class TileFrequency extends BlockEntity implements Device.Block
 		}
 
 		@Override
-		public void onLoad()
+		public CompoundTag getUpdateTag()
 		{
-			super.onLoad();
-
-			if (!level.isClientSide)
-			{
+			if (level != null && !level.isClientSide)
 				level.getServer().tell(new TickTask(2, () ->
 				{
-					if (level.isLoaded(worldPosition))
+					if (level.isLoaded(worldPosition) && level.getBlockState(worldPosition).is(ModBlocks.redstoneReceiver))
 					{
 						RedstoneNetwork network = RedstoneNetwork.get((ServerLevel) level);
 						BlockFrequency.setPoweredState(level, worldPosition, network.isChannelActive(frequency));
 					}
 				}));
-			}
+
+			return super.getUpdateTag();
 		}
 	}
 }
