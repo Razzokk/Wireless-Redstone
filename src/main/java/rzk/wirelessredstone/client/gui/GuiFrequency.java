@@ -110,10 +110,10 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 					PacketHandler.INSTANCE.sendToServer(new PacketFrequency(frequency, extended, hand));
 				else
 					WirelessRedstone.logger.error("BlockPos and Hand are null, something went wrong");
-				mc.displayGuiScreen(null);
+				close();
 				break;
 			case 7:
-				mc.displayGuiScreen(null);
+				close();
 				break;
 		}
 	}
@@ -122,6 +122,10 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 	protected void keyTyped(char typedChar, int keyCode) throws IOException
 	{
 		super.keyTyped(typedChar, keyCode);
+
+		if (mc.gameSettings.keyBindInventory.isActiveAndMatches(keyCode))
+			close();
+
 		frequencyField.textboxKeyTyped(typedChar, keyCode);
 	}
 
@@ -200,6 +204,10 @@ public class GuiFrequency extends GuiScreen implements GuiPageButtonList.GuiResp
 			else
 				doneButton.enabled = false;
 		}
+	}
 
+	private void close()
+	{
+		mc.displayGuiScreen(null);
 	}
 }
