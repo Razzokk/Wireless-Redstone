@@ -5,12 +5,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
-import org.lwjgl.glfw.GLFW;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.network.PacketSetFrequency;
@@ -157,35 +157,45 @@ public class ScreenFrequency extends Screen
 	@Override
 	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		switch (keyCode)
+		if (super.keyPressed(keyCode, scanCode, modifiers))
+			return true;
+
+		InputMappings.Input key = InputMappings.getKey(keyCode, scanCode);
+
+		if (minecraft.options.keyInventory.isActiveAndMatches(key))
 		{
-			case GLFW.GLFW_KEY_LEFT_SHIFT:
-			case GLFW.GLFW_KEY_RIGHT_SHIFT:
-				sub1Button.setMessage(new StringTextComponent("-100"));
-				sub10Button.setMessage(new StringTextComponent("-1000"));
-				add1Button.setMessage(new StringTextComponent("+100"));
-				add10Button.setMessage(new StringTextComponent("+1000"));
-				break;
+			onClose();
+			return true;
 		}
 
-		return super.keyPressed(keyCode, scanCode, modifiers);
+		if (hasShiftDown())
+		{
+			sub1Button.setMessage(new StringTextComponent("-100"));
+			sub10Button.setMessage(new StringTextComponent("-1000"));
+			add1Button.setMessage(new StringTextComponent("+100"));
+			add10Button.setMessage(new StringTextComponent("+1000"));
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override
 	public boolean keyReleased(int keyCode, int scanCode, int modifiers)
 	{
-		switch (keyCode)
+		if (super.keyReleased(keyCode, scanCode, modifiers))
+			return true;
+
+		if (!hasShiftDown())
 		{
-			case GLFW.GLFW_KEY_LEFT_SHIFT:
-			case GLFW.GLFW_KEY_RIGHT_SHIFT:
-				sub1Button.setMessage(new StringTextComponent("-1"));
-				sub10Button.setMessage(new StringTextComponent("-10"));
-				add1Button.setMessage(new StringTextComponent("+1"));
-				add10Button.setMessage(new StringTextComponent("+10"));
-				break;
+			sub1Button.setMessage(new StringTextComponent("-1"));
+			sub10Button.setMessage(new StringTextComponent("-10"));
+			add1Button.setMessage(new StringTextComponent("+1"));
+			add10Button.setMessage(new StringTextComponent("+10"));
+			return true;
 		}
 
-		return super.keyReleased(keyCode, scanCode, modifiers);
+		return false;
 	}
 
 	@Override

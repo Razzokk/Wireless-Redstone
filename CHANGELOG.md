@@ -1,3 +1,7 @@
+### Version 1.16.5-1.1.2:
+
+- FIXED: Gui closable with inventory key
+
 ### Version 1.16.5-1.1.1:
 
 - FIXED: Post-placement state changes
