@@ -1,8 +1,5 @@
 package rzk.wirelessredstone.client;
 
-import net.minecraft.client.renderer.RenderState;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,16 +12,9 @@ import rzk.wirelessredstone.client.render.TERFrequency;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
 
-import java.util.OptionalDouble;
-
 @Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
 public class ClientSubscriber
 {
-	public static final RenderType LINES = RenderType.create("wr_line_render", DefaultVertexFormats.POSITION_COLOR, 1, 256, RenderType.State.builder()
-			.setLineState(new RenderState.LineState(OptionalDouble.empty()))
-			.setDepthTestState(new RenderState.DepthTestState("always", 519))
-			.createCompositeState(false));
-
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
