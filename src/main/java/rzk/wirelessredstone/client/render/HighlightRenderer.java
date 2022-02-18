@@ -2,19 +2,13 @@ package rzk.wirelessredstone.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
-import net.minecraft.client.renderer.WorldVertexBufferUploader;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -22,7 +16,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.opengl.GL11;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.client.ClientSubscriber;
 import rzk.wirelessredstone.item.ItemSniffer;
 import rzk.wirelessredstone.util.WRConfig;
 
@@ -45,24 +38,22 @@ public class HighlightRenderer
 			if (coords.length > 0)
 			{
 				MatrixStack matrixStack = event.getMatrixStack();
-				BufferBuilder builder = Tessellator.getInstance().getBuilder();
-				Vector3d playerPos = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+				Tessellator tessellator = Tessellator.getInstance();
+				BufferBuilder builder = tessellator.getBuilder();
+				Vector3d cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 
 				matrixStack.pushPose();
-				matrixStack.translate(-playerPos.x(), -playerPos.y(), -playerPos.z());
-				builder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
-
+				matrixStack.translate(-cam.x(), -cam.y(), -cam.z());
 				RenderSystem.disableTexture();
 				RenderSystem.disableDepthTest();
-				RenderSystem.enableAlphaTest();
-				RenderSystem.defaultAlphaFunc();
 				RenderSystem.enableBlend();
 				RenderSystem.defaultBlendFunc();
 				RenderSystem.lineWidth(3);
+				builder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR);
 
-				int red = WRConfig.highlightColorRed;
-				int green = WRConfig.highlightColorGreen;
-				int blue = WRConfig.highlightColorBlue;
+				float red = WRConfig.highlightColorRed / 255f;
+				float green = WRConfig.highlightColorGreen / 255f;
+				float blue = WRConfig.highlightColorBlue / 255f;
 
 				for (int i = 0; i < coords.length; i += 3)
 				{
@@ -71,24 +62,16 @@ public class HighlightRenderer
 					int z = coords[i + 2];
 
 					if (player.shouldRender(x, y, z))
-						renderLineShape(matrixStack, builder, VoxelShapes.block(), x, y, z, red, green, blue, 255);
+						WorldRenderer.renderLineBox(matrixStack, builder, x, y, z, x + 1, y + 1, z + 1, red, green, blue, 1f);
 				}
 
-				builder.end();
-				WorldVertexBufferUploader.end(builder);
+				tessellator.end();
 				matrixStack.popPose();
+				RenderSystem.enableTexture();
+				RenderSystem.enableDepthTest();
+				RenderSystem.disableBlend();
+				RenderSystem.lineWidth(1);
 			}
 		}
-	}
-
-	public static void renderLineShape(MatrixStack matrixStack, IVertexBuilder builder, VoxelShape shape, double posX, double posY, double posZ, int red, int green, int blue, int alpha)
-	{
-		Matrix4f matrix = matrixStack.last().pose();
-
-		shape.forAllEdges((minX, minY, minZ, maxX, maxY, maxZ) ->
-		{
-			builder.vertex(matrix, (float) (minX + posX), (float) (minY + posY), (float) (minZ + posZ)).color(red, green, blue, alpha).endVertex();
-			builder.vertex(matrix, (float) (maxX + posX), (float) (maxY + posY), (float) (maxZ + posZ)).color(red, green, blue, alpha).endVertex();
-		});
 	}
 }
