@@ -1,37 +1,55 @@
 package rzk.wirelessredstone.registry;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectList;
+import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.tile.TileFrequency;
-import rzk.wirelessredstone.tile.TileType;
 
-public class ModTiles
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Supplier;
+
+public final class ModTiles
 {
-	public static final ObjectList<TileEntityType<?>> TILES = new ObjectArrayList<>();
+	private static final List<TileEntityType<?>> TILE_TYPE_CACHE = new ArrayList<>();
 
-	public static TileEntityType<TileFrequency> frequency;
+	private ModTiles() {}
+
+	public static TileEntityType<?> frequency;
+	public static TileEntityType<?> receiver;
+	public static TileEntityType<?> transmitter;
 
 	private static void initTiles()
 	{
-		frequency = registerTile("frequency", new TileType<>(TileFrequency::new));
+		frequency = registerTileType("tile_frequency", TileFrequency::new, ModBlocks.redstoneReceiver, ModBlocks.redstoneTransmitter);
 	}
 
-	public static <T extends TileEntity> TileEntityType<T> registerTile(String name, TileEntityType<T> tileType)
+	private static <T extends TileEntity> TileEntityType<T> registerTileType(String name, TileEntityType<T> tileType)
 	{
-		tileType.setRegistryName(WirelessRedstone.MOD_ID, "tile_" + name);
-		TILES.add(tileType);
+		tileType.setRegistryName(WirelessRedstone.MOD_ID, name);
+		TILE_TYPE_CACHE.add(tileType);
 		return tileType;
+	}
+
+	private static <T extends TileEntity> TileEntityType<T> registerTileType(String name, Supplier<T> tileSupplier, Block... validBlocks)
+	{
+		Set<Block> blocks = new HashSet<>(Arrays.asList(validBlocks));
+		return registerTileType(name, new TileEntityType<>(tileSupplier, blocks, null));
 	}
 
 	@SubscribeEvent
 	public static void registerTiles(RegistryEvent.Register<TileEntityType<?>> event)
 	{
 		initTiles();
-		TILES.forEach(event.getRegistry()::register);
+		IForgeRegistry<TileEntityType<?>> registry = event.getRegistry();
+		TILE_TYPE_CACHE.forEach(registry::register);
+		TILE_TYPE_CACHE.clear();
 	}
 }

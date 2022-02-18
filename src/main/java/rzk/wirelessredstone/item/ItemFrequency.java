@@ -31,7 +31,7 @@ public class ItemFrequency extends Item
 {
 	public ItemFrequency()
 	{
-		super(ModItems.defaultItemProperties().stacksTo(1));
+		super(ModItems.defaultItemProps().stacksTo(1));
 	}
 
 	public static short getFrequency(ItemStack stack)
