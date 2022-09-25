@@ -1,3 +1,11 @@
+## Version 1.12.2-1.1.3:
+
+- FIX: Frequencies getting corrupted and receivers/transmitters not updating anymore
+
+## Version 1.12.2-1.1.2:
+
+- FIXED: Gui closable with inventory key
+
 ### Version 1.12.2-1.1.1:
 
 - FIXED: NBT data used correctly when placing nbt stored receiver/transmitter in world
