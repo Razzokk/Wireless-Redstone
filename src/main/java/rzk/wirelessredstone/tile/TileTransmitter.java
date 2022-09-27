@@ -7,7 +7,4 @@ public class TileTransmitter extends TileFrequency
 	{
 		return Type.TRANSMITTER;
 	}
-
-	@Override
-	public void onChunkLoad() {}
 }

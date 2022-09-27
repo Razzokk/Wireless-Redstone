@@ -1,4 +1,11 @@
+## Version 1.12.2-1.1.4:
+
+- FIX: receivers/transmitters before mod version 1.12.2-1.1.3 breaking when using mod version >= 1.12.2-1.1.3
+
+
 ## Version 1.12.2-1.1.3:
+
+WARNING: This version will break working transmitters/receivers from earlier versions of this mod
 
 - FIX: Frequencies getting corrupted and receivers/transmitters not updating anymore
 

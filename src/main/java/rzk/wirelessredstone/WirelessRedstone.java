@@ -1,7 +1,12 @@
 package rzk.wirelessredstone;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.util.CompoundDataFixer;
+import net.minecraftforge.common.util.ModFixs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,6 +24,7 @@ import rzk.wirelessredstone.util.WRCommand;
 import rzk.wirelessredstone.util.WRConfig;
 import rzk.wirelessredstone.util.WRCreativeTab;
 import rzk.wirelessredstone.util.WREventHandler;
+import rzk.wirelessredstone.util.WRTEDataFix;
 
 import java.awt.Color;
 
@@ -48,6 +54,13 @@ public class WirelessRedstone
 		MinecraftForge.EVENT_BUS.register(ModTiles.class);
 		MinecraftForge.EVENT_BUS.register(ModRecipes.class);
 		MinecraftForge.EVENT_BUS.register(WREventHandler.class);
+
+		DataFixer dataFixer = Minecraft.getMinecraft().getDataFixer();
+		if (dataFixer instanceof CompoundDataFixer)
+		{
+			ModFixs fixer = ((CompoundDataFixer) dataFixer).init(MOD_ID, 1);
+			fixer.registerFix(FixTypes.BLOCK_ENTITY, new WRTEDataFix());
+		}
 	}
 
 	@EventHandler

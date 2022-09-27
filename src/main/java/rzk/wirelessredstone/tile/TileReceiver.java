@@ -1,10 +1,11 @@
 package rzk.wirelessredstone.tile;
 
 import net.minecraft.block.state.IBlockState;
+import rzk.wirelessredstone.api.IChunkListener;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
-public class TileReceiver extends TileFrequency
+public class TileReceiver extends TileFrequency implements IChunkListener
 {
 	@Override
 	public Type getType()

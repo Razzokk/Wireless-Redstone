@@ -8,14 +8,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
-import rzk.wirelessredstone.api.IChunkListener;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
 import javax.annotation.Nullable;
 
-public abstract class TileFrequency extends TileEntity implements IChunkListener, Device.Block
+public abstract class TileFrequency extends TileEntity implements Device.Block
 {
 	private short frequency;
 
