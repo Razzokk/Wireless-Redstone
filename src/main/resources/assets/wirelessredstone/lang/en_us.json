@@ -1,6 +1,6 @@
 {
-  "item.wirelessredstone.redstone_transmitter": "Redstone Transmitter",
-  "item.wirelessredstone.redstone_receiver": "Redstone Receiver",
+  "block.wirelessredstone.redstone_transmitter": "Redstone Transmitter",
+  "block.wirelessredstone.redstone_receiver": "Redstone Receiver",
   "item.wirelessredstone.circuit": "Circuit",
   "item.wirelessredstone.frequency_tool": "Frequency Tool",
   "item.wirelessredstone.remote": "Remote",

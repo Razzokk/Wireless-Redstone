@@ -6,7 +6,7 @@ public class TileTransmitter extends TileFrequency
 {
 	public TileTransmitter()
 	{
-		super(ModTiles.transmitter);
+		super(ModTiles.redstoneTransmitter);
 	}
 
 	@Override

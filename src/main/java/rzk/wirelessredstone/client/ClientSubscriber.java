@@ -18,8 +18,8 @@ public class ClientSubscriber
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
-		ClientRegistry.bindTileEntityRenderer(ModTiles.transmitter, TERFrequency::new);
-		ClientRegistry.bindTileEntityRenderer(ModTiles.receiver, TERFrequency::new);
+		ClientRegistry.bindTileEntityRenderer(ModTiles.redstoneTransmitter, TERFrequency::new);
+		ClientRegistry.bindTileEntityRenderer(ModTiles.redstoneReceiver, TERFrequency::new);
 
 		event.enqueueWork(() -> ItemModelsProperties.register(ModItems.remote, new ResourceLocation(WirelessRedstone.MOD_ID, "powered"),
 				(stack, world, entity) -> stack.getOrCreateTag().getBoolean("powered") ? 1 : 0));

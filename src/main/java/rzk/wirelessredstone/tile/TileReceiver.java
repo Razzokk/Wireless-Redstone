@@ -2,16 +2,16 @@ package rzk.wirelessredstone.tile;
 
 import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.world.server.ServerWorld;
-import rzk.wirelessredstone.api.IChunkListener;
+import rzk.wirelessredstone.api.IChunkLoadListener;
 import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
-public class TileReceiver extends TileFrequency implements IChunkListener
+public class TileReceiver extends TileFrequency implements IChunkLoadListener
 {
 	public TileReceiver()
 	{
-		super(ModTiles.receiver);
+		super(ModTiles.redstoneReceiver);
 	}
 
 	@Override
@@ -32,7 +32,4 @@ public class TileReceiver extends TileFrequency implements IChunkListener
 			}));
 		}
 	}
-
-	@Override
-	public void onChunkUnload() {}
 }

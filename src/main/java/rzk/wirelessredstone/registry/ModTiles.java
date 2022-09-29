@@ -7,6 +7,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.tile.TileFrequencyOld;
 import rzk.wirelessredstone.tile.TileReceiver;
 import rzk.wirelessredstone.tile.TileTransmitter;
 
@@ -23,13 +24,16 @@ public final class ModTiles
 
 	private ModTiles() {}
 
-	public static TileEntityType<TileTransmitter> transmitter;
-	public static TileEntityType<TileReceiver> receiver;
+	public static TileEntityType<TileTransmitter> redstoneTransmitter;
+	public static TileEntityType<TileReceiver> redstoneReceiver;
+	// TODO: remove, this is only here for backwards-compat
+	public static TileEntityType<TileFrequencyOld> frequency;
 
 	private static void initTiles()
 	{
-		transmitter = registerTileType("transmitter", TileTransmitter::new, ModBlocks.redstoneTransmitter);
-		receiver = registerTileType("receiver", TileReceiver::new, ModBlocks.redstoneReceiver);
+		redstoneTransmitter = registerTileType("redstone_transmitter", TileTransmitter::new, ModBlocks.redstoneTransmitter);
+		redstoneReceiver = registerTileType("redstone_receiver", TileReceiver::new, ModBlocks.redstoneReceiver);
+		frequency = registerTileType("tile_frequency", TileFrequencyOld::new, ModBlocks.redstoneTransmitter, ModBlocks.redstoneReceiver);
 	}
 
 	private static <T extends TileEntity> TileEntityType<T> registerTileType(String name, TileEntityType<T> tileType)
