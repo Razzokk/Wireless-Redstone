@@ -1,8 +1,6 @@
 package rzk.wirelessredstone.api;
 
-public interface IChunkListener
+public interface IChunkLoadListener
 {
 	void onChunkLoad();
-
-	void onChunkUnload();
 }

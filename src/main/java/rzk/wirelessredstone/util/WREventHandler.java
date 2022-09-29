@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import rzk.wirelessredstone.api.IChunkListener;
+import rzk.wirelessredstone.api.IChunkLoadListener;
 import rzk.wirelessredstone.item.ItemRemote;
 
 import java.util.Map;
@@ -28,17 +28,8 @@ public class WREventHandler
 	{
 		Map<BlockPos, TileEntity> tiles = event.getChunk().getTileEntityMap();
 		for (TileEntity tile : tiles.values())
-			if (tile instanceof IChunkListener)
-				((IChunkListener) tile).onChunkLoad();
-	}
-
-	@SubscribeEvent
-	public static void onChunkUnload(ChunkEvent.Unload event)
-	{
-		Map<BlockPos, TileEntity> tiles = event.getChunk().getTileEntityMap();
-		for (TileEntity tile : tiles.values())
-			if (tile instanceof IChunkListener)
-				((IChunkListener) tile).onChunkUnload();
+			if (tile instanceof IChunkLoadListener)
+				((IChunkLoadListener) tile).onChunkLoad();
 	}
 
 	@SubscribeEvent
