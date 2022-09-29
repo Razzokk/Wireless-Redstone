@@ -7,7 +7,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.tile.TileFrequency;
+import rzk.wirelessredstone.tile.TileReceiver;
+import rzk.wirelessredstone.tile.TileTransmitter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,13 +23,13 @@ public final class ModTiles
 
 	private ModTiles() {}
 
-	public static TileEntityType<?> frequency;
-	public static TileEntityType<?> receiver;
-	public static TileEntityType<?> transmitter;
+	public static TileEntityType<TileTransmitter> transmitter;
+	public static TileEntityType<TileReceiver> receiver;
 
 	private static void initTiles()
 	{
-		frequency = registerTileType("tile_frequency", TileFrequency::new, ModBlocks.redstoneReceiver, ModBlocks.redstoneTransmitter);
+		transmitter = registerTileType("transmitter", TileTransmitter::new, ModBlocks.redstoneTransmitter);
+		receiver = registerTileType("receiver", TileReceiver::new, ModBlocks.redstoneReceiver);
 	}
 
 	private static <T extends TileEntity> TileEntityType<T> registerTileType(String name, TileEntityType<T> tileType)

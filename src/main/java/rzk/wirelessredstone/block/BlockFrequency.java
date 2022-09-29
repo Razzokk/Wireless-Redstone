@@ -13,25 +13,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 import rzk.wirelessredstone.client.gui.ClientScreens;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.rsnetwork.Device;
-import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
-import rzk.wirelessredstone.tile.TileFrequency;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockFrequency extends BlockRedstoneDevice
+public abstract class BlockFrequency extends BlockRedstoneDevice
 {
-	private final Device.Type type;
-
-	public BlockFrequency(Device.Type type)
+	public BlockFrequency()
 	{
-		super(Properties.of(Material.METAL).harvestTool(ToolType.PICKAXE).strength(0.5F, 5.0F).sound(SoundType.METAL));
-		this.type = type;
+		super(Properties.of(Material.METAL)
+				.harvestTool(ToolType.PICKAXE)
+				.strength(0.5F, 5.0F)
+				.sound(SoundType.METAL)
+		);
 	}
 
 	public static boolean isFreqBlock(BlockState state)
@@ -50,22 +48,20 @@ public class BlockFrequency extends BlockRedstoneDevice
 	@Override
 	public boolean isSignalSource(BlockState state)
 	{
-		return isReceiver();
+		return false;
 	}
 
 	@Override
 	protected boolean isInputSide(BlockState state, Direction side)
 	{
-		return isTransmitter();
+		return false;
 	}
 
 	@Override
 	protected boolean isOutputSide(BlockState state, Direction side)
 	{
-		return isReceiver();
+		return false;
 	}
-
-
 
 	@Override
 	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult)
@@ -89,50 +85,7 @@ public class BlockFrequency extends BlockRedstoneDevice
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand)
-	{
-		if (!world.isClientSide)
-		{
-			RedstoneNetwork network = RedstoneNetwork.get(world);
-			TileEntity tile = world.getBlockEntity(pos);
-
-			if (isTransmitter() && isGettingPowered(state, world, pos))
-			{
-				setPowered(state, world, pos, true);
-				if (tile instanceof TileFrequency)
-					network.addDevice((TileFrequency) tile);
-			}
-			else if (isReceiver() && tile instanceof TileFrequency)
-			{
-				network.addDevice((TileFrequency) tile);
-			}
-		}
-	}
-
-	@Override
-	protected void onInputChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos neighbour, Direction side)
-	{
-		if (!world.isClientSide && isTransmitter() && shouldUpdate(state, world, pos))
-		{
-			boolean powered = isGettingPowered(state, world, pos);
-			setPowered(state, world, pos, powered);
-			TileEntity tile = world.getBlockEntity(pos);
-
-			if (tile instanceof Device)
-			{
-				Device device = (Device) tile;
-				RedstoneNetwork network = RedstoneNetwork.get((ServerWorld) world);
-
-				if (network != null)
-				{
-					if (powered)
-						network.addDevice(device);
-					else
-						network.removeDevice(device);
-				}
-			}
-		}
-	}
+	protected void onInputChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos neighbour, Direction side) {}
 
 	@Override
 	public boolean hasTileEntity(BlockState state)
@@ -142,18 +95,5 @@ public class BlockFrequency extends BlockRedstoneDevice
 
 	@Nullable
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world)
-	{
-		return new TileFrequency(type);
-	}
-
-	public boolean isTransmitter()
-	{
-		return type == Device.Type.TRANSMITTER;
-	}
-
-	public boolean isReceiver()
-	{
-		return type == Device.Type.RECEIVER;
-	}
+	public abstract TileEntity createTileEntity(BlockState state, IBlockReader world);
 }

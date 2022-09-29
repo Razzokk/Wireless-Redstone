@@ -5,16 +5,25 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.IChunk;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.api.IChunkListener;
 import rzk.wirelessredstone.item.ItemRemote;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.registry.ModTiles;
+
+import java.util.Set;
 
 public class WREventHandler
 {
@@ -42,6 +51,36 @@ public class WREventHandler
 	{
 		PlayerEntity player = event.getPlayer();
 		powerOffRemote(player.level, player.getUseItem());
+	}
+
+	@SubscribeEvent
+	public static void onChunkLoad(ChunkEvent.Load event)
+	{
+		IChunk chunk = event.getChunk();
+		Set<BlockPos> tilePoses = chunk.getBlockEntitiesPos();
+
+		for (BlockPos pos : tilePoses)
+		{
+			TileEntity tile = chunk.getBlockEntity(pos);
+
+			if (tile instanceof IChunkListener)
+				((IChunkListener) tile).onChunkLoad();
+		}
+	}
+
+	@SubscribeEvent
+	public static void onChunkUnload(ChunkEvent.Unload event)
+	{
+		IChunk chunk = event.getChunk();
+		Set<BlockPos> tilePoses = chunk.getBlockEntitiesPos();
+
+		for (BlockPos pos : tilePoses)
+		{
+			TileEntity tile = chunk.getBlockEntity(pos);
+
+			if (tile instanceof IChunkListener)
+				((IChunkListener) tile).onChunkUnload();
+		}
 	}
 
 	// For backwards compatibility

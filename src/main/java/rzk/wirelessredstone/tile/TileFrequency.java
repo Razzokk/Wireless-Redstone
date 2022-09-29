@@ -6,34 +6,24 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.concurrent.TickDelayedTask;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.Constants;
-import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.block.BlockFrequency;
 import rzk.wirelessredstone.registry.ModBlocks;
-import rzk.wirelessredstone.registry.ModTiles;
 import rzk.wirelessredstone.rsnetwork.Device;
 import rzk.wirelessredstone.rsnetwork.RedstoneNetwork;
 
 import javax.annotation.Nullable;
 
-public class TileFrequency extends TileEntity implements Device.Block
+public abstract class TileFrequency extends TileEntity implements Device.Block
 {
-	private Type type;
 	private short frequency;
 
-	public TileFrequency(Type type)
+	public TileFrequency(TileEntityType<?> tileType)
 	{
-		super(ModTiles.frequency);
-		this.type = type;
+		super(tileType);
 		frequency = 0;
-	}
-
-	public TileFrequency()
-	{
-		this(Type.TRANSMITTER);
 	}
 
 	@Override
@@ -56,12 +46,6 @@ public class TileFrequency extends TileEntity implements Device.Block
 			level.sendBlockUpdated(worldPosition, state, state, Constants.BlockFlags.BLOCK_UPDATE);
 			setChanged();
 		}
-	}
-
-	@Override
-	public Type getDeviceType()
-	{
-		return type;
 	}
 
 	@Override
@@ -93,61 +77,14 @@ public class TileFrequency extends TileEntity implements Device.Block
 	public void load(BlockState state, CompoundNBT nbt)
 	{
 		super.load(state, nbt);
-		type = nbt.getBoolean("transmitter") ? Type.TRANSMITTER : Type.RECEIVER;
 		frequency = nbt.getShort("frequency");
-
-		// Backwards compatibility
-		if (nbt.contains("isTransmitter"))
-			type = nbt.getBoolean("isTransmitter") ? Type.TRANSMITTER : Type.RECEIVER;
 	}
 
 	@Override
 	public CompoundNBT save(CompoundNBT nbt)
 	{
 		super.save(nbt);
-		nbt.putBoolean("transmitter", isTransmitter());
 		nbt.putShort("frequency", frequency);
 		return nbt;
-	}
-
-	@Override
-	public void onLoad()
-	{
-		super.onLoad();
-
-		// For backwards compatibility
-		if (WirelessRedstone.hasMissingBlockMappings && !level.isClientSide)
-		{
-			level.getServer().tell(new TickDelayedTask(1, () ->
-			{
-				if (level.isLoaded(worldPosition) && isReceiver() || (isTransmitter() && getBlockState().hasProperty(BlockStateProperties.POWERED) && getBlockState().getValue(BlockStateProperties.POWERED)))
-				{
-					RedstoneNetwork network = RedstoneNetwork.get((ServerWorld) level);
-					network.addDevice(this);
-				}
-			}));
-		}
-		// End backwards compatibility
-
-		if (!level.isClientSide && isReceiver())
-		{
-			level.getServer().tell(new TickDelayedTask(2, () ->
-			{
-				if (level.isLoaded(worldPosition))
-				{
-					RedstoneNetwork network = RedstoneNetwork.get((ServerWorld) level);
-					BlockFrequency.setPoweredState(level, worldPosition, network.isChannelActive(frequency));
-				}
-			}));
-		}
-	}
-
-	@Override
-	public void setRemoved()
-	{
-		if (!level.isClientSide)
-			RedstoneNetwork.get((ServerWorld) level).removeDevice(this);
-
-		super.setRemoved();
 	}
 }

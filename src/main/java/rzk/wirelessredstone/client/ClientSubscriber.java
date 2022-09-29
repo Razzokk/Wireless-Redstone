@@ -12,13 +12,14 @@ import rzk.wirelessredstone.client.render.TERFrequency;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.registry.ModTiles;
 
-@Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = {Dist.CLIENT})
+@Mod.EventBusSubscriber(modid = WirelessRedstone.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientSubscriber
 {
 	@SubscribeEvent
 	public static void onClientSetup(FMLClientSetupEvent event)
 	{
-		ClientRegistry.bindTileEntityRenderer(ModTiles.frequency, TERFrequency::new);
+		ClientRegistry.bindTileEntityRenderer(ModTiles.transmitter, TERFrequency::new);
+		ClientRegistry.bindTileEntityRenderer(ModTiles.receiver, TERFrequency::new);
 
 		event.enqueueWork(() -> ItemModelsProperties.register(ModItems.remote, new ResourceLocation(WirelessRedstone.MOD_ID, "powered"),
 				(stack, world, entity) -> stack.getOrCreateTag().getBoolean("powered") ? 1 : 0));
