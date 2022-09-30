@@ -6,14 +6,19 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import rzk.wirelessredstone.ether.Ether;
+import org.jetbrains.annotations.Nullable;
+import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.blockentities.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.ether.RedstoneEther;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-public class ReceiverBlock extends WirelessBlock
+public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 {
-	public ReceiverBlock(Properties props)
+	public RedstoneReceiverBlock(Properties props)
 	{
 		super(props);
 	}
@@ -21,14 +26,15 @@ public class ReceiverBlock extends WirelessBlock
 	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
 	{
-		Ether ether = Ether.instance();
+		WirelessRedstone.LOGGER.debug("onPlace (clientSide: {})", level.isClientSide);
+		RedstoneEther ether = RedstoneEther.instance();
 		ether.addReceiver(level, getFreq(level, pos), pos);
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
 	{
-		Ether ether = Ether.instance();
+		RedstoneEther ether = RedstoneEther.instance();
 		ether.removeReceiver(level, getFreq(level, pos), pos);
 		super.onRemove(state, level, pos, newState, unknown);
 	}
@@ -36,8 +42,8 @@ public class ReceiverBlock extends WirelessBlock
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
-		boolean active = Ether.instance().isFreqActive(getFreq(level, pos));
-		level.setBlock(pos, state.setValue(POWERED, active), 3);
+		boolean active = RedstoneEther.instance().isFreqActive(getFreq(level, pos));
+		level.setBlock(pos, state.setValue(POWERED, active), Block.UPDATE_ALL);
 	}
 
 	@Override
@@ -50,5 +56,12 @@ public class ReceiverBlock extends WirelessBlock
 	public int getDirectSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
 	{
 		return state.getValue(POWERED) ? 15 : 0;
+	}
+
+	@Nullable
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
+	{
+		return new RedstoneReceiverBlockEntity(pos, state);
 	}
 }

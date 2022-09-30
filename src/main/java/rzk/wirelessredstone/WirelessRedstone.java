@@ -21,7 +21,7 @@ import rzk.wirelessredstone.registries.ModItems;
 public class WirelessRedstone
 {
     public static final String MODID = "wirelessredstone";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public WirelessRedstone()
     {

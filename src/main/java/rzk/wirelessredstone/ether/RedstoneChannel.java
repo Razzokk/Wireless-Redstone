@@ -4,20 +4,20 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import rzk.wirelessredstone.registries.ModBlocks;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class Channel
+public class RedstoneChannel
 {
 	private final int freq;
 	private List<BlockPos> transmitters;
 	private List<BlockPos> receivers;
 
-	public Channel(int freq)
+	public RedstoneChannel(int freq)
 	{
 		this.freq = freq;
-		transmitters = new ArrayList<>();
-		receivers = new ArrayList<>();
+		transmitters = new LinkedList<>();
+		receivers = new LinkedList<>();
 	}
 
 	public void addTransmitter(Level level, BlockPos pos)
@@ -47,7 +47,7 @@ public class Channel
 	public void updateReceiver(Level level, BlockPos pos)
 	{
 		if (level.isLoaded(pos))
-			level.scheduleTick(pos, ModBlocks.RECEIVER.get(), 1);
+			level.scheduleTick(pos, ModBlocks.REDSTONE_RECEIVER.get(), 1);
 	}
 
 	public void updateReceivers(Level level)
