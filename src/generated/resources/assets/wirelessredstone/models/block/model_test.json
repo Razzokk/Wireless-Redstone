@@ -1,0 +1,49 @@
+{
+  "parent": "minecraft:block/thin_block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#bottom"
+        },
+        "east": {
+          "cullface": "east",
+          "texture": "#side"
+        },
+        "north": {
+          "cullface": "north",
+          "texture": "#side"
+        },
+        "south": {
+          "cullface": "south",
+          "texture": "#side"
+        },
+        "up": {
+          "cullface": "up",
+          "texture": "#top"
+        },
+        "west": {
+          "cullface": "west",
+          "texture": "#side"
+        }
+      },
+      "from": [
+        2,
+        0,
+        2
+      ],
+      "to": [
+        14,
+        4,
+        14
+      ]
+    }
+  ],
+  "textures": {
+    "bottom": "wirelessredstone:block/model_test_bottom",
+    "particle": "wirelessredstone:block/model_test_side",
+    "side": "wirelessredstone:block/model_test_side",
+    "top": "wirelessredstone:block/model_test_top"
+  }
+}

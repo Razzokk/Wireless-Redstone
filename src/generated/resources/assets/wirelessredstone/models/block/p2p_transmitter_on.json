@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "wirelessredstone:block/p2p_transmitter_bottom_on",
+    "side": "wirelessredstone:block/p2p_transmitter_side_on",
+    "top": "wirelessredstone:block/p2p_transmitter_top_on"
+  }
+}
