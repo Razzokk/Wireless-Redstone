@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.registries;
 
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,7 +13,7 @@ public class ModItems
 {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WirelessRedstone.MODID);
 
-	public static final RegistryObject<Item> LINKER = registerItem("linker", () -> new LinkerItem(defaultItemProps()));
+	public static final RegistryObject<Item> P2P_LINKER = registerItem("p2p_linker", () -> new LinkerItem(defaultItemProps()));
 
 	public static RegistryObject<Item> registerItem(String name, Supplier<Item> supplier)
 	{
@@ -23,6 +22,6 @@ public class ModItems
 
 	public static Item.Properties defaultItemProps()
 	{
-		return new Item.Properties().tab(CreativeModeTab.TAB_BUILDING_BLOCKS);
+		return new Item.Properties().tab(WirelessRedstone.CREATIVE_TAB);
 	}
 }

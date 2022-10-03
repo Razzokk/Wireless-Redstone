@@ -34,10 +34,10 @@ public class ModLootTables extends LootTableProvider
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker)
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationTracker)
     {
         for (Map.Entry<ResourceLocation, LootTable> entry : map.entrySet())
-            LootTables.validate(validationtracker, entry.getKey(), entry.getValue());
+            LootTables.validate(validationTracker, entry.getKey(), entry.getValue());
     }
 
     public static class ModBlockLoot extends BlockLoot
@@ -47,8 +47,9 @@ public class ModLootTables extends LootTableProvider
         {
             dropSelf(ModBlocks.REDSTONE_TRANSMITTER.get());
             dropSelf(ModBlocks.REDSTONE_RECEIVER.get());
-            dropSelf(ModBlocks.P2P_TRANSMITTER.get());
-            dropSelf(ModBlocks.P2P_RECEIVER.get());
+            dropSelf(ModBlocks.P2P_REDSTONE_TRANSMITTER.get());
+            dropSelf(ModBlocks.P2P_REDSTONE_RECEIVER.get());
+            dropSelf(ModBlocks.MODEL_TEST.get());
         }
 
         @Override

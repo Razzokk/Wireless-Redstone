@@ -9,7 +9,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.blocks.P2PReceiverBlock;
+import rzk.wirelessredstone.api.IChunkLoadListener;
+import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
 import rzk.wirelessredstone.registries.ModBlockEntities;
 
 import java.util.HashSet;
@@ -17,12 +18,12 @@ import java.util.Set;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-public class P2PTransmitterBlockEntity extends BlockEntity
+public class P2PRedstoneTransmitterBlockEntity extends BlockEntity implements IChunkLoadListener
 {
     private static final String LINKED_RECEIVERS_FIELD = "linked_receivers";
-    private Set<BlockPos> linkedReceivers = new HashSet<>();
+    private final Set<BlockPos> linkedReceivers = new HashSet<>();
 
-    public P2PTransmitterBlockEntity(BlockPos pos, BlockState state)
+    public P2PRedstoneTransmitterBlockEntity(BlockPos pos, BlockState state)
     {
         super(ModBlockEntities.SIMPLE_TRANSMITTER_BLOCK_ENTITY_TYPE.get(), pos, state);
     }
@@ -70,7 +71,7 @@ public class P2PTransmitterBlockEntity extends BlockEntity
     public void updateP2PReceiver(BlockPos pos, boolean powered)
     {
         BlockState receiver = level.getBlockState(pos);
-        if (!(receiver.getBlock() instanceof P2PReceiverBlock)) linkedReceivers.remove(pos);
+        if (!(receiver.getBlock() instanceof P2PRedstoneReceiverBlock)) linkedReceivers.remove(pos);
         else if (level.isLoaded(pos)) level.setBlock(pos, receiver.setValue(POWERED, powered), 3);
     }
 
@@ -80,13 +81,12 @@ public class P2PTransmitterBlockEntity extends BlockEntity
     }
 
     @Override
-    public void onLoad()
+    public void onChunkLoad()
     {
-        super.onLoad();
         if (level instanceof ServerLevel serverLevel)
         {
             //serverLevel.getChunkSource().getPendingTasksCount()
-            WirelessRedstone.LOGGER.debug("onLoad: (level: {}, entity: {})", serverLevel, this);
+            WirelessRedstone.LOGGER.debug("onChunkLoad: (level: {}, entity: {})", serverLevel, this);
         }
     }
 }

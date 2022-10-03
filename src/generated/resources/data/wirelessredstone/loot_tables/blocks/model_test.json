@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "wirelessredstone:p2p_transmitter"
+          "name": "wirelessredstone:model_test"
         }
       ],
       "rolls": 1.0

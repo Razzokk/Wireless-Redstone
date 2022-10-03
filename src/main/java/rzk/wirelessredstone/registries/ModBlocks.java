@@ -10,8 +10,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.blocks.ModelTest;
-import rzk.wirelessredstone.blocks.P2PReceiverBlock;
-import rzk.wirelessredstone.blocks.P2PTransmitterBlock;
+import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
+import rzk.wirelessredstone.blocks.P2PRedstoneTransmitterBlock;
 import rzk.wirelessredstone.blocks.RedstoneReceiverBlock;
 import rzk.wirelessredstone.blocks.RedstoneTransmitterBlock;
 
@@ -22,13 +22,13 @@ public class ModBlocks
 {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, WirelessRedstone.MODID);
 
-	public static final RegistryObject<Block> REDSTONE_TRANSMITTER = registerBlock("redstone_transmitter", () -> new RedstoneTransmitterBlock(BlockBehaviour.Properties.of(Material.STONE)));
-	public static final RegistryObject<Block> REDSTONE_RECEIVER = registerBlock("redstone_receiver", () -> new RedstoneReceiverBlock(BlockBehaviour.Properties.of(Material.STONE)));
+	public static final RegistryObject<Block> REDSTONE_TRANSMITTER = registerBlock("redstone_transmitter", () -> new RedstoneTransmitterBlock(BlockBehaviour.Properties.of(Material.METAL)));
+	public static final RegistryObject<Block> REDSTONE_RECEIVER = registerBlock("redstone_receiver", () -> new RedstoneReceiverBlock(BlockBehaviour.Properties.of(Material.METAL)));
 
-	public static final RegistryObject<Block> P2P_TRANSMITTER = registerBlock("p2p_transmitter", () -> new P2PTransmitterBlock(BlockBehaviour.Properties.of(Material.STONE)));
-	public static final RegistryObject<Block> P2P_RECEIVER = registerBlock("p2p_receiver", () -> new P2PReceiverBlock(BlockBehaviour.Properties.of(Material.STONE)));
+	public static final RegistryObject<Block> P2P_REDSTONE_TRANSMITTER = registerBlock("p2p_redstone_transmitter", () -> new P2PRedstoneTransmitterBlock(BlockBehaviour.Properties.of(Material.METAL)));
+	public static final RegistryObject<Block> P2P_REDSTONE_RECEIVER = registerBlock("p2p_redstone_receiver", () -> new P2PRedstoneReceiverBlock(BlockBehaviour.Properties.of(Material.METAL)));
 
-	public static final RegistryObject<Block> MODEL_TEST = registerBlock("model_test", () -> new ModelTest(BlockBehaviour.Properties.of(Material.STONE)));
+	public static final RegistryObject<Block> MODEL_TEST = registerBlock("model_test", () -> new ModelTest(BlockBehaviour.Properties.of(Material.METAL)));
 
     public static RegistryObject<Block> registerBlockNoItem(String name, Supplier<Block> supplier)
 	{

@@ -2,6 +2,8 @@ package rzk.wirelessredstone;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -13,6 +15,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.slf4j.Logger;
+import rzk.wirelessredstone.misc.CreativeTabWR;
+import rzk.wirelessredstone.misc.EventHandler;
 import rzk.wirelessredstone.registries.ModBlockEntities;
 import rzk.wirelessredstone.registries.ModBlocks;
 import rzk.wirelessredstone.registries.ModItems;
@@ -20,47 +24,19 @@ import rzk.wirelessredstone.registries.ModItems;
 @Mod(WirelessRedstone.MODID)
 public class WirelessRedstone
 {
-    public static final String MODID = "wirelessredstone";
-    public static final Logger LOGGER = LogUtils.getLogger();
+	public static final String MODID = "wirelessredstone";
+	public static final Logger LOGGER = LogUtils.getLogger();
+	public static final CreativeModeTab CREATIVE_TAB = new CreativeTabWR();
 
-    public WirelessRedstone()
-    {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+	public WirelessRedstone()
+	{
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        modEventBus.addListener(this::commonSetup);
+		ModBlocks.BLOCKS.register(modEventBus);
+		ModItems.ITEMS.register(modEventBus);
+		ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
 
-        ModBlocks.BLOCKS.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
-        ModBlockEntities.BLOCK_ENTITIES.register(modEventBus);
-
-        MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
-        // Some common setup code
-        LOGGER.info("HELLO FROM COMMON SETUP");
-        LOGGER.info("DIRT BLOCK >> {}", ForgeRegistries.BLOCKS.getKey(Blocks.DIRT));
-    }
-
-    // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
-    }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @Mod.EventBusSubscriber(modid = MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents
-    {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-        }
-    }
+		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(EventHandler.class);
+	}
 }

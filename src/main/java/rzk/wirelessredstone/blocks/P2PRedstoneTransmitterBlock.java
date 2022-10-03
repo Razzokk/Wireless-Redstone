@@ -8,32 +8,32 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.blockentities.P2PTransmitterBlockEntity;
+import rzk.wirelessredstone.blockentities.P2PRedstoneTransmitterBlockEntity;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-public class P2PTransmitterBlock extends P2PTransceiverBlock implements EntityBlock
+public class P2PRedstoneTransmitterBlock extends P2PRedstoneTransceiverBlock implements EntityBlock
 {
-    public P2PTransmitterBlock(Properties props)
+    public P2PRedstoneTransmitterBlock(Properties props)
     {
         super(props);
     }
 
     public static void linkReceiver(Level level, BlockPos pos, BlockPos receiverPos)
     {
-        if (level.getBlockEntity(pos) instanceof P2PTransmitterBlockEntity transmitterBlockEntity)
+        if (level.getBlockEntity(pos) instanceof P2PRedstoneTransmitterBlockEntity transmitterBlockEntity)
             transmitterBlockEntity.link(receiverPos);
     }
 
     public static void unlinkReceiver(Level level, BlockPos pos, BlockPos receiverPos)
     {
-        if (level.getBlockEntity(pos) instanceof P2PTransmitterBlockEntity transmitterBlockEntity)
+        if (level.getBlockEntity(pos) instanceof P2PRedstoneTransmitterBlockEntity transmitterBlockEntity)
             transmitterBlockEntity.unlink(receiverPos);
     }
 
     private void updateLinkedReceivers(LevelAccessor levelAccessor, BlockPos pos, boolean powered)
     {
-        if (levelAccessor.getBlockEntity(pos) instanceof P2PTransmitterBlockEntity transmitterBlockEntity)
+        if (levelAccessor.getBlockEntity(pos) instanceof P2PRedstoneTransmitterBlockEntity transmitterBlockEntity)
             transmitterBlockEntity.updateAllP2PReceivers(powered);
     }
 
@@ -75,6 +75,6 @@ public class P2PTransmitterBlock extends P2PTransceiverBlock implements EntityBl
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
     {
-        return new P2PTransmitterBlockEntity(pos, state);
+        return new P2PRedstoneTransmitterBlockEntity(pos, state);
     }
 }

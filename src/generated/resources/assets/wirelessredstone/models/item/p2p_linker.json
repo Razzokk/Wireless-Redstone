@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "wirelessredstone:item/linker"
+    "layer0": "wirelessredstone:item/p2p_linker"
   }
 }

@@ -7,9 +7,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-public class P2PReceiverBlock extends P2PTransceiverBlock
+public class P2PRedstoneReceiverBlock extends P2PRedstoneTransceiverBlock
 {
-    public P2PReceiverBlock(Properties props)
+    public P2PRedstoneReceiverBlock(Properties props)
     {
         super(props);
     }

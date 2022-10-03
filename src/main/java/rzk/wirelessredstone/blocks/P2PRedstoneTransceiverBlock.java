@@ -7,11 +7,11 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-public class P2PTransceiverBlock extends Block
+public class P2PRedstoneTransceiverBlock extends Block
 {
     private static final BooleanProperty CONNECTED = BooleanProperty.create("connected");
 
-    public P2PTransceiverBlock(Properties props)
+    public P2PRedstoneTransceiverBlock(Properties props)
     {
         super(props);
         registerDefaultState(stateDefinition.any().setValue(POWERED, false).setValue(CONNECTED, false));

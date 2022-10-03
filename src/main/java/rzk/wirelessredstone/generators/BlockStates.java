@@ -7,6 +7,7 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import rzk.wirelessredstone.registries.ModBlocks;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
@@ -19,13 +20,18 @@ public final class BlockStates extends BlockStateProvider
         super(gen, modid, existingFileHelper);
     }
 
+    private static String blockName(Block block)
+    {
+        return ForgeRegistries.BLOCKS.getKey(block).getPath();
+    }
+
     @Override
     protected void registerStatesAndModels()
     {
-        onOffBlock("redstone_transmitter", ModBlocks.REDSTONE_TRANSMITTER.get());
-        onOffBlock("redstone_receiver", ModBlocks.REDSTONE_RECEIVER.get());
-        onOffBlock("p2p_transmitter", ModBlocks.P2P_TRANSMITTER.get());
-        onOffBlock("p2p_receiver", ModBlocks.P2P_RECEIVER.get());
+        onOffBlock(ModBlocks.REDSTONE_TRANSMITTER.get());
+        onOffBlock(ModBlocks.REDSTONE_RECEIVER.get());
+        onOffBlock(ModBlocks.P2P_REDSTONE_TRANSMITTER.get());
+        onOffBlock(ModBlocks.P2P_REDSTONE_RECEIVER.get());
         modelTest("model_test", ModBlocks.MODEL_TEST.get());
     }
 
@@ -43,6 +49,11 @@ public final class BlockStates extends BlockStateProvider
                     .build();
         });
         simpleBlockItem(block, models().getExistingFile(modLoc(name + "_off")));
+    }
+
+    private void onOffBlock(Block block)
+    {
+        onOffBlock(blockName(block), block);
     }
 
     private void modelTest(String name, Block block)

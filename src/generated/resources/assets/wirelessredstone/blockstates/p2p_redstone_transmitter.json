@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "connected=false,powered=false": {
+      "model": "wirelessredstone:block/p2p_redstone_transmitter_off"
+    },
+    "connected=false,powered=true": {
+      "model": "wirelessredstone:block/p2p_redstone_transmitter_on"
+    },
+    "connected=true,powered=false": {
+      "model": "wirelessredstone:block/p2p_redstone_transmitter_off"
+    },
+    "connected=true,powered=true": {
+      "model": "wirelessredstone:block/p2p_redstone_transmitter_on"
+    }
+  }
+}

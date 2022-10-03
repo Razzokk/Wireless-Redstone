@@ -17,8 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.blocks.P2PReceiverBlock;
-import rzk.wirelessredstone.blocks.P2PTransmitterBlock;
+import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
+import rzk.wirelessredstone.blocks.P2PRedstoneTransmitterBlock;
 
 import java.util.List;
 
@@ -73,22 +73,22 @@ public class LinkerItem extends Item
 
         WirelessRedstone.LOGGER.debug("onItemUseFirst (clientSide: {}, stack: {})", level.isClientSide, stack);
 
-        if (!(state.getBlock() instanceof P2PTransmitterBlock || state.getBlock() instanceof P2PReceiverBlock))
+        if (!(state.getBlock() instanceof P2PRedstoneTransmitterBlock || state.getBlock() instanceof P2PRedstoneReceiverBlock))
             return InteractionResult.PASS;
 
 
         if (!level.isClientSide)
         {
-            if (state.getBlock() instanceof P2PReceiverBlock)
+            if (state.getBlock() instanceof P2PRedstoneReceiverBlock)
             {
                 setLinkedPos(stack, clickedPos);
             }
-            else if (state.getBlock() instanceof P2PTransmitterBlock)
+            else if (state.getBlock() instanceof P2PRedstoneTransmitterBlock)
             {
                 BlockPos linkedPos = getLinkedPos(stack);
                 if (linkedPos == null) return InteractionResult.FAIL;
-                if (!getLinkingMode(stack)) P2PTransmitterBlock.linkReceiver(level, clickedPos, linkedPos);
-                else P2PTransmitterBlock.unlinkReceiver(level, clickedPos, linkedPos);
+                if (!getLinkingMode(stack)) P2PRedstoneTransmitterBlock.linkReceiver(level, clickedPos, linkedPos);
+                else P2PRedstoneTransmitterBlock.unlinkReceiver(level, clickedPos, linkedPos);
             }
         }
 
