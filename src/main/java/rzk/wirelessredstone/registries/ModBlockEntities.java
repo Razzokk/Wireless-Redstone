@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.registries;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,7 +14,7 @@ import java.util.function.Supplier;
 
 public class ModBlockEntities
 {
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, WirelessRedstone.MODID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, WirelessRedstone.MODID);
 
 	public static final RegistryObject<BlockEntityType<?>> REDSTONE_TRANSMITTER_BLOCK_ENTITY_TYPE =
 			registerBlockEntity("redstone_transmitter", () ->
@@ -30,6 +29,6 @@ public class ModBlockEntities
 
 	public static <T extends BlockEntity> RegistryObject<BlockEntityType<?>> registerBlockEntity(String name, Supplier<BlockEntityType<T>> supplier)
 	{
-		return BLOCK_ENTITIES.register(name, supplier);
+		return BLOCK_ENTITY_TYPES.register(name, supplier);
 	}
 }

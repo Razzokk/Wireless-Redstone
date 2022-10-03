@@ -2,7 +2,7 @@ package rzk.wirelessredstone.misc;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraftforge.event.world.ChunkEvent;
+import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.api.IChunkLoadListener;
 

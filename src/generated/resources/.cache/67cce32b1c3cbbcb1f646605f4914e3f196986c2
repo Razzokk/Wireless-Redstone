@@ -1,4 +1,4 @@
-// 1.19	2022-10-03T23:24:38.1636186	LootTables
+// 1.19.2	2022-10-04T00:07:51.5502565	LootTables
 d5325dc357c7635f40c0d14dba0a2d4f48fd1885 data/wirelessredstone/loot_tables/blocks/model_test.json
 064b384b4b4477dc35bf2e705925bfa21241563c data/wirelessredstone/loot_tables/blocks/p2p_redstone_receiver.json
 314d2717f603381670dd1ce63c9b0aa99af38542 data/wirelessredstone/loot_tables/blocks/p2p_redstone_transmitter.json
