@@ -26,16 +26,21 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 
 	public void setFrequency(Level level, BlockPos pos, int frequency)
 	{
-		if (frequency != 0 && level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity blockEntity)
-			blockEntity.setFrequency(frequency);
+		if (frequency != 0 && level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
+			transceiver.setFrequency(frequency);
 	}
 
 	protected int getFrequency(Level level, BlockPos pos)
 	{
-		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity wireless)
-			return wireless.getFrequency();
+		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
+			return transceiver.getFrequency();
 
 		return 0;
+	}
+
+	public void setPowered(BlockState state, Level level, BlockPos pos, boolean powered)
+	{
+		level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_ALL);
 	}
 
 	@Override

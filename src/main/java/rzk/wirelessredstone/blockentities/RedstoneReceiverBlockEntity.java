@@ -2,11 +2,14 @@ package rzk.wirelessredstone.blockentities;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.api.IChunkLoadListener;
 import rzk.wirelessredstone.ether.RedstoneEther;
+import rzk.wirelessredstone.misc.Utils;
 import rzk.wirelessredstone.registries.ModBlockEntities;
+import rzk.wirelessredstone.registries.ModBlocks;
 
 public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity implements IChunkLoadListener
 {
@@ -16,18 +19,20 @@ public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity 
     }
 
     @Override
-    protected void onFreqChange(int oldFreq, int newFreq)
+    protected void onFrequencyChange(int oldFrequency, int newFrequency)
     {
-        RedstoneEther ether = RedstoneEther.instance();
-        ether.removeReceiver(level, oldFreq, worldPosition);
-        ether.addReceiver(level, newFreq, worldPosition);
+        if (level.isClientSide) return;
+        RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
+        ether.removeReceiver(worldPosition, oldFrequency);
+
+        if (Utils.isValidFrequency(newFrequency))
+            ether.addReceiver(level, worldPosition, newFrequency);
     }
 
     @Override
     public void onChunkLoad()
     {
         if (level.isClientSide) return;
-        level.getServer().tell(new TickTask(1, () -> level.scheduleTick(worldPosition, getBlockState().getBlock(), 1)));
-        WirelessRedstone.LOGGER.debug("onChunkLoad: (level: {}, entity: {})", level, this);
+        level.getServer().tell(new TickTask(1, () -> level.scheduleTick(worldPosition, ModBlocks.REDSTONE_RECEIVER.get(), 1)));
     }
 }

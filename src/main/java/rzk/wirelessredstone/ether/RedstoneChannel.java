@@ -1,36 +1,72 @@
 package rzk.wirelessredstone.ether;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
+import rzk.wirelessredstone.misc.Utils;
 import rzk.wirelessredstone.registries.ModBlocks;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RedstoneChannel
 {
-	private final int freq;
-	private List<BlockPos> transmitters;
-	private List<BlockPos> receivers;
+	private final int frequency;
+	// Contains only active transmitters
+	private List<BlockPos> transmitters = new ArrayList<>();
+	private List<BlockPos> receivers = new ArrayList<>();
 
-	public RedstoneChannel(int freq)
+	public RedstoneChannel(int frequency)
 	{
-		this.freq = freq;
-		transmitters = new LinkedList<>();
-		receivers = new LinkedList<>();
+		this.frequency = frequency;
+	}
+	
+	public RedstoneChannel(CompoundTag tag)
+	{
+		frequency = Utils.readFrequency(tag);
+
+		ListTag transmitterTags = tag.getList("transmitters", Tag.TAG_COMPOUND);
+		for (Tag transmitterTag : transmitterTags)
+			transmitters.add(NbtUtils.readBlockPos((CompoundTag) transmitterTag));
+
+		ListTag receiverTags = tag.getList("receivers", Tag.TAG_COMPOUND);
+		for (Tag receiverTag : receiverTags)
+			receivers.add(NbtUtils.readBlockPos((CompoundTag) receiverTag));
 	}
 
+	public CompoundTag save()
+	{
+		CompoundTag tag = new CompoundTag();
+		Utils.writeFrequency(tag, frequency);
+		
+		ListTag transmitterTags = new ListTag();
+		for (BlockPos pos : transmitters)
+			transmitterTags.add(NbtUtils.writeBlockPos(pos));
+		tag.put("transmitters", transmitterTags);
+
+		ListTag receiverTags = new ListTag();
+		for (BlockPos pos : receivers)
+			receiverTags.add(NbtUtils.writeBlockPos(pos));
+		tag.put("receivers", receiverTags);
+		
+		return tag;
+	}
+	
 	public void addTransmitter(Level level, BlockPos pos)
 	{
-		boolean state = !transmitters.isEmpty();
+		boolean empty = isInactive();
 		transmitters.add(pos);
-		if (!state) updateReceivers(level);
+		if (empty) updateReceivers(level);
 	}
 
 	public void removeTransmitter(Level level, BlockPos pos)
 	{
 		transmitters.remove(pos);
-		if (transmitters.isEmpty()) updateReceivers(level);
+		if (isInactive())
+			updateReceivers(level);
 	}
 
 	public void addReceiver(Level level, BlockPos pos)
@@ -39,7 +75,7 @@ public class RedstoneChannel
 		updateReceiver(level, pos);
 	}
 
-	public void removeReceiver(Level level, BlockPos pos)
+	public void removeReceiver(BlockPos pos)
 	{
 		receivers.remove(pos);
 	}
@@ -56,8 +92,18 @@ public class RedstoneChannel
 			updateReceiver(level, receiver);
 	}
 
+	public int getFrequency()
+	{
+		return frequency;
+	}
+
 	public boolean isActive()
 	{
 		return !transmitters.isEmpty();
+	}
+
+	public boolean isInactive()
+	{
+		return transmitters.isEmpty();
 	}
 }

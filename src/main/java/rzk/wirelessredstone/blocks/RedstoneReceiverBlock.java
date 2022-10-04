@@ -6,13 +6,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.blockentities.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.config.Config;
 import rzk.wirelessredstone.ether.RedstoneEther;
+import rzk.wirelessredstone.misc.Utils;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
@@ -26,36 +26,47 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
 	{
-		WirelessRedstone.LOGGER.debug("onPlace (clientSide: {})", level.isClientSide);
-		RedstoneEther ether = RedstoneEther.instance();
-		ether.addReceiver(level, getFrequency(level, pos), pos);
+		if (level.isClientSide) return;
+		int frequency = getFrequency(level, pos);
+
+		if (Utils.isValidFrequency(frequency))
+			RedstoneEther.getOrCreate((ServerLevel) level).addReceiver(level, pos, frequency);
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
 	{
-		RedstoneEther ether = RedstoneEther.instance();
-		ether.removeReceiver(level, getFrequency(level, pos), pos);
+		if (!level.isClientSide)
+		{
+			RedstoneEther ether = RedstoneEther.get((ServerLevel) level);
+			if (ether != null)
+				ether.removeReceiver(pos, getFrequency(level, pos));
+		}
+
 		super.onRemove(state, level, pos, newState, unknown);
 	}
 
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
-		boolean active = RedstoneEther.instance().isFreqActive(getFrequency(level, pos));
-		level.setBlock(pos, state.setValue(POWERED, active), Block.UPDATE_ALL);
+		RedstoneEther ether = RedstoneEther.getOrCreate(level);
+		boolean active = ether.isFrequencyActive(getFrequency(level, pos));
+		setPowered(state, level, pos, active);
 	}
 
 	@Override
 	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
 	{
-		return state.getValue(POWERED) ? 15 : 0;
+		if (Config.redstoneReceiverProvidesStrongPower)
+			getDirectSignal(state, blockGetter, pos, direction);
+
+		return super.getSignal(state, blockGetter, pos, direction);
 	}
 
 	@Override
 	public int getDirectSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
 	{
-		return state.getValue(POWERED) ? 15 : 0;
+		return state.getValue(POWERED) ? Config.redstoneReceiverOutputPower : 0;
 	}
 
 	@Nullable

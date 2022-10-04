@@ -4,72 +4,111 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
+import rzk.wirelessredstone.misc.Utils;
 
 public class RedstoneEther extends SavedData
 {
-	private static RedstoneEther instance;
-	private final Int2ObjectMap<RedstoneChannel> ether = new Int2ObjectOpenHashMap<>();
+	private static final String DATA_NAME = "redstone_ether";
+	private final Int2ObjectMap<RedstoneChannel> channels = new Int2ObjectOpenHashMap<>();
 
 	private RedstoneEther() {}
+
+	private RedstoneEther(CompoundTag tag)
+	{
+		ListTag channelTags = tag.getList("channels", Tag.TAG_COMPOUND);
+
+		for (Tag channelTag : channelTags)
+		{
+			RedstoneChannel channel = new RedstoneChannel((CompoundTag) channelTag);
+			channels.put(channel.getFrequency(), channel);
+		}
+	}
 
 	@Override
 	public CompoundTag save(CompoundTag tag)
 	{
-		return null;
+		ListTag channelTags = new ListTag();
+		for (RedstoneChannel channel : channels.values())
+			channelTags.add(channel.save());
+		tag.put("channels", channelTags);
+
+		return tag;
 	}
 
-	public static RedstoneEther instance()
+	public static RedstoneEther get(ServerLevel level)
 	{
-		if (instance == null)
-			instance = new RedstoneEther();
-		return instance;
+		return level.getDataStorage().get(RedstoneEther::new, DATA_NAME);
 	}
 
-	private RedstoneChannel getChannel(int freq)
+	public static RedstoneEther getOrCreate(ServerLevel level)
 	{
-		RedstoneChannel channel = ether.get(freq);
+		return level.getDataStorage().computeIfAbsent(RedstoneEther::new, RedstoneEther::new, DATA_NAME);
+	}
+
+	private RedstoneChannel getChannel(int frequency)
+	{
+		return channels.get(frequency);
+	}
+
+	private RedstoneChannel getOrCreateChannel(int frequency)
+	{
+		RedstoneChannel channel = channels.get(frequency);
 
 		if (channel == null)
 		{
-			channel = new RedstoneChannel(freq);
-			ether.put(freq, channel);
+			channel = new RedstoneChannel(frequency);
+			channels.put(frequency, channel);
 		}
 
 		return channel;
 	}
 
-	public void addTransmitter(Level level, int freq, BlockPos pos)
+	public void addTransmitter(Level level, BlockPos pos, int frequency)
 	{
-		RedstoneChannel channel = getChannel(freq);
+		if (!Utils.isValidFrequency(frequency)) return;
+
+		RedstoneChannel channel = getOrCreateChannel(frequency);
 		channel.addTransmitter(level, pos);
+		setDirty();
 	}
 
-	public void addReceiver(Level level, int freq, BlockPos pos)
+	public void addReceiver(Level level, BlockPos pos, int frequency)
 	{
-		RedstoneChannel channel = getChannel(freq);
+		if (!Utils.isValidFrequency(frequency)) return;
+
+		RedstoneChannel channel = getOrCreateChannel(frequency);
 		channel.addReceiver(level, pos);
+		setDirty();
 	}
 
-	public void removeTransmitter(Level level, int freq, BlockPos pos)
+	public void removeTransmitter(Level level, BlockPos pos, int frequency)
 	{
-		RedstoneChannel channel = ether.get(freq);
+		RedstoneChannel channel = getChannel(frequency);
 		if (channel != null)
+		{
 			channel.removeTransmitter(level, pos);
+			setDirty();
+		}
 	}
 
-	public void removeReceiver(Level level, int freq, BlockPos pos)
+	public void removeReceiver(BlockPos pos, int frequency)
 	{
-		RedstoneChannel channel = ether.get(freq);
+		RedstoneChannel channel = getChannel(frequency);
 		if (channel != null)
-			channel.removeReceiver(level, pos);
+		{
+			channel.removeReceiver(pos);
+			setDirty();
+		}
 	}
 
-	public boolean isFreqActive(int freq)
+	public boolean isFrequencyActive(int frequency)
 	{
-		RedstoneChannel channel = ether.get(freq);
-		if (channel == null) return false;
-		return channel.isActive();
+		RedstoneChannel channel = getChannel(frequency);
+		return channel != null && channel.isActive();
 	}
 }
