@@ -28,21 +28,21 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	{
 		WirelessRedstone.LOGGER.debug("onPlace (clientSide: {})", level.isClientSide);
 		RedstoneEther ether = RedstoneEther.instance();
-		ether.addReceiver(level, getFreq(level, pos), pos);
+		ether.addReceiver(level, getFrequency(level, pos), pos);
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
 	{
 		RedstoneEther ether = RedstoneEther.instance();
-		ether.removeReceiver(level, getFreq(level, pos), pos);
+		ether.removeReceiver(level, getFrequency(level, pos), pos);
 		super.onRemove(state, level, pos, newState, unknown);
 	}
 
 	@Override
 	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
 	{
-		boolean active = RedstoneEther.instance().isFreqActive(getFreq(level, pos));
+		boolean active = RedstoneEther.instance().isFreqActive(getFrequency(level, pos));
 		level.setBlock(pos, state.setValue(POWERED, active), Block.UPDATE_ALL);
 	}
 

@@ -9,10 +9,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import rzk.wirelessredstone.misc.Utils;
 
 public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
 {
-    private int freq = 0;
+    private int frequency = 0;
 
     public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
     {
@@ -21,16 +22,16 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
 
     protected abstract void onFreqChange(int oldFreq, int newFreq);
 
-    public int getFreq()
+    public int getFrequency()
     {
-        return freq;
+        return frequency;
     }
 
-    public void setFreq(int freq)
+    public void setFrequency(int frequency)
     {
-        if (freq == this.freq) return;
-        onFreqChange(this.freq, freq);
-        this.freq = freq;
+        if (frequency == this.frequency) return;
+        onFreqChange(this.frequency, frequency);
+        this.frequency = frequency;
         setChanged();
 		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
 	}
@@ -39,7 +40,7 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
     public CompoundTag getUpdateTag()
     {
         CompoundTag tag = new CompoundTag();
-		tag.putInt("frequency", freq);
+        Utils.writeFrequency(tag, frequency);
         return tag;
     }
 
@@ -50,16 +51,16 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
     }
 
     @Override
-    public void load(CompoundTag compoundTag)
+    public void load(CompoundTag tag)
     {
-        super.load(compoundTag);
-        freq = compoundTag.getInt("frequency");
+        super.load(tag);
+        frequency = Utils.readFrequency(tag);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag)
+    protected void saveAdditional(CompoundTag tag)
     {
-        super.saveAdditional(compoundTag);
-        compoundTag.putInt("frequency", freq);
+        super.saveAdditional(tag);
+        Utils.writeFrequency(tag, frequency);
     }
 }

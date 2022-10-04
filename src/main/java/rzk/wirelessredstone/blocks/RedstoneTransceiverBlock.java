@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.blocks;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -11,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import rzk.wirelessredstone.blockentities.RedstoneTransceiverBlockEntity;
+import rzk.wirelessredstone.client.screen.FrequencyBlockScreen;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
@@ -22,25 +24,30 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 		registerDefaultState(stateDefinition.any().setValue(POWERED, false));
 	}
 
+	public void setFrequency(Level level, BlockPos pos, int frequency)
+	{
+		if (frequency != 0 && level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity blockEntity)
+			blockEntity.setFrequency(frequency);
+	}
+
+	protected int getFrequency(Level level, BlockPos pos)
+	{
+		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity wireless)
+			return wireless.getFrequency();
+
+		return 0;
+	}
+
 	@Override
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
 	{
-		if (player.isShiftKeyDown() && level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity wireless)
+		if (level.isClientSide)
 		{
-			int freq = wireless.getFreq();
-			wireless.setFreq((freq + 1) % 16);
-			return InteractionResult.SUCCESS;
+			int frequency = getFrequency(level, pos);
+			// TODO: replace with server safe method of opening gui
+			Minecraft.getInstance().setScreen(new FrequencyBlockScreen(frequency, pos));
 		}
-
-		return InteractionResult.PASS;
-	}
-
-	protected int getFreq(Level level, BlockPos pos)
-	{
-		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity wireless)
-			return wireless.getFreq();
-
-		return 0;
+		return InteractionResult.SUCCESS;
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		{
 			level.setBlock(pos, state.setValue(POWERED, true), Block.UPDATE_ALL);
 			RedstoneEther ether = RedstoneEther.instance();
-			ether.addTransmitter(level, getFreq(level, pos), pos);
+			ether.addTransmitter(level, getFrequency(level, pos), pos);
 		}
 	}
 
@@ -37,7 +37,7 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		WirelessRedstone.LOGGER.debug("onRemove (clientSide: {}, tile: {})", level.isClientSide, level.getBlockEntity(pos));
 		RedstoneEther ether = RedstoneEther.instance();
 		if (state.getValue(POWERED))
-			ether.removeTransmitter(level, getFreq(level, pos), pos);
+			ether.removeTransmitter(level, getFrequency(level, pos), pos);
 		super.onRemove(state, level, pos, newState, unknown);
 	}
 
@@ -52,7 +52,7 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 
 		level.setBlock(pos, state.setValue(POWERED, newState), Block.UPDATE_ALL);
 		RedstoneEther ether = RedstoneEther.instance();
-		int freq = getFreq(level, pos);
+		int freq = getFrequency(level, pos);
 
 		if (newState)
 			ether.addTransmitter(level, freq, pos);
