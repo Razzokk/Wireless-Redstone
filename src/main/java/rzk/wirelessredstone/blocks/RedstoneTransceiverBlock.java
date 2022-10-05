@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.blocks;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import rzk.wirelessredstone.blockentities.RedstoneTransceiverBlockEntity;
-import rzk.wirelessredstone.client.screen.FrequencyBlockScreen;
+import rzk.wirelessredstone.client.screen.Screens;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
@@ -47,11 +46,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
 	{
 		if (level.isClientSide)
-		{
-			int frequency = getFrequency(level, pos);
-			// TODO: replace with server safe method of opening gui
-			Minecraft.getInstance().setScreen(new FrequencyBlockScreen(frequency, pos));
-		}
+			Screens.openFrequencyBlockScreen(getFrequency(level, pos), pos);
 		return InteractionResult.SUCCESS;
 	}
 

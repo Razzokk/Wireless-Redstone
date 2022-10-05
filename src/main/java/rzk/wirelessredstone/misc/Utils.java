@@ -4,11 +4,13 @@ import net.minecraft.nbt.CompoundTag;
 
 public class Utils
 {
+	public static final int MIN_FREQUENCY = 0;
+	public static final int MAX_FREQUENCY = 99999;
 	public static final int INVALID_FREQUENCY = -1;
 
 	public static boolean isValidFrequency(int frequency)
 	{
-		return frequency >= 0;
+		return frequency >= MIN_FREQUENCY && frequency <= MAX_FREQUENCY;
 	}
 
 	public static void writeFrequency(CompoundTag tag, int frequency)
@@ -21,5 +23,10 @@ public class Utils
 	{
 		if (tag == null || !tag.contains("frequency")) return INVALID_FREQUENCY;
 		return tag.getInt("frequency");
+	}
+
+	public static int clamp(int min, int max, int value)
+	{
+		return Math.min(Math.max(min, value), max);
 	}
 }

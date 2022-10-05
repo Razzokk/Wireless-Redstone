@@ -17,6 +17,6 @@ public class FrequencyItemScreen extends FrequencyScreen
 	@Override
 	protected void setFrequency()
 	{
-		PacketHandler.INSTANCE.sendToServer(new FrequencyItemPacket(43, hand));
+		PacketHandler.INSTANCE.sendToServer(new FrequencyItemPacket(getInputFrequency(), hand));
 	}
 }

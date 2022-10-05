@@ -17,6 +17,6 @@ public class FrequencyBlockScreen extends FrequencyScreen
 	@Override
 	protected void setFrequency()
 	{
-		PacketHandler.INSTANCE.sendToServer(new FrequencyBlockPacket(10, pos));
+		PacketHandler.INSTANCE.sendToServer(new FrequencyBlockPacket(getInputFrequency(), pos));
 	}
 }
