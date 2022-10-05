@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
+import rzk.wirelessredstone.client.ClientSubscriber;
 import rzk.wirelessredstone.misc.CreativeTabWR;
 import rzk.wirelessredstone.misc.EventHandler;
 import rzk.wirelessredstone.network.PacketHandler;
@@ -27,6 +28,7 @@ public class WirelessRedstone
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(this::commonSetup);
+		modEventBus.addListener(ClientSubscriber::onRegisterRenderers);
 
 		ModBlocks.BLOCKS.register(modEventBus);
 		ModItems.ITEMS.register(modEventBus);
