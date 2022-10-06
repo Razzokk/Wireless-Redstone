@@ -2,6 +2,7 @@ package rzk.wirelessredstone.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,38 +21,38 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		super(props);
 	}
 
+	@Nullable
 	@Override
-	public void setPowered(BlockState state, Level level, BlockPos pos, boolean powered)
+	public BlockState getStateForPlacement(BlockPlaceContext ctx)
 	{
-		if (state.getValue(POWERED) == powered) return;
-		super.setPowered(state, level, pos, powered);
+		Level level = ctx.getLevel();
+		BlockPos pos = ctx.getClickedPos();
+		return defaultBlockState().setValue(POWERED, level.hasNeighborSignal(pos));
+	}
+
+	@Override
+	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean unknown)
+	{
+		if (level.isClientSide || !state.getValue(POWERED)) return;
 
 		int frequency = getFrequency(level, pos);
 		if (!Utils.isValidFrequency(frequency)) return;
 
 		RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
-
-		if (powered)
-			ether.addTransmitter(level, pos, frequency);
-		else
-			ether.removeTransmitter(level, pos, frequency);
-	}
-
-	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
-	{
-		if (!level.isClientSide && level.hasNeighborSignal(pos))
-			setPowered(state, level, pos, true);
+		ether.addTransmitter(level, pos, frequency);
 	}
 
 	@Override
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
 	{
-		if (!level.isClientSide)
+		if (!level.isClientSide && state.getValue(POWERED))
 		{
-			RedstoneEther ether = RedstoneEther.get((ServerLevel) level);
-			if (ether != null)
-				ether.removeTransmitter(level, pos, getFrequency(level, pos));
+			int frequency = getFrequency(level, pos);
+			if (Utils.isValidFrequency(frequency))
+			{
+				RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
+				ether.removeTransmitter(level, pos, frequency);
+			}
 		}
 
 		super.onRemove(state, level, pos, newState, unknown);
@@ -61,7 +62,10 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbour, BlockPos neighbourPos, boolean unknown)
 	{
 		if (level.isClientSide) return;
-		setPowered(state, level, pos, level.hasNeighborSignal(pos));
+
+		boolean powered = level.hasNeighborSignal(pos);
+		if (state.getValue(POWERED) == powered) return;
+		level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
 	}
 
 	@Nullable

@@ -10,7 +10,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 import rzk.wirelessredstone.client.ClientSubscriber;
 import rzk.wirelessredstone.misc.CreativeTabWR;
-import rzk.wirelessredstone.misc.EventHandler;
 import rzk.wirelessredstone.network.PacketHandler;
 import rzk.wirelessredstone.registries.ModBlockEntities;
 import rzk.wirelessredstone.registries.ModBlocks;
@@ -35,7 +34,6 @@ public class WirelessRedstone
 		ModBlockEntities.BLOCK_ENTITY_TYPES.register(modEventBus);
 
 		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(EventHandler.class);
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event)

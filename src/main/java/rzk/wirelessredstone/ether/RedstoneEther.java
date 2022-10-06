@@ -83,7 +83,6 @@ public class RedstoneEther extends SavedData
 
 		RedstoneChannel channel = getOrCreateChannel(frequency);
 		channel.addReceiver(level, pos);
-		setDirty();
 	}
 
 	public void removeTransmitter(Level level, BlockPos pos, int frequency)
@@ -92,6 +91,7 @@ public class RedstoneEther extends SavedData
 		if (channel != null)
 		{
 			channel.removeTransmitter(level, pos);
+			if (channel.isEmpty()) channels.remove(frequency);
 			setDirty();
 		}
 	}
@@ -102,7 +102,12 @@ public class RedstoneEther extends SavedData
 		if (channel != null)
 		{
 			channel.removeReceiver(pos);
-			setDirty();
+
+			if (channel.isEmpty())
+			{
+				channels.remove(frequency);
+				setDirty();
+			}
 		}
 	}
 

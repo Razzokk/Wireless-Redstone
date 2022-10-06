@@ -3,15 +3,13 @@ package rzk.wirelessredstone.blockentities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.api.IChunkLoadListener;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.Utils;
 import rzk.wirelessredstone.registries.ModBlockEntities;
-import rzk.wirelessredstone.registries.ModBlocks;
 
-public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity implements IChunkLoadListener
+public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
 {
     public RedstoneReceiverBlockEntity(BlockPos pos, BlockState state)
     {
@@ -30,9 +28,27 @@ public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity 
     }
 
     @Override
-    public void onChunkLoad()
+    public void setLevel(Level level)
     {
-        if (level.isClientSide) return;
-        level.getServer().tell(new TickTask(1, () -> level.scheduleTick(worldPosition, ModBlocks.REDSTONE_RECEIVER.get(), 1)));
+        super.setLevel(level);
+
+        if (level.isClientSide()) return;
+
+        level.getServer().tell(new TickTask(1, () ->
+        {
+            RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
+            ether.addReceiver(this.level, worldPosition, frequency);
+        }));
+    }
+
+    @Override
+    public void setRemoved()
+    {
+        if (!level.isClientSide())
+        {
+            RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
+            ether.removeReceiver(worldPosition, frequency);
+        }
+        super.setRemoved();
     }
 }

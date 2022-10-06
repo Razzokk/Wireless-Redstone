@@ -13,7 +13,7 @@ import rzk.wirelessredstone.misc.Utils;
 
 public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
 {
-    private int frequency = Utils.INVALID_FREQUENCY;
+    protected int frequency = Utils.INVALID_FREQUENCY;
 
     public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
     {

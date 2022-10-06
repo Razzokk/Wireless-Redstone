@@ -19,7 +19,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 {
 	public RedstoneTransceiverBlock(Properties props)
 	{
-		super(props);
+		super(props.isRedstoneConductor((state, blockGetter, pos) -> false));
 		registerDefaultState(stateDefinition.any().setValue(POWERED, false));
 	}
 
@@ -33,13 +33,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 	{
 		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
 			return transceiver.getFrequency();
-
 		return 0;
-	}
-
-	public void setPowered(BlockState state, Level level, BlockPos pos, boolean powered)
-	{
-		level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_ALL);
 	}
 
 	@Override

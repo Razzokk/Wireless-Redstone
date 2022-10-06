@@ -5,11 +5,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.api.IChunkLoadListener;
 import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
 import rzk.wirelessredstone.registries.ModBlockEntities;
 
@@ -18,7 +15,7 @@ import java.util.Set;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
-public class P2PRedstoneTransmitterBlockEntity extends BlockEntity implements IChunkLoadListener
+public class P2PRedstoneTransmitterBlockEntity extends BlockEntity
 {
     private static final String LINKED_RECEIVERS_FIELD = "linked_receivers";
     private final Set<BlockPos> linkedReceivers = new HashSet<>();
@@ -78,15 +75,5 @@ public class P2PRedstoneTransmitterBlockEntity extends BlockEntity implements IC
     public void updateAllP2PReceivers(boolean powered)
     {
         linkedReceivers.forEach(pos -> updateP2PReceiver(pos, powered));
-    }
-
-    @Override
-    public void onChunkLoad()
-    {
-        if (level instanceof ServerLevel serverLevel)
-        {
-            //serverLevel.getChunkSource().getPendingTasksCount()
-            WirelessRedstone.LOGGER.debug("onChunkLoad: (level: {}, entity: {})", serverLevel, this);
-        }
     }
 }

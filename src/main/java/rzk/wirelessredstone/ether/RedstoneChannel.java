@@ -9,15 +9,16 @@ import net.minecraft.world.level.Level;
 import rzk.wirelessredstone.misc.Utils;
 import rzk.wirelessredstone.registries.ModBlocks;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RedstoneChannel
 {
 	private final int frequency;
 	// Contains only active transmitters
-	private List<BlockPos> transmitters = new ArrayList<>();
-	private List<BlockPos> receivers = new ArrayList<>();
+	private final Set<BlockPos> transmitters = new HashSet<>();
+	// Contains only currently listening/loaded receivers
+	private final Set<BlockPos> receivers = new HashSet<>();
 
 	public RedstoneChannel(int frequency)
 	{
@@ -31,10 +32,6 @@ public class RedstoneChannel
 		ListTag transmitterTags = tag.getList("transmitters", Tag.TAG_COMPOUND);
 		for (Tag transmitterTag : transmitterTags)
 			transmitters.add(NbtUtils.readBlockPos((CompoundTag) transmitterTag));
-
-		ListTag receiverTags = tag.getList("receivers", Tag.TAG_COMPOUND);
-		for (Tag receiverTag : receiverTags)
-			receivers.add(NbtUtils.readBlockPos((CompoundTag) receiverTag));
 	}
 
 	public CompoundTag save()
@@ -46,11 +43,6 @@ public class RedstoneChannel
 		for (BlockPos pos : transmitters)
 			transmitterTags.add(NbtUtils.writeBlockPos(pos));
 		tag.put("transmitters", transmitterTags);
-
-		ListTag receiverTags = new ListTag();
-		for (BlockPos pos : receivers)
-			receiverTags.add(NbtUtils.writeBlockPos(pos));
-		tag.put("receivers", receiverTags);
 		
 		return tag;
 	}
@@ -82,8 +74,7 @@ public class RedstoneChannel
 
 	public void updateReceiver(Level level, BlockPos pos)
 	{
-		if (level.isLoaded(pos))
-			level.scheduleTick(pos, ModBlocks.REDSTONE_RECEIVER.get(), 1);
+		level.scheduleTick(pos, ModBlocks.REDSTONE_RECEIVER.get(), 2);
 	}
 
 	public void updateReceivers(Level level)
@@ -105,5 +96,10 @@ public class RedstoneChannel
 	public boolean isInactive()
 	{
 		return transmitters.isEmpty();
+	}
+
+	public boolean isEmpty()
+	{
+		return transmitters.isEmpty() && receivers.isEmpty();
 	}
 }
