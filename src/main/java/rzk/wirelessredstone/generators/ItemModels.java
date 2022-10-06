@@ -15,6 +15,7 @@ public final class ItemModels extends ItemModelProvider
     @Override
     protected void registerModels()
     {
+        basicItem(ModItems.FREQUENCY_TOOL.get());
         basicItem(ModItems.P2P_LINKER.get());
     }
 }

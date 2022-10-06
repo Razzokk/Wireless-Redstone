@@ -29,7 +29,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 			transceiver.setFrequency(frequency);
 	}
 
-	protected int getFrequency(Level level, BlockPos pos)
+	public int getFrequency(Level level, BlockPos pos)
 	{
 		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
 			return transceiver.getFrequency();
