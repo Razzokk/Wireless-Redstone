@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
+import rzk.wirelessredstone.generators.language.LanguageBase;
 import rzk.wirelessredstone.misc.Utils;
 
 import java.util.regex.Pattern;
@@ -29,7 +30,7 @@ public abstract class FrequencyScreen extends Screen
 
 	protected FrequencyScreen(int frequency)
 	{
-		super(Component.translatable("Frequency"));
+		super(Component.translatable(LanguageBase.GUI_FREQUENCY_TITLE));
 		this.frequency = frequency;
 	}
 
@@ -70,7 +71,7 @@ public abstract class FrequencyScreen extends Screen
 	@Override
 	protected void init()
 	{
-		frequencyInput = addRenderableWidget(new EditBox(font, (width - 38) / 2, (height - 50) / 2, 38, WIDGET_HEIGHT, Component.translatable("gui.frequency")));
+		frequencyInput = addRenderableWidget(new EditBox(font, (width - 38) / 2, (height - 50) / 2, 38, WIDGET_HEIGHT, title));
 		frequencyInput.setFilter(str -> DIGIT_PATTERN.matcher(str).matches());
 		frequencyInput.setResponder(this::onFrequencyWritten);
 		frequencyInput.setMaxLength(5);

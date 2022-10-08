@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.blocks.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.client.screen.Screens;
+import rzk.wirelessredstone.generators.language.LanguageBase;
 import rzk.wirelessredstone.misc.Utils;
 
 import java.util.List;
@@ -85,6 +86,6 @@ public class FrequencyItem extends Item
 		if (!Utils.isValidFrequency(frequency)) return;
 
 		MutableComponent frequencyComponent = Component.literal(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
-		list.add(Component.translatable("item.frequency.tooltip %s", frequencyComponent).withStyle(ChatFormatting.GRAY));
+		list.add(Component.translatable(LanguageBase.ITEM_TOOLTIP_FREQUENCY, frequencyComponent).withStyle(ChatFormatting.GRAY));
 	}
 }

@@ -21,6 +21,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import rzk.wirelessredstone.config.Config;
 import rzk.wirelessredstone.ether.RedstoneEther;
+import rzk.wirelessredstone.generators.language.LanguageBase;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -81,20 +82,20 @@ public class SnifferItem extends FrequencyItem
 
 			if (transmitters.isEmpty())
 			{
-				player.displayClientMessage(Component.translatable("chat.message.no_transmitters %s", frequencyComponent), false);
+				player.displayClientMessage(Component.translatable(LanguageBase.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent), false);
 				removeHighlightBlocks(stack);
 			}
 			else
 			{
 				Iterator<BlockPos> iterator = transmitters.iterator();
-				MutableComponent message = Component.translatable("chat.message.transmitters %s %s", frequencyComponent, transmitters.size());
+				MutableComponent message = Component.translatable(LanguageBase.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
 				message.append("\n");
 
 				while (true)
 				{
 					BlockPos transmitter = iterator.next();
 					ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
-					HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("chat.tooltip.teleport"));
+					HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable(LanguageBase.MESSAGE_TELEPORT));
 					Style style = Style.EMPTY.withClickEvent(click).withHoverEvent(hover).withColor(ChatFormatting.YELLOW);
 					message.append(Component.literal(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).withStyle(style));
 

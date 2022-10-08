@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "wirelessredstone:item/sniffer"
+    "layer0": "wirelessredstone:item/frequency_sniffer"
   }
 }

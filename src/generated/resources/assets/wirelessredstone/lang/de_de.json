@@ -1,0 +1,16 @@
+{
+  "block.wirelessredstone.redstone_receiver": "Redstone Empfänger",
+  "block.wirelessredstone.redstone_transmitter": "Redstone Sender",
+  "gui.wirelessredstone.frequency.title": "Frequenz",
+  "item.wirelessredstone.circuit": "Schaltkreis",
+  "item.wirelessredstone.frequency_sniffer": "Frequenz Schnüffler",
+  "item.wirelessredstone.frequency_tool": "Frequenz Gerät",
+  "item.wirelessredstone.tooltip.frequency": "Frequenz: (%s)",
+  "item.wirelessredstone.tooltip.state": "Status: %s",
+  "item.wirelessredstone.tooltip.state.off": "Aus",
+  "item.wirelessredstone.tooltip.state.on": "An",
+  "itemGroup.wirelessredstone": "Wireless Redstone",
+  "message.wirelessredstone.teleport": "Hierher teleportieren",
+  "message.wirelessredstone.transmitters.active": "Aktive Sender auf dieser Frequenz (%s): %s",
+  "message.wirelessredstone.transmitters.empty": "Keine aktiven Sender auf dieser Frequenz (%s)"
+}
