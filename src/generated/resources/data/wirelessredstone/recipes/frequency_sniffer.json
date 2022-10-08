@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "wirelessredstone:circuit"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "T": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "pattern": [
+    "ITI",
+    "ICI",
+    "ITI"
+  ],
+  "result": {
+    "item": "wirelessredstone:frequency_sniffer"
+  }
+}

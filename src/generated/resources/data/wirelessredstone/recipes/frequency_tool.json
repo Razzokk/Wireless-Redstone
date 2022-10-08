@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": {
+      "item": "wirelessredstone:circuit"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "T": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "pattern": [
+    "RTR",
+    "ICI",
+    " I "
+  ],
+  "result": {
+    "item": "wirelessredstone:frequency_tool"
+  }
+}
