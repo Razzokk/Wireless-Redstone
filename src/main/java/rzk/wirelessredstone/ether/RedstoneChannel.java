@@ -88,6 +88,11 @@ public class RedstoneChannel
 		return frequency;
 	}
 
+	public Set<BlockPos> getTransmitters()
+	{
+		return transmitters;
+	}
+
 	public boolean isActive()
 	{
 		return !transmitters.isEmpty();

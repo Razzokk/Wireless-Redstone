@@ -27,6 +27,7 @@ public class WirelessRedstone
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
 		modEventBus.addListener(this::commonSetup);
+		modEventBus.addListener(ClientSubscriber::clientSetup);
 		modEventBus.addListener(ClientSubscriber::onRegisterRenderers);
 
 		ModBlocks.BLOCKS.register(modEventBus);

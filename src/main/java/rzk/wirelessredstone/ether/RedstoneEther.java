@@ -11,6 +11,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import rzk.wirelessredstone.misc.Utils;
 
+import java.util.Collections;
+import java.util.Set;
+
 public class RedstoneEther extends SavedData
 {
 	private static final String DATA_NAME = "redstone_ether";
@@ -109,6 +112,12 @@ public class RedstoneEther extends SavedData
 				setDirty();
 			}
 		}
+	}
+
+	public Set<BlockPos> getTransmitters(int frequency)
+	{
+		RedstoneChannel channel = getChannel(frequency);
+		return channel != null ? channel.getTransmitters() : Collections.emptySet();
 	}
 
 	public boolean isFrequencyActive(int frequency)
