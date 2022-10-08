@@ -27,7 +27,7 @@ public class SnifferHighlightRenderer
 	@SubscribeEvent
 	public static void renderSnifferHighlights(RenderLevelStageEvent event)
 	{
-		if (RenderLevelStageEvent.Stage.AFTER_SOLID_BLOCKS != event.getStage()) return;
+		if (RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS != event.getStage()) return;
 
 		Player player = Minecraft.getInstance().player;
 		ItemStack stack = player.getMainHandItem();

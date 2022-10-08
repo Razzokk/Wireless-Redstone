@@ -23,7 +23,7 @@ public abstract class LanguageBase extends LanguageProvider
 	public static final String MESSAGE_TRANSMITTERS_EMPTY = "message.wirelessredstone.transmitters.empty";
 	public static final String MESSAGE_TRANSMITTERS_ACTIVE = "message.wirelessredstone.transmitters.active";
 	public static final String MESSAGE_TELEPORT = "message.wirelessredstone.teleport";
-
+	public static final String MESSAGE_NO_FREQUENCY = "message.wirelessredstone.no_frequency";
 
 	public LanguageBase(DataGenerator gen, String modid, String locale)
 	{

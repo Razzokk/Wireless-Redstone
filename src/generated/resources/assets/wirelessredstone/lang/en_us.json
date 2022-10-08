@@ -10,6 +10,7 @@
   "item.wirelessredstone.tooltip.state.off": "Off",
   "item.wirelessredstone.tooltip.state.on": "On",
   "itemGroup.wirelessredstone": "Wireless Redstone",
+  "message.wirelessredstone.no_frequency": "No frequency set",
   "message.wirelessredstone.teleport": "Teleport here",
   "message.wirelessredstone.transmitters.active": "Active transmitters on this frequency (%s): %s",
   "message.wirelessredstone.transmitters.empty": "There are no active transmitters on this frequency (%s)"

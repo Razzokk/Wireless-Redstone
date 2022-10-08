@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import rzk.wirelessredstone.config.Config;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.generators.language.LanguageBase;
+import rzk.wirelessredstone.misc.Utils;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -69,6 +70,15 @@ public class SnifferItem extends FrequencyItem
 			return super.use(level, player, hand);
 
 		ItemStack stack = player.getItemInHand(hand);
+		int frequency = getFrequency(stack);
+
+		if (!Utils.isValidFrequency(frequency))
+		{
+			if (level.isClientSide)
+				player.displayClientMessage(Component.translatable(LanguageBase.MESSAGE_NO_FREQUENCY).withStyle(ChatFormatting.RED), false);
+			return InteractionResultHolder.fail(stack);
+		}
+
 		player.getCooldowns().addCooldown(this, 20);
 
 		if (!level.isClientSide)
@@ -76,7 +86,6 @@ public class SnifferItem extends FrequencyItem
 			RedstoneEther ether = RedstoneEther.get((ServerLevel) level);
 			if (ether == null) return InteractionResultHolder.success(stack);
 
-			int frequency = getFrequency(stack);
 			Set<BlockPos> transmitters = ether.getTransmitters(frequency);
 			Component frequencyComponent = Component.literal(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
 

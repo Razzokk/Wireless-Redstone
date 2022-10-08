@@ -39,5 +39,6 @@ public class LanguageEN extends LanguageBase
 		add(MESSAGE_TRANSMITTERS_EMPTY, "There are no active transmitters on this frequency (%s)");
 		add(MESSAGE_TRANSMITTERS_ACTIVE, "Active transmitters on this frequency (%s): %s");
 		add(MESSAGE_TELEPORT, "Teleport here");
+		add(MESSAGE_NO_FREQUENCY, "No frequency set");
 	}
 }

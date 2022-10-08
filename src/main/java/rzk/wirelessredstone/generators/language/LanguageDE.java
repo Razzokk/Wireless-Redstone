@@ -39,5 +39,6 @@ public class LanguageDE extends LanguageBase
 		add(MESSAGE_TRANSMITTERS_EMPTY, "Keine aktiven Sender auf dieser Frequenz (%s)");
 		add(MESSAGE_TRANSMITTERS_ACTIVE, "Aktive Sender auf dieser Frequenz (%s): %s");
 		add(MESSAGE_TELEPORT, "Hierher teleportieren");
+		add(MESSAGE_NO_FREQUENCY, "Keine Frequenz gesetzt");
 	}
 }
