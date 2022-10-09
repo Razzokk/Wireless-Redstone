@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "key": {
-    "C": {
-      "item": "wirelessredstone:circuit"
-    },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "R": {
-      "item": "minecraft:redstone"
-    }
-  },
   "pattern": [
     "IRI",
     "RCR",
     "IRI"
   ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "wirelessredstone:circuit"
+    }
+  },
   "result": {
     "item": "wirelessredstone:redstone_receiver"
   }
