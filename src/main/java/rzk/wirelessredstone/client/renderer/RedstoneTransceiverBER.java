@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import rzk.wirelessredstone.blockentities.RedstoneTransceiverBlockEntity;
-import rzk.wirelessredstone.config.Config;
+import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.misc.Utils;
 
 public class RedstoneTransceiverBER implements BlockEntityRenderer<RedstoneTransceiverBlockEntity>

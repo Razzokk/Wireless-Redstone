@@ -19,7 +19,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import rzk.wirelessredstone.config.Config;
+import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.generators.language.LanguageBase;
 import rzk.wirelessredstone.misc.Utils;
@@ -133,7 +133,7 @@ public class SnifferItem extends FrequencyItem
 
 		CompoundTag tag = stack.getOrCreateTag();
 
-		if (level.getGameTime() >= tag.getLong("timestamp") + Config.highlightTime * 20L)
+		if (level.getGameTime() >= tag.getLong("timestamp") + Config.snifferHighlightTime * 20L)
 			removeHighlightBlocks(stack);
 	}
 }

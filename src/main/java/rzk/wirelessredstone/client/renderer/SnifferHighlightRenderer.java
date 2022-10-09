@@ -19,7 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import rzk.wirelessredstone.config.Config;
+import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.items.SnifferItem;
 
 public class SnifferHighlightRenderer
@@ -45,9 +45,9 @@ public class SnifferHighlightRenderer
 		poseStack.pushPose();
 		poseStack.translate(-cam.x(), -cam.y(),  -cam.z());
 
-		float red = Config.highlightRenderColorRed / 256.0f;
-		float green = Config.highlightRenderColorGreen / 256.0f;
-		float blue = Config.highlightRenderColorBlue / 256.0f;
+		float red = Config.highlightColorRed / 256.0f;
+		float green = Config.highlightColorGreen / 256.0f;
+		float blue = Config.highlightColorBlue / 256.0f;
 
 		Tesselator tesselator = Tesselator.getInstance();
 		BufferBuilder builder = tesselator.getBuilder();

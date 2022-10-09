@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.blockentities.RedstoneReceiverBlockEntity;
-import rzk.wirelessredstone.config.Config;
+import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.ether.RedstoneEther;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
@@ -26,7 +26,7 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	@Override
 	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean unknown)
 	{
-		if (!level.isClientSide && Config.redstoneReceiverProvidesStrongPower)
+		if (!level.isClientSide && Config.redstoneReceiverStrongPower)
 			for (Direction direction : Direction.values())
 				level.updateNeighborsAtExceptFromFacing(pos.relative(direction), this, direction.getOpposite());
 	}
@@ -50,13 +50,13 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	@Override
 	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
 	{
-		return state.getValue(POWERED) ? Config.redstoneReceiverOutputPower : 0;
+		return state.getValue(POWERED) ? Config.redstoneReceiverSignalStrength : 0;
 	}
 
 	@Override
 	public int getDirectSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
 	{
-		return Config.redstoneReceiverProvidesStrongPower ? getSignal(state, blockGetter, pos, direction) : 0;
+		return Config.redstoneReceiverStrongPower ? getSignal(state, blockGetter, pos, direction) : 0;
 	}
 
 	@Nullable
