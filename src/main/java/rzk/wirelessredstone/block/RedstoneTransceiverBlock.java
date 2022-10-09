@@ -1,15 +1,18 @@
 package rzk.wirelessredstone.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.blockentity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.client.screen.Screens;
 
@@ -34,6 +37,12 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
 			return transceiver.getFrequency();
 		return 0;
+	}
+
+	@Override
+	public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction)
+	{
+		return true;
 	}
 
 	@Override
