@@ -3,7 +3,6 @@ package rzk.wirelessredstone.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -13,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.blockentity.RedstoneReceiverBlockEntity;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.Config;
+
+import java.util.Random;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 
@@ -32,7 +33,7 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
+	public void tick(BlockState state, ServerLevel level, BlockPos pos, Random rand)
 	{
 		RedstoneEther ether = RedstoneEther.getOrCreate(level);
 		boolean powered = ether.isFrequencyActive(getFrequency(level, pos));

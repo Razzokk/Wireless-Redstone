@@ -5,6 +5,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
@@ -30,13 +32,13 @@ public abstract class FrequencyScreen extends Screen
 
 	protected FrequencyScreen(int frequency)
 	{
-		super(Component.translatable(LanguageBase.GUI_FREQUENCY_TITLE));
+		super(new TranslatableComponent(LanguageBase.GUI_FREQUENCY_TITLE));
 		this.frequency = frequency;
 	}
 
 	private Button addFrequencyButton(int x, int y, int value)
 	{
-		return addRenderableWidget(new Button(x, y, WIDGET_WIDTH, WIDGET_HEIGHT, Component.empty(), button ->
+		return addRenderableWidget(new Button(x, y, WIDGET_WIDTH, WIDGET_HEIGHT, new TextComponent(""), button ->
 		{
 			int frequency = 0;
 
@@ -54,17 +56,17 @@ public abstract class FrequencyScreen extends Screen
 	{
 		if (hasShiftDown())
 		{
-			add1.setMessage(Component.literal("+100"));
-			add10.setMessage(Component.literal("+1000"));
-			sub1.setMessage(Component.literal("-100"));
-			sub10.setMessage(Component.literal("-1000"));
+			add1.setMessage(new TextComponent("+100"));
+			add10.setMessage(new TextComponent("+1000"));
+			sub1.setMessage(new TextComponent("-100"));
+			sub10.setMessage(new TextComponent("-1000"));
 		}
 		else
 		{
-			add1.setMessage(Component.literal("+1"));
-			add10.setMessage(Component.literal("+10"));
-			sub1.setMessage(Component.literal("-1"));
-			sub10.setMessage(Component.literal("-10"));
+			add1.setMessage(new TextComponent("+1"));
+			add10.setMessage(new TextComponent("+10"));
+			sub1.setMessage(new TextComponent("-1"));
+			sub10.setMessage(new TextComponent("-10"));
 		}
 	}
 
@@ -82,7 +84,7 @@ public abstract class FrequencyScreen extends Screen
 		sub1 = addFrequencyButton(frequencyInput.x - WIDGET_WIDTH - 20, frequencyInput.y - WIDGET_HEIGHT / 2 - 2, -1);
 		sub10 = addFrequencyButton(frequencyInput.x - WIDGET_WIDTH - 20, frequencyInput.y + WIDGET_HEIGHT / 2 + 2, -10);
 
-		done = addRenderableWidget(new Button((width - WIDGET_WIDTH) / 2, frequencyInput.y + WIDGET_HEIGHT + 20, WIDGET_WIDTH, WIDGET_HEIGHT, Component.translatable("gui.done"), button ->
+		done = addRenderableWidget(new Button((width - WIDGET_WIDTH) / 2, frequencyInput.y + WIDGET_HEIGHT + 20, WIDGET_WIDTH, WIDGET_HEIGHT, new TranslatableComponent("gui.done"), button ->
 		{
 			setFrequency();
 			onClose();

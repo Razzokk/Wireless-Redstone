@@ -1,12 +1,13 @@
 package rzk.wirelessredstone.client.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.OptionInstance;
-import net.minecraft.client.Options;
+import net.minecraft.client.CycleOption;
+import net.minecraft.client.Option;
+import net.minecraft.client.ProgressOption;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import rzk.wirelessredstone.generator.language.LanguageBase;
 import rzk.wirelessredstone.misc.Config;
@@ -28,31 +29,32 @@ public class ConfigScreen extends Screen
 	private final Screen parent;
 
 	private final List<ValueHolder<?>> VALUE_HOLDERS = new ArrayList<>();
-	private final ValueHolder<Integer> SIGNAL_STRENGTH = new ValueHolder<>(VALUE_HOLDERS, Config.REDSTONE_RECEIVER_SIGNAL_STRENGTH);
-	private final ValueHolder<Boolean> STRONG_POWER = new ValueHolder<>(VALUE_HOLDERS, Config.REDSTONE_RECEIVER_STRONG_POWER);
-	private final ValueHolder<Integer> DISPLAY_COLOR_RED = new ValueHolder<>(VALUE_HOLDERS, Config.FREQUENCY_DISPLAY_COLOR_RED);
-	private final ValueHolder<Integer> DISPLAY_COLOR_GREEN = new ValueHolder<>(VALUE_HOLDERS, Config.FREQUENCY_DISPLAY_COLOR_GREEN);
-	private final ValueHolder<Integer> DISPLAY_COLOR_BLUE = new ValueHolder<>(VALUE_HOLDERS, Config.FREQUENCY_DISPLAY_COLOR_BLUE);
-	private final ValueHolder<Integer> HIGHLIGHT_COLOR_RED = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_RED);
-	private final ValueHolder<Integer> HIGHLIGHT_COLOR_GREEN = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_GREEN);
-	private final ValueHolder<Integer> HIGHLIGHT_COLOR_BLUE = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_BLUE);
-	private final ValueHolder<Integer> HIGHLIGHT_TIME_SECONDS = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_TIME_SECONDS);
+	private final ValueHolder<Integer> SIGNAL_STRENGTH = new ValueHolder<>(VALUE_HOLDERS, Config.REDSTONE_RECEIVER_SIGNAL_STRENGTH, 15);
+	private final ValueHolder<Boolean> STRONG_POWER = new ValueHolder<>(VALUE_HOLDERS, Config.REDSTONE_RECEIVER_STRONG_POWER, true);
+	private final ValueHolder<Integer> DISPLAY_COLOR_RED = new ValueHolder<>(VALUE_HOLDERS, Config.FREQUENCY_DISPLAY_COLOR_RED, 0);
+	private final ValueHolder<Integer> DISPLAY_COLOR_GREEN = new ValueHolder<>(VALUE_HOLDERS, Config.FREQUENCY_DISPLAY_COLOR_GREEN, 0);
+	private final ValueHolder<Integer> DISPLAY_COLOR_BLUE = new ValueHolder<>(VALUE_HOLDERS, Config.FREQUENCY_DISPLAY_COLOR_BLUE, 0);
+	private final ValueHolder<Integer> HIGHLIGHT_COLOR_RED = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_RED, 255);
+	private final ValueHolder<Integer> HIGHLIGHT_COLOR_GREEN = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_GREEN, 63);
+	private final ValueHolder<Integer> HIGHLIGHT_COLOR_BLUE = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_BLUE, 63);
+	private final ValueHolder<Integer> HIGHLIGHT_TIME_SECONDS = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_TIME_SECONDS, 10);
 
 	public ConfigScreen(Screen parent)
 	{
-		super(Component.translatable(LanguageBase.GUI_CONFIG_TITLE));
+		super(new TranslatableComponent(LanguageBase.GUI_CONFIG_TITLE));
 		this.parent = parent;
 	}
 
-	private static OptionInstance<Integer> slider(String langKey, ValueHolder<Integer> valueHolder, int min, int max)
+	private static Option slider(String langKey, ValueHolder<Integer> valueHolder, int min, int max)
 	{
-		return new OptionInstance<>(langKey, OptionInstance.noTooltip(), Options::genericValueLabel,
-				new OptionInstance.IntRange(min, max), valueHolder.value, valueHolder::set);
+		return new ProgressOption(langKey, min, max, 1, options -> Double.valueOf(valueHolder.value),
+				(options, value) -> valueHolder.set(value.intValue()), ((options, progressOption) ->
+				new TranslatableComponent("options.generic_value", new TranslatableComponent(langKey), valueHolder.value)));
 	}
 
-	private static OptionInstance<Boolean> button(String langKey, ValueHolder<Boolean> valueHolder)
+	private static Option button(String langKey, ValueHolder<Boolean> valueHolder)
 	{
-		return OptionInstance.createBoolean(langKey, valueHolder.value, valueHolder::set);
+		return CycleOption.createOnOff(langKey, options -> valueHolder.value, (options, option, value) -> valueHolder.set(value));
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class ConfigScreen extends Screen
 		options = new OptionsList(minecraft, width, height, OPTIONS_LIST_TOP_HEIGHT,
 				height - OPTIONS_LIST_BOTTOM_OFFSET, OPTIONS_LIST_ITEM_HEIGHT);
 
-		options.addSmall(new OptionInstance[]
+		options.addSmall(new Option[]
 				{
 						slider(LanguageBase.GUI_CONFIG_SIGNAL_STRENGTH, SIGNAL_STRENGTH, 1, 15),
 						button(LanguageBase.GUI_CONFIG_STRONG_POWER, STRONG_POWER),
@@ -78,10 +80,10 @@ public class ConfigScreen extends Screen
 		addRenderableWidget(options);
 
 		addRenderableWidget(new Button((width - BUTTON_WIDTH) / 2, height - BUTTON_TOP_OFFSET, BUTTON_WIDTH,
-				BUTTON_HEIGHT, Component.translatable("gui.done"), button -> onClose()));
+				BUTTON_HEIGHT, new TranslatableComponent("gui.done"), button -> onClose()));
 
 		addRenderableWidget(new Button(width - RESET_BUTTON_WIDTH - 8, height - BUTTON_TOP_OFFSET, RESET_BUTTON_WIDTH,
-				BUTTON_HEIGHT, Component.translatable("controls.reset"), button -> onReset()));
+				BUTTON_HEIGHT, new TranslatableComponent("controls.reset"), button -> onReset()));
 	}
 
 	@Override
@@ -112,11 +114,13 @@ public class ConfigScreen extends Screen
 	{
 		private ForgeConfigSpec.ConfigValue<T> holder;
 		private T value;
+		private final T defaultValue;
 
-		public ValueHolder(List<ValueHolder<?>> holders, ForgeConfigSpec.ConfigValue<T> holder)
+		public ValueHolder(List<ValueHolder<?>> holders, ForgeConfigSpec.ConfigValue<T> holder, T defaultValue)
 		{
 			this.holder = holder;
 			value = holder.get();
+			this.defaultValue = defaultValue;
 			holders.add(this);
 		}
 
@@ -127,7 +131,7 @@ public class ConfigScreen extends Screen
 
 		public void reset()
 		{
-			this.value = holder.getDefault();
+			this.value = defaultValue;
 		}
 
 		public void save()

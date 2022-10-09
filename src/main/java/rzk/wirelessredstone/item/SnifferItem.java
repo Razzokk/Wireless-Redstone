@@ -10,8 +10,8 @@ import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.Style;
-import net.minecraft.server.commands.TeleportCommand;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -81,7 +81,7 @@ public class SnifferItem extends FrequencyItem
 		if (!Utils.isValidFrequency(frequency))
 		{
 			if (level.isClientSide)
-				player.displayClientMessage(Component.translatable(LanguageBase.MESSAGE_NO_FREQUENCY).withStyle(ChatFormatting.RED), false);
+				player.displayClientMessage(new TranslatableComponent(LanguageBase.MESSAGE_NO_FREQUENCY).withStyle(ChatFormatting.RED), false);
 			return InteractionResultHolder.fail(stack);
 		}
 
@@ -93,28 +93,28 @@ public class SnifferItem extends FrequencyItem
 			if (ether == null) return InteractionResultHolder.success(stack);
 
 			Set<BlockPos> transmitters = ether.getTransmitters(frequency);
-			Component frequencyComponent = Component.literal(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
+			Component frequencyComponent = new TextComponent(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
 
 			if (transmitters.isEmpty())
 			{
-				player.displayClientMessage(Component.translatable(LanguageBase.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent), false);
+				player.displayClientMessage(new TranslatableComponent(LanguageBase.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent), false);
 				removeHighlightBlocks(stack);
 			}
 			else
 			{
 				Iterator<BlockPos> iterator = transmitters.iterator();
-				MutableComponent message = Component.translatable(LanguageBase.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
+				MutableComponent message = new TranslatableComponent(LanguageBase.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
 				message.append("\n");
 
 				while (true)
 				{
 					BlockPos transmitter = iterator.next();
-					MutableComponent component = Component.literal(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).withStyle(ChatFormatting.YELLOW);
+					MutableComponent component = new TextComponent(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).withStyle(ChatFormatting.YELLOW);
 
 					if (player.hasPermissions(Commands.LEVEL_GAMEMASTERS))
 					{
 						ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
-						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable(LanguageBase.MESSAGE_TELEPORT));
+						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent(LanguageBase.MESSAGE_TELEPORT));
 						component.withStyle(component.getStyle().withClickEvent(click).withHoverEvent(hover));
 					}
 

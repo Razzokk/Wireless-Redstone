@@ -17,7 +17,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.misc.Config;
@@ -25,10 +25,8 @@ import rzk.wirelessredstone.misc.Config;
 public class SnifferHighlightRenderer
 {
 	@SubscribeEvent
-	public static void renderSnifferHighlights(RenderLevelStageEvent event)
+	public static void renderSnifferHighlights(RenderLevelLastEvent event)
 	{
-		if (RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS != event.getStage()) return;
-
 		Player player = Minecraft.getInstance().player;
 		ItemStack stack = player.getMainHandItem();
 
@@ -40,7 +38,7 @@ public class SnifferHighlightRenderer
 		ListTag coords = stack.getOrCreateTag().getList("highlights", Tag.TAG_COMPOUND);
 		if (coords.isEmpty()) return;
 
-		Vec3 cam = event.getCamera().getPosition();
+		Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
 		PoseStack poseStack = event.getPoseStack();
 		poseStack.pushPose();
 		poseStack.translate(-cam.x(), -cam.y(),  -cam.z());

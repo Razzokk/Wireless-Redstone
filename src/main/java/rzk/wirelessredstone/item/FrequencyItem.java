@@ -4,6 +4,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -85,7 +87,7 @@ public class FrequencyItem extends Item
 		int frequency = getFrequency(stack);
 		if (!Utils.isValidFrequency(frequency)) return;
 
-		MutableComponent frequencyComponent = Component.literal(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
-		list.add(Component.translatable(LanguageBase.ITEM_TOOLTIP_FREQUENCY, frequencyComponent).withStyle(ChatFormatting.GRAY));
+		MutableComponent frequencyComponent = new TextComponent(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
+		list.add(new TranslatableComponent(LanguageBase.ITEM_TOOLTIP_FREQUENCY, frequencyComponent).withStyle(ChatFormatting.GRAY));
 	}
 }
