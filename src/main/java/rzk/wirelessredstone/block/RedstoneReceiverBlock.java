@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blocks;
+package rzk.wirelessredstone.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -10,9 +10,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.blockentities.RedstoneReceiverBlockEntity;
-import rzk.wirelessredstone.misc.Config;
+import rzk.wirelessredstone.blockentity.RedstoneReceiverBlockEntity;
 import rzk.wirelessredstone.ether.RedstoneEther;
+import rzk.wirelessredstone.misc.Config;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
 

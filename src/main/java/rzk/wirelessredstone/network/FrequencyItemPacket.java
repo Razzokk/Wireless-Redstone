@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
-import rzk.wirelessredstone.items.FrequencyItem;
+import rzk.wirelessredstone.item.FrequencyItem;
 
 import java.util.function.Supplier;
 

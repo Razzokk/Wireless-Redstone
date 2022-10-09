@@ -5,7 +5,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import rzk.wirelessredstone.client.renderer.RedstoneTransceiverBER;
 import rzk.wirelessredstone.client.renderer.SnifferHighlightRenderer;
-import rzk.wirelessredstone.registries.ModBlockEntities;
+import rzk.wirelessredstone.registry.ModBlockEntities;
 
 public class ClientSubscriber
 {

@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blockentities;
+package rzk.wirelessredstone.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

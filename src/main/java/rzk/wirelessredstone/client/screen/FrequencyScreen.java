@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import org.lwjgl.glfw.GLFW;
-import rzk.wirelessredstone.generators.language.LanguageBase;
+import rzk.wirelessredstone.generator.language.LanguageBase;
 import rzk.wirelessredstone.misc.Utils;
 
 import java.util.regex.Pattern;

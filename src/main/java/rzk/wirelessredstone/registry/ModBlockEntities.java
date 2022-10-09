@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.registries;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -6,9 +6,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.blockentities.P2PRedstoneTransmitterBlockEntity;
-import rzk.wirelessredstone.blockentities.RedstoneReceiverBlockEntity;
-import rzk.wirelessredstone.blockentities.RedstoneTransmitterBlockEntity;
+import rzk.wirelessredstone.blockentity.P2PRedstoneTransmitterBlockEntity;
+import rzk.wirelessredstone.blockentity.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.blockentity.RedstoneTransmitterBlockEntity;
 
 import java.util.function.Supplier;
 

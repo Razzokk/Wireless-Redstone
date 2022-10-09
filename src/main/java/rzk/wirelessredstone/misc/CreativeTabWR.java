@@ -3,7 +3,7 @@ package rzk.wirelessredstone.misc;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.registries.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 public class CreativeTabWR extends CreativeModeTab
 {

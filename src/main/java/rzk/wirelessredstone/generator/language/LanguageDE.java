@@ -1,8 +1,8 @@
-package rzk.wirelessredstone.generators.language;
+package rzk.wirelessredstone.generator.language;
 
 import net.minecraft.data.DataGenerator;
-import rzk.wirelessredstone.registries.ModBlocks;
-import rzk.wirelessredstone.registries.ModItems;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModItems;
 
 public class LanguageDE extends LanguageBase
 {

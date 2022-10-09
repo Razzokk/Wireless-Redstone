@@ -7,7 +7,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.Level;
 import rzk.wirelessredstone.misc.Utils;
-import rzk.wirelessredstone.registries.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 import java.util.HashSet;
 import java.util.Set;

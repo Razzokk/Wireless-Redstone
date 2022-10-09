@@ -16,9 +16,9 @@ import rzk.wirelessredstone.client.screen.Screens;
 import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.misc.CreativeTabWR;
 import rzk.wirelessredstone.network.PacketHandler;
-import rzk.wirelessredstone.registries.ModBlockEntities;
-import rzk.wirelessredstone.registries.ModBlocks;
-import rzk.wirelessredstone.registries.ModItems;
+import rzk.wirelessredstone.registry.ModBlockEntities;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModItems;
 
 @Mod(WirelessRedstone.MODID)
 public class WirelessRedstone

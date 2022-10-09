@@ -19,8 +19,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.misc.Config;
-import rzk.wirelessredstone.items.SnifferItem;
 
 public class SnifferHighlightRenderer
 {

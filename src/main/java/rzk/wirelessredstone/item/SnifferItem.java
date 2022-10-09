@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.items;
+package rzk.wirelessredstone.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -19,9 +19,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.ether.RedstoneEther;
-import rzk.wirelessredstone.generators.language.LanguageBase;
+import rzk.wirelessredstone.generator.language.LanguageBase;
+import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.misc.Utils;
 
 import java.util.Iterator;

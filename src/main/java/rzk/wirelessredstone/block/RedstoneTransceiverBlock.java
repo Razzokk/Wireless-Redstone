@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blocks;
+package rzk.wirelessredstone.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-import rzk.wirelessredstone.blockentities.RedstoneTransceiverBlockEntity;
+import rzk.wirelessredstone.blockentity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.client.screen.Screens;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;

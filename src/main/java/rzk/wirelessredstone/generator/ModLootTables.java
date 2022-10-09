@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.generators;
+package rzk.wirelessredstone.generator;
 
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.RegistryObject;
-import rzk.wirelessredstone.registries.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 import java.util.List;
 import java.util.Map;

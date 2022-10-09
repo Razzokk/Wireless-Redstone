@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.registries;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -9,11 +9,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.blocks.ModelTest;
-import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
-import rzk.wirelessredstone.blocks.P2PRedstoneTransmitterBlock;
-import rzk.wirelessredstone.blocks.RedstoneReceiverBlock;
-import rzk.wirelessredstone.blocks.RedstoneTransmitterBlock;
+import rzk.wirelessredstone.block.ModelTest;
+import rzk.wirelessredstone.block.P2PRedstoneReceiverBlock;
+import rzk.wirelessredstone.block.P2PRedstoneTransmitterBlock;
+import rzk.wirelessredstone.block.RedstoneReceiverBlock;
+import rzk.wirelessredstone.block.RedstoneTransmitterBlock;
 
 import java.util.function.Function;
 import java.util.function.Supplier;

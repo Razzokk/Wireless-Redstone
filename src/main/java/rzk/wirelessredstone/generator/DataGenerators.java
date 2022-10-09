@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.generators;
+package rzk.wirelessredstone.generator;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -6,8 +6,8 @@ import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.generators.language.LanguageDE;
-import rzk.wirelessredstone.generators.language.LanguageEN;
+import rzk.wirelessredstone.generator.language.LanguageDE;
+import rzk.wirelessredstone.generator.language.LanguageEN;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenerators

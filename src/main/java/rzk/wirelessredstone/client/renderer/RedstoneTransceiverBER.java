@@ -6,7 +6,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import rzk.wirelessredstone.blockentities.RedstoneTransceiverBlockEntity;
+import rzk.wirelessredstone.blockentity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.misc.Utils;
 

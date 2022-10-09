@@ -5,7 +5,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
-import rzk.wirelessredstone.blocks.RedstoneTransceiverBlock;
+import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 
 import java.util.function.Supplier;
 

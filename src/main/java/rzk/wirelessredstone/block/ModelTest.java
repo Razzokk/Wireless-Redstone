@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blocks;
+package rzk.wirelessredstone.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -1,9 +1,9 @@
-package rzk.wirelessredstone.generators;
+package rzk.wirelessredstone.generator;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import rzk.wirelessredstone.registries.ModItems;
+import rzk.wirelessredstone.registry.ModItems;
 
 public final class ItemModels extends ItemModelProvider
 {

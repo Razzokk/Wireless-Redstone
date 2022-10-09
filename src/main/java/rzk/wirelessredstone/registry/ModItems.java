@@ -1,13 +1,13 @@
-package rzk.wirelessredstone.registries;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.items.FrequencyItem;
-import rzk.wirelessredstone.items.LinkerItem;
-import rzk.wirelessredstone.items.SnifferItem;
+import rzk.wirelessredstone.item.FrequencyItem;
+import rzk.wirelessredstone.item.LinkerItem;
+import rzk.wirelessredstone.item.SnifferItem;
 
 import java.util.function.Supplier;
 

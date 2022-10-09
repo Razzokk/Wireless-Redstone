@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blockentities;
+package rzk.wirelessredstone.blockentity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -7,8 +7,8 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
-import rzk.wirelessredstone.registries.ModBlockEntities;
+import rzk.wirelessredstone.block.P2PRedstoneReceiverBlock;
+import rzk.wirelessredstone.registry.ModBlockEntities;
 
 import java.util.HashSet;
 import java.util.Set;

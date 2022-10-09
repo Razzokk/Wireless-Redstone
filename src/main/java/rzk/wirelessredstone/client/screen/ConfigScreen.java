@@ -8,7 +8,7 @@ import net.minecraft.client.gui.components.OptionsList;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.common.ForgeConfigSpec;
-import rzk.wirelessredstone.generators.language.LanguageBase;
+import rzk.wirelessredstone.generator.language.LanguageBase;
 import rzk.wirelessredstone.misc.Config;
 
 import java.util.ArrayList;

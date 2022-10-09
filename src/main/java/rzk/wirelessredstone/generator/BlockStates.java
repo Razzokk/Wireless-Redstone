@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.generators;
+package rzk.wirelessredstone.generator;
 
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
@@ -8,7 +8,7 @@ import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
-import rzk.wirelessredstone.registries.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;

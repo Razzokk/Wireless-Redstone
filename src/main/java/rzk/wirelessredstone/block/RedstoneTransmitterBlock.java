@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blocks;
+package rzk.wirelessredstone.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.blockentities.RedstoneTransmitterBlockEntity;
+import rzk.wirelessredstone.blockentity.RedstoneTransmitterBlockEntity;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.Utils;
 

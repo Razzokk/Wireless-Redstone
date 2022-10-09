@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.items;
+package rzk.wirelessredstone.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -17,8 +17,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.blocks.P2PRedstoneReceiverBlock;
-import rzk.wirelessredstone.blocks.P2PRedstoneTransmitterBlock;
+import rzk.wirelessredstone.block.P2PRedstoneReceiverBlock;
+import rzk.wirelessredstone.block.P2PRedstoneTransmitterBlock;
 
 import java.util.List;
 

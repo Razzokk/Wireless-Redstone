@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.generators.language;
+package rzk.wirelessredstone.generator.language;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.LanguageProvider;

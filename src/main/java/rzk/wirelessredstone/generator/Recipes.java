@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.generators;
+package rzk.wirelessredstone.generator;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.DataGenerator;
@@ -6,8 +6,8 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
-import rzk.wirelessredstone.registries.ModBlocks;
-import rzk.wirelessredstone.registries.ModItems;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModItems;
 
 import java.util.function.Consumer;
 

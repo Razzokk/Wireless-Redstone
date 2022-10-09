@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.items;
+package rzk.wirelessredstone.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -14,9 +14,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.blocks.RedstoneTransceiverBlock;
+import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.client.screen.Screens;
-import rzk.wirelessredstone.generators.language.LanguageBase;
+import rzk.wirelessredstone.generator.language.LanguageBase;
 import rzk.wirelessredstone.misc.Utils;
 
 import java.util.List;
