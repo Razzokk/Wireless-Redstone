@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.generator.language.LanguageDE;
 import rzk.wirelessredstone.generator.language.LanguageEN;
+import rzk.wirelessredstone.generator.tag.ModBlockTags;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenerators
@@ -22,6 +23,8 @@ public final class DataGenerators
         generator.addProvider(true, new ItemModels(generator, WirelessRedstone.MODID, existingFileHelper));
         generator.addProvider(true, new Recipes(generator));
         generator.addProvider(true, new ModLootTables(generator));
+
+        generator.addProvider(true, new ModBlockTags(generator, WirelessRedstone.MODID, existingFileHelper));
 
         generator.addProvider(true, new LanguageEN(generator, WirelessRedstone.MODID));
         generator.addProvider(true, new LanguageDE(generator, WirelessRedstone.MODID));

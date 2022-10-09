@@ -9,6 +9,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
@@ -22,7 +23,10 @@ public abstract class RedstoneTransceiverBlock extends Block implements EntityBl
 {
 	public RedstoneTransceiverBlock(Properties props)
 	{
-		super(props.isRedstoneConductor((state, blockGetter, pos) -> false));
+		super(props
+				.isRedstoneConductor((state, blockGetter, pos) -> false)
+				.strength(1.5F, 5.0F)
+				.sound(SoundType.METAL));
 		registerDefaultState(stateDefinition.any().setValue(POWERED, false));
 	}
 
