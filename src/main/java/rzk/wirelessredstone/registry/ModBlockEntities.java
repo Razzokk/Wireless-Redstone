@@ -25,7 +25,7 @@ public class ModBlockEntities
 					BlockEntityType.Builder.of(RedstoneReceiverBlockEntity::new, ModBlocks.REDSTONE_RECEIVER.get()).build(null));
 
 	public static final RegistryObject<BlockEntityType<P2PRedstoneTransmitterBlockEntity>> SIMPLE_TRANSMITTER_BLOCK_ENTITY_TYPE =
-			registerBlockEntity("p2p_redstone_transmitter", () -> BlockEntityType.Builder.of(P2PRedstoneTransmitterBlockEntity::new, ModBlocks.P2P_REDSTONE_TRANSMITTER.get()).build(null));
+			registerBlockEntity("p2p_redstone_transmitter", () -> BlockEntityType.Builder.of(P2PRedstoneTransmitterBlockEntity::new/*ModBlocks.P2P_REDSTONE_TRANSMITTER.get()*/).build(null));
 
 	public static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> registerBlockEntity(String name, Supplier<BlockEntityType<T>> supplier)
 	{

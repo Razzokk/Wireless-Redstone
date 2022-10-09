@@ -30,9 +30,9 @@ public final class BlockStates extends BlockStateProvider
     {
         onOffBlock(ModBlocks.REDSTONE_TRANSMITTER.get());
         onOffBlock(ModBlocks.REDSTONE_RECEIVER.get());
-        onOffBlock(ModBlocks.P2P_REDSTONE_TRANSMITTER.get());
-        onOffBlock(ModBlocks.P2P_REDSTONE_RECEIVER.get());
-        modelTest("model_test", ModBlocks.MODEL_TEST.get());
+//        onOffBlock(ModBlocks.P2P_REDSTONE_TRANSMITTER.get());
+//        onOffBlock(ModBlocks.P2P_REDSTONE_RECEIVER.get());
+//        modelTest("model_test", ModBlocks.MODEL_TEST.get());
     }
 
     private void onOffBlock(String name, Block block)

@@ -47,9 +47,9 @@ public class ModLootTables extends LootTableProvider
         {
             dropSelf(ModBlocks.REDSTONE_TRANSMITTER.get());
             dropSelf(ModBlocks.REDSTONE_RECEIVER.get());
-            dropSelf(ModBlocks.P2P_REDSTONE_TRANSMITTER.get());
-            dropSelf(ModBlocks.P2P_REDSTONE_RECEIVER.get());
-            dropSelf(ModBlocks.MODEL_TEST.get());
+//            dropSelf(ModBlocks.P2P_REDSTONE_TRANSMITTER.get());
+//            dropSelf(ModBlocks.P2P_REDSTONE_RECEIVER.get());
+//            dropSelf(ModBlocks.MODEL_TEST.get());
         }
 
         @Override
