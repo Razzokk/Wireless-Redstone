@@ -1,6 +1,7 @@
 package rzk.wirelessredstone.item;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.commands.Commands;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -10,7 +11,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.server.commands.TeleportCommand;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -19,10 +22,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.network.PacketDistributor;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.generator.language.LanguageBase;
 import rzk.wirelessredstone.misc.Config;
 import rzk.wirelessredstone.misc.Utils;
+import rzk.wirelessredstone.network.PacketHandler;
+import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -34,10 +40,10 @@ public class SnifferItem extends FrequencyItem
 		super(props);
 	}
 
-	public void setHighlightedBlocks(Level level, ItemStack stack, Set<BlockPos> coords)
+	public void setHighlightedBlocks(long timestamp, ItemStack stack, BlockPos[] coords)
 	{
 		CompoundTag tag = stack.getOrCreateTag();
-		tag.putLong("timestamp", level.getGameTime());
+		tag.putLong("timestamp", timestamp);
 
 		ListTag list = new ListTag();
 		for (BlockPos pos : coords)
@@ -103,10 +109,16 @@ public class SnifferItem extends FrequencyItem
 				while (true)
 				{
 					BlockPos transmitter = iterator.next();
-					ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
-					HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable(LanguageBase.MESSAGE_TELEPORT));
-					Style style = Style.EMPTY.withClickEvent(click).withHoverEvent(hover).withColor(ChatFormatting.YELLOW);
-					message.append(Component.literal(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).withStyle(style));
+					MutableComponent component = Component.literal(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).withStyle(ChatFormatting.YELLOW);
+
+					if (player.hasPermissions(Commands.LEVEL_GAMEMASTERS))
+					{
+						ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
+						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable(LanguageBase.MESSAGE_TELEPORT));
+						component.withStyle(component.getStyle().withClickEvent(click).withHoverEvent(hover));
+					}
+
+					message.append(component);
 
 					if (iterator.hasNext()) message.append("\n");
 					else break;
@@ -119,7 +131,8 @@ public class SnifferItem extends FrequencyItem
 				}
 
 				player.displayClientMessage(message, false);
-				setHighlightedBlocks(level, stack, transmitters);
+				PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
+						new SnifferHighlightPacket(level.getGameTime(), hand, transmitters.toArray(BlockPos[]::new)));
 			}
 		}
 
@@ -129,11 +142,11 @@ public class SnifferItem extends FrequencyItem
 	@Override
 	public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
 	{
-		if (!isSelected || level.isClientSide || !stack.hasTag()) return;
+		if (!isSelected || !level.isClientSide || !stack.hasTag()) return;
 
-		CompoundTag tag = stack.getOrCreateTag();
+		CompoundTag tag = stack.getTag();
 
-		if (level.getGameTime() >= tag.getLong("timestamp") + Config.snifferHighlightTime * 20L)
+		if (level.getGameTime() >= tag.getLong("timestamp") + Config.highlightTimeSeconds * 20L)
 			removeHighlightBlocks(stack);
 	}
 }

@@ -1,6 +1,8 @@
 package rzk.wirelessredstone.misc;
 
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.DistExecutor;
 
 public class Config
 {
@@ -29,13 +31,13 @@ public class Config
     public static final ForgeConfigSpec.IntValue HIGHLIGHT_COLOR_RED;
     public static final ForgeConfigSpec.IntValue HIGHLIGHT_COLOR_GREEN;
     public static final ForgeConfigSpec.IntValue HIGHLIGHT_COLOR_BLUE;
-    public static final ForgeConfigSpec.IntValue SNIFFER_HIGHLIGHT_TIME;
+    public static final ForgeConfigSpec.IntValue HIGHLIGHT_TIME_SECONDS;
 
     public static int frequencyDisplayColor;
     public static int highlightColorRed;
     public static int highlightColorGreen;
     public static int highlightColorBlue;
-    public static int snifferHighlightTime;
+    public static int highlightTimeSeconds;
 
     static
     {
@@ -67,7 +69,7 @@ public class Config
         HIGHLIGHT_COLOR_BLUE = clientBuilder.defineInRange("blue", 63, 0, 255);
         clientBuilder.pop();
 
-        SNIFFER_HIGHLIGHT_TIME = clientBuilder.comment("The time for the sniffer highlighting in seconds").defineInRange("snifferHighlightTime", 10, 1, 500);
+        HIGHLIGHT_TIME_SECONDS = clientBuilder.comment("The time for the sniffer highlighting in seconds").defineInRange("snifferHighlightTime", 10, 1, 500);
 
         clientBuilder.pop();
         CLIENT_SPEC = clientBuilder.build();
@@ -82,10 +84,13 @@ public class Config
 
         // Client
 
-        frequencyDisplayColor = FREQUENCY_DISPLAY_COLOR_BLUE.get() | (FREQUENCY_DISPLAY_COLOR_GREEN.get() << 8) | (FREQUENCY_DISPLAY_COLOR_RED.get() << 16);
-        highlightColorRed = HIGHLIGHT_COLOR_RED.get();
-        highlightColorGreen = HIGHLIGHT_COLOR_GREEN.get();
-        highlightColorBlue = HIGHLIGHT_COLOR_BLUE.get();
-        snifferHighlightTime = SNIFFER_HIGHLIGHT_TIME.get();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+        {
+            frequencyDisplayColor = FREQUENCY_DISPLAY_COLOR_BLUE.get() | (FREQUENCY_DISPLAY_COLOR_GREEN.get() << 8) | (FREQUENCY_DISPLAY_COLOR_RED.get() << 16);
+            highlightColorRed = HIGHLIGHT_COLOR_RED.get();
+            highlightColorGreen = HIGHLIGHT_COLOR_GREEN.get();
+            highlightColorBlue = HIGHLIGHT_COLOR_BLUE.get();
+            highlightTimeSeconds = HIGHLIGHT_TIME_SECONDS.get();
+        });
     }
 }

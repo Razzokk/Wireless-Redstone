@@ -36,7 +36,7 @@ public class ConfigScreen extends Screen
 	private final ValueHolder<Integer> HIGHLIGHT_COLOR_RED = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_RED);
 	private final ValueHolder<Integer> HIGHLIGHT_COLOR_GREEN = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_GREEN);
 	private final ValueHolder<Integer> HIGHLIGHT_COLOR_BLUE = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_COLOR_BLUE);
-	private final ValueHolder<Integer> SNIFFER_HIGHLIGHT_TIME = new ValueHolder<>(VALUE_HOLDERS, Config.SNIFFER_HIGHLIGHT_TIME);
+	private final ValueHolder<Integer> HIGHLIGHT_TIME_SECONDS = new ValueHolder<>(VALUE_HOLDERS, Config.HIGHLIGHT_TIME_SECONDS);
 
 	public ConfigScreen(Screen parent)
 	{
@@ -73,7 +73,7 @@ public class ConfigScreen extends Screen
 						slider(LanguageBase.GUI_CONFIG_HIGHLIGHT_BLUE, HIGHLIGHT_COLOR_BLUE, 0, 255)
 				});
 
-		options.addBig(slider(LanguageBase.GUI_CONFIG_HIGHLIGHT_TIME, SNIFFER_HIGHLIGHT_TIME, 1, 500));
+		options.addBig(slider(LanguageBase.GUI_CONFIG_HIGHLIGHT_TIME, HIGHLIGHT_TIME_SECONDS, 1, 500));
 
 		addRenderableWidget(options);
 

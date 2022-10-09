@@ -24,6 +24,7 @@ public class PacketHandler
 	{
 		registerMessage(FrequencyItemPacket.class, FrequencyItemPacket::new);
 		registerMessage(FrequencyBlockPacket.class, FrequencyBlockPacket::new);
+		registerMessage(SnifferHighlightPacket.class, SnifferHighlightPacket::new);
 	}
 
 	private static <T extends IPacket> void registerMessage(Class<T> messageType, Function<FriendlyByteBuf, T> decoder)
