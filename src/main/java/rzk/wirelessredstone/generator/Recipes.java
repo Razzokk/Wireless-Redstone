@@ -1,8 +1,9 @@
 package rzk.wirelessredstone.generator;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.world.item.Items;
@@ -13,15 +14,15 @@ import java.util.function.Consumer;
 
 public final class Recipes extends RecipeProvider
 {
-    public Recipes(DataGenerator generator)
+    public Recipes(PackOutput packOutput)
     {
-        super(generator);
+        super(packOutput);
     }
 
     @Override
-    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer)
+    protected void buildRecipes(Consumer<FinishedRecipe> consumer)
     {
-        ShapedRecipeBuilder.shaped(ModItems.CIRCUIT.get(), 2)
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModItems.CIRCUIT.get(), 2)
                 .pattern("RGR")
                 .pattern("IEI")
                 .pattern("QGQ")
@@ -33,7 +34,7 @@ public final class Recipes extends RecipeProvider
                 .unlockedBy("item", InventoryChangeTrigger.TriggerInstance.hasItems(Items.REDSTONE, Items.GLOWSTONE_DUST, Items.GOLD_INGOT, Items.ENDER_PEARL, Items.QUARTZ))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.REDSTONE_TRANSMITTER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.REDSTONE_TRANSMITTER.get())
                 .pattern("IRI")
                 .pattern("RCR")
                 .pattern("IRI")
@@ -43,7 +44,7 @@ public final class Recipes extends RecipeProvider
                 .unlockedBy("item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CIRCUIT.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModBlocks.REDSTONE_RECEIVER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.REDSTONE_RECEIVER.get())
                 .pattern("IRI")
                 .pattern("RCR")
                 .pattern("IRI")
@@ -53,7 +54,7 @@ public final class Recipes extends RecipeProvider
                 .unlockedBy("item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CIRCUIT.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.FREQUENCY_TOOL.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModItems.FREQUENCY_TOOL.get())
                 .pattern("RTR")
                 .pattern("ICI")
                 .pattern(" I ")
@@ -64,7 +65,7 @@ public final class Recipes extends RecipeProvider
                 .unlockedBy("item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.CIRCUIT.get()))
                 .save(consumer);
 
-        ShapedRecipeBuilder.shaped(ModItems.FREQUENCY_SNIFFER.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModItems.FREQUENCY_SNIFFER.get())
                 .pattern("ITI")
                 .pattern("ICI")
                 .pattern("ITI")

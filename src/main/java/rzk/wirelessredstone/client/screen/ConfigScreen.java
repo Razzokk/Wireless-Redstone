@@ -77,11 +77,15 @@ public class ConfigScreen extends Screen
 
 		addRenderableWidget(options);
 
-		addRenderableWidget(new Button((width - BUTTON_WIDTH) / 2, height - BUTTON_TOP_OFFSET, BUTTON_WIDTH,
-				BUTTON_HEIGHT, Component.translatable("gui.done"), button -> onClose()));
+		addRenderableWidget(Button.builder(Component.translatable("gui.done"), button -> onClose())
+				.pos((width - BUTTON_WIDTH) / 2, height - BUTTON_TOP_OFFSET)
+				.size(BUTTON_WIDTH, BUTTON_HEIGHT)
+				.build());
 
-		addRenderableWidget(new Button(width - RESET_BUTTON_WIDTH - 8, height - BUTTON_TOP_OFFSET, RESET_BUTTON_WIDTH,
-				BUTTON_HEIGHT, Component.translatable("controls.reset"), button -> onReset()));
+		addRenderableWidget(Button.builder(Component.translatable("controls.reset"), button -> onReset())
+				.pos(width - RESET_BUTTON_WIDTH - 8, height - BUTTON_TOP_OFFSET)
+				.size(RESET_BUTTON_WIDTH, BUTTON_HEIGHT)
+				.build());
 	}
 
 	@Override

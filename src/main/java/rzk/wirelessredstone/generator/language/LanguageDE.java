@@ -1,14 +1,14 @@
 package rzk.wirelessredstone.generator.language;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 
 public class LanguageDE extends LanguageBase
 {
-	public LanguageDE(DataGenerator gen, String modid)
+	public LanguageDE(PackOutput packOutput)
 	{
-		super(gen, modid, "de_de");
+		super(packOutput, "de_de");
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public abstract class FrequencyScreen extends Screen
 
 	private Button addFrequencyButton(int x, int y, int value)
 	{
-		return addRenderableWidget(new Button(x, y, WIDGET_WIDTH, WIDGET_HEIGHT, Component.empty(), button ->
+		return addRenderableWidget(Button.builder(Component.empty(), button ->
 		{
 			int frequency = 0;
 
@@ -47,7 +47,7 @@ public abstract class FrequencyScreen extends Screen
 			frequency = Utils.clamp(Utils.MIN_FREQUENCY, Utils.MAX_FREQUENCY, frequency);
 
 			frequencyInput.setValue(String.valueOf(frequency));
-		}));
+		}).pos(x, y).size(WIDGET_WIDTH, WIDGET_HEIGHT).build());
 	}
 
 	private void updateFrequencyButtonDesc()
@@ -58,8 +58,7 @@ public abstract class FrequencyScreen extends Screen
 			add10.setMessage(Component.literal("+1000"));
 			sub1.setMessage(Component.literal("-100"));
 			sub10.setMessage(Component.literal("-1000"));
-		}
-		else
+		} else
 		{
 			add1.setMessage(Component.literal("+1"));
 			add10.setMessage(Component.literal("+10"));
@@ -77,16 +76,16 @@ public abstract class FrequencyScreen extends Screen
 		frequencyInput.setMaxLength(5);
 		frequencyInput.setBordered(true);
 
-		add1 = addFrequencyButton(frequencyInput.x + frequencyInput.getWidth() + 20, frequencyInput.y - WIDGET_HEIGHT / 2 - 2, 1);
-		add10 = addFrequencyButton(frequencyInput.x + frequencyInput.getWidth() + 20, frequencyInput.y + WIDGET_HEIGHT / 2 + 2, 10);
-		sub1 = addFrequencyButton(frequencyInput.x - WIDGET_WIDTH - 20, frequencyInput.y - WIDGET_HEIGHT / 2 - 2, -1);
-		sub10 = addFrequencyButton(frequencyInput.x - WIDGET_WIDTH - 20, frequencyInput.y + WIDGET_HEIGHT / 2 + 2, -10);
+		add1 = addFrequencyButton(frequencyInput.getX() + frequencyInput.getWidth() + 20, frequencyInput.getY() - WIDGET_HEIGHT / 2 - 2, 1);
+		add10 = addFrequencyButton(frequencyInput.getX() + frequencyInput.getWidth() + 20, frequencyInput.getY() + WIDGET_HEIGHT / 2 + 2, 10);
+		sub1 = addFrequencyButton(frequencyInput.getX() - WIDGET_WIDTH - 20, frequencyInput.getY() - WIDGET_HEIGHT / 2 - 2, -1);
+		sub10 = addFrequencyButton(frequencyInput.getX() - WIDGET_WIDTH - 20, frequencyInput.getY() + WIDGET_HEIGHT / 2 + 2, -10);
 
-		done = addRenderableWidget(new Button((width - WIDGET_WIDTH) / 2, frequencyInput.y + WIDGET_HEIGHT + 20, WIDGET_WIDTH, WIDGET_HEIGHT, Component.translatable("gui.done"), button ->
+		done = addRenderableWidget(Button.builder(Component.translatable("gui.done"), button ->
 		{
 			setFrequency();
 			onClose();
-		}));
+		}).pos((width - WIDGET_WIDTH) / 2, frequencyInput.getY() + WIDGET_HEIGHT + 20).size(WIDGET_WIDTH, WIDGET_HEIGHT).build());
 		done.active = false;
 
 		if (Utils.isValidFrequency(frequency))
@@ -136,7 +135,7 @@ public abstract class FrequencyScreen extends Screen
 	{
 		renderBackground(poseStack);
 		super.render(poseStack, p_96563_, p_96564_, p_96565_);
-		drawCenteredString(poseStack, font, getTitle(), width / 2, frequencyInput.y - 30, 0xFFFFFF);
+		drawCenteredString(poseStack, font, getTitle(), width / 2, frequencyInput.getY() - 30, 0xFFFFFF);
 	}
 
 	private void onFrequencyWritten(String str)

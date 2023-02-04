@@ -6,7 +6,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.item.FrequencyItem;
-import rzk.wirelessredstone.item.LinkerItem;
 import rzk.wirelessredstone.item.SnifferItem;
 
 import java.util.function.Supplier;
@@ -28,6 +27,6 @@ public class ModItems
 
 	public static Item.Properties defaultItemProps()
 	{
-		return new Item.Properties().tab(WirelessRedstone.CREATIVE_TAB);
+		return new Item.Properties();
 	}
 }

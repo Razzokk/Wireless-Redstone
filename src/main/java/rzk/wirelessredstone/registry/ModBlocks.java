@@ -9,9 +9,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.block.ModelTest;
-import rzk.wirelessredstone.block.P2PRedstoneReceiverBlock;
-import rzk.wirelessredstone.block.P2PRedstoneTransmitterBlock;
 import rzk.wirelessredstone.block.RedstoneReceiverBlock;
 import rzk.wirelessredstone.block.RedstoneTransmitterBlock;
 

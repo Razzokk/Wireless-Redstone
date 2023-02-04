@@ -1,14 +1,15 @@
 package rzk.wirelessredstone.generator.language;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
+import rzk.wirelessredstone.WirelessRedstone;
 
 public abstract class LanguageBase extends LanguageProvider
 {
 	// Language Keys
 
 	// Item group
-	public static final String ITEM_GROUP_WIRELESS_REDSTONE = "itemGroup.wirelessredstone";
+	public static final String ITEM_GROUP_WIRELESS_REDSTONE = "item_group.wirelessredstone";
 
 	// Gui
 	public static final String GUI_FREQUENCY_TITLE = "gui.wirelessredstone.frequency.title";
@@ -35,8 +36,8 @@ public abstract class LanguageBase extends LanguageProvider
 	public static final String MESSAGE_TELEPORT = "message.wirelessredstone.teleport";
 	public static final String MESSAGE_NO_FREQUENCY = "message.wirelessredstone.no_frequency";
 
-	public LanguageBase(DataGenerator gen, String modid, String locale)
+	public LanguageBase(PackOutput packOutput, String locale)
 	{
-		super(gen, modid, locale);
+		super(packOutput, WirelessRedstone.MODID, locale);
 	}
 }

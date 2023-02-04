@@ -1,11 +1,11 @@
 package rzk.wirelessredstone.generator;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.generator.language.LanguageDE;
 import rzk.wirelessredstone.generator.language.LanguageEN;
 import rzk.wirelessredstone.generator.tag.ModBlockTags;
@@ -17,16 +17,20 @@ public final class DataGenerators
     public static void gatherData(GatherDataEvent event)
     {
         DataGenerator generator = event.getGenerator();
+        PackOutput output = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        generator.addProvider(true, new BlockStates(generator, WirelessRedstone.MODID, existingFileHelper));
-        generator.addProvider(true, new ItemModels(generator, WirelessRedstone.MODID, existingFileHelper));
-        generator.addProvider(true, new Recipes(generator));
-        generator.addProvider(true, new ModLootTables(generator));
+        // Client
 
-        generator.addProvider(true, new ModBlockTags(generator, WirelessRedstone.MODID, existingFileHelper));
+        generator.addProvider(event.includeClient(), new BlockStates(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ItemModels(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new LanguageEN(output));
+        generator.addProvider(event.includeClient(), new LanguageDE(output));
 
-        generator.addProvider(true, new LanguageEN(generator, WirelessRedstone.MODID));
-        generator.addProvider(true, new LanguageDE(generator, WirelessRedstone.MODID));
+        // Server
+
+        generator.addProvider(event.includeServer(), new Recipes(output));
+        generator.addProvider(event.includeServer(), new ModLootTables(output));
+        generator.addProvider(event.includeServer(), new ModBlockTags(output, event.getLookupProvider(), existingFileHelper));
     }
 }

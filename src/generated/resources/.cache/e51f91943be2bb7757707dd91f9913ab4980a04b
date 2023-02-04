@@ -1,4 +1,4 @@
-// 1.19.2	2022-10-09T05:17:16.5995666	Block States: wirelessredstone
+// 1.19.3	2023-02-04T04:34:17.1109109	Block States: wirelessredstone
 b8b86057e07efc9033064098801bcf191de901eb assets/wirelessredstone/blockstates/redstone_receiver.json
 985512416f9a28a21ee0cee9cd482d7ac95912f5 assets/wirelessredstone/blockstates/redstone_transmitter.json
 a3aee8e50ca59d43afc8c8ee01510999ae5189c3 assets/wirelessredstone/models/block/redstone_receiver_off.json

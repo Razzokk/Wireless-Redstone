@@ -1,13 +1,14 @@
 package rzk.wirelessredstone.generator;
 
 import net.minecraft.core.Direction;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
+import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.registry.ModBlocks;
 
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.FACING;
@@ -15,9 +16,9 @@ import static net.minecraft.world.level.block.state.properties.BlockStatePropert
 
 public final class BlockStates extends BlockStateProvider
 {
-    public BlockStates(DataGenerator gen, String modid, ExistingFileHelper existingFileHelper)
+    public BlockStates(PackOutput output, ExistingFileHelper exFileHelper)
     {
-        super(gen, modid, existingFileHelper);
+        super(output, WirelessRedstone.MODID, exFileHelper);
     }
 
     private static String blockName(Block block)
