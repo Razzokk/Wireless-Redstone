@@ -1,47 +1,31 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.network.NetworkEvent;
-import rzk.wirelessredstone.item.FrequencyItem;
-
-import java.util.function.Supplier;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import rzk.wirelessredstone.WirelessRedstone;
 
 public class FrequencyItemPacket extends FrequencyPacket
 {
-	private final InteractionHand hand;
+	public static final Identifier ID = WirelessRedstone.identifier("networking/frequency_item_packet");
 
-	public FrequencyItemPacket(int frequency, InteractionHand hand)
+	public final Hand hand;
+
+	public FrequencyItemPacket(int frequency, Hand hand)
 	{
 		super(frequency);
 		this.hand = hand;
 	}
 
-	public FrequencyItemPacket(FriendlyByteBuf buf)
+	public FrequencyItemPacket(PacketByteBuf buf)
 	{
 		super(buf);
-		hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+		hand = buf.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
 	}
 
 	@Override
-	public void encodeAdditional(FriendlyByteBuf buf)
+	public void writeAdditional(PacketByteBuf buf)
 	{
-		buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
-	}
-
-	@Override
-	public void handle(Supplier<NetworkEvent.Context> ctx)
-	{
-		ctx.get().enqueueWork(() ->
-		{
-			ServerPlayer player = ctx.get().getSender();
-			ItemStack stack = player.getItemInHand(hand);
-
-			if (stack.getItem() instanceof FrequencyItem item)
-				item.setFrequency(stack, frequency);
-		});
-		ctx.get().setPacketHandled(true);
+		buf.writeBoolean(hand == Hand.MAIN_HAND);
 	}
 }

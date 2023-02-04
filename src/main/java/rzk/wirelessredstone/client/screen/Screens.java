@@ -1,24 +1,18 @@
 package rzk.wirelessredstone.client.screen;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 
 public class Screens
 {
 	public static void openFrequencyBlockScreen(int frequency, BlockPos pos)
 	{
-		Minecraft.getInstance().setScreen(new FrequencyBlockScreen(frequency, pos));
+		MinecraftClient.getInstance().setScreen(new FrequencyBlockScreen(frequency, pos));
 	}
 
-	public static void openFrequencyItemScreen(int frequency, InteractionHand hand)
+	public static void openFrequencyItemScreen(int frequency, Hand hand)
 	{
-		Minecraft.getInstance().setScreen(new FrequencyItemScreen(frequency, hand));
-	}
-
-	public static Screen openConfigScreen(Minecraft mc, Screen parent)
-	{
-		return new ConfigScreen(parent);
+		MinecraftClient.getInstance().setScreen(new FrequencyItemScreen(frequency, hand));
 	}
 }

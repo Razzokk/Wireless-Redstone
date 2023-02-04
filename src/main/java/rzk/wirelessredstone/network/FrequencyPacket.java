@@ -1,27 +1,29 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.network.PacketByteBuf;
 
-public abstract class FrequencyPacket implements IPacket
+public abstract class FrequencyPacket
 {
-	protected final int frequency;
+	public final int frequency;
 
 	public FrequencyPacket(int frequency)
 	{
 		this.frequency = frequency;
 	}
 
-	public FrequencyPacket(FriendlyByteBuf buf)
+	public FrequencyPacket(PacketByteBuf buf)
 	{
 		frequency = buf.readInt();
 	}
 
-	@Override
-	public void encode(FriendlyByteBuf buf)
+	public PacketByteBuf toPacketByteBuf()
 	{
+		PacketByteBuf buf = PacketByteBufs.create();
 		buf.writeInt(frequency);
-		encodeAdditional(buf);
+		writeAdditional(buf);
+		return buf;
 	}
 
-	public abstract void encodeAdditional(FriendlyByteBuf buf);
+	public abstract void writeAdditional(PacketByteBuf buf);
 }

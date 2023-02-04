@@ -1,91 +1,92 @@
 package rzk.wirelessredstone.item;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.client.screen.Screens;
-import rzk.wirelessredstone.generator.language.LanguageBase;
-import rzk.wirelessredstone.misc.Utils;
+import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.misc.WRUtils;
 
 import java.util.List;
 
 public class FrequencyItem extends Item
 {
-	public FrequencyItem(Properties props)
+	public FrequencyItem(Settings settings)
 	{
-		super(props);
+		super(settings);
 	}
 
 	public int getFrequency(ItemStack stack)
 	{
-		return Utils.readFrequency(stack.getTag());
+		return WRUtils.readFrequency(stack.getNbt());
 	}
 
 	public void setFrequency(ItemStack stack, int frequency)
 	{
-		Utils.writeFrequency(stack.getOrCreateTag(), frequency);
+		WRUtils.writeFrequency(stack.getOrCreateNbt(), frequency);
 	}
 
 	@Override
-	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context)
+	public ActionResult useOnBlock(ItemUsageContext context)
 	{
-		Level level = context.getLevel();
-		BlockPos pos = context.getClickedPos();
+		World world = context.getWorld();
+		BlockPos pos = context.getBlockPos();
 
-		if (level.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock transceiver)
+		if (world.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock transceiver)
 		{
-			Player player = context.getPlayer();
-			boolean isShift = player.isShiftKeyDown();
+			PlayerEntity player = context.getPlayer();
+			ItemStack stack = context.getStack();
+			boolean isShift = player.isSneaking();
 
-			int frequency = isShift ? transceiver.getFrequency(level, pos) : getFrequency(stack);
+			int frequency = isShift ? transceiver.getFrequency(world, pos) : getFrequency(stack);
 
-			if (!Utils.isValidFrequency(frequency))
-				return InteractionResult.FAIL;
+			if (!WRUtils.isValidFrequency(frequency))
+				return ActionResult.FAIL;
 
 			if (isShift)
 				setFrequency(stack, frequency);
 			else
-				transceiver.setFrequency(level, pos, frequency);
+				transceiver.setFrequency(world, pos, frequency);
 
-			return InteractionResult.SUCCESS;
+			return ActionResult.SUCCESS;
 		}
 
-		return InteractionResult.PASS;
+		return ActionResult.PASS;
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
 	{
-		ItemStack stack = player.getItemInHand(hand);
+		ItemStack stack = player.getStackInHand(hand);
 
-		if (!player.isShiftKeyDown())
-			return InteractionResultHolder.pass(stack);
+		if (!player.isSneaking())
+			return TypedActionResult.pass(stack);
 
-		if (level.isClientSide)
+		if (world.isClient)
 			Screens.openFrequencyItemScreen(getFrequency(stack), hand);
 
-		return InteractionResultHolder.success(stack);
+		return TypedActionResult.success(stack);
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> list, TooltipFlag flag)
+	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
 	{
 		int frequency = getFrequency(stack);
-		if (!Utils.isValidFrequency(frequency)) return;
+		if (!WRUtils.isValidFrequency(frequency)) return;
 
-		MutableComponent frequencyComponent = Component.literal(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
-		list.add(Component.translatable(LanguageBase.ITEM_TOOLTIP_FREQUENCY, frequencyComponent).withStyle(ChatFormatting.GRAY));
+		MutableText frequencyComponent = Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
+		tooltip.add(Text.translatable(LanguageBase.ITEM_TOOLTIP_FREQUENCY, frequencyComponent).formatted(Formatting.GRAY));
 	}
 }

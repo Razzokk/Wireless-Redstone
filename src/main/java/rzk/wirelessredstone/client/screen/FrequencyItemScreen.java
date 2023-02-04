@@ -1,14 +1,14 @@
 package rzk.wirelessredstone.client.screen;
 
-import net.minecraft.world.InteractionHand;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.util.Hand;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
-import rzk.wirelessredstone.network.PacketHandler;
 
 public class FrequencyItemScreen extends FrequencyScreen
 {
-	private final InteractionHand hand;
+	private final Hand hand;
 
-	public FrequencyItemScreen(int frequency, InteractionHand hand)
+	public FrequencyItemScreen(int frequency, Hand hand)
 	{
 		super(frequency);
 		this.hand = hand;
@@ -17,6 +17,6 @@ public class FrequencyItemScreen extends FrequencyScreen
 	@Override
 	protected void setFrequency()
 	{
-		PacketHandler.INSTANCE.sendToServer(new FrequencyItemPacket(getInputFrequency(), hand));
+		ClientPlayNetworking.send(FrequencyItemPacket.ID, new FrequencyItemPacket(getInputFrequency(), hand).toPacketByteBuf());
 	}
 }

@@ -1,64 +1,67 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Material;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.state.StateManager;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import rzk.wirelessredstone.blockentity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.client.screen.Screens;
+import rzk.wirelessredstone.item.FrequencyItem;
+import rzk.wirelessredstone.misc.WRUtils;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
+import static net.minecraft.state.property.Properties.POWERED;
 
-public abstract class RedstoneTransceiverBlock extends Block implements EntityBlock
+public abstract class RedstoneTransceiverBlock extends Block implements BlockEntityProvider
 {
-	public RedstoneTransceiverBlock(Properties props)
+	public RedstoneTransceiverBlock()
 	{
-		super(props
-				.isRedstoneConductor((state, blockGetter, pos) -> false)
+		super(Settings.of(Material.METAL)
+				.solidBlock((state, blockGetter, pos) -> false)
 				.strength(1.5F, 5.0F)
-				.sound(SoundType.METAL));
-		registerDefaultState(stateDefinition.any().setValue(POWERED, false));
+				.sounds(BlockSoundGroup.METAL));
+		setDefaultState(stateManager.getDefaultState().with(POWERED, false));
 	}
 
-	public void setFrequency(Level level, BlockPos pos, int frequency)
+	public void setFrequency(World world, BlockPos pos, int frequency)
 	{
-		if (frequency != 0 && level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
+		if (WRUtils.isValidFrequency(frequency) && world.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
 			transceiver.setFrequency(frequency);
 	}
 
-	public int getFrequency(Level level, BlockPos pos)
+	public int getFrequency(World world, BlockPos pos)
 	{
-		if (level.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
+		if (world.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
 			return transceiver.getFrequency();
 		return 0;
 	}
 
 	@Override
-	public boolean canConnectRedstone(BlockState state, BlockGetter level, BlockPos pos, @Nullable Direction direction)
+	public boolean emitsRedstonePower(BlockState state)
 	{
 		return true;
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult)
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
 	{
-		if (level.isClientSide)
-			Screens.openFrequencyBlockScreen(getFrequency(level, pos), pos);
-		return InteractionResult.SUCCESS;
+		if (player.getStackInHand(hand).getItem() instanceof FrequencyItem)
+			return ActionResult.PASS;
+
+		if (world.isClient)
+			Screens.openFrequencyBlockScreen(getFrequency(world, pos), pos);
+		return ActionResult.SUCCESS;
 	}
 
 	@Override
-	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
+	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
 	{
 		builder.add(POWERED);
 	}

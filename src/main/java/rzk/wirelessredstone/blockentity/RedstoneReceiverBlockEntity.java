@@ -1,54 +1,53 @@
 package rzk.wirelessredstone.blockentity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.TickTask;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.server.ServerTask;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import rzk.wirelessredstone.ether.RedstoneEther;
-import rzk.wirelessredstone.misc.Utils;
-import rzk.wirelessredstone.registry.ModBlockEntities;
+import rzk.wirelessredstone.misc.WRUtils;
 
 public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
 {
     public RedstoneReceiverBlockEntity(BlockPos pos, BlockState state)
     {
-        super(ModBlockEntities.REDSTONE_RECEIVER_BLOCK_ENTITY_TYPE.get(), pos, state);
+        super(ModBlockEntities.REDSTONE_RECEIVER_BLOCK_ENTITY, pos, state);
     }
 
     @Override
     protected void onFrequencyChange(int oldFrequency, int newFrequency)
     {
-        if (level.isClientSide) return;
-        RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
-        ether.removeReceiver(worldPosition, oldFrequency);
+        if (world.isClient) return;
+        RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+        ether.removeReceiver(pos, oldFrequency);
 
-        if (Utils.isValidFrequency(newFrequency))
-            ether.addReceiver(level, worldPosition, newFrequency);
+        if (WRUtils.isValidFrequency(newFrequency))
+            ether.addReceiver(world, pos, newFrequency);
     }
 
     @Override
-    public void setLevel(Level level)
+    public void setWorld(World world)
     {
-        super.setLevel(level);
+        super.setWorld(world);
 
-        if (level.isClientSide()) return;
+        if (world.isClient) return;
 
-        level.getServer().tell(new TickTask(1, () ->
+        world.getServer().send(new ServerTask(1, () ->
         {
-            RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
-            ether.addReceiver(this.level, worldPosition, frequency);
+            RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+            ether.addReceiver(world, pos, frequency);
         }));
     }
 
     @Override
-    public void setRemoved()
+    public void markRemoved()
     {
-        if (!level.isClientSide())
+        if (!world.isClient)
         {
-            RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
-            ether.removeReceiver(worldPosition, frequency);
+            RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+            ether.removeReceiver(pos, frequency);
         }
-        super.setRemoved();
+        super.markRemoved();
     }
 }

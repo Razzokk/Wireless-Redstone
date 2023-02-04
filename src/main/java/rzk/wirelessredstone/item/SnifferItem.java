@@ -1,31 +1,29 @@
 package rzk.wirelessredstone.item;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.commands.Commands;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.network.PacketDistributor;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import rzk.wirelessredstone.datagen.LanguageBase;
 import rzk.wirelessredstone.ether.RedstoneEther;
-import rzk.wirelessredstone.generator.language.LanguageBase;
-import rzk.wirelessredstone.misc.Config;
-import rzk.wirelessredstone.misc.Utils;
-import rzk.wirelessredstone.network.PacketHandler;
+import rzk.wirelessredstone.misc.WRConfig;
+import rzk.wirelessredstone.misc.WRUtils;
 import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 import java.util.Iterator;
@@ -33,87 +31,87 @@ import java.util.Set;
 
 public class SnifferItem extends FrequencyItem
 {
-	public SnifferItem(Properties props)
+	public SnifferItem(Settings settings)
 	{
-		super(props);
+		super(settings);
 	}
 
 	public void setHighlightedBlocks(long timestamp, ItemStack stack, BlockPos[] coords)
 	{
-		CompoundTag tag = stack.getOrCreateTag();
-		tag.putLong("timestamp", timestamp);
+		NbtCompound nbt = stack.getOrCreateNbt();
+		nbt.putLong("timestamp", timestamp);
 
-		ListTag list = new ListTag();
+		NbtList list = new NbtList();
 		for (BlockPos pos : coords)
-			list.add(NbtUtils.writeBlockPos(pos));
-		tag.put("highlights", list);
+			list.add(NbtHelper.fromBlockPos(pos));
+		nbt.put("highlights", list);
 	}
 
 	public void removeHighlightBlocks(ItemStack stack)
 	{
-		if (stack.hasTag())
+		if (stack.hasNbt())
 		{
-			CompoundTag tag = stack.getTag();
-			tag.remove("timestamp");
-			tag.remove("highlights");
+			NbtCompound nbt = stack.getNbt();
+			nbt.remove("timestamp");
+			nbt.remove("highlights");
 		}
 	}
 
 	@Override
-	public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context)
+	public ActionResult useOnBlock(ItemUsageContext context)
 	{
-		if (!context.getPlayer().isShiftKeyDown())
-			return InteractionResult.PASS;
-		return super.onItemUseFirst(stack, context);
+		if (!context.getPlayer().isSneaking())
+			return ActionResult.PASS;
+		return super.useOnBlock(context);
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
+	public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand)
 	{
-		if (player.isShiftKeyDown())
-			return super.use(level, player, hand);
+		if (player.isSneaking())
+			return super.use(world, player, hand);
 
-		ItemStack stack = player.getItemInHand(hand);
+		ItemStack stack = player.getStackInHand(hand);
 		int frequency = getFrequency(stack);
 
-		if (!Utils.isValidFrequency(frequency))
+		if (!WRUtils.isValidFrequency(frequency))
 		{
-			if (level.isClientSide)
-				player.displayClientMessage(Component.translatable(LanguageBase.MESSAGE_NO_FREQUENCY).withStyle(ChatFormatting.RED), false);
-			return InteractionResultHolder.fail(stack);
+			if (world.isClient)
+				player.sendMessage(Text.translatable(LanguageBase.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED));
+			return TypedActionResult.fail(stack);
 		}
 
-		player.getCooldowns().addCooldown(this, 20);
+		player.getItemCooldownManager().set(this, 20);
 
-		if (!level.isClientSide)
+		if (!world.isClient)
 		{
-			RedstoneEther ether = RedstoneEther.get((ServerLevel) level);
-			if (ether == null) return InteractionResultHolder.success(stack);
+			RedstoneEther ether = RedstoneEther.get((ServerWorld) world);
+			if (ether == null) return TypedActionResult.success(stack);
 
 			Set<BlockPos> transmitters = ether.getTransmitters(frequency);
-			Component frequencyComponent = Component.literal(String.valueOf(frequency)).withStyle(ChatFormatting.AQUA);
+			MutableText frequencyComponent = Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
 
 			if (transmitters.isEmpty())
 			{
-				player.displayClientMessage(Component.translatable(LanguageBase.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent), false);
+				player.sendMessage(Text.translatable(LanguageBase.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent));
 				removeHighlightBlocks(stack);
 			}
 			else
 			{
 				Iterator<BlockPos> iterator = transmitters.iterator();
-				MutableComponent message = Component.translatable(LanguageBase.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
+				MutableText message = Text.translatable(LanguageBase.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
 				message.append("\n");
 
 				while (true)
 				{
 					BlockPos transmitter = iterator.next();
-					MutableComponent component = Component.literal(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).withStyle(ChatFormatting.YELLOW);
+					MutableText component = Text.literal(String.format("[x: %d, y: %d, z: %d]", transmitter.getX(), transmitter.getY(), transmitter.getZ())).formatted(Formatting.YELLOW);
 
-					if (player.hasPermissions(Commands.LEVEL_GAMEMASTERS))
+					if (player.hasPermissionLevel(2))
 					{
 						ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
-						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable(LanguageBase.MESSAGE_TELEPORT));
-						component.withStyle(component.getStyle().withClickEvent(click).withHoverEvent(hover));
+						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(LanguageBase.MESSAGE_TELEPORT));
+						component.setStyle(component.getStyle().withClickEvent(click).withHoverEvent(hover));
 					}
 
 					message.append(component);
@@ -128,23 +126,22 @@ public class SnifferItem extends FrequencyItem
 					}
 				}
 
-				player.displayClientMessage(message, false);
-				PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) player),
-						new SnifferHighlightPacket(level.getGameTime(), hand, transmitters.toArray(BlockPos[]::new)));
+				player.sendMessage(message);
+				ServerPlayNetworking.send((ServerPlayerEntity) player, SnifferHighlightPacket.ID, new SnifferHighlightPacket(world.getTime(), hand, transmitters.toArray(BlockPos[]::new)).toPacketByteBuf());
 			}
 		}
 
-		return InteractionResultHolder.success(stack);
+		return TypedActionResult.success(stack);
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, Level level, Entity entity, int itemSlot, boolean isSelected)
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
 	{
-		if (!isSelected || !level.isClientSide || !stack.hasTag()) return;
+		if (!selected || !world.isClient || !stack.hasNbt()) return;
 
-		CompoundTag tag = stack.getTag();
+		NbtCompound nbt = stack.getNbt();
 
-		if (level.getGameTime() >= tag.getLong("timestamp") + Config.highlightTimeSeconds * 20L)
+		if (world.getTime() >= nbt.getLong("timestamp") + WRConfig.highlightTimeSeconds * 20L)
 			removeHighlightBlocks(stack);
 	}
 }

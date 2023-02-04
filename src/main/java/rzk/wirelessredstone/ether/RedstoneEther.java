@@ -2,55 +2,55 @@ package rzk.wirelessredstone.ether;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.saveddata.SavedData;
-import rzk.wirelessredstone.misc.Utils;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.PersistentState;
+import net.minecraft.world.World;
+import rzk.wirelessredstone.misc.WRUtils;
 
 import java.util.Collections;
 import java.util.Set;
 
-public class RedstoneEther extends SavedData
+public class RedstoneEther extends PersistentState
 {
 	private static final String DATA_NAME = "redstone_ether";
 	private final Int2ObjectMap<RedstoneChannel> channels = new Int2ObjectOpenHashMap<>();
 
 	private RedstoneEther() {}
 
-	private RedstoneEther(CompoundTag tag)
+	private RedstoneEther(NbtCompound nbt)
 	{
-		ListTag channelTags = tag.getList("channels", Tag.TAG_COMPOUND);
+		NbtList channelTags = nbt.getList("channels", NbtElement.COMPOUND_TYPE);
 
-		for (Tag channelTag : channelTags)
+		for (NbtElement channelNbt : channelTags)
 		{
-			RedstoneChannel channel = new RedstoneChannel((CompoundTag) channelTag);
+			RedstoneChannel channel = new RedstoneChannel((NbtCompound) channelNbt);
 			channels.put(channel.getFrequency(), channel);
 		}
 	}
 
 	@Override
-	public CompoundTag save(CompoundTag tag)
+	public NbtCompound writeNbt(NbtCompound nbt)
 	{
-		ListTag channelTags = new ListTag();
+		NbtList channelNbts = new NbtList();
 		for (RedstoneChannel channel : channels.values())
-			channelTags.add(channel.save());
-		tag.put("channels", channelTags);
+			channelNbts.add(channel.save());
+		nbt.put("channels", channelNbts);
 
-		return tag;
+		return nbt;
 	}
 
-	public static RedstoneEther get(ServerLevel level)
+	public static RedstoneEther get(ServerWorld world)
 	{
-		return level.getDataStorage().get(RedstoneEther::new, DATA_NAME);
+		return world.getPersistentStateManager().get(RedstoneEther::new, DATA_NAME);
 	}
 
-	public static RedstoneEther getOrCreate(ServerLevel level)
+	public static RedstoneEther getOrCreate(ServerWorld world)
 	{
-		return level.getDataStorage().computeIfAbsent(RedstoneEther::new, RedstoneEther::new, DATA_NAME);
+		return world.getPersistentStateManager().getOrCreate(RedstoneEther::new, RedstoneEther::new, DATA_NAME);
 	}
 
 	private RedstoneChannel getChannel(int frequency)
@@ -71,31 +71,31 @@ public class RedstoneEther extends SavedData
 		return channel;
 	}
 
-	public void addTransmitter(Level level, BlockPos pos, int frequency)
+	public void addTransmitter(World world, BlockPos pos, int frequency)
 	{
-		if (!Utils.isValidFrequency(frequency)) return;
+		if (!WRUtils.isValidFrequency(frequency)) return;
 
 		RedstoneChannel channel = getOrCreateChannel(frequency);
-		channel.addTransmitter(level, pos);
-		setDirty();
+		channel.addTransmitter(world, pos);
+		markDirty();
 	}
 
-	public void addReceiver(Level level, BlockPos pos, int frequency)
+	public void addReceiver(World world, BlockPos pos, int frequency)
 	{
-		if (!Utils.isValidFrequency(frequency)) return;
+		if (!WRUtils.isValidFrequency(frequency)) return;
 
 		RedstoneChannel channel = getOrCreateChannel(frequency);
-		channel.addReceiver(level, pos);
+		channel.addReceiver(world, pos);
 	}
 
-	public void removeTransmitter(Level level, BlockPos pos, int frequency)
+	public void removeTransmitter(World world, BlockPos pos, int frequency)
 	{
 		RedstoneChannel channel = getChannel(frequency);
 		if (channel != null)
 		{
-			channel.removeTransmitter(level, pos);
+			channel.removeTransmitter(world, pos);
 			if (channel.isEmpty()) channels.remove(frequency);
-			setDirty();
+			markDirty();
 		}
 	}
 
@@ -109,7 +109,7 @@ public class RedstoneEther extends SavedData
 			if (channel.isEmpty())
 			{
 				channels.remove(frequency);
-				setDirty();
+				markDirty();
 			}
 		}
 	}

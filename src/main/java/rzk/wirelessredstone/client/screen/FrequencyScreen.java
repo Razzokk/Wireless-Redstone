@@ -1,19 +1,19 @@
 package rzk.wirelessredstone.client.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
-import rzk.wirelessredstone.generator.language.LanguageBase;
-import rzk.wirelessredstone.misc.Utils;
+import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.misc.WRUtils;
 
 import java.util.regex.Pattern;
 
-@OnlyIn(Dist.CLIENT)
+@Environment(EnvType.CLIENT)
 public abstract class FrequencyScreen extends Screen
 {
 	private static final Pattern DIGIT_PATTERN = Pattern.compile("\\d*");
@@ -21,75 +21,75 @@ public abstract class FrequencyScreen extends Screen
 	private static final int WIDGET_HEIGHT = 20;
 
 	protected final int frequency;
-	private EditBox frequencyInput;
-	private Button done;
-	private Button add1;
-	private Button add10;
-	private Button sub1;
-	private Button sub10;
+	private TextFieldWidget frequencyInput;
+	private ButtonWidget done;
+	private ButtonWidget add1;
+	private ButtonWidget add10;
+	private ButtonWidget sub1;
+	private ButtonWidget sub10;
 
 	protected FrequencyScreen(int frequency)
 	{
-		super(Component.translatable(LanguageBase.GUI_FREQUENCY_TITLE));
+		super(Text.translatable(LanguageBase.GUI_FREQUENCY_TITLE));
 		this.frequency = frequency;
 	}
 
-	private Button addFrequencyButton(int x, int y, int value)
+	private ButtonWidget addFrequencyButton(int x, int y, int value)
 	{
-		return addRenderableWidget(Button.builder(Component.empty(), button ->
+		return addDrawableChild(ButtonWidget.builder(Text.empty(), button ->
 		{
 			int frequency = 0;
 
-			if (!frequencyInput.getValue().isBlank())
+			if (!frequencyInput.getText().isBlank())
 				frequency = getInputFrequency();
 
 			frequency += value * (hasShiftDown() ? 100 : 1);
-			frequency = Utils.clamp(Utils.MIN_FREQUENCY, Utils.MAX_FREQUENCY, frequency);
+			frequency = WRUtils.clamp(WRUtils.MIN_FREQUENCY, WRUtils.MAX_FREQUENCY, frequency);
 
-			frequencyInput.setValue(String.valueOf(frequency));
-		}).pos(x, y).size(WIDGET_WIDTH, WIDGET_HEIGHT).build());
+			frequencyInput.setText(String.valueOf(frequency));
+		}).position(x, y).size(WIDGET_WIDTH, WIDGET_HEIGHT).build());
 	}
 
 	private void updateFrequencyButtonDesc()
 	{
 		if (hasShiftDown())
 		{
-			add1.setMessage(Component.literal("+100"));
-			add10.setMessage(Component.literal("+1000"));
-			sub1.setMessage(Component.literal("-100"));
-			sub10.setMessage(Component.literal("-1000"));
+			add1.setMessage(Text.literal("+100"));
+			add10.setMessage(Text.literal("+1000"));
+			sub1.setMessage(Text.literal("-100"));
+			sub10.setMessage(Text.literal("-1000"));
 		} else
 		{
-			add1.setMessage(Component.literal("+1"));
-			add10.setMessage(Component.literal("+10"));
-			sub1.setMessage(Component.literal("-1"));
-			sub10.setMessage(Component.literal("-10"));
+			add1.setMessage(Text.literal("+1"));
+			add10.setMessage(Text.literal("+10"));
+			sub1.setMessage(Text.literal("-1"));
+			sub10.setMessage(Text.literal("-10"));
 		}
 	}
 
 	@Override
 	protected void init()
 	{
-		frequencyInput = addRenderableWidget(new EditBox(font, (width - 38) / 2, (height - 50) / 2, 38, WIDGET_HEIGHT, title));
-		frequencyInput.setFilter(str -> DIGIT_PATTERN.matcher(str).matches());
-		frequencyInput.setResponder(this::onFrequencyWritten);
+		frequencyInput = addDrawableChild(new TextFieldWidget(textRenderer, (width - 38) / 2, (height - 50) / 2, 38, WIDGET_HEIGHT, title));
+		frequencyInput.setTextPredicate(str -> DIGIT_PATTERN.matcher(str).matches());
+		frequencyInput.setChangedListener(this::onFrequencyWritten);
 		frequencyInput.setMaxLength(5);
-		frequencyInput.setBordered(true);
+//		frequencyInput.setBordered(true);
 
 		add1 = addFrequencyButton(frequencyInput.getX() + frequencyInput.getWidth() + 20, frequencyInput.getY() - WIDGET_HEIGHT / 2 - 2, 1);
 		add10 = addFrequencyButton(frequencyInput.getX() + frequencyInput.getWidth() + 20, frequencyInput.getY() + WIDGET_HEIGHT / 2 + 2, 10);
 		sub1 = addFrequencyButton(frequencyInput.getX() - WIDGET_WIDTH - 20, frequencyInput.getY() - WIDGET_HEIGHT / 2 - 2, -1);
 		sub10 = addFrequencyButton(frequencyInput.getX() - WIDGET_WIDTH - 20, frequencyInput.getY() + WIDGET_HEIGHT / 2 + 2, -10);
 
-		done = addRenderableWidget(Button.builder(Component.translatable("gui.done"), button ->
+		done = addDrawableChild(ButtonWidget.builder(Text.translatable("gui.done"), button ->
 		{
 			setFrequency();
-			onClose();
-		}).pos((width - WIDGET_WIDTH) / 2, frequencyInput.getY() + WIDGET_HEIGHT + 20).size(WIDGET_WIDTH, WIDGET_HEIGHT).build());
+			close();
+		}).position((width - WIDGET_WIDTH) / 2, frequencyInput.getY() + WIDGET_HEIGHT + 20).size(WIDGET_WIDTH, WIDGET_HEIGHT).build());
 		done.active = false;
 
-		if (Utils.isValidFrequency(frequency))
-			frequencyInput.setValue(String.valueOf(frequency));
+		if (WRUtils.isValidFrequency(frequency))
+			frequencyInput.setText(String.valueOf(frequency));
 
 		updateFrequencyButtonDesc();
 	}
@@ -102,7 +102,7 @@ public abstract class FrequencyScreen extends Screen
 
 		if (keyCode == GLFW.GLFW_KEY_E)
 		{
-			onClose();
+			close();
 			return true;
 		}
 
@@ -131,11 +131,11 @@ public abstract class FrequencyScreen extends Screen
 	}
 
 	@Override
-	public void render(PoseStack poseStack, int p_96563_, int p_96564_, float p_96565_)
+	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
 	{
-		renderBackground(poseStack);
-		super.render(poseStack, p_96563_, p_96564_, p_96565_);
-		drawCenteredString(poseStack, font, getTitle(), width / 2, frequencyInput.getY() - 30, 0xFFFFFF);
+		renderBackground(matrices);
+		super.render(matrices, mouseX, mouseY, delta);
+		drawCenteredText(matrices, textRenderer, title, width / 2, frequencyInput.getY() - 30, 0xFFFFFF);
 	}
 
 	private void onFrequencyWritten(String str)
@@ -144,14 +144,14 @@ public abstract class FrequencyScreen extends Screen
 	}
 
 	@Override
-	public boolean isPauseScreen()
+	public boolean shouldPause()
 	{
 		return false;
 	}
 
 	protected int getInputFrequency()
 	{
-		return Integer.parseInt(frequencyInput.getValue());
+		return Integer.parseInt(frequencyInput.getText());
 	}
 
 	protected abstract void setFrequency();

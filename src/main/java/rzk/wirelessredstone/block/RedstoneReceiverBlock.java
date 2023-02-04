@@ -1,67 +1,56 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.blockentity.RedstoneReceiverBlockEntity;
 import rzk.wirelessredstone.ether.RedstoneEther;
-import rzk.wirelessredstone.misc.Config;
+import rzk.wirelessredstone.misc.WRConfig;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
+import static net.minecraft.state.property.Properties.POWERED;
 
 public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 {
-	public RedstoneReceiverBlock(Properties props)
-	{
-		super(props);
-	}
-
 	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean unknown)
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
 	{
-		if (!level.isClientSide && Config.redstoneReceiverStrongPower)
+		if (!world.isClient && WRConfig.redstoneReceiverStrongPower)
 			for (Direction direction : Direction.values())
-				level.updateNeighborsAtExceptFromFacing(pos.relative(direction), this, direction.getOpposite());
+				world.updateNeighborsExcept(pos.offset(direction), this, direction.getOpposite());
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource rand)
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random)
 	{
-		RedstoneEther ether = RedstoneEther.getOrCreate(level);
-		boolean powered = ether.isFrequencyActive(getFrequency(level, pos));
+		RedstoneEther ether = RedstoneEther.getOrCreate(world);
+		boolean powered = ether.isFrequencyActive(getFrequency(world, pos));
 
-		if (state.getValue(POWERED) != powered)
-			level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_ALL);
+		if (state.get(POWERED) != powered)
+			world.setBlockState(pos, state.with(POWERED, powered), Block.NOTIFY_ALL);
 	}
 
 	@Override
-	public boolean isSignalSource(BlockState state)
+	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction)
 	{
-		return true;
+		return state.get(POWERED) ? WRConfig.redstoneReceiverSignalStrength : 0;
 	}
 
 	@Override
-	public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
+	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction)
 	{
-		return state.getValue(POWERED) ? Config.redstoneReceiverSignalStrength : 0;
-	}
-
-	@Override
-	public int getDirectSignal(BlockState state, BlockGetter blockGetter, BlockPos pos, Direction direction)
-	{
-		return Config.redstoneReceiverStrongPower ? getSignal(state, blockGetter, pos, direction) : 0;
+		return WRConfig.redstoneReceiverStrongPower ? getWeakRedstonePower(state, world, pos, direction) : 0;
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new RedstoneReceiverBlockEntity(pos, state);
 	}

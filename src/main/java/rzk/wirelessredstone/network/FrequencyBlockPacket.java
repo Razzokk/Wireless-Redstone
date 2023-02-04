@@ -1,17 +1,15 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
-import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
-
-import java.util.function.Supplier;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import rzk.wirelessredstone.WirelessRedstone;
 
 public class FrequencyBlockPacket extends FrequencyPacket
 {
-	private final BlockPos pos;
+	public static final Identifier ID = WirelessRedstone.identifier("networking/frequency_block_packet");
+
+	public final BlockPos pos;
 
 	public FrequencyBlockPacket(int frequency, BlockPos pos)
 	{
@@ -19,29 +17,15 @@ public class FrequencyBlockPacket extends FrequencyPacket
 		this.pos = pos;
 	}
 
-	public FrequencyBlockPacket(FriendlyByteBuf buf)
+	public FrequencyBlockPacket(PacketByteBuf buf)
 	{
 		super(buf);
 		pos = buf.readBlockPos();
 	}
 
 	@Override
-	public void encodeAdditional(FriendlyByteBuf buf)
+	public void writeAdditional(PacketByteBuf buf)
 	{
 		buf.writeBlockPos(pos);
-	}
-
-	@Override
-	public void handle(Supplier<NetworkEvent.Context> ctx)
-	{
-		ctx.get().enqueueWork(() ->
-		{
-			ServerPlayer player = ctx.get().getSender();
-			Level level = player.level;
-
-			if (level.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock block)
-				block.setFrequency(level, pos, frequency);
-		});
-		ctx.get().setPacketHandled(true);
 	}
 }

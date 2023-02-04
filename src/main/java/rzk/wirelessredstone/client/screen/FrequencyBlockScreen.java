@@ -1,8 +1,8 @@
 package rzk.wirelessredstone.client.screen;
 
-import net.minecraft.core.BlockPos;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.util.math.BlockPos;
 import rzk.wirelessredstone.network.FrequencyBlockPacket;
-import rzk.wirelessredstone.network.PacketHandler;
 
 public class FrequencyBlockScreen extends FrequencyScreen
 {
@@ -17,6 +17,6 @@ public class FrequencyBlockScreen extends FrequencyScreen
 	@Override
 	protected void setFrequency()
 	{
-		PacketHandler.INSTANCE.sendToServer(new FrequencyBlockPacket(getInputFrequency(), pos));
+		ClientPlayNetworking.send(FrequencyBlockPacket.ID, new FrequencyBlockPacket(getInputFrequency(), pos).toPacketByteBuf());
 	}
 }

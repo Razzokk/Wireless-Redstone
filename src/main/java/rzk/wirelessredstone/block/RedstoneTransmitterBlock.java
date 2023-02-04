@@ -1,76 +1,72 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.blockentity.RedstoneTransmitterBlockEntity;
 import rzk.wirelessredstone.ether.RedstoneEther;
-import rzk.wirelessredstone.misc.Utils;
+import rzk.wirelessredstone.misc.WRUtils;
 
-import static net.minecraft.world.level.block.state.properties.BlockStateProperties.POWERED;
+import static net.minecraft.state.property.Properties.POWERED;
+
 
 public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 {
-	public RedstoneTransmitterBlock(Properties props)
-	{
-		super(props);
-	}
-
 	@Nullable
 	@Override
-	public BlockState getStateForPlacement(BlockPlaceContext ctx)
+	public BlockState getPlacementState(ItemPlacementContext ctx)
 	{
-		Level level = ctx.getLevel();
-		BlockPos pos = ctx.getClickedPos();
-		return defaultBlockState().setValue(POWERED, level.hasNeighborSignal(pos));
+		World world = ctx.getWorld();
+		BlockPos pos = ctx.getBlockPos();
+		return getDefaultState().with(POWERED, world.isReceivingRedstonePower(pos));
 	}
 
 	@Override
-	public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean unknown)
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
 	{
-		if (level.isClientSide || !state.getValue(POWERED)) return;
+		if (world.isClient || !state.get(POWERED)) return;
 
-		int frequency = getFrequency(level, pos);
-		if (!Utils.isValidFrequency(frequency)) return;
+		int frequency = getFrequency(world, pos);
+		if (!WRUtils.isValidFrequency(frequency)) return;
 
-		RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
-		ether.addTransmitter(level, pos, frequency);
+		RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+		ether.addTransmitter(world, pos, frequency);
 	}
 
 	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean unknown)
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
 	{
-		if (!level.isClientSide && state.getValue(POWERED))
+		if (!world.isClient && state.get(POWERED))
 		{
-			int frequency = getFrequency(level, pos);
-			if (Utils.isValidFrequency(frequency))
+			int frequency = getFrequency(world, pos);
+			if (WRUtils.isValidFrequency(frequency))
 			{
-				RedstoneEther ether = RedstoneEther.getOrCreate((ServerLevel) level);
-				ether.removeTransmitter(level, pos, frequency);
+				RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+				ether.removeTransmitter(world, pos, frequency);
 			}
 		}
 
-		super.onRemove(state, level, pos, newState, unknown);
+		super.onStateReplaced(state, world, pos, newState, moved);
 	}
 
 	@Override
-	public void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighbour, BlockPos neighbourPos, boolean unknown)
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify)
 	{
-		if (level.isClientSide) return;
+		if (world.isClient) return;
 
-		boolean powered = level.hasNeighborSignal(pos);
-		if (state.getValue(POWERED) == powered) return;
-		level.setBlock(pos, state.setValue(POWERED, powered), Block.UPDATE_CLIENTS);
+		boolean powered = world.isReceivingRedstonePower(pos);
+		if (state.get(POWERED) == powered) return;
+		world.setBlockState(pos, state.with(POWERED, powered), Block.NOTIFY_LISTENERS);
 	}
 
 	@Nullable
 	@Override
-	public BlockEntity newBlockEntity(BlockPos pos, BlockState state)
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new RedstoneTransmitterBlockEntity(pos, state);
 	}

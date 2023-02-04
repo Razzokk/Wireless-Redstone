@@ -1,19 +1,20 @@
 package rzk.wirelessredstone.blockentity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
-import rzk.wirelessredstone.misc.Utils;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
+import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
+import rzk.wirelessredstone.misc.WRUtils;
 
 public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
 {
-    protected int frequency = Utils.INVALID_FREQUENCY;
+    protected int frequency = WRUtils.INVALID_FREQUENCY;
 
     public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
     {
@@ -32,35 +33,36 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
         if (frequency == this.frequency) return;
         onFrequencyChange(this.frequency, frequency);
         this.frequency = frequency;
-        setChanged();
-		level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
+        markDirty();
+		world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
 	}
 
+    @Nullable
     @Override
-    public CompoundTag getUpdateTag()
+    public Packet<ClientPlayPacketListener> toUpdatePacket()
     {
-        CompoundTag tag = new CompoundTag();
-        Utils.writeFrequency(tag, frequency);
-        return tag;
+        return BlockEntityUpdateS2CPacket.create(this);
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket()
+    public NbtCompound toInitialChunkDataNbt()
     {
-        return ClientboundBlockEntityDataPacket.create(this);
+        NbtCompound nbt = new NbtCompound();
+        WRUtils.writeFrequency(nbt, frequency);
+        return nbt;
     }
 
     @Override
-    public void load(CompoundTag tag)
+    public void readNbt(NbtCompound nbt)
     {
-        super.load(tag);
-        frequency = Utils.readFrequency(tag);
+        super.readNbt(nbt);
+        frequency = WRUtils.readFrequency(nbt);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag)
+    protected void writeNbt(NbtCompound nbt)
     {
-        super.saveAdditional(tag);
-        Utils.writeFrequency(tag, frequency);
+        super.writeNbt(nbt);
+        WRUtils.writeFrequency(nbt, frequency);
     }
 }
