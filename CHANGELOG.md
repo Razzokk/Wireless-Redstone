@@ -1,3 +1,7 @@
+### Version 1.12.2-1.1.5:
+
+- FIX: server startup crash due to access to client only files
+
 ### Version 1.12.2-1.1.4:
 
 - FIX: receivers/transmitters before mod version 1.12.2-1.1.3 breaking when using mod version >= 1.12.2-1.1.3
