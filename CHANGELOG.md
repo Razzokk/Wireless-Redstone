@@ -1,4 +1,4 @@
-### Version 1.12.2-1.1.5:
+### Version 1.12.2-1.1.6:
 
 - FIX: data-fixer crash when loading more than one world
 
