@@ -1,5 +1,9 @@
 ### Version 1.12.2-1.1.5:
 
+- FIX: data-fixer crash when loading more than one world
+
+### Version 1.12.2-1.1.5:
+
 - FIX: server startup crash due to access to client only files
 
 ### Version 1.12.2-1.1.4:
