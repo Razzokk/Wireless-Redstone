@@ -3,7 +3,7 @@ package rzk.wirelessredstone.block;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.minecraft.block.MapColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
@@ -12,7 +12,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import rzk.wirelessredstone.blockentity.RedstoneTransceiverBlockEntity;
+import rzk.wirelessredstone.block.entity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.client.screen.Screens;
 import rzk.wirelessredstone.item.FrequencyItem;
 import rzk.wirelessredstone.misc.WRUtils;
@@ -23,7 +23,8 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 {
 	public RedstoneTransceiverBlock()
 	{
-		super(Settings.of(Material.METAL)
+		super(Settings.create()
+                .mapColor(MapColor.IRON_GRAY)
 				.solidBlock((state, blockGetter, pos) -> false)
 				.strength(1.5F, 5.0F)
 				.sounds(BlockSoundGroup.METAL));

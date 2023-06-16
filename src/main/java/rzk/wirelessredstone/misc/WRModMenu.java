@@ -50,6 +50,7 @@ public class WRModMenu implements ModMenuApi
 			client.addEntry(ConfigEntryBuilder.create()
 					.startIntField(Text.translatable(LanguageBase.GUI_CONFIG_HIGHLIGHT_TIME), WRConfig.highlightTimeSeconds)
 					.setDefaultValue(10)
+					.setMin(1)
 					.setSaveConsumer(seconds -> WRConfig.highlightTimeSeconds = seconds)
 					.build());
 

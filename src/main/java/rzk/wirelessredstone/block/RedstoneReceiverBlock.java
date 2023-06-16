@@ -10,7 +10,7 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.blockentity.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.block.entity.RedstoneReceiverBlockEntity;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.WRConfig;
 

@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blockentity;
+package rzk.wirelessredstone.block.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.server.ServerTask;
@@ -30,7 +30,6 @@ public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
     public void setWorld(World world)
     {
         super.setWorld(world);
-
         if (world.isClient) return;
 
         world.getServer().send(new ServerTask(1, () ->

@@ -2,10 +2,10 @@ package rzk.wirelessredstone.client.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 import rzk.wirelessredstone.datagen.LanguageBase;
@@ -58,7 +58,8 @@ public abstract class FrequencyScreen extends Screen
 			add10.setMessage(Text.literal("+1000"));
 			sub1.setMessage(Text.literal("-100"));
 			sub10.setMessage(Text.literal("-1000"));
-		} else
+		}
+		else
 		{
 			add1.setMessage(Text.literal("+1"));
 			add10.setMessage(Text.literal("+10"));
@@ -74,7 +75,6 @@ public abstract class FrequencyScreen extends Screen
 		frequencyInput.setTextPredicate(str -> DIGIT_PATTERN.matcher(str).matches());
 		frequencyInput.setChangedListener(this::onFrequencyWritten);
 		frequencyInput.setMaxLength(5);
-//		frequencyInput.setBordered(true);
 
 		add1 = addFrequencyButton(frequencyInput.getX() + frequencyInput.getWidth() + 20, frequencyInput.getY() - WIDGET_HEIGHT / 2 - 2, 1);
 		add10 = addFrequencyButton(frequencyInput.getX() + frequencyInput.getWidth() + 20, frequencyInput.getY() + WIDGET_HEIGHT / 2 + 2, 10);
@@ -131,11 +131,11 @@ public abstract class FrequencyScreen extends Screen
 	}
 
 	@Override
-	public void render(MatrixStack matrices, int mouseX, int mouseY, float delta)
+	public void render(DrawContext context, int mouseX, int mouseY, float delta)
 	{
-		renderBackground(matrices);
-		super.render(matrices, mouseX, mouseY, delta);
-		drawCenteredText(matrices, textRenderer, title, width / 2, frequencyInput.getY() - 30, 0xFFFFFF);
+		renderBackground(context);
+		super.render(context, mouseX, mouseY, delta);
+		context.drawText(textRenderer, title, (width - textRenderer.getWidth(title)) / 2, frequencyInput.getY() - 30, 0xFFFFFF, false);
 	}
 
 	private void onFrequencyWritten(String str)

@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.blockentity;
+package rzk.wirelessredstone.block.entity;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntity;

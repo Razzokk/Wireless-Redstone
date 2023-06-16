@@ -8,11 +8,10 @@ import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import rzk.wirelessredstone.blockentity.ModBlockEntities;
+import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.client.render.RedstoneTransceiverBER;
 import rzk.wirelessredstone.client.render.SnifferHighlightRenderer;
 import rzk.wirelessredstone.item.SnifferItem;
-import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 @Environment(EnvType.CLIENT)

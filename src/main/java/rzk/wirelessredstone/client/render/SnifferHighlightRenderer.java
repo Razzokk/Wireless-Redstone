@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.client.render;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderContext;
 import net.minecraft.client.MinecraftClient;
@@ -45,14 +46,17 @@ public class SnifferHighlightRenderer
 		float green = ((WRConfig.highlightColor >> 8) & 0xFF) / 256.0f;
 		float blue = (WRConfig.highlightColor & 0xFF) / 256.0f;
 
+		RenderSystem.assertOnRenderThread();
+		GlStateManager._depthMask(false);
+		GlStateManager._disableCull();
+		RenderSystem.disableDepthTest();
+		RenderSystem.lineWidth(3f);
+		RenderSystem.enableBlend();
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
+
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder builder = tessellator.getBuffer();
-		RenderSystem.setShader(GameRenderer::getPositionColorProgram);
-		builder.begin(VertexFormat.DrawMode.DEBUG_LINES, VertexFormats.POSITION_COLOR);
-
-		RenderSystem.disableTexture();
-		RenderSystem.disableDepthTest();
-		RenderSystem.lineWidth(3); // Doesn't actually work because minecraft
+		builder.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
 		for (NbtElement posNbt : coords)
 		{
@@ -62,8 +66,11 @@ public class SnifferHighlightRenderer
 		}
 
 		tessellator.draw();
-		RenderSystem.enableTexture();
+
 		RenderSystem.enableDepthTest();
+		RenderSystem.disableBlend();
+		RenderSystem.lineWidth(1f);
+
 		matrices.pop();
 	}
 }

@@ -1,42 +1,46 @@
 {
-  "schemaVersion": 1,
-  "id": "wirelessredstone",
-  "version": "${version}",
-  "name": "Wireless Redstone",
-  "license": "GPL-3.0-only",
-  "icon": "assets/wirelessredstone/icon.png",
-  "environment": "*",
-  "description": "A mod for Minecraft which adds Wireless Redstone mechanics",
-  "authors": [
-    "Razzokk"
-  ],
-  "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/wireless-redstone-re",
-    "sources": "https://github.com/Razzokk/Wireless-Redstone",
-    "issues": "https://github.com/Razzokk/Wireless-Redstone/issues"
-  },
-  "entrypoints": {
-    "main": [
-      "rzk.wirelessredstone.WirelessRedstone"
-    ],
-    "client": [
-      "rzk.wirelessredstone.client.WirelessRedstoneClient"
-    ],
-    "modmenu":[
-      "rzk.wirelessredstone.misc.WRModMenu"
-    ]
-  },
-  "custom": {
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://discord.gg/4f2sFD53XK"
-      }
-    }
-  },
-  "depends": {
-    "fabricloader": ">=0.14.11",
-    "fabric-api": "*",
-    "minecraft": "~1.19.3",
-    "java": ">=17"
-  }
+	"schemaVersion": 1,
+	"id": "wirelessredstone",
+	"version": "${version}",
+	"name": "Wireless Redstone",
+	"license": "GPL-3.0-only",
+	"icon": "assets/wirelessredstone/icon.png",
+	"environment": "*",
+	"description": "A mod for Minecraft which adds Wireless Redstone mechanics",
+	"authors": [
+		"Razzokk"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/wireless-redstone-re",
+		"sources": "https://github.com/Razzokk/Wireless-Redstone",
+		"issues": "https://github.com/Razzokk/Wireless-Redstone/issues"
+	},
+	"entrypoints": {
+		"main": [
+			"rzk.wirelessredstone.WirelessRedstone"
+		],
+		"client": [
+			"rzk.wirelessredstone.client.WirelessRedstoneClient"
+		],
+		"modmenu": [
+			"rzk.wirelessredstone.misc.WRModMenu"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.14.21",
+		"fabric-api": ">=0.83.1+1.20.1",
+		"minecraft": "~1.20.1",
+		"java": ">=17"
+	},
+	"suggests": {
+		"cloth-config-fabric": ">=11.0.99",
+		"modmenu": ">=7.0.1"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/4f2sFD53XK"
+			}
+		}
+	}
 }

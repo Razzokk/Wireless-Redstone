@@ -6,7 +6,7 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.RotationAxis;
-import rzk.wirelessredstone.blockentity.RedstoneTransceiverBlockEntity;
+import rzk.wirelessredstone.block.entity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.misc.WRUtils;
 
@@ -37,7 +37,7 @@ public class RedstoneTransceiverBER<T extends RedstoneTransceiverBlockEntity> im
 			matrices.multiply(RotationAxis.POSITIVE_Y.rotation((float) (i * Math.PI / 2)));
 			matrices.translate(0, 0, 0.5078125);
 			matrices.scale(1f / 96, -1f / 96, 1f / 96);
-			textRenderer.draw(matrices, str, textOffset, 2.5f, WRConfig.frequencyDisplayColor);
+			textRenderer.draw(str, textOffset, 2.5f, WRConfig.frequencyDisplayColor, false, matrices.peek().getPositionMatrix(), vertexConsumers, TextRenderer.TextLayerType.POLYGON_OFFSET, 0, 0xFFFFFF);
 			matrices.pop();
 		}
 

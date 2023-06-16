@@ -5,7 +5,7 @@ public abstract class LanguageBase
 	// Language Keys
 
 	// Item group
-	public static final String ITEM_GROUP_WIRELESS_REDSTONE = "itemGroup.wirelessredstone.wirelessredstone";
+	public static final String ITEM_GROUP_WIRELESS_REDSTONE = "item_group.wirelessredstone.wirelessredstone";
 
 	// Gui
 	public static final String GUI_FREQUENCY_TITLE = "gui.wirelessredstone.frequency.title";
