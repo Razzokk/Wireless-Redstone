@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.client.screen;
+package rzk.wirelessredstone.screen;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

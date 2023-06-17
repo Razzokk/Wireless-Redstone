@@ -1,15 +1,17 @@
 package rzk.wirelessredstone.network;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
+import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import rzk.wirelessredstone.WirelessRedstone;
 
-public class SnifferHighlightPacket
+public class SnifferHighlightPacket implements FabricPacket
 {
-	public static final Identifier ID = WirelessRedstone.identifier("networking/sniffer_highlight_packet");
+	public static final PacketType<SnifferHighlightPacket> TYPE = PacketType.create(
+		WirelessRedstone.identifier("networking/sniffer_highlight_packet"),
+		SnifferHighlightPacket::new);
 
 	public final long timestamp;
 	public final Hand hand;
@@ -32,16 +34,20 @@ public class SnifferHighlightPacket
 			coords[i] = buf.readBlockPos();
 	}
 
-	public PacketByteBuf toPacketByteBuf()
+	@Override
+	public void write(PacketByteBuf buf)
 	{
-		PacketByteBuf buf = PacketByteBufs.create();
 		buf.writeLong(timestamp);
 		buf.writeBoolean(hand == Hand.MAIN_HAND);
 		buf.writeInt(coords.length);
 
 		for (BlockPos pos : coords)
 			buf.writeBlockPos(pos);
+	}
 
-		return buf;
+	@Override
+	public PacketType<?> getType()
+	{
+		return TYPE;
 	}
 }

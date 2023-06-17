@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.misc;
+package rzk.wirelessredstone;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
@@ -7,6 +7,7 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.text.Text;
 import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.misc.WRConfig;
 
 public class WRModMenu implements ModMenuApi
 {

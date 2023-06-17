@@ -55,28 +55,18 @@ public class WirelessRedstone implements ModInitializer
 		ModBlockEntities.registerBlockEntities();
 		Registry.register(Registries.ITEM_GROUP, identifier(MODID), ITEM_GROUP);
 
-		ServerPlayNetworking.registerGlobalReceiver(FrequencyBlockPacket.ID, (server, player, handler, buf, responseSender) ->
+		ServerPlayNetworking.registerGlobalReceiver(FrequencyBlockPacket.TYPE, (packet, player, responseSender) ->
 		{
-			FrequencyBlockPacket packet = new FrequencyBlockPacket(buf);
-			server.execute(() ->
-			{
-				World world = player.getWorld();
-
-				if (world.getBlockState(packet.pos).getBlock() instanceof RedstoneTransceiverBlock block)
-					block.setFrequency(world, packet.pos, packet.frequency);
-			});
+			World world = player.getWorld();
+			if (world.getBlockState(packet.pos).getBlock() instanceof RedstoneTransceiverBlock block)
+				block.setFrequency(world, packet.pos, packet.frequency);
 		});
 
-		ServerPlayNetworking.registerGlobalReceiver(FrequencyItemPacket.ID, (server, player, handler, buf, responseSender) ->
+		ServerPlayNetworking.registerGlobalReceiver(FrequencyItemPacket.TYPE, (packet, player, responseSender) ->
 		{
-			FrequencyItemPacket packet = new FrequencyItemPacket(buf);
-			server.execute(() ->
-			{
-				ItemStack stack = player.getStackInHand(packet.hand);
-
-				if (stack.getItem() instanceof FrequencyItem item)
-					item.setFrequency(stack, packet.frequency);
-			});
+			ItemStack stack = player.getStackInHand(packet.hand);
+			if (stack.getItem() instanceof FrequencyItem item)
+				item.setFrequency(stack, packet.frequency);
 		});
 	}
 }

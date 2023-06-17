@@ -1,9 +1,9 @@
 package rzk.wirelessredstone.network;
 
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.minecraft.network.PacketByteBuf;
 
-public abstract class FrequencyPacket
+public abstract class FrequencyPacket implements FabricPacket
 {
 	public final int frequency;
 
@@ -17,12 +17,10 @@ public abstract class FrequencyPacket
 		frequency = buf.readInt();
 	}
 
-	public PacketByteBuf toPacketByteBuf()
+	public void write(PacketByteBuf buf)
 	{
-		PacketByteBuf buf = PacketByteBufs.create();
 		buf.writeInt(frequency);
 		writeAdditional(buf);
-		return buf;
 	}
 
 	public abstract void writeAdditional(PacketByteBuf buf);

@@ -1,10 +1,12 @@
 package rzk.wirelessredstone.item;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -15,9 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
-import rzk.wirelessredstone.client.screen.Screens;
 import rzk.wirelessredstone.datagen.LanguageBase;
 import rzk.wirelessredstone.misc.WRUtils;
+import rzk.wirelessredstone.network.FrequencyItemPacket;
 
 import java.util.List;
 
@@ -74,8 +76,8 @@ public class FrequencyItem extends Item
 		if (!player.isSneaking())
 			return TypedActionResult.pass(stack);
 
-		if (world.isClient)
-			Screens.openFrequencyItemScreen(getFrequency(stack), hand);
+		if (!world.isClient)
+			ServerPlayNetworking.send((ServerPlayerEntity) player, new FrequencyItemPacket(getFrequency(stack), hand));
 
 		return TypedActionResult.success(stack);
 	}

@@ -11,7 +11,6 @@ import rzk.wirelessredstone.WirelessRedstone;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -38,8 +37,7 @@ public class WRConfig
 	{
 		File file = new File(FabricLoader.getInstance().getConfigDir().toFile(), FILE_NAME);
 
-		if (!file.exists())
-			save();
+		if (!file.exists()) save();
 
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file)))
 		{

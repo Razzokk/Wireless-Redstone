@@ -1,13 +1,15 @@
 package rzk.wirelessredstone.network;
 
+import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import rzk.wirelessredstone.WirelessRedstone;
 
 public class FrequencyBlockPacket extends FrequencyPacket
 {
-	public static final Identifier ID = WirelessRedstone.identifier("networking/frequency_block_packet");
+	public static final PacketType<FrequencyBlockPacket> TYPE = PacketType.create(
+		WirelessRedstone.identifier("networking/frequency_block_packet"),
+		FrequencyBlockPacket::new);
 
 	public final BlockPos pos;
 
@@ -27,5 +29,11 @@ public class FrequencyBlockPacket extends FrequencyPacket
 	public void writeAdditional(PacketByteBuf buf)
 	{
 		buf.writeBlockPos(pos);
+	}
+
+	@Override
+	public PacketType<?> getType()
+	{
+		return TYPE;
 	}
 }

@@ -1,13 +1,15 @@
 package rzk.wirelessredstone.network;
 
+import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import rzk.wirelessredstone.WirelessRedstone;
 
 public class FrequencyItemPacket extends FrequencyPacket
 {
-	public static final Identifier ID = WirelessRedstone.identifier("networking/frequency_item_packet");
+	public static final PacketType<FrequencyItemPacket> TYPE = PacketType.create(
+		WirelessRedstone.identifier("networking/frequency_item_packet"),
+		FrequencyItemPacket::new);
 
 	public final Hand hand;
 
@@ -27,5 +29,11 @@ public class FrequencyItemPacket extends FrequencyPacket
 	public void writeAdditional(PacketByteBuf buf)
 	{
 		buf.writeBoolean(hand == Hand.MAIN_HAND);
+	}
+
+	@Override
+	public PacketType<?> getType()
+	{
+		return TYPE;
 	}
 }

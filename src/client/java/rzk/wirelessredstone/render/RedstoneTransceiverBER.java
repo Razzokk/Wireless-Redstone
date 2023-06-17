@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.client.render;
+package rzk.wirelessredstone.render;
 
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.render.VertexConsumerProvider;

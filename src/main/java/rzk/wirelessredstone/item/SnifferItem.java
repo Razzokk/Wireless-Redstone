@@ -127,7 +127,7 @@ public class SnifferItem extends FrequencyItem
 				}
 
 				player.sendMessage(message);
-				ServerPlayNetworking.send((ServerPlayerEntity) player, SnifferHighlightPacket.ID, new SnifferHighlightPacket(world.getTime(), hand, transmitters.toArray(BlockPos[]::new)).toPacketByteBuf());
+				ServerPlayNetworking.send((ServerPlayerEntity) player, new SnifferHighlightPacket(world.getTime(), hand, transmitters.toArray(BlockPos[]::new)));
 			}
 		}
 

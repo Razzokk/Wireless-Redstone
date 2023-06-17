@@ -1,10 +1,12 @@
 package rzk.wirelessredstone.block;
 
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
@@ -13,9 +15,9 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.block.entity.RedstoneTransceiverBlockEntity;
-import rzk.wirelessredstone.client.screen.Screens;
 import rzk.wirelessredstone.item.FrequencyItem;
 import rzk.wirelessredstone.misc.WRUtils;
+import rzk.wirelessredstone.network.FrequencyBlockPacket;
 
 import static net.minecraft.state.property.Properties.POWERED;
 
@@ -56,8 +58,9 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 		if (player.getStackInHand(hand).getItem() instanceof FrequencyItem)
 			return ActionResult.PASS;
 
-		if (world.isClient)
-			Screens.openFrequencyBlockScreen(getFrequency(world, pos), pos);
+		if (!world.isClient)
+			ServerPlayNetworking.send((ServerPlayerEntity) player, new FrequencyBlockPacket(getFrequency(world, pos), pos));
+
 		return ActionResult.SUCCESS;
 	}
 

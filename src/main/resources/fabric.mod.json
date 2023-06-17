@@ -20,10 +20,10 @@
 			"rzk.wirelessredstone.WirelessRedstone"
 		],
 		"client": [
-			"rzk.wirelessredstone.client.WirelessRedstoneClient"
+			"rzk.wirelessredstone.WirelessRedstoneClient"
 		],
 		"modmenu": [
-			"rzk.wirelessredstone.misc.WRModMenu"
+			"rzk.wirelessredstone.WRModMenu"
 		]
 	},
 	"depends": {
