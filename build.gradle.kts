@@ -107,6 +107,7 @@ changelog {
 }
 
 modrinth {
+	if (project.hasProperty("debug")) debugMode.set(true)
 	token.set(System.getenv("MODRINTH_TOKEN"))
 
 	projectId.set(modId)
@@ -121,21 +122,18 @@ modrinth {
 		optional.project("cloth-config")
 		optional.project("modmenu")
 	}
-
-	if (hasProperty("debug")) debugMode.set(true)
 }
 
 tasks.register<TaskPublishCurseForge>("curseforge") {
+	if (project.hasProperty("debug")) debugMode = true
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
 	val file = upload(curseforgeProjectId, tasks.remapJar)
 	file.displayName = "[Fabric $mcVersion] $modId-$modVersion"
 	file.releaseType = modReleaseType
-	file.changelog = provider { changelog.renderItem(changelog.get(modVersion), Changelog.OutputType.MARKDOWN) }.get()
+	file.changelog = provider { project.changelog.renderItem(project.changelog.get(modVersion), Changelog.OutputType.MARKDOWN) }.get()
 	file.changelogType = Constants.CHANGELOG_MARKDOWN
 	file.addJavaVersion("Java $javaVersion")
 	file.addRequirement("fabric-api")
 	file.addOptional("cloth-config", "modmenu")
-
-	if (hasProperty("debug")) debugMode = true
 }

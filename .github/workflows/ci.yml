@@ -3,6 +3,8 @@ on: push
 
 env:
   JAVA_VERSION: 17
+  MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+  CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
 
 jobs:
   build-and-publish:
