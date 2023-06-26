@@ -1,5 +1,11 @@
 # Wireless Redstone
 
+[![GitHub Builds](https://img.shields.io/github/actions/workflow/status/Razzokk/WirelessRedstone/ci.yml?style=flat-square&logo=github)][github-builds]
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/wirelessredstone?style=flat-square&logo=modrinth)][modrinth]
+[![Modrinth Versions](https://img.shields.io/modrinth/game-versions/wirelessredstone?style=flat-square)][modrinth]
+[![CurseForge Downloads](https://cf.way2muchnoise.eu/wirelessredstone.svg?badge_style=flat)][curseforge]
+[![CurseForge Versions](https://cf.way2muchnoise.eu/versions/wirelessredstone.svg?badge_style=flat)][curseforge]
+
 Wireless Redstone adds Redstone components to Minecraft that enable controlling Redstone components remotely.
 The concept works like any transmitter/receiver functionality.
 
@@ -43,3 +49,8 @@ By rightclicking this sniffer tool all active transmitters on the set frequency 
 There is also a chat message telling where the all active transmitters are located at by showing the blockposition.
 If you are admin/op too you can also click on the blockposition to teleport there. Example in the screenshot area.
 You can also change the highlight color in the configs!
+
+
+[github-builds]: https://github.com/Razzokk/Wireless-Redstone/actions
+[modrinth]: https://modrinth.com/mod/wirelessredstone
+[curseforge]: https://curseforge.com/minecraft/mc-mods/wirelessredstone

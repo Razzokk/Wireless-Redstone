@@ -10,13 +10,18 @@ with the minecraft version prepended to it.
 - Proper README.md
 - Automated Modrinth and CurseForge publishing with the [Minotaur](https://github.com/modrinth/minotaur) and [CurseForgeGradle](https://github.com/Darkhax/CurseForgeGradle) gradle tasks/plugins
 - Changelog semi-automation with the [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin) 
+- Fancy [shields.io](https://shields.io/) badges to README.md
+- Uploading of build artifacts via GitHub actions
 
 ### Changed
 - Update gradle and fabric-loom
 - Separate client more strictly
+- Updated link of the homepage, source and issues websites
 
-## 1.20.1-1.0.0 - 2023-06-16
+## [1.20.1-1.0.0] - 2023-06-16
 Port to MC 1.20.1
 
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
+
+[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.19.3-1.0.0...release/fabric/1.20.1-1.0.0
