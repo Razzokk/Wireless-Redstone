@@ -20,7 +20,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.datagen.DefaultLanguageGenerator;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.misc.WRUtils;
@@ -77,7 +77,7 @@ public class SnifferItem extends FrequencyItem
 		if (!WRUtils.isValidFrequency(frequency))
 		{
 			if (world.isClient)
-				player.sendMessage(Text.translatable(LanguageBase.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED));
+				player.sendMessage(Text.translatable(DefaultLanguageGenerator.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED));
 			return TypedActionResult.fail(stack);
 		}
 
@@ -93,13 +93,13 @@ public class SnifferItem extends FrequencyItem
 
 			if (transmitters.isEmpty())
 			{
-				player.sendMessage(Text.translatable(LanguageBase.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent));
+				player.sendMessage(Text.translatable(DefaultLanguageGenerator.MESSAGE_TRANSMITTERS_EMPTY, frequencyComponent));
 				removeHighlightBlocks(stack);
 			}
 			else
 			{
 				Iterator<BlockPos> iterator = transmitters.iterator();
-				MutableText message = Text.translatable(LanguageBase.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
+				MutableText message = Text.translatable(DefaultLanguageGenerator.MESSAGE_TRANSMITTERS_ACTIVE, frequencyComponent, transmitters.size());
 				message.append("\n");
 
 				while (true)
@@ -110,7 +110,7 @@ public class SnifferItem extends FrequencyItem
 					if (player.hasPermissionLevel(2))
 					{
 						ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, String.format("/tp %d %d %d", transmitter.getX(), transmitter.getY() + 1, transmitter.getZ()));
-						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(LanguageBase.MESSAGE_TELEPORT));
+						HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(DefaultLanguageGenerator.MESSAGE_TELEPORT));
 						component.setStyle(component.getStyle().withClickEvent(click).withHoverEvent(hover));
 					}
 

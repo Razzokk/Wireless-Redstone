@@ -9,18 +9,16 @@
       "item": "minecraft:iron_ingot"
     },
     "R": {
-      "item": "minecraft:redstone"
-    },
-    "T": {
-      "item": "minecraft:comparator"
+      "item": "minecraft:redstone_torch"
     }
   },
   "pattern": [
-    "RTR",
-    "ICI",
-    " I "
+    "IRI",
+    "RCR",
+    "IRI"
   ],
   "result": {
-    "item": "wirelessredstone:frequency_tool"
-  }
+    "item": "wirelessredstone:redstone_transmitter"
+  },
+  "show_notification": true
 }

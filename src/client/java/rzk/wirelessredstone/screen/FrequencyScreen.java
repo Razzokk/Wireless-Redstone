@@ -8,7 +8,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
-import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.datagen.DefaultLanguageGenerator;
 import rzk.wirelessredstone.misc.WRUtils;
 
 import java.util.regex.Pattern;
@@ -30,7 +30,7 @@ public abstract class FrequencyScreen extends Screen
 
 	protected FrequencyScreen(int frequency)
 	{
-		super(Text.translatable(LanguageBase.GUI_FREQUENCY_TITLE));
+		super(Text.translatable(DefaultLanguageGenerator.GUI_FREQUENCY_TITLE));
 		this.frequency = frequency;
 	}
 

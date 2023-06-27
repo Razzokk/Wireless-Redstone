@@ -5,13 +5,16 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Added
+- Data generation
+
 ## [1.20.1-1.0.1] - 2023-06-27
 
 ### Added
-- Proper README.md
+- Proper `README.md`
 - Automated Modrinth and CurseForge publishing with the [Minotaur](https://github.com/modrinth/minotaur) and [CurseForgeGradle](https://github.com/Darkhax/CurseForgeGradle) gradle tasks/plugins
 - Changelog semi-automation with the [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin) 
-- Fancy [shields.io](https://shields.io/) badges to README.md
+- Fancy [shields.io](https://shields.io/) badges to `README.md`
 - Uploading of build artifacts via GitHub actions
 
 ### Changed

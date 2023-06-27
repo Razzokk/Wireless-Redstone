@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "wirelessredstone:redstone_receiver"
-  }
+  },
+  "show_notification": true
 }

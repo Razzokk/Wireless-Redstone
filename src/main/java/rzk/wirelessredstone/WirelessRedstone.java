@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import rzk.wirelessredstone.block.ModBlocks;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
-import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.datagen.DefaultLanguageGenerator;
 import rzk.wirelessredstone.item.FrequencyItem;
 import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.misc.WRConfig;
@@ -36,7 +36,7 @@ public class WirelessRedstone implements ModInitializer
 			entries.add(ModItems.FREQUENCY_TOOL);
 			entries.add(ModItems.FREQUENCY_SNIFFER);
 		})
-		.displayName(Text.translatable(LanguageBase.ITEM_GROUP_WIRELESS_REDSTONE))
+		.displayName(Text.translatable(DefaultLanguageGenerator.ITEM_GROUP_WIRELESS_REDSTONE))
 		.icon(() -> new ItemStack(ModBlocks.REDSTONE_TRANSMITTER))
 		.build();
 

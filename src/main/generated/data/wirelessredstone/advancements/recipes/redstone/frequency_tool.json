@@ -1,13 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "wirelessredstone:redstone_receiver"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "item": {
+    "has_circuit": {
       "conditions": {
         "items": [
           {
@@ -18,17 +12,24 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "wirelessredstone:frequency_tool"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "item",
+      "has_circuit",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "wirelessredstone:redstone_receiver"
+      "wirelessredstone:frequency_tool"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

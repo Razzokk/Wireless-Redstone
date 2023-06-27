@@ -22,6 +22,9 @@
 		"client": [
 			"rzk.wirelessredstone.WirelessRedstoneClient"
 		],
+		"fabric-datagen": [
+          "rzk.wirelessredstone.datagen.DataGenerators"
+		],
 		"modmenu": [
 			"rzk.wirelessredstone.WRModMenu"
 		]

@@ -19,5 +19,6 @@
   ],
   "result": {
     "item": "wirelessredstone:frequency_sniffer"
-  }
+  },
+  "show_notification": true
 }

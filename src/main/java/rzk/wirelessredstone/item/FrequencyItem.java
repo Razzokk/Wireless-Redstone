@@ -17,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
-import rzk.wirelessredstone.datagen.LanguageBase;
+import rzk.wirelessredstone.datagen.DefaultLanguageGenerator;
 import rzk.wirelessredstone.misc.WRUtils;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
 
@@ -89,6 +89,6 @@ public class FrequencyItem extends Item
 		if (!WRUtils.isValidFrequency(frequency)) return;
 
 		MutableText frequencyComponent = Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
-		tooltip.add(Text.translatable(LanguageBase.ITEM_TOOLTIP_FREQUENCY, frequencyComponent).formatted(Formatting.GRAY));
+		tooltip.add(Text.translatable(DefaultLanguageGenerator.TOOLTIP_FREQUENCY, frequencyComponent).formatted(Formatting.GRAY));
 	}
 }

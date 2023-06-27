@@ -26,5 +26,6 @@
   "result": {
     "count": 2,
     "item": "wirelessredstone:circuit"
-  }
+  },
+  "show_notification": true
 }

@@ -21,12 +21,13 @@ val clothConfigVersion: String by project
 val modMenuVersion: String by project
 val jeiVersion: String by project
 
-val modReleaseType: String =
+val modReleaseType =
 	if (modVersion.lowercase().contains("beta")) "beta"
 	else if (modVersion.lowercase().contains("alpha")) "alpha"
 	else "release"
 
 val curseforgeProjectId: String by project
+val generatedResources = file("src/main/generated")
 
 version = modVersion
 group = modGroup
@@ -35,24 +36,16 @@ base {
 	archivesName.set("$modId-fabric")
 }
 
-repositories {
-	// Cloth config
-	maven("https://maven.shedaniel.me/")
-	// Mod Menu
-	maven("https://maven.terraformersmc.com/releases/")
-	// JEI
-	maven("https://maven.blamejared.com/")
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.toVersion(javaVersion)
+	targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
-loom {
-    splitEnvironmentSourceSets()
-
-	mods {
-		register(modId) {
-			sourceSet(sourceSets["main"])
-			sourceSet(sourceSets["client"])
-		}
-	}
+repositories {
+	maven("https://maven.shedaniel.me/")				// Cloth config
+	maven("https://maven.terraformersmc.com/releases/")	// Mod Menu
+	maven("https://maven.blamejared.com/")				// JEI
 }
 
 dependencies {
@@ -66,6 +59,36 @@ dependencies {
 	modApi("com.terraformersmc", "modmenu", modMenuVersion)
 
 	modLocalRuntime("mezz.jei", "jei-$mcVersion-fabric", jeiVersion)
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+	mods {
+		register(modId) {
+			sourceSet(sourceSets["main"])
+			sourceSet(sourceSets["client"])
+		}
+	}
+
+	runs {
+		register("datagenClient") {
+			inherit(get("client"))
+			name("Data Generation")
+			vmArg("-Dfabric-api.datagen")
+			vmArg("-Dfabric-api.datagen.output-dir=$generatedResources")
+			vmArg("-Dfabric-api.datagen.modid=$modId")
+			runDir("build/datagen")
+		}
+	}
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDir(generatedResources)
+		}
+	}
 }
 
 tasks {
@@ -91,12 +114,6 @@ tasks {
 	withType<JavaCompile> {
 		options.release.set(javaVersion)
 	}
-}
-
-java {
-	withSourcesJar()
-	sourceCompatibility = JavaVersion.toVersion(javaVersion)
-	targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 // Publishing
