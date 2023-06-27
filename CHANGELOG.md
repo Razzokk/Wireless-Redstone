@@ -29,5 +29,5 @@ Port to MC 1.20.1
 - Increased contrast of T and R letters on transmitter and receiver texture
 
 [Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.1...HEAD
+[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/fabric/1.20.1-1.0.0
 [1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.0...release/fabric/1.20.1-1.0.1
-[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.19.3-1.0.0...release/fabric/1.20.1-1.0.0

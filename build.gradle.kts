@@ -102,9 +102,10 @@ java {
 // Publishing
 
 changelog {
-	versionPrefix.set("")
+	versionPrefix.set("release/fabric/")
 	groups.empty()
 	combinePreReleases.set(false)
+	repositoryUrl.set("https://github.com/Razzokk/WirelessRedstone")
 }
 
 modrinth {
