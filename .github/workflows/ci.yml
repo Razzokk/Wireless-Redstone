@@ -1,4 +1,4 @@
-name: Build and Publish
+name: Build & Publish
 on: push
 
 env:
@@ -10,22 +10,19 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Check Environment Variables
-        run: env
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Validate gradle wrapper
+      - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Setup jdk ${{ env.JAVA_VERSION }}
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: 'temurin'
 
-      - name: Make gradle wrapper executable
+      - name: Make Gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
 
