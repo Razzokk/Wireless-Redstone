@@ -27,7 +27,7 @@ public class FrequencyItem extends Item
 {
 	public FrequencyItem(Settings settings)
 	{
-		super(settings);
+		super(settings.maxCount(1));
 	}
 
 	public int getFrequency(ItemStack stack)

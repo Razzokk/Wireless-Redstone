@@ -3,7 +3,6 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import org.jetbrains.changelog.Changelog
 
 plugins {
-	java
 	id("fabric-loom") version "1.2-SNAPSHOT"
 	id("com.modrinth.minotaur") version "2.+"
 	id("net.darkhax.curseforgegradle") version "1.1.15"
@@ -74,6 +73,8 @@ tasks {
 		// this will ensure that this task is redone when the versions change.
 		inputs.property("version", version)
 
+		// NOTE: for this to work at runtime (e.g. Minecraft Client) Gradle
+		// must be selected in the build tools settings for gradle!
 		filesMatching("fabric.mod.json") {
 			expand(mapOf(
 				"version" to modVersion,

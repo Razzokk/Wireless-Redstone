@@ -1,10 +1,11 @@
 # Changelog
-
 Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 with the minecraft version prepended to it.
 
-## Unreleased
+## [Unreleased]
+
+## [1.20.1-1.0.1] - 2023-06-27
 
 ### Added
 - Proper README.md
@@ -18,10 +19,15 @@ with the minecraft version prepended to it.
 - Separate client more strictly
 - Updated link of the homepage, source and issues websites
 
+### Fixed
+- Stack size of frequency items limited to 1
+
 ## [1.20.1-1.0.0] - 2023-06-16
 Port to MC 1.20.1
 
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
 
+[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.1...HEAD
+[1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.0...release/fabric/1.20.1-1.0.1
 [1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.19.3-1.0.0...release/fabric/1.20.1-1.0.0
