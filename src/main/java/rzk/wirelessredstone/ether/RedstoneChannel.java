@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.block.ModBlocks;
 import rzk.wirelessredstone.misc.WRUtils;
 
@@ -79,6 +80,7 @@ public class RedstoneChannel
 
 	public void updateReceivers(World world)
 	{
+		WirelessRedstone.LOGGER.info("update");
 		for (BlockPos receiver : receivers)
 			updateReceiver(world, receiver);
 	}

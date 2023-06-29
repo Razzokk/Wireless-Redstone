@@ -5,8 +5,13 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+## [1.20.1-1.0.2] - 2023-06-29
+
 ### Added
 - Data generation
+
+### Fixed
+- Updating strong powered indirectly neighbored redstone components after removal of receiver
 
 ## [1.20.1-1.0.1] - 2023-06-27
 
@@ -31,6 +36,7 @@ Port to MC 1.20.1
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
 
-[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.1...HEAD
-[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/fabric/1.20.1-1.0.0
+[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.2...HEAD
 [1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.0...release/fabric/1.20.1-1.0.1
+[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/fabric/1.20.1-1.0.0
+[1.20.1-1.0.2]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.1...release/fabric/1.20.1-1.0.2

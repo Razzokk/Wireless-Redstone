@@ -19,11 +19,12 @@ import static net.minecraft.state.property.Properties.POWERED;
 public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 {
 	@Override
-	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
+	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
 	{
 		if (!world.isClient && WRConfig.redstoneReceiverStrongPower)
 			for (Direction direction : Direction.values())
 				world.updateNeighborsExcept(pos.offset(direction), this, direction.getOpposite());
+		super.onStateReplaced(state, world, pos, newState, moved);
 	}
 
 	@Override
