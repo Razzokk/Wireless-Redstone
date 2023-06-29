@@ -18,9 +18,9 @@ import java.io.IOException;
 public class WRConfig
 {
 	private static final Gson GSON = new GsonBuilder()
-			.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-			.setPrettyPrinting()
-			.create();
+		.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+		.setPrettyPrinting()
+		.create();
 
 	private static final String FILE_NAME = WirelessRedstone.MODID + ".json";
 

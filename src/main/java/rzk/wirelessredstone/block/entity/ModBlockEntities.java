@@ -11,10 +11,10 @@ import rzk.wirelessredstone.block.ModBlocks;
 public class ModBlockEntities
 {
 	public static final BlockEntityType<RedstoneTransmitterBlockEntity> REDSTONE_TRANSMITTER_BLOCK_ENTITY =
-			FabricBlockEntityTypeBuilder.create(RedstoneTransmitterBlockEntity::new, ModBlocks.REDSTONE_TRANSMITTER).build();
+		FabricBlockEntityTypeBuilder.create(RedstoneTransmitterBlockEntity::new, ModBlocks.REDSTONE_TRANSMITTER).build();
 
 	public static final BlockEntityType<RedstoneReceiverBlockEntity> REDSTONE_RECEIVER_BLOCK_ENTITY =
-			FabricBlockEntityTypeBuilder.create(RedstoneReceiverBlockEntity::new, ModBlocks.REDSTONE_RECEIVER).build();
+		FabricBlockEntityTypeBuilder.create(RedstoneReceiverBlockEntity::new, ModBlocks.REDSTONE_RECEIVER).build();
 
 	public static void registerBlockEntities()
 	{

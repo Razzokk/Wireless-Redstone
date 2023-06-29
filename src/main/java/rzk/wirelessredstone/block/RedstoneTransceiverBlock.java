@@ -26,10 +26,10 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	public RedstoneTransceiverBlock()
 	{
 		super(Settings.create()
-                .mapColor(MapColor.IRON_GRAY)
-				.solidBlock((state, blockGetter, pos) -> false)
-				.strength(1.5F, 5.0F)
-				.sounds(BlockSoundGroup.METAL));
+			.mapColor(MapColor.IRON_GRAY)
+			.solidBlock((state, blockGetter, pos) -> false)
+			.strength(1.5F, 5.0F)
+			.sounds(BlockSoundGroup.METAL));
 		setDefaultState(stateManager.getDefaultState().with(POWERED, false));
 	}
 

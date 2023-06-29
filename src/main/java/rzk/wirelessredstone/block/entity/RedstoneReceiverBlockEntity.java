@@ -10,43 +10,43 @@ import rzk.wirelessredstone.misc.WRUtils;
 
 public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
 {
-    public RedstoneReceiverBlockEntity(BlockPos pos, BlockState state)
-    {
-        super(ModBlockEntities.REDSTONE_RECEIVER_BLOCK_ENTITY, pos, state);
-    }
+	public RedstoneReceiverBlockEntity(BlockPos pos, BlockState state)
+	{
+		super(ModBlockEntities.REDSTONE_RECEIVER_BLOCK_ENTITY, pos, state);
+	}
 
-    @Override
-    protected void onFrequencyChange(int oldFrequency, int newFrequency)
-    {
-        if (world.isClient) return;
-        RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
-        ether.removeReceiver(pos, oldFrequency);
+	@Override
+	protected void onFrequencyChange(int oldFrequency, int newFrequency)
+	{
+		if (world.isClient) return;
+		RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+		ether.removeReceiver(pos, oldFrequency);
 
-        if (WRUtils.isValidFrequency(newFrequency))
-            ether.addReceiver(world, pos, newFrequency);
-    }
+		if (WRUtils.isValidFrequency(newFrequency))
+			ether.addReceiver(world, pos, newFrequency);
+	}
 
-    @Override
-    public void setWorld(World world)
-    {
-        super.setWorld(world);
-        if (world.isClient) return;
+	@Override
+	public void setWorld(World world)
+	{
+		super.setWorld(world);
+		if (world.isClient) return;
 
-        world.getServer().send(new ServerTask(1, () ->
-        {
-            RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
-            ether.addReceiver(world, pos, frequency);
-        }));
-    }
+		world.getServer().send(new ServerTask(1, () ->
+		{
+			RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+			ether.addReceiver(world, pos, frequency);
+		}));
+	}
 
-    @Override
-    public void markRemoved()
-    {
-        if (!world.isClient)
-        {
-            RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
-            ether.removeReceiver(pos, frequency);
-        }
-        super.markRemoved();
-    }
+	@Override
+	public void markRemoved()
+	{
+		if (!world.isClient)
+		{
+			RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+			ether.removeReceiver(pos, frequency);
+		}
+		super.markRemoved();
+	}
 }

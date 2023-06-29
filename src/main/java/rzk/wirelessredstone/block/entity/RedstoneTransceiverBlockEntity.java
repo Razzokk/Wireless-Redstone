@@ -14,55 +14,55 @@ import rzk.wirelessredstone.misc.WRUtils;
 
 public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
 {
-    protected int frequency = WRUtils.INVALID_FREQUENCY;
+	protected int frequency = WRUtils.INVALID_FREQUENCY;
 
-    public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
-    {
-        super(blockEntityType, pos, state);
-    }
+	public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
+	{
+		super(blockEntityType, pos, state);
+	}
 
-    protected abstract void onFrequencyChange(int oldFrequency, int newFrequency);
+	protected abstract void onFrequencyChange(int oldFrequency, int newFrequency);
 
-    public int getFrequency()
-    {
-        return frequency;
-    }
+	public int getFrequency()
+	{
+		return frequency;
+	}
 
-    public void setFrequency(int frequency)
-    {
-        if (frequency == this.frequency) return;
-        onFrequencyChange(this.frequency, frequency);
-        this.frequency = frequency;
-        markDirty();
+	public void setFrequency(int frequency)
+	{
+		if (frequency == this.frequency) return;
+		onFrequencyChange(this.frequency, frequency);
+		this.frequency = frequency;
+		markDirty();
 		world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_LISTENERS);
 	}
 
-    @Nullable
-    @Override
-    public Packet<ClientPlayPacketListener> toUpdatePacket()
-    {
-        return BlockEntityUpdateS2CPacket.create(this);
-    }
+	@Nullable
+	@Override
+	public Packet<ClientPlayPacketListener> toUpdatePacket()
+	{
+		return BlockEntityUpdateS2CPacket.create(this);
+	}
 
-    @Override
-    public NbtCompound toInitialChunkDataNbt()
-    {
-        NbtCompound nbt = new NbtCompound();
-        WRUtils.writeFrequency(nbt, frequency);
-        return nbt;
-    }
+	@Override
+	public NbtCompound toInitialChunkDataNbt()
+	{
+		NbtCompound nbt = new NbtCompound();
+		WRUtils.writeFrequency(nbt, frequency);
+		return nbt;
+	}
 
-    @Override
-    public void readNbt(NbtCompound nbt)
-    {
-        super.readNbt(nbt);
-        frequency = WRUtils.readFrequency(nbt);
-    }
+	@Override
+	public void readNbt(NbtCompound nbt)
+	{
+		super.readNbt(nbt);
+		frequency = WRUtils.readFrequency(nbt);
+	}
 
-    @Override
-    protected void writeNbt(NbtCompound nbt)
-    {
-        super.writeNbt(nbt);
-        WRUtils.writeFrequency(nbt, frequency);
-    }
+	@Override
+	protected void writeNbt(NbtCompound nbt)
+	{
+		super.writeNbt(nbt);
+		WRUtils.writeFrequency(nbt, frequency);
+	}
 }
