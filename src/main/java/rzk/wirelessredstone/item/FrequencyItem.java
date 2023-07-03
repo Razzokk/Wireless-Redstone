@@ -7,7 +7,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -88,7 +87,7 @@ public class FrequencyItem extends Item
 		int frequency = getFrequency(stack);
 		if (!WRUtils.isValidFrequency(frequency)) return;
 
-		MutableText frequencyComponent = Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
+		Text frequencyComponent = Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
 		tooltip.add(Text.translatable(DefaultLanguageGenerator.TOOLTIP_FREQUENCY, frequencyComponent).formatted(Formatting.GRAY));
 	}
 }

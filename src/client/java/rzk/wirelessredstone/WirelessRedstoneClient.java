@@ -6,9 +6,13 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
+import rzk.wirelessredstone.item.ModItems;
+import rzk.wirelessredstone.item.RemoteItem;
 import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.network.FrequencyBlockPacket;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
@@ -41,5 +45,8 @@ public class WirelessRedstoneClient implements ClientModInitializer
 
 		ClientPlayNetworking.registerGlobalReceiver(FrequencyItemPacket.TYPE, (packet, player, responseSender) ->
 			MinecraftClient.getInstance().setScreen(new FrequencyItemScreen(packet.frequency, packet.hand)));
+
+		ModelPredicateProviderRegistry.register(ModItems.REMOTE, new Identifier("state"),
+			(stack, world, entity, seed) -> RemoteItem.isOn(stack) ? 1 : 0);
 	}
 }

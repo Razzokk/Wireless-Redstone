@@ -35,6 +35,7 @@ public class WirelessRedstone implements ModInitializer
 			entries.add(ModItems.CIRCUIT);
 			entries.add(ModItems.FREQUENCY_TOOL);
 			entries.add(ModItems.FREQUENCY_SNIFFER);
+			entries.add(ModItems.REMOTE);
 		})
 		.displayName(Text.translatable(DefaultLanguageGenerator.ITEM_GROUP_WIRELESS_REDSTONE))
 		.icon(() -> new ItemStack(ModBlocks.REDSTONE_TRANSMITTER))

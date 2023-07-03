@@ -77,5 +77,17 @@ public class RecipeGenerator extends FabricRecipeProvider
 			.input('C', ModItems.CIRCUIT)
 			.criterion(hasItem(ModItems.CIRCUIT), conditionsFromItem(ModItems.CIRCUIT))
 			.offerTo(exporter);
+
+		ShapedRecipeJsonBuilder.create(RecipeCategory.REDSTONE, ModItems.REMOTE)
+			.pattern("TPT")
+			.pattern("ICI")
+			.pattern("IRI")
+			.input('T', Items.REDSTONE_TORCH)
+			.input('P', Items.ENDER_PEARL)
+			.input('I', Items.IRON_INGOT)
+			.input('C', ModItems.CIRCUIT)
+			.input('R', Items.REDSTONE)
+			.criterion(hasItem(ModItems.CIRCUIT), conditionsFromItem(ModItems.CIRCUIT))
+			.offerTo(exporter);
 	}
 }
