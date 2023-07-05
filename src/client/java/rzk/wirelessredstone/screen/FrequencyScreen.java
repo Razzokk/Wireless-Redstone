@@ -95,13 +95,20 @@ public abstract class FrequencyScreen extends Screen
 	}
 
 	@Override
-	public boolean keyPressed(int keyCode, int unknown0, int unknown1)
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers)
 	{
-		if (super.keyPressed(keyCode, unknown0, unknown1))
+		if (super.keyPressed(keyCode, scanCode, modifiers))
 			return true;
 
 		if (keyCode == GLFW.GLFW_KEY_E)
 		{
+			close();
+			return true;
+		}
+
+		if (keyCode == GLFW.GLFW_KEY_ENTER && !frequencyInput.getText().isBlank())
+		{
+			setFrequency();
 			close();
 			return true;
 		}
@@ -116,9 +123,9 @@ public abstract class FrequencyScreen extends Screen
 	}
 
 	@Override
-	public boolean keyReleased(int keyCode, int unknown0, int unknown1)
+	public boolean keyReleased(int keyCode, int scanCode, int modifiers)
 	{
-		if (super.keyPressed(keyCode, unknown0, unknown1))
+		if (super.keyReleased(keyCode, scanCode, modifiers))
 			return true;
 
 		if (keyCode == GLFW.GLFW_KEY_LEFT_SHIFT || keyCode == GLFW.GLFW_KEY_RIGHT_SHIFT)
