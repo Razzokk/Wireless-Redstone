@@ -56,10 +56,8 @@ public class FrequencyItem extends Item
 			if (!WRUtils.isValidFrequency(frequency))
 				return ActionResult.FAIL;
 
-			if (isShift)
-				setFrequency(stack, frequency);
-			else
-				transceiver.setFrequency(world, pos, frequency);
+			if (isShift) setFrequency(stack, frequency);
+			else transceiver.setFrequency(world, pos, frequency);
 
 			return ActionResult.SUCCESS;
 		}

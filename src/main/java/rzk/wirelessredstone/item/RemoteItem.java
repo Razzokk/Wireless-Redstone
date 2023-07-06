@@ -1,40 +1,45 @@
 package rzk.wirelessredstone.item;
 
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.StackReference;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.slot.Slot;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.util.ClickType;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
+import rzk.wirelessredstone.api.SelectedItemListener;
 import rzk.wirelessredstone.datagen.DefaultLanguageGenerator;
+import rzk.wirelessredstone.ether.RedstoneEther;
+import rzk.wirelessredstone.misc.WRUtils;
 
-import java.util.List;
-
-public class RemoteItem extends FrequencyItem
+public class RemoteItem extends FrequencyItem implements SelectedItemListener
 {
 	public RemoteItem(Settings settings)
 	{
 		super(settings);
 	}
 
-	public static boolean isOn(ItemStack stack)
+	public void onDeactivation(ItemStack stack, World world, LivingEntity owner)
 	{
-		if (!stack.hasNbt() || !stack.getNbt().contains("state"))
-			return false;
-		return stack.getNbt().getBoolean("state");
+		if (!world.isClient)
+		{
+			RedstoneEther ether = RedstoneEther.get((ServerWorld) world);
+			if (ether == null) return;
+			int frequency = getFrequency(stack);
+			ether.removeRemote(world, owner, frequency);
+		}
 	}
 
-	public static void setOn(ItemStack stack, boolean state)
+	@Override
+	public ActionResult useOnBlock(ItemUsageContext context)
 	{
-		NbtCompound nbt = stack.getOrCreateNbt();
-		nbt.putBoolean("state", state);
+		if (context.getPlayer().isSneaking()) return super.useOnBlock(context);
+		return ActionResult.PASS;
 	}
 
 	@Override
@@ -42,46 +47,45 @@ public class RemoteItem extends FrequencyItem
 	{
 		if (player.isSneaking()) return super.use(world, player, hand);
 
+		ItemStack stack = player.getStackInHand(hand);
+		int frequency = getFrequency(stack);
 		player.getItemCooldownManager().set(this, 10);
+
+		if (!WRUtils.isValidFrequency(frequency))
+		{
+			if (!world.isClient)
+				player.sendMessage(Text.translatable(DefaultLanguageGenerator.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED));
+			return TypedActionResult.consume(stack);
+		}
+
+		player.setCurrentHand(hand);
 
 		if (!world.isClient)
 		{
-			ItemStack stack = player.getStackInHand(hand);
-			boolean state = !isOn(stack);
-			setOn(stack, state);
+			RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
+			ether.addRemote(world, player, frequency);
 		}
 
-		return super.use(world, player, hand);
+		return TypedActionResult.success(stack, false);
 	}
 
 	@Override
-	public boolean onClicked(ItemStack stack, ItemStack otherStack, Slot slot, ClickType clickType, PlayerEntity player, StackReference cursorStackReference)
+	public int getMaxUseTime(ItemStack stack)
 	{
-		if (clickType == ClickType.LEFT) return false;
-		if (player.getItemCooldownManager().isCoolingDown(this)) return true;
-
-		player.getItemCooldownManager().set(this, 10);
-		World world = player.getWorld();
-
-		if (!world.isClient)
-			setOn(stack, !isOn(stack));
-
-		return true;
+		return -1;
 	}
 
 	@Override
-	public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+	public void onSelectedItemDropped(ItemStack stack, ServerWorld world, ServerPlayerEntity player)
 	{
-		super.appendTooltip(stack, world, tooltip, context);
+		if (!player.getActiveItem().isEmpty())
+			onDeactivation(stack, world, player);
+	}
 
-		boolean mode = true;
-		Text modeText = Text.translatable(mode ? DefaultLanguageGenerator.TOOLTIP_MODE_TOGGLE : DefaultLanguageGenerator.TOOLTIP_MODE_SWITCH)
-			.formatted(Formatting.LIGHT_PURPLE);
-		tooltip.add(Text.translatable(DefaultLanguageGenerator.TOOLTIP_MODE, modeText).formatted(Formatting.GRAY));
-
-		boolean on = isOn(stack);
-		Text state = Text.translatable(on ? DefaultLanguageGenerator.TOOLTIP_STATE_ON : DefaultLanguageGenerator.TOOLTIP_STATE_OFF)
-			.formatted(on ? Formatting.GREEN : Formatting.RED);
-		tooltip.add(Text.translatable(DefaultLanguageGenerator.TOOLTIP_STATE, state).formatted(Formatting.GRAY));
+	@Override
+	public void onClearActiveItem(ItemStack stack, World world, LivingEntity entity)
+	{
+		if (!world.isClient && !entity.getActiveItem().isEmpty())
+			onDeactivation(stack, world, entity);
 	}
 }

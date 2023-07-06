@@ -1,5 +1,6 @@
 package rzk.wirelessredstone.ether;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtHelper;
@@ -19,6 +20,10 @@ public class RedstoneChannel
 	private final Set<BlockPos> transmitters = new HashSet<>();
 	// Contains only currently listening/loaded receivers
 	private final Set<BlockPos> receivers = new HashSet<>();
+	// Player must be holding and activating remote, thus only one remote per player can be active
+	// Additionally, remotes do not need to be saved because if the player logs off the remote gets deactivated,
+	// same holds for shutting down the server/world.
+	private final Set<LivingEntity> remotes = new HashSet<>();
 
 	public RedstoneChannel(int frequency)
 	{
@@ -49,7 +54,7 @@ public class RedstoneChannel
 
 	public void addTransmitter(World world, BlockPos pos)
 	{
-		boolean empty = isInactive();
+		boolean empty = !isActive();
 		transmitters.add(pos);
 		if (empty) updateReceivers(world);
 	}
@@ -57,7 +62,7 @@ public class RedstoneChannel
 	public void removeTransmitter(World world, BlockPos pos)
 	{
 		transmitters.remove(pos);
-		if (isInactive())
+		if (!isActive())
 			updateReceivers(world);
 	}
 
@@ -70,6 +75,20 @@ public class RedstoneChannel
 	public void removeReceiver(BlockPos pos)
 	{
 		receivers.remove(pos);
+	}
+
+	public void addRemote(World world, LivingEntity owner)
+	{
+		boolean empty = !isActive();
+		remotes.add(owner);
+		if (empty) updateReceivers(world);
+	}
+
+	public void removeRemote(World world, LivingEntity owner)
+	{
+		remotes.remove(owner);
+		if (!isActive())
+			updateReceivers(world);
 	}
 
 	public void updateReceiver(World world, BlockPos pos)
@@ -95,16 +114,11 @@ public class RedstoneChannel
 
 	public boolean isActive()
 	{
-		return !transmitters.isEmpty();
-	}
-
-	public boolean isInactive()
-	{
-		return transmitters.isEmpty();
+		return !transmitters.isEmpty() || !remotes.isEmpty();
 	}
 
 	public boolean isEmpty()
 	{
-		return transmitters.isEmpty() && receivers.isEmpty();
+		return transmitters.isEmpty() && receivers.isEmpty() && remotes.isEmpty();
 	}
 }

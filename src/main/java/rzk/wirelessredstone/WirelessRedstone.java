@@ -2,25 +2,20 @@ package rzk.wirelessredstone;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.datagen.DefaultLanguageGenerator;
-import rzk.wirelessredstone.item.FrequencyItem;
 import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.misc.WRConfig;
-import rzk.wirelessredstone.network.FrequencyBlockPacket;
-import rzk.wirelessredstone.network.FrequencyItemPacket;
+import rzk.wirelessredstone.network.ModNetworking;
 
 public class WirelessRedstone implements ModInitializer
 {
@@ -54,20 +49,8 @@ public class WirelessRedstone implements ModInitializer
 		ModBlocks.registerBlocks();
 		ModItems.registerItems();
 		ModBlockEntities.registerBlockEntities();
+		ModNetworking.register();
+
 		Registry.register(Registries.ITEM_GROUP, identifier(MODID), ITEM_GROUP);
-
-		ServerPlayNetworking.registerGlobalReceiver(FrequencyBlockPacket.TYPE, (packet, player, responseSender) ->
-		{
-			World world = player.getWorld();
-			if (world.getBlockState(packet.pos).getBlock() instanceof RedstoneTransceiverBlock block)
-				block.setFrequency(world, packet.pos, packet.frequency);
-		});
-
-		ServerPlayNetworking.registerGlobalReceiver(FrequencyItemPacket.TYPE, (packet, player, responseSender) ->
-		{
-			ItemStack stack = player.getStackInHand(packet.hand);
-			if (stack.getItem() instanceof FrequencyItem item)
-				item.setFrequency(stack, packet.frequency);
-		});
 	}
 }

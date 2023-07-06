@@ -28,9 +28,6 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 	public static final String TOOLTIP_STATE = "item.wirelessredstone.tooltip.state";
 	public static final String TOOLTIP_STATE_OFF = "item.wirelessredstone.tooltip.state.off";
 	public static final String TOOLTIP_STATE_ON = "item.wirelessredstone.tooltip.state.on";
-	public static final String TOOLTIP_MODE = "item.wirelessredstone.tooltip.mode";
-	public static final String TOOLTIP_MODE_TOGGLE = "item.wirelessredstone.tooltip.mode.toggle";
-	public static final String TOOLTIP_MODE_SWITCH = "item.wirelessredstone.tooltip.mode.switch";
 
 	// Messages
 	public static final String MESSAGE_TRANSMITTERS_EMPTY = "message.wirelessredstone.transmitters.empty";
@@ -71,9 +68,6 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(TOOLTIP_STATE, "State: %s");
 		translations.add(TOOLTIP_STATE_OFF, "Off");
 		translations.add(TOOLTIP_STATE_ON, "On");
-		translations.add(TOOLTIP_MODE, "Mode: %s");
-		translations.add(TOOLTIP_MODE_TOGGLE, "Toggle");
-		translations.add(TOOLTIP_MODE_SWITCH, "Switch");
 		translations.add(MESSAGE_TRANSMITTERS_EMPTY, "There are no active transmitters on this frequency (%s)");
 		translations.add(MESSAGE_TRANSMITTERS_ACTIVE, "Active transmitters on this frequency (%s): %s");
 		translations.add(MESSAGE_TELEPORT, "Teleport here");

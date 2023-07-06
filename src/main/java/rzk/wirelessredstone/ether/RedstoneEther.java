@@ -2,6 +2,7 @@ package rzk.wirelessredstone.ether;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -74,27 +75,41 @@ public class RedstoneEther extends PersistentState
 	public void addTransmitter(World world, BlockPos pos, int frequency)
 	{
 		if (!WRUtils.isValidFrequency(frequency)) return;
-
-		RedstoneChannel channel = getOrCreateChannel(frequency);
-		channel.addTransmitter(world, pos);
+		getOrCreateChannel(frequency).addTransmitter(world, pos);
 		markDirty();
+	}
+
+	public void addRemote(World world, LivingEntity owner, int frequency)
+	{
+		if (!WRUtils.isValidFrequency(frequency)) return;
+		getOrCreateChannel(frequency).addRemote(world, owner);
 	}
 
 	public void addReceiver(World world, BlockPos pos, int frequency)
 	{
 		if (!WRUtils.isValidFrequency(frequency)) return;
-
-		RedstoneChannel channel = getOrCreateChannel(frequency);
-		channel.addReceiver(world, pos);
+		getOrCreateChannel(frequency).addReceiver(world, pos);
 	}
 
 	public void removeTransmitter(World world, BlockPos pos, int frequency)
 	{
 		RedstoneChannel channel = getChannel(frequency);
-		if (channel != null)
+		if (channel == null) return;
+
+		channel.removeTransmitter(world, pos);
+		if (channel.isEmpty()) channels.remove(frequency);
+		markDirty();
+	}
+
+	public void removeRemote(World world, LivingEntity owner, int frequency)
+	{
+		RedstoneChannel channel = getChannel(frequency);
+		if (channel == null) return;
+
+		channel.removeRemote(world, owner);
+		if (channel.isEmpty())
 		{
-			channel.removeTransmitter(world, pos);
-			if (channel.isEmpty()) channels.remove(frequency);
+			channels.remove(frequency);
 			markDirty();
 		}
 	}
@@ -102,15 +117,13 @@ public class RedstoneEther extends PersistentState
 	public void removeReceiver(BlockPos pos, int frequency)
 	{
 		RedstoneChannel channel = getChannel(frequency);
-		if (channel != null)
-		{
-			channel.removeReceiver(pos);
+		if (channel == null) return;
 
-			if (channel.isEmpty())
-			{
-				channels.remove(frequency);
-				markDirty();
-			}
+		channel.removeReceiver(pos);
+		if (channel.isEmpty())
+		{
+			channels.remove(frequency);
+			markDirty();
 		}
 	}
 

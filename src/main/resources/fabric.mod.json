@@ -29,6 +29,9 @@
 			"rzk.wirelessredstone.WRModMenu"
 		]
 	},
+	"mixins": [
+		"wirelessredstone.mixins.json"
+	],
 	"depends": {
 		"fabricloader": ">=${loader_version}",
 		"fabric-api": ">=${fabric_api_version}",

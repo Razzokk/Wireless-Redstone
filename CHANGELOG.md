@@ -5,6 +5,10 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Added
+- Remote item - to power things from inside your inventory!
+- Keybinding in frequency GUI -> when editing the frequency, pressing `Enter` closes the GUI and saves the frequency
+
 ## [1.20.1-1.0.2] - 2023-06-29
 
 ### Added

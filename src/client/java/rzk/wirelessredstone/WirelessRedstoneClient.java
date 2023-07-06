@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.item.ModItems;
-import rzk.wirelessredstone.item.RemoteItem;
 import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.network.FrequencyBlockPacket;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
@@ -47,6 +46,6 @@ public class WirelessRedstoneClient implements ClientModInitializer
 			MinecraftClient.getInstance().setScreen(new FrequencyItemScreen(packet.frequency, packet.hand)));
 
 		ModelPredicateProviderRegistry.register(ModItems.REMOTE, new Identifier("state"),
-			(stack, world, entity, seed) -> RemoteItem.isOn(stack) ? 1 : 0);
+			(stack, world, entity, seed) -> ((entity != null && stack == entity.getActiveItem()) ? 1f : 0f));
 	}
 }
