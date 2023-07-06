@@ -5,6 +5,8 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+## [1.20.1-1.1.0] - 2023-07-06
+
 ### Added
 - Remote item - to power things from inside your inventory!
 - Keybinding in frequency GUI -> when editing the frequency, pressing `Enter` closes the GUI and saves the frequency
@@ -40,7 +42,8 @@ Port to MC 1.20.1
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
 
-[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.2...HEAD
-[1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.0...release/fabric/1.20.1-1.0.1
+[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.1.0...HEAD
 [1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/fabric/1.20.1-1.0.0
+[1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.0...release/fabric/1.20.1-1.0.1
 [1.20.1-1.0.2]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.1...release/fabric/1.20.1-1.0.2
+[1.20.1-1.1.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.2...release/fabric/1.20.1-1.1.0
