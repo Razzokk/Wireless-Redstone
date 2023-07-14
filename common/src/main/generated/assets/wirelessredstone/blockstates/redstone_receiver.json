@@ -1,0 +1,10 @@
+{
+	"variants": {
+		"powered=false": {
+			"model": "wirelessredstone:block/redstone_receiver_off"
+		},
+		"powered=true": {
+			"model": "wirelessredstone:block/redstone_receiver_on"
+		}
+	}
+}

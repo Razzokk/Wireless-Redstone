@@ -1,158 +1,127 @@
-import net.darkhax.curseforgegradle.Constants
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import org.jetbrains.changelog.Changelog
+import java.text.SimpleDateFormat
+import java.util.*
 
 plugins {
-	id("fabric-loom") version "1.2-SNAPSHOT"
-	id("com.modrinth.minotaur") version "2.+"
-	id("net.darkhax.curseforgegradle") version "1.1.15"
+	java
 	id("org.jetbrains.changelog") version "2.1.0"
+	id("com.modrinth.minotaur") version "2.+" apply false
+	id("net.darkhax.curseforgegradle") version "1.1.15" apply false
 }
 
 val javaVersion: Int = JavaLanguageVersion.of(property("javaVersion").toString()).asInt()
 val mcVersion: String by project
+val mcVersionRange: String by project
 val modId: String by project
 val modVersion: String by project
+val modDisplayName: String by project
 val modGroup: String by project
-val yarnMappings: String by project
+val modAuthor: String by project
+val modLicense: String by project
+val modDescription: String by project
 val loaderVersion: String by project
 val fabricApiVersion: String by project
 val clothConfigVersion: String by project
 val modMenuVersion: String by project
-val jeiVersion: String by project
+val forgeVersionRange: String by project
+val loaderVersionRange: String by project
+val repoUrl: String by project
 
-val modReleaseType =
+val modReleaseType by extra {
 	if (modVersion.lowercase().contains("beta")) "beta"
 	else if (modVersion.lowercase().contains("alpha")) "alpha"
 	else "release"
-
-val curseforgeProjectId: String by project
-val generatedResources = file("src/main/generated")
-
-version = modVersion
-group = modGroup
-
-base {
-	archivesName.set("$modId-fabric")
 }
 
-java {
-	withSourcesJar()
-	sourceCompatibility = JavaVersion.toVersion(javaVersion)
-	targetCompatibility = JavaVersion.toVersion(javaVersion)
+val changelogProvider by extra {
+	provider { changelog.renderItem(changelog.get(modVersion), Changelog.OutputType.MARKDOWN) }
 }
 
-repositories {
-	maven("https://maven.shedaniel.me/")				// Cloth config
-	maven("https://maven.terraformersmc.com/releases/")	// Mod Menu
-	maven("https://maven.blamejared.com/")				// JEI
-}
+val license = file("LICENSE")
 
-dependencies {
-	minecraft("com.mojang", "minecraft", mcVersion)
-	mappings("net.fabricmc", "yarn", yarnMappings, classifier = "v2")
+subprojects {
+	apply(plugin = "java")
 
-	modImplementation("net.fabricmc", "fabric-loader", loaderVersion)
-	modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricApiVersion)
-
-	modApi("me.shedaniel.cloth", "cloth-config-fabric", clothConfigVersion)
-	modApi("com.terraformersmc", "modmenu", modMenuVersion)
-
-	modLocalRuntime("mezz.jei", "jei-$mcVersion-fabric", jeiVersion)
-}
-
-loom {
-    splitEnvironmentSourceSets()
-
-	mods {
-		register(modId) {
-			sourceSet(sourceSets["main"])
-			sourceSet(sourceSets["client"])
+	java {
+		toolchain {
+			languageVersion.set(JavaLanguageVersion.of(javaVersion))
 		}
+		withSourcesJar()
 	}
 
-	runs {
-		register("datagenClient") {
-			inherit(get("client"))
-			name("Data Generation")
-			vmArg("-Dfabric-api.datagen")
-			vmArg("-Dfabric-api.datagen.output-dir=$generatedResources")
-			vmArg("-Dfabric-api.datagen.modid=$modId")
-			runDir("build/datagen")
+	version = modVersion
+	group = modGroup
+
+	tasks {
+		jar {
+			from(license)
 		}
-	}
-}
 
-sourceSets {
-	main {
-		resources {
-			srcDir(generatedResources)
+		named<Jar>("sourcesJar") {
+			from(license)
 		}
-	}
-}
 
-tasks {
-	processResources {
-		// this will ensure that this task is redone when the versions change.
-		inputs.property("version", version)
+		withType<JavaCompile> {
+			configureEach {
+				options.encoding = "UTF-8"
+				options.release.set(javaVersion)
+			}
+		}
 
-		// NOTE: for this to work at runtime (e.g. Minecraft Client) Gradle
-		// must be selected in the build tools settings for gradle!
-		filesMatching("fabric.mod.json") {
-			expand(mapOf(
-				"version" to modVersion,
+		withType<Jar> {
+			configureEach {
+				val now = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
+				manifest {
+					attributes(mapOf(
+						"Specification-Title" to modId,
+						"Specification-Vendor" to modAuthor,
+						"Specification-Version" to "1",
+						"Implementation-Title" to modDisplayName,
+						"Implementation-Version" to modVersion,
+						"Implementation-Vendor" to modAuthor,
+						"Implementation-Timestamp" to now,
+						"Timestamp" to System.currentTimeMillis(),
+						"Built-On-Java" to "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})",
+						"Built-On-Minecraft" to mcVersion
+					))
+				}
+			}
+		}
+
+		processResources {
+			val props = mapOf(
+				"java_version" to javaVersion,
+				"mc_version" to mcVersion,
+				"mc_version_range" to mcVersionRange,
+				"mod_id" to modId,
+				"mod_version" to modVersion,
+				"mod_display_name" to modDisplayName,
+				"mod_author" to modAuthor,
+				"mod_license" to modLicense,
+				"mod_description" to modDescription,
 				"loader_version" to loaderVersion,
 				"fabric_api_version" to fabricApiVersion,
-				"mcversion" to mcVersion,
-				"java_version" to javaVersion,
 				"cloth_config_version" to clothConfigVersion,
-				"modmenu_version" to modMenuVersion
-			))
+				"modmenu_version" to modMenuVersion,
+				"forge_version_range" to forgeVersionRange,
+				"loader_version_range" to loaderVersionRange
+			)
+
+			// this will ensure that this task is redone when the versions change.
+			inputs.properties(props)
+
+			// NOTE: for this to work at runtime (e.g. Minecraft Client) Gradle
+			// must be selected in the build tools settings for gradle!
+			filesMatching(listOf("fabric.mod.json", "META-INF/mods.toml", "pack.mcmeta", "*.mixins.json")) {
+				expand(props)
+			}
 		}
 	}
-
-	withType<JavaCompile> {
-		options.release.set(javaVersion)
-	}
 }
-
-// Publishing
 
 changelog {
-	versionPrefix.set("release/fabric/")
+	versionPrefix.set("release/")
 	groups.empty()
 	combinePreReleases.set(false)
-	repositoryUrl.set("https://github.com/Razzokk/WirelessRedstone")
-}
-
-modrinth {
-	if (project.hasProperty("debug")) debugMode.set(true)
-	token.set(System.getenv("MODRINTH_TOKEN"))
-
-	projectId.set(modId)
-	versionNumber.set("fabric-$modVersion")
-	versionName.set("[Fabric $mcVersion] $modId-$modVersion")
-	versionType.set(modReleaseType)
-	uploadFile.set(tasks.remapJar)
-	changelog.set(provider { project.changelog.renderItem(project.changelog.get(modVersion), Changelog.OutputType.MARKDOWN) })
-
-	dependencies {
-		required.project("fabric-api")
-		optional.project("cloth-config")
-		optional.project("modmenu")
-	}
-}
-
-tasks.register<TaskPublishCurseForge>("curseforge") {
-	if (project.hasProperty("debug")) debugMode = true
-	apiToken = System.getenv("CURSEFORGE_TOKEN")
-
-	val file = upload(curseforgeProjectId, tasks.remapJar)
-	file.displayName = "[Fabric $mcVersion] $modId-$modVersion"
-	file.releaseType = modReleaseType
-	file.changelog = provider { project.changelog.renderItem(project.changelog.get(modVersion), Changelog.OutputType.MARKDOWN) }.get()
-	file.changelogType = Constants.CHANGELOG_MARKDOWN
-	file.addJavaVersion("Java $javaVersion")
-	file.addRequirement("fabric-api")
-	file.addOptional("cloth-config", "modmenu")
+	repositoryUrl.set(repoUrl)
 }

@@ -28,8 +28,6 @@ This block can be right-clicked to set the frequency.
 
 ### Remote
 
-**Note**: currently not included
-
 The Remote is the Item form of the Transmitter, while holding right-click the remote signal goes high.
 But it comes with the addition to copy the Frequency of a Transmitter or a Receiver by sneaking and right-click them.
 By sneak right-clicking the Remote (not onto a Transmitter/Receiver), you can set the frequency via the gui.

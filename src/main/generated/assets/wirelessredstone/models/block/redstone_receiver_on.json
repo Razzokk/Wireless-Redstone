@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "wirelessredstone:block/redstone_receiver_bottom_on",
-    "side": "wirelessredstone:block/redstone_receiver_side_on",
-    "top": "wirelessredstone:block/redstone_receiver_top_on"
-  }
-}

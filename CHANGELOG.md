@@ -5,6 +5,9 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Changed
+- Setup multi-loader repository structure
+
 ## [1.20.1-1.1.0] - 2023-07-06
 
 ### Added
@@ -23,8 +26,9 @@ with the minecraft version prepended to it.
 
 ### Added
 - Proper `README.md`
-- Automated Modrinth and CurseForge publishing with the [Minotaur](https://github.com/modrinth/minotaur) and [CurseForgeGradle](https://github.com/Darkhax/CurseForgeGradle) gradle tasks/plugins
-- Changelog semi-automation with the [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin) 
+- Automated Modrinth and CurseForge publishing with the [Minotaur](https://github.com/modrinth/minotaur)
+  and [CurseForgeGradle](https://github.com/Darkhax/CurseForgeGradle) gradle tasks/plugins
+- Changelog semi-automation with the [Gradle Changelog Plugin](https://github.com/JetBrains/gradle-changelog-plugin)
 - Fancy [shields.io](https://shields.io/) badges to `README.md`
 - Uploading of build artifacts via GitHub actions
 
