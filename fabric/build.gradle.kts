@@ -9,7 +9,7 @@ plugins {
 
 val common = project(":common")
 
-val javaVersion: Int by project
+val javaVersion: Int by rootProject
 val mcVersion: String by project
 val modId: String by project
 val modVersion: String by project

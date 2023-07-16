@@ -40,8 +40,8 @@ jobs:
         if: github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/release/')
         shell: bash
         run: |
-          if [ ${{ github.ref }} == 'refs/tags/release/fabric' ]; then
-            ./gradlew :fabric/modrinth && ./gradlew :fabric/curseforge
-          elif [ ${{ github.ref }} == 'refs/tags/release/forge' ]; then
-            ./gradlew :forge/modrinth && ./gradlew :forge/curseforge
+          if [[ "${{ github.ref }}" == "refs/tags/release/fabric/"* ]]; then
+            ./gradlew :fabric:modrinth && ./gradlew :fabric:curseforge
+          elif [[ "${{ github.ref }}" == "refs/tags/release/forge/"* ]]; then
+            ./gradlew :forge:modrinth && ./gradlew :forge:curseforge
           fi

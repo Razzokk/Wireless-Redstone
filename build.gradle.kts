@@ -9,7 +9,10 @@ plugins {
 	id("net.darkhax.curseforgegradle") version "1.1.15" apply false
 }
 
-val javaVersion: Int = JavaLanguageVersion.of(property("javaVersion").toString()).asInt()
+val javaVersion by extra {
+	JavaLanguageVersion.of(property("javaVersion").toString()).asInt()
+}
+
 val mcVersion: String by project
 val mcVersionRange: String by project
 val modId: String by project
