@@ -5,6 +5,7 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+## [1.20.1-1.1.1] - 2023-07-17
 Port 1.20 fabric version to 1.20 forge.
 
 ### Changed
@@ -48,8 +49,9 @@ Port to MC 1.20.1
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
 
-[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.1.0...HEAD
-[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/fabric/1.20.1-1.0.0
-[1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.0...release/fabric/1.20.1-1.0.1
-[1.20.1-1.0.2]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.1...release/fabric/1.20.1-1.0.2
-[1.20.1-1.1.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/fabric/1.20.1-1.0.2...release/fabric/1.20.1-1.1.0
+[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.1.1...HEAD
+[1.20.1-1.1.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
+[1.20.1-1.0.2]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
+[1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
+[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/1.20.1-1.0.0
+[1.20.1-1.1.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.1.0...release/1.20.1-1.1.1

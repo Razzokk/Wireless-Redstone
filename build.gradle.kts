@@ -39,6 +39,11 @@ val changelogProvider by extra {
 
 val license = file("LICENSE")
 
+allprojects {
+	version = modVersion
+	group = modGroup
+}
+
 subprojects {
 	apply(plugin = "java")
 
@@ -48,9 +53,6 @@ subprojects {
 		}
 		withSourcesJar()
 	}
-
-	version = modVersion
-	group = modGroup
 
 	tasks {
 		jar {
