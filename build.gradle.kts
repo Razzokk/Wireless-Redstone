@@ -64,7 +64,6 @@ subprojects {
 		withType<JavaCompile> {
 			configureEach {
 				options.encoding = "UTF-8"
-				options.release.set(javaVersion)
 			}
 		}
 
