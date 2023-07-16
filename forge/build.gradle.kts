@@ -16,6 +16,7 @@ val javaVersion: Int by project
 val mcVersion: String by project
 val modId: String by project
 val modVersion: String by project
+val clothConfigVersion: String by project
 val jeiVersion: String by project
 val forgeVersion: String by project
 val parchmentMappings: String by project
@@ -28,12 +29,16 @@ base {
 }
 
 repositories {
-	maven("https://maven.blamejared.com/") // JEI
+	maven("https://maven.shedaniel.me/")	// Cloth config
+	maven("https://maven.blamejared.com/")	// JEI
 }
 
 dependencies {
 	implementation(common)
 	minecraft("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
+
+	compileOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
+	runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
 
 	runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion-forge:$jeiVersion"))
 }
@@ -98,6 +103,10 @@ modrinth {
 	versionType.set(modReleaseType)
 	uploadFile.set(tasks.jar)
 	changelog.set(changelogProvider)
+
+	dependencies {
+		optional.project("cloth-config")
+	}
 }
 
 tasks.register<TaskPublishCurseForge>("curseforge") {
@@ -110,4 +119,5 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	file.changelog = changelogProvider.get()
 	file.changelogType = Constants.CHANGELOG_MARKDOWN
 	file.addJavaVersion("Java $javaVersion")
+	file.addOptional("cloth-config")
 }

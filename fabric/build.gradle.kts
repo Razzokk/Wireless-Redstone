@@ -30,9 +30,9 @@ base {
 }
 
 repositories {
-	maven("https://maven.shedaniel.me/")                // Cloth config
-	maven("https://maven.terraformersmc.com/releases/")    // Mod Menu
-	maven("https://maven.blamejared.com/")                // JEI
+	maven("https://maven.shedaniel.me/")				// Cloth config
+	maven("https://maven.terraformersmc.com/releases/")	// Mod Menu
+	maven("https://maven.blamejared.com/")				// JEI
 }
 
 dependencies {

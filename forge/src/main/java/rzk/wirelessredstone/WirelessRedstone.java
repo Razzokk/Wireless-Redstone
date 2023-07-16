@@ -5,8 +5,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -16,6 +19,7 @@ import org.slf4j.Logger;
 import rzk.wirelessredstone.block.ModBlocks;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.client.WirelessRedstoneClient;
+import rzk.wirelessredstone.client.screen.ModScreens;
 import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRConfig;
@@ -58,6 +62,10 @@ public class WirelessRedstone
 	private void loadComplete(FMLLoadCompleteEvent event)
 	{
 		WRConfig.load();
+
+		if (ModList.get().isLoaded("cloth_config"))
+			ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
+				() -> new ConfigScreenHandler.ConfigScreenFactory(ModScreens::getConfigScreen));
 	}
 
 	private void onCreativeTabEvent(RegisterEvent event)
