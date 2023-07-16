@@ -72,7 +72,7 @@ public class RemoteItem extends FrequencyItem implements SelectedItemListener
 	@Override
 	public int getMaxUseTime(ItemStack stack)
 	{
-		return -1;
+		return Integer.MAX_VALUE;
 	}
 
 	@Override

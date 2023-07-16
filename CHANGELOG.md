@@ -5,6 +5,8 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+Port 1.20 fabric version to 1.20 forge.
+
 ### Changed
 - Setup multi-loader repository structure
 
