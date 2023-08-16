@@ -1,0 +1,14 @@
+{
+	"parent": "minecraft:item/generated",
+	"overrides": [
+		{
+			"model": "wirelessredstone:item/remote_on",
+			"predicate": {
+				"state": 1.0
+			}
+		}
+	],
+	"textures": {
+		"layer0": "wirelessredstone:item/remote_off"
+	}
+}
