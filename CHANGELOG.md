@@ -2,6 +2,9 @@
 
 ## [Unreleased]
 
+### Fixed
+- Crash when opening wireless redstone in mods list screen
+
 ## [1.19.2-1.1.0] - 2023-08-28
 Backport from [1.19.4](https://github.com/Razzokk/WirelessRedstone/commit/244532eb585a92da513cbee90e0c0a0149a08721)
 
