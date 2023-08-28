@@ -1,6 +1,12 @@
 # Changelog
+Format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
+with the minecraft version prepended to it.
 
 ## [Unreleased]
+
+### Changed
+- Icon location => is now in root directory
 
 ## [1.19.4-1.1.0] - 2023-08-17
 Backport from [1.20.1](https://github.com/Razzokk/WirelessRedstone/commit/7879b0cf44b6b8a8eb6178f13e56b68cb102b78c)

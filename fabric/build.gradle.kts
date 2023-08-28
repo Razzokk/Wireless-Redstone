@@ -64,19 +64,21 @@ loom {
 	}
 
 	runs {
+		configureEach {
+			runDir(common.projectDir.relativeTo(projectDir).resolve("run").path)
+			// Needed to generate the run configuration
+			ideConfigGenerated(true)
+		}
+
 		val client = named("client") {
 			client()
 			configName = "Fabric Client"
 			programArgs("--username", "Dev")
-			// Needed to generate the run configuration
-			ideConfigGenerated(true)
 		}
 
 		named("server") {
 			server()
 			configName = "Fabric Server"
-			// Needed to generate the run configuration
-			ideConfigGenerated(true)
 		}
 
 		register("datagenClient") {

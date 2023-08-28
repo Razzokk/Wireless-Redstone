@@ -53,6 +53,7 @@ minecraft {
 	runs {
 		configureEach {
 			ideaModule = "${rootProject.name}.${project.name}.main"
+			workingDirectory(common.projectDir.resolve("run"))
 
 			mods {
 				register(modId) {
