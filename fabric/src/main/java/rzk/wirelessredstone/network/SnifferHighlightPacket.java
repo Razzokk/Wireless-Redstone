@@ -1,13 +1,13 @@
 package rzk.wirelessredstone.network;
 
-import net.fabricmc.fabric.api.networking.v1.FabricPacket;
-import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.network.packet.Packet;
+import rzk.wirelessredstone.network.packet.PacketType;
 
-public class SnifferHighlightPacket implements FabricPacket
+public class SnifferHighlightPacket implements Packet
 {
 	public static final PacketType<SnifferHighlightPacket> TYPE = PacketType.create(
 		WirelessRedstone.identifier("networking/sniffer_highlight_packet"),

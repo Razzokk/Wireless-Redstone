@@ -1,13 +1,14 @@
 import net.darkhax.curseforgegradle.Constants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import org.spongepowered.asm.gradle.plugins.struct.DynamicProperties
 
 plugins {
 	eclipse
 	idea
 	id("net.minecraftforge.gradle") version "[6.0,6.2)"
 	id("org.parchmentmc.librarian.forgegradle") version "1.+"
+	id("org.spongepowered.mixin") version "0.7.+"
 	id("com.modrinth.minotaur")
-	id("net.darkhax.curseforgegradle")
 }
 
 val common = project(":common")
@@ -36,6 +37,8 @@ repositories {
 dependencies {
 	implementation(common)
 	minecraft("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
+
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
 	compileOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
 	runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
@@ -70,6 +73,18 @@ minecraft {
 			taskName = "Server"
 			arg("--nogui")
 		}
+	}
+}
+
+mixin {
+	add(sourceSets.main.get(), "$modId.refmap.json")
+	config("$modId.mixins.json")
+
+	if (project.hasProperty("debug")) {
+		val debug = this.debug as DynamicProperties
+		debug.setProperty("verbose", true)
+		debug.setProperty("export", true)
+		setDebug(debug)
 	}
 }
 

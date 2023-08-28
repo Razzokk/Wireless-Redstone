@@ -6,9 +6,10 @@ pluginManagement {
 		maven("https://maven.minecraftforge.net/") {
 			name = "Forge"
 		}
-		maven("https://maven.parchmentmc.org") {
+		maven("https://maven.parchmentmc.org/") {
 			name = "Parchment Mappings"
 		}
+		maven("https://repo.spongepowered.org/repository/maven-public/")
 		mavenCentral()
 		gradlePluginPortal()
 	}

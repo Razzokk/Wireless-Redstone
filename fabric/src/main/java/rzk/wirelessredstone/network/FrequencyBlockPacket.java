@@ -1,9 +1,9 @@
 package rzk.wirelessredstone.network;
 
-import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.network.packet.PacketType;
 
 public class FrequencyBlockPacket extends FrequencyPacket
 {

@@ -11,11 +11,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import rzk.wirelessredstone.api.SelectedItemListener;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRUtils;
 
-public class RemoteItem extends FrequencyItem
+public class RemoteItem extends FrequencyItem implements SelectedItemListener
 {
 	public RemoteItem(Properties properties)
 	{
@@ -83,10 +84,16 @@ public class RemoteItem extends FrequencyItem
 	}
 
 	@Override
-	public void onStopUsing(ItemStack stack, LivingEntity entity, int count)
+	public void releaseUsing(ItemStack stack, Level level, LivingEntity entity, int timeCharged)
 	{
-		Level level = entity.level;
 		if (!level.isClientSide)
 			onDeactivation(stack, level, entity);
+	}
+
+	@Override
+	public void onClearActiveItem(ItemStack stack, Level level, LivingEntity user)
+	{
+		if (!level.isClientSide && !user.getUseItem().isEmpty())
+			onDeactivation(stack, level, user);
 	}
 }

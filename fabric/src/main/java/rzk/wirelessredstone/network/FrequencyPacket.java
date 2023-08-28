@@ -1,9 +1,9 @@
 package rzk.wirelessredstone.network;
 
-import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.minecraft.network.PacketByteBuf;
+import rzk.wirelessredstone.network.packet.Packet;
 
-public abstract class FrequencyPacket implements FabricPacket
+public abstract class FrequencyPacket implements Packet
 {
 	public final int frequency;
 
@@ -17,6 +17,7 @@ public abstract class FrequencyPacket implements FabricPacket
 		frequency = buf.readInt();
 	}
 
+	@Override
 	public void write(PacketByteBuf buf)
 	{
 		buf.writeInt(frequency);

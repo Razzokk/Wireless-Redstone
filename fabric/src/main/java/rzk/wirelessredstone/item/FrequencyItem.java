@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.item;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -19,6 +18,7 @@ import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRUtils;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
+import rzk.wirelessredstone.network.ModNetworking;
 
 import java.util.List;
 
@@ -74,7 +74,7 @@ public class FrequencyItem extends Item
 			return TypedActionResult.pass(stack);
 
 		if (!world.isClient)
-			ServerPlayNetworking.send((ServerPlayerEntity) player, new FrequencyItemPacket(getFrequency(stack), hand));
+			ModNetworking.send((ServerPlayerEntity) player, new FrequencyItemPacket(getFrequency(stack), hand));
 
 		return TypedActionResult.success(stack);
 	}

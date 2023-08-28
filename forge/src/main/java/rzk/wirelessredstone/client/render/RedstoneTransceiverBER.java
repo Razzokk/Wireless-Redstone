@@ -1,7 +1,7 @@
 package rzk.wirelessredstone.client.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
@@ -34,10 +34,10 @@ public class RedstoneTransceiverBER<T extends RedstoneTransceiverBlockEntity> im
 		for (int i = 0; i < 4; i++)
 		{
 			poseStack.pushPose();
-			poseStack.mulPose(Axis.YP.rotation((float) (i * Math.PI / 2)));
+			poseStack.mulPose(Vector3f.YP.rotation((float) (i * Math.PI / 2)));
 			poseStack.translate(0, 0, 0.5078125);
 			poseStack.scale(1f / 96, -1f / 96, 1f / 96);
-			font.drawInBatch(str, textOffset, 2.5f, WRConfig.frequencyDisplayColor, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.POLYGON_OFFSET, 0, 0xFFFFFF);
+			font.drawInBatch(str, textOffset, 2.5f, WRConfig.frequencyDisplayColor, false, poseStack.last().pose(), bufferSource, false, 0, 0xFFFFFF);
 			poseStack.popPose();
 		}
 

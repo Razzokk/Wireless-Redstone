@@ -1,16 +1,16 @@
 package rzk.wirelessredstone.item;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.util.registry.Registry;
 import rzk.wirelessredstone.WirelessRedstone;
 
 public class ModItems
 {
-	public static final Item CIRCUIT = new Item(new Item.Settings());
-	public static final Item FREQUENCY_TOOL = new FrequencyItem(new Item.Settings());
-	public static final Item FREQUENCY_SNIFFER = new SnifferItem(new Item.Settings());
-	public static final Item REMOTE = new RemoteItem(new Item.Settings());
+	public static final Item CIRCUIT = new Item(defaultSettings());
+	public static final Item FREQUENCY_TOOL = new FrequencyItem(defaultSettings());
+	public static final Item FREQUENCY_SNIFFER = new SnifferItem(defaultSettings());
+	public static final Item REMOTE = new RemoteItem(defaultSettings());
 
 	public static void registerItems()
 	{
@@ -22,6 +22,11 @@ public class ModItems
 
 	public static void registerItem(String name, Item item)
 	{
-		Registry.register(Registries.ITEM, WirelessRedstone.identifier(name), item);
+		Registry.register(Registry.ITEM, WirelessRedstone.identifier(name), item);
+	}
+
+	public static Item.Settings defaultSettings()
+	{
+		return new FabricItemSettings().group(WirelessRedstone.ITEM_GROUP);
 	}
 }

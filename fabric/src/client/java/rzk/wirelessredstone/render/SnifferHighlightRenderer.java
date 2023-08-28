@@ -52,7 +52,7 @@ public class SnifferHighlightRenderer
 		RenderSystem.disableDepthTest();
 		RenderSystem.lineWidth(3f);
 		RenderSystem.enableBlend();
-		RenderSystem.setShader(GameRenderer::getRenderTypeLinesProgram);
+		RenderSystem.setShader(GameRenderer::getRenderTypeLinesShader);
 
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder builder = tessellator.getBuffer();

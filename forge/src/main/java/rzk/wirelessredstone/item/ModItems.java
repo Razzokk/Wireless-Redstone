@@ -14,16 +14,21 @@ public class ModItems
 {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WirelessRedstone.MODID);
 
-	public static final RegistryObject<Item> REDSTONE_TRANSMITTER = registerItem("redstone_transmitter", () -> new BlockItem(ModBlocks.REDSTONE_TRANSMITTER.get(), new Item.Properties()));
-	public static final RegistryObject<Item> REDSTONE_RECEIVER = registerItem("redstone_receiver", () -> new BlockItem(ModBlocks.REDSTONE_RECEIVER.get(), new Item.Properties()));
+	public static final RegistryObject<Item> REDSTONE_TRANSMITTER = registerItem("redstone_transmitter", () -> new BlockItem(ModBlocks.REDSTONE_TRANSMITTER.get(), defaultProperties()));
+	public static final RegistryObject<Item> REDSTONE_RECEIVER = registerItem("redstone_receiver", () -> new BlockItem(ModBlocks.REDSTONE_RECEIVER.get(), defaultProperties()));
 
-	public static final RegistryObject<Item> CIRCUIT = registerItem("circuit", () -> new Item(new Item.Properties()));
-	public static final RegistryObject<Item> FREQUENCY_TOOL = registerItem("frequency_tool", () -> new FrequencyItem(new Item.Properties()));
-	public static final RegistryObject<Item> FREQUENCY_SNIFFER = registerItem("frequency_sniffer", () -> new SnifferItem(new Item.Properties()));
-	public static final RegistryObject<Item> REMOTE = registerItem("remote", () -> new RemoteItem(new Item.Properties()));
+	public static final RegistryObject<Item> CIRCUIT = registerItem("circuit", () -> new Item(defaultProperties()));
+	public static final RegistryObject<Item> FREQUENCY_TOOL = registerItem("frequency_tool", () -> new FrequencyItem(defaultProperties()));
+	public static final RegistryObject<Item> FREQUENCY_SNIFFER = registerItem("frequency_sniffer", () -> new SnifferItem(defaultProperties()));
+	public static final RegistryObject<Item> REMOTE = registerItem("remote", () -> new RemoteItem(defaultProperties()));
 
 	public static RegistryObject<Item> registerItem(String name, Supplier<Item> item)
 	{
 		return ITEMS.register(name, item);
+	}
+
+	public static Item.Properties defaultProperties()
+	{
+		return new Item.Properties().tab(WirelessRedstone.CREATIVE_MODE_TAB);
 	}
 }

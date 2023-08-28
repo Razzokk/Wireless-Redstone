@@ -43,10 +43,8 @@ dependencies {
 	modImplementation("net.fabricmc", "fabric-loader", loaderVersion)
 	modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricApiVersion)
 
-	modApi("me.shedaniel.cloth", "cloth-config-fabric", clothConfigVersion) {
-		exclude("net.fabricmc.fabric-api")
-	}
-	modApi("com.terraformersmc", "modmenu", modMenuVersion)
+	modCompileOnly("me.shedaniel.cloth", "cloth-config-fabric", clothConfigVersion)
+	modCompileOnly("com.terraformersmc", "modmenu", modMenuVersion)
 
 	modLocalRuntime("mezz.jei", "jei-$mcVersion-fabric", jeiVersion)
 }
@@ -64,7 +62,7 @@ loom {
 	}
 
 	runs {
-		val client = named("client") {
+		named("client") {
 			client()
 			configName = "Fabric Client"
 			programArgs("--username", "Dev")
@@ -77,15 +75,6 @@ loom {
 			configName = "Fabric Server"
 			// Needed to generate the run configuration
 			ideConfigGenerated(true)
-		}
-
-		register("datagenClient") {
-			inherit(client.get())
-			name("Data Generation")
-			property("fabric-api.datagen")
-			property("fabric-api.datagen.output-dir", generatedResources.toString())
-			property("fabric-api.datagen.modid", modId)
-			runDir("build/datagen")
 		}
 	}
 }

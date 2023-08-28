@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.item;
 
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -24,6 +23,7 @@ import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.misc.WRUtils;
+import rzk.wirelessredstone.network.ModNetworking;
 import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 import java.util.Iterator;
@@ -127,7 +127,7 @@ public class SnifferItem extends FrequencyItem
 				}
 
 				player.sendMessage(message);
-				ServerPlayNetworking.send((ServerPlayerEntity) player, new SnifferHighlightPacket(world.getTime(), hand, transmitters.toArray(BlockPos[]::new)));
+				ModNetworking.send((ServerPlayerEntity) player, new SnifferHighlightPacket(world.getTime(), hand, transmitters.toArray(BlockPos[]::new)));
 			}
 		}
 
