@@ -1,0 +1,47 @@
+name: Build & Publish
+on: push
+
+env:
+  JAVA_VERSION: 17
+  MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+  CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Setup JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Artifacts
+          path: |
+            fabric/build/libs/
+            forge/build/libs/
+
+      - name: Publish to Modrinth & CurseForge
+        if: github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/release/')
+        shell: bash
+        run: |
+          if [[ "${{ github.ref }}" == "refs/tags/release/fabric/"* ]]; then
+            ./gradlew :fabric:modrinth && ./gradlew :fabric:curseforge
+          elif [[ "${{ github.ref }}" == "refs/tags/release/forge/"* ]]; then
+            ./gradlew :forge:modrinth && ./gradlew :forge:curseforge
+          fi
