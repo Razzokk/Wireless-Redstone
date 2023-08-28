@@ -6,7 +6,7 @@
 	"mixins": [
 		"LivingEntityMixin"
 	],
-	"refmap": "modid.refmap.json",
+	"refmap": "wirelessredstone.refmap.json",
 	"client": [],
 	"server": []
 }
