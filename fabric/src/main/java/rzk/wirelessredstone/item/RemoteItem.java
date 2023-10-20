@@ -54,7 +54,7 @@ public class RemoteItem extends FrequencyItem implements SelectedItemListener
 		if (!WRUtils.isValidFrequency(frequency))
 		{
 			if (!world.isClient)
-				player.sendMessage(Text.translatable(TranslationKeys.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED));
+				player.sendMessage(Text.translatable(TranslationKeys.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED), true);
 			return TypedActionResult.consume(stack);
 		}
 

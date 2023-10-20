@@ -5,6 +5,10 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Changed
+- `No frequency set` message now shows over the action bar
+- Moved icon from `resources/assets/wirelessredstone/` to `resources/`
+
 ## [1.20.1-1.1.1] - 2023-07-17
 Port 1.20 fabric version to 1.20 forge.
 

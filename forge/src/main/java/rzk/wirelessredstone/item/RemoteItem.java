@@ -52,7 +52,7 @@ public class RemoteItem extends FrequencyItem
 		if (!WRUtils.isValidFrequency(frequency))
 		{
 			if (!level.isClientSide)
-				player.sendSystemMessage(Component.translatable(TranslationKeys.MESSAGE_NO_FREQUENCY).withStyle(ChatFormatting.RED));
+				player.displayClientMessage(Component.translatable(TranslationKeys.MESSAGE_NO_FREQUENCY).withStyle(ChatFormatting.RED), true);
 			return InteractionResultHolder.consume(stack);
 		}
 

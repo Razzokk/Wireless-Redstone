@@ -77,7 +77,7 @@ public class SnifferItem extends FrequencyItem
 		if (!WRUtils.isValidFrequency(frequency))
 		{
 			if (world.isClient)
-				player.sendMessage(Text.translatable(TranslationKeys.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED));
+				player.sendMessage(Text.translatable(TranslationKeys.MESSAGE_NO_FREQUENCY).formatted(Formatting.RED), true);
 			return TypedActionResult.fail(stack);
 		}
 
