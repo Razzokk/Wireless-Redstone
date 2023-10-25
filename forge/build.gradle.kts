@@ -2,15 +2,12 @@ import net.darkhax.curseforgegradle.Constants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	eclipse
-	idea
-	id("net.minecraftforge.gradle") version "[6.0,6.2)"
-	id("org.parchmentmc.librarian.forgegradle") version "1.+"
 	id("com.modrinth.minotaur")
 	id("net.darkhax.curseforgegradle")
 }
 
 val common = project(":common")
+evaluationDependsOn(common.path)
 
 val javaVersion: Int by rootProject
 val mcVersion: String by project
@@ -34,60 +31,44 @@ repositories {
 }
 
 dependencies {
-	implementation(common)
-	minecraft("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
+	implementation(project(common.path, configuration = common.configurations.namedElements.name))
+	implementation(common.sourceSets["client"].output)
 
-	compileOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
-	runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion"))
+	forge("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
 
-	runtimeOnly(fg.deobf("mezz.jei:jei-$mcVersion-forge:$jeiVersion"))
+	modApi("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion")
+
+	forgeRuntimeLibrary("mezz.jei:jei-$mcVersion-forge:$jeiVersion")
 }
 
-project.evaluationDependsOn(common.path)
-
-minecraft {
-	mappings("parchment", parchmentMappings)
-
-	copyIdeResources.set(true)
-
+loom {
 	runs {
 		configureEach {
-			ideaModule = "${rootProject.name}.${project.name}.main"
-
-			mods {
-				register(modId) {
-					source(sourceSets.main.get())
-				}
-			}
+			ideConfigGenerated(true)
 		}
+	}
 
-		create("client") {
-			taskName = "Client"
-			args("--username", "Dev")
-		}
-
-		create("server") {
-			taskName = "Server"
-			arg("--nogui")
+	mods {
+		register(modId) {
+			sourceSet(sourceSets.main.get())
 		}
 	}
 }
 
 tasks {
-	jar {
-		from(common.sourceSets.main.get().output)
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-		finalizedBy("reobfJar")
-	}
-
-	named<Jar>("sourcesJar") {
-		from(common.sourceSets.main.get().allSource)
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	}
-
+	// needed for the run configs
 	processResources {
 		from(common.sourceSets.main.get().resources)
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	}
+
+	withType<JavaCompile> {
+		source(common.sourceSets.main.get().allJava)
+		source(common.sourceSets["client"].allJava)
+	}
+
+	sourcesJar {
+		from(common.sourceSets.main.get().allSource)
+		from(common.sourceSets["client"].allSource)
 	}
 }
 

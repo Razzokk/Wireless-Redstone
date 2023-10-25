@@ -32,7 +32,7 @@ public class ModNetworking
 		{
 			ServerPlayerEntity player = handler.player;
 			ItemStack stack = player.getActiveItem();
-			if (!stack.isOf(ModItems.REMOTE)) return;
+			if (!stack.isOf(ModItems.remote)) return;
 			((RemoteItem) stack.getItem()).onDeactivation(stack, player.getWorld(), player);
 		});
 	}

@@ -17,14 +17,14 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 	public void generateTranslations(TranslationBuilder translations)
 	{
 		// Blocks
-		translations.add(ModBlocks.REDSTONE_TRANSMITTER, "Redstone Transmitter");
-		translations.add(ModBlocks.REDSTONE_RECEIVER, "Redstone Receiver");
+		translations.add(ModBlocks.redstoneTransmitter, "Redstone Transmitter");
+		translations.add(ModBlocks.redstoneReceiver, "Redstone Receiver");
 
 		// Items
-		translations.add(ModItems.CIRCUIT, "Circuit");
-		translations.add(ModItems.FREQUENCY_TOOL, "Frequency Tool");
-		translations.add(ModItems.FREQUENCY_SNIFFER, "Frequency Sniffer");
-		translations.add(ModItems.REMOTE, "Remote");
+		translations.add(ModItems.circuit, "Circuit");
+		translations.add(ModItems.frequencyTool, "Frequency Tool");
+		translations.add(ModItems.frequencySniffer, "Frequency Sniffer");
+		translations.add(ModItems.remote, "Remote");
 
 		// Other
 		translations.add(TranslationKeys.ITEM_GROUP_WIRELESS_REDSTONE, "Wireless Redstone");

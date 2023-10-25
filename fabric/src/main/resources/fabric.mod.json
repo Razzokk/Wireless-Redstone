@@ -17,10 +17,10 @@
 	},
 	"entrypoints": {
 		"main": [
-			"rzk.wirelessredstone.WirelessRedstone"
+			"rzk.wirelessredstone.WirelessRedstoneFabric"
 		],
 		"client": [
-			"rzk.wirelessredstone.WirelessRedstoneClient"
+			"rzk.wirelessredstone.WirelessRedstoneClientFabric"
 		],
 		"fabric-datagen": [
 			"rzk.wirelessredstone.datagen.DataGenerators"
@@ -30,7 +30,7 @@
 		]
 	},
 	"mixins": [
-		"wirelessredstone.mixins.json"
+      "wirelessredstone.fabric.mixins.json"
 	],
 	"depends": {
 		"java": ">=${java_version}",

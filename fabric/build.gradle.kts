@@ -2,12 +2,13 @@ import net.darkhax.curseforgegradle.Constants
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
-	id("fabric-loom") version "1.2-SNAPSHOT"
 	id("com.modrinth.minotaur")
 	id("net.darkhax.curseforgegradle")
 }
 
 val common = project(":common")
+evaluationDependsOn(common.path)
+loom.splitEnvironmentSourceSets()
 
 val javaVersion: Int by rootProject
 val mcVersion: String by project
@@ -36,12 +37,11 @@ repositories {
 }
 
 dependencies {
-	implementation(common)
-	minecraft("com.mojang", "minecraft", mcVersion)
-	mappings("net.fabricmc", "yarn", yarnMappings, classifier = "v2")
+	implementation(project(common.path, configuration = common.configurations.namedElements.name))
+	"clientImplementation"(common.sourceSets["client"].output)
 
 	modImplementation("net.fabricmc", "fabric-loader", loaderVersion)
-	modImplementation("net.fabricmc.fabric-api", "fabric-api", fabricApiVersion)
+	modApi("net.fabricmc.fabric-api", "fabric-api", fabricApiVersion)
 
 	modApi("me.shedaniel.cloth", "cloth-config-fabric", clothConfigVersion)
 	modApi("com.terraformersmc", "modmenu", modMenuVersion)
@@ -49,10 +49,22 @@ dependencies {
 	modLocalRuntime("mezz.jei", "jei-$mcVersion-fabric", jeiVersion)
 }
 
-project.evaluationDependsOn(common.path)
-
 loom {
-	splitEnvironmentSourceSets()
+	runs {
+		configureEach {
+			ideConfigGenerated(true)
+		}
+
+		register("datagen") {
+			server()
+			name("Data Generation")
+			property("fabric-api.datagen")
+			property("fabric-api.datagen.output-dir", generatedResources.toString())
+			property("fabric-api.datagen.modid", modId)
+			runDir("build/datagen")
+			ideConfigGenerated(false)
+		}
+	}
 
 	mods {
 		register(modId) {
@@ -60,48 +72,25 @@ loom {
 			sourceSet(sourceSets["client"])
 		}
 	}
-
-	runs {
-		val client = named("client") {
-			client()
-			configName = "Fabric Client"
-			programArgs("--username", "Dev")
-			// Needed to generate the run configuration
-			ideConfigGenerated(true)
-		}
-
-		named("server") {
-			server()
-			configName = "Fabric Server"
-			// Needed to generate the run configuration
-			ideConfigGenerated(true)
-		}
-
-		register("datagenClient") {
-			inherit(client.get())
-			name("Data Generation")
-			property("fabric-api.datagen")
-			property("fabric-api.datagen.output-dir", generatedResources.toString())
-			property("fabric-api.datagen.modid", modId)
-			runDir("build/datagen")
-		}
-	}
 }
 
 tasks {
-	jar {
-		from(common.sourceSets.main.get().output)
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	}
-
-	named<Jar>("sourcesJar") {
-		from(common.sourceSets.main.get().allSource)
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-	}
-
+	// needed for the run configs
 	processResources {
 		from(common.sourceSets.main.get().resources)
-		duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+	}
+
+	compileJava {
+		source(common.sourceSets.main.get().allJava)
+	}
+
+	getByName<JavaCompile>("compileClientJava") {
+		source(common.sourceSets["client"].allJava)
+	}
+
+	sourcesJar {
+		from(common.sourceSets.main.get().allSource)
+		from(common.sourceSets["client"].allSource)
 	}
 }
 

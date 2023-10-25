@@ -1,8 +1,8 @@
 package rzk.wirelessredstone.misc;
 
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.item.ModItems;
@@ -13,10 +13,10 @@ public class WREvents
 	@SubscribeEvent
 	public static void onPlayerLoggedOut(PlayerEvent.PlayerLoggedOutEvent event)
 	{
-		Player player = event.getEntity();
-		Level level = player.level();
-		ItemStack stack = player.getUseItem();
-		if (level.isClientSide || !stack.is(ModItems.REMOTE.get())) return;
-		((RemoteItem) stack.getItem()).onDeactivation(stack, level, player);
+		PlayerEntity player = event.getEntity();
+		World world = player.getWorld();
+		ItemStack stack = player.getActiveItem();
+		if (world.isClient || !stack.isOf(ModItems.remote)) return;
+		((RemoteItem) stack.getItem()).onDeactivation(stack, world, player);
 	}
 }

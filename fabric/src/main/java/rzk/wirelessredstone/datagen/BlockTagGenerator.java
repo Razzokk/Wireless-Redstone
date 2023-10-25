@@ -23,8 +23,8 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider
 	protected void configure(RegistryWrapper.WrapperLookup arg)
 	{
 		getTagBuilder(BlockTags.PICKAXE_MINEABLE)
-			.add(getId(ModBlocks.REDSTONE_TRANSMITTER))
-			.add(getId(ModBlocks.REDSTONE_RECEIVER));
+			.add(getId(ModBlocks.redstoneTransmitter))
+			.add(getId(ModBlocks.redstoneReceiver));
 	}
 
 	private static Identifier getId(Block block)

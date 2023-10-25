@@ -1,9 +1,9 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Hand;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
@@ -14,42 +14,42 @@ import java.util.function.Supplier;
 
 public abstract class FrequencyItemPacket extends FrequencyPacket
 {
-	public final InteractionHand hand;
+	public final Hand hand;
 
-	public FrequencyItemPacket(int frequency, InteractionHand hand)
+	public FrequencyItemPacket(int frequency, Hand hand)
 	{
 		super(frequency);
 		this.hand = hand;
 	}
 
-	public FrequencyItemPacket(FriendlyByteBuf buf)
+	public FrequencyItemPacket(PacketByteBuf buf)
 	{
 		super(buf);
-		hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+		hand = buf.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
 	}
 
 	@Override
-	public void writeAdditional(FriendlyByteBuf buf)
+	public void writeAdditional(PacketByteBuf buf)
 	{
-		buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
+		buf.writeBoolean(hand == Hand.MAIN_HAND);
 	}
 
 	public static class SetFrequency extends FrequencyItemPacket
 	{
-		public SetFrequency(int frequency, InteractionHand hand)
+		public SetFrequency(int frequency, Hand hand)
 		{
 			super(frequency, hand);
 		}
 
-		public SetFrequency(FriendlyByteBuf buf)
+		public SetFrequency(PacketByteBuf buf)
 		{
 			super(buf);
 		}
 
 		public void handle(Supplier<NetworkEvent.Context> ctx)
 		{
-			ServerPlayer player = ctx.get().getSender();
-			ItemStack stack = player.getItemInHand(hand);
+			ServerPlayerEntity player = ctx.get().getSender();
+			ItemStack stack = player.getStackInHand(hand);
 			if (stack.getItem() instanceof FrequencyItem item)
 				item.setFrequency(stack, frequency);
 		}
@@ -57,12 +57,12 @@ public abstract class FrequencyItemPacket extends FrequencyPacket
 
 	public static class OpenScreen extends FrequencyItemPacket
 	{
-		public OpenScreen(int frequency, InteractionHand hand)
+		public OpenScreen(int frequency, Hand hand)
 		{
 			super(frequency, hand);
 		}
 
-		public OpenScreen(FriendlyByteBuf buf)
+		public OpenScreen(PacketByteBuf buf)
 		{
 			super(buf);
 		}

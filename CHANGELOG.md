@@ -4,10 +4,16 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 with the minecraft version prepended to it.
 
 ## [Unreleased]
+	
+### Added
+- Dev only: [Architectury Loom](https://docs.architectury.dev/loom/introduction) for easier multi-loader setup
 
 ### Changed
 - `No frequency set` message now shows over the action bar
 - Moved icon from `resources/assets/wirelessredstone/` to `resources/`
+- Dev only:
+	- Yarn mappings for fabric **and** forge
+    - Extracted most of the code into the common project -> less fabric and forge specific code
 
 ## [1.20.1-1.1.1] - 2023-07-17
 Port 1.20 fabric version to 1.20 forge.

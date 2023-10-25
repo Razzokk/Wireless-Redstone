@@ -1,8 +1,8 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.level.Level;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
@@ -21,14 +21,14 @@ public abstract class FrequencyBlockPacket extends FrequencyPacket
 		this.pos = pos;
 	}
 
-	public FrequencyBlockPacket(FriendlyByteBuf buf)
+	public FrequencyBlockPacket(PacketByteBuf buf)
 	{
 		super(buf);
 		pos = buf.readBlockPos();
 	}
 
 	@Override
-	public void writeAdditional(FriendlyByteBuf buf)
+	public void writeAdditional(PacketByteBuf buf)
 	{
 		buf.writeBlockPos(pos);
 	}
@@ -40,16 +40,16 @@ public abstract class FrequencyBlockPacket extends FrequencyPacket
 			super(frequency, pos);
 		}
 
-		public SetFrequency(FriendlyByteBuf buf)
+		public SetFrequency(PacketByteBuf buf)
 		{
 			super(buf);
 		}
 
 		public void handle(Supplier<NetworkEvent.Context> ctx)
 		{
-			Level level = ctx.get().getSender().level();
-			if (level.isLoaded(pos) && level.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock block)
-				block.setFrequency(level, pos, frequency);
+			World world = ctx.get().getSender().getWorld();
+			if (world.isChunkLoaded(pos) && world.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock block)
+				block.setFrequency(world, pos, frequency);
 		}
 	}
 
@@ -60,7 +60,7 @@ public abstract class FrequencyBlockPacket extends FrequencyPacket
 			super(frequency, pos);
 		}
 
-		public OpenScreen(FriendlyByteBuf buf)
+		public OpenScreen(PacketByteBuf buf)
 		{
 			super(buf);
 		}

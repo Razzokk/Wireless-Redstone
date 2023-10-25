@@ -6,8 +6,8 @@ pluginManagement {
 		maven("https://maven.minecraftforge.net/") {
 			name = "Forge"
 		}
-		maven("https://maven.parchmentmc.org") {
-			name = "Parchment Mappings"
+		maven("https://maven.architectury.dev/") {
+			name = "Architectury"
 		}
 		mavenCentral()
 		gradlePluginPortal()
@@ -16,4 +16,5 @@ pluginManagement {
 
 val modName: String by extra
 rootProject.name = modName
+
 include("common", "fabric", "forge")

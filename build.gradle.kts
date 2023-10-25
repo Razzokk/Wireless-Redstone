@@ -1,3 +1,4 @@
+import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import org.jetbrains.changelog.Changelog
 import java.text.SimpleDateFormat
 import java.util.*
@@ -5,9 +6,12 @@ import java.util.*
 plugins {
 	java
 	id("org.jetbrains.changelog") version "2.1.0"
+	id("dev.architectury.loom") version "1.1-SNAPSHOT" apply false
 	id("com.modrinth.minotaur") version "2.+" apply false
 	id("net.darkhax.curseforgegradle") version "1.1.15" apply false
 }
+
+val common = project(":common")
 
 val javaVersion by extra {
 	JavaLanguageVersion.of(property("javaVersion").toString()).asInt()
@@ -22,6 +26,7 @@ val modGroup: String by project
 val modAuthor: String by project
 val modLicense: String by project
 val modDescription: String by project
+val yarnMappings: String by project
 val loaderVersion: String by project
 val fabricApiVersion: String by project
 val clothConfigVersion: String by project
@@ -49,6 +54,18 @@ allprojects {
 
 subprojects {
 	apply(plugin = "java")
+	apply(plugin = "dev.architectury.loom")
+
+	val loom = extensions.getByName<LoomGradleExtensionAPI>("loom")
+	loom.silentMojangMappingsLicense()
+
+	val minecraft = configurations.getByName("minecraft")
+	val mappings = configurations.getByName("mappings")
+
+	dependencies {
+		minecraft("com.mojang", "minecraft", mcVersion)
+		mappings("net.fabricmc", "yarn", yarnMappings, classifier = "v2")
+	}
 
 	java {
 		toolchain {

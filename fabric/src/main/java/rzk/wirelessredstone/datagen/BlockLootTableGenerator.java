@@ -14,7 +14,7 @@ public class BlockLootTableGenerator extends FabricBlockLootTableProvider
 	@Override
 	public void generate()
 	{
-		addDrop(ModBlocks.REDSTONE_TRANSMITTER);
-		addDrop(ModBlocks.REDSTONE_RECEIVER);
+		addDrop(ModBlocks.redstoneTransmitter);
+		addDrop(ModBlocks.redstoneReceiver);
 	}
 }

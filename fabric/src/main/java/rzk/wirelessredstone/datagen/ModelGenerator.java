@@ -32,21 +32,21 @@ public class ModelGenerator extends FabricModelProvider
 	@Override
 	public void generateBlockStateModels(BlockStateModelGenerator generator)
 	{
-		transceiverBlock(generator, ModBlocks.REDSTONE_TRANSMITTER);
-		transceiverBlock(generator, ModBlocks.REDSTONE_RECEIVER);
+		transceiverBlock(generator, ModBlocks.redstoneTransmitter);
+		transceiverBlock(generator, ModBlocks.redstoneReceiver);
 	}
 
 	@Override
 	public void generateItemModels(ItemModelGenerator generator)
 	{
-		generator.register(ModItems.CIRCUIT, Models.GENERATED);
-		generator.register(ModItems.FREQUENCY_TOOL, Models.GENERATED);
-		generator.register(ModItems.FREQUENCY_SNIFFER, Models.GENERATED);
+		generator.register(ModItems.circuit, Models.GENERATED);
+		generator.register(ModItems.frequencyTool, Models.GENERATED);
+		generator.register(ModItems.frequencySniffer, Models.GENERATED);
 
-		registerOverrides(generator, ModItems.REMOTE, TextureMap.layer0(TextureMap.getSubId(ModItems.REMOTE, "_off")),
+		registerOverrides(generator, ModItems.remote, TextureMap.layer0(TextureMap.getSubId(ModItems.remote, "_off")),
 			new ItemOverride("state", 1, (key, state) ->
-				new Pair<>(ModelIds.getItemSubModelId(ModItems.REMOTE, "_on"),
-					TextureMap.layer0(TextureMap.getSubId(ModItems.REMOTE, "_on")))));
+				new Pair<>(ModelIds.getItemSubModelId(ModItems.remote, "_on"),
+					TextureMap.layer0(TextureMap.getSubId(ModItems.remote, "_on")))));
 	}
 
 	private static void transceiverBlock(BlockStateModelGenerator generator, Block block)

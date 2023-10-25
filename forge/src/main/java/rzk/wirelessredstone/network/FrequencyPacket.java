@@ -1,6 +1,6 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.PacketByteBuf;
 
 public abstract class FrequencyPacket
 {
@@ -11,16 +11,16 @@ public abstract class FrequencyPacket
 		this.frequency = frequency;
 	}
 
-	public FrequencyPacket(FriendlyByteBuf buf)
+	public FrequencyPacket(PacketByteBuf buf)
 	{
 		frequency = buf.readInt();
 	}
 
-	public void write(FriendlyByteBuf buf)
+	public void write(PacketByteBuf buf)
 	{
 		buf.writeInt(frequency);
 		writeAdditional(buf);
 	}
 
-	public abstract void writeAdditional(FriendlyByteBuf buf);
+	public abstract void writeAdditional(PacketByteBuf buf);
 }

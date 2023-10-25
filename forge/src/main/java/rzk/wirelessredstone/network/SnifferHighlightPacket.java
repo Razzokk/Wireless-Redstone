@@ -1,8 +1,8 @@
 package rzk.wirelessredstone.network;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.network.NetworkEvent;
@@ -13,30 +13,30 @@ import java.util.function.Supplier;
 public class SnifferHighlightPacket
 {
 	public final long timestamp;
-	public final InteractionHand hand;
+	public final Hand hand;
 	public final BlockPos[] coords;
 
-	public SnifferHighlightPacket(long timestamp, InteractionHand hand, BlockPos[] coords)
+	public SnifferHighlightPacket(long timestamp, Hand hand, BlockPos[] coords)
 	{
 		this.timestamp = timestamp;
 		this.hand = hand;
 		this.coords = coords;
 	}
 
-	public SnifferHighlightPacket(FriendlyByteBuf buf)
+	public SnifferHighlightPacket(PacketByteBuf buf)
 	{
 		timestamp = buf.readLong();
-		hand = buf.readBoolean() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+		hand = buf.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
 		coords = new BlockPos[buf.readInt()];
 
 		for (int i = 0; i < coords.length; i++)
 			coords[i] = buf.readBlockPos();
 	}
 
-	public void write(FriendlyByteBuf buf)
+	public void write(PacketByteBuf buf)
 	{
 		buf.writeLong(timestamp);
-		buf.writeBoolean(hand == InteractionHand.MAIN_HAND);
+		buf.writeBoolean(hand == Hand.MAIN_HAND);
 		buf.writeInt(coords.length);
 
 		for (BlockPos pos : coords)
