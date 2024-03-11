@@ -5,18 +5,21 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
-### Changed
-- GitHub repository url is now: https://github.com/Razzokk/wireless-redstone
-
-### Added
-- Dev only: [Architectury Loom](https://docs.architectury.dev/loom/introduction) for easier multi-loader setup
+## [1.20.1-1.1.2] - 2024-03-12
 
 ### Changed
 - `No frequency set` message now shows over the action bar
-- Moved icon from `resources/assets/wirelessredstone/` to `resources/`
+- GitHub repository url is now: https://github.com/Razzokk/wireless-redstone
+- Moved icon from `resources/` to `resources/assets/wirelessredstone/`
 - Dev only:
-	- Yarn mappings for fabric **and** forge
+	- Yarn mappings for fabric **and** forge (using [Architectury Loom](https://docs.architectury.dev/loom/introduction))
     - Extracted most of the code into the common project -> less fabric and forge specific code
+    - Update forge to 47.2.20
+    - Update fabric loader and api to 0.15.7 and 0.92.0+1.20.1 respectively
+    - Use gradle v8.6
+
+### Added
+- Dev only: [Architectury Loom](https://docs.architectury.dev/loom/introduction) for easier multi-loader setup
 
 ## [1.20.1-1.1.1] - 2023-07-17
 Port 1.20 fabric version to 1.20 forge.
@@ -62,9 +65,10 @@ Port to MC 1.20.1
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
 
-[Unreleased]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.1...HEAD
-[1.20.1-1.1.0]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
-[1.20.1-1.0.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
-[1.20.1-1.0.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
-[1.20.1-1.0.0]: https://github.com/Razzokk/wireless-redstone/commits/release/1.20.1-1.0.0
+[Unreleased]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.2...HEAD
 [1.20.1-1.1.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.0...release/1.20.1-1.1.1
+[1.20.1-1.0.0]: https://github.com/Razzokk/wireless-redstone/commits/release/1.20.1-1.0.0
+[1.20.1-1.0.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
+[1.20.1-1.0.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
+[1.20.1-1.1.0]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
+[1.20.1-1.1.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.1...release/1.20.1-1.1.2

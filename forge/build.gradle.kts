@@ -18,8 +18,10 @@ val jeiVersion: String by project
 val forgeVersion: String by project
 val parchmentMappings: String by project
 val curseforgeProjectId: String by project
-val modReleaseType: String by project
 val changelogProvider: Provider<String> by project
+
+val modReleaseType: String by project
+val modDisplayName = "[Forge $mcVersion] $modId-$modVersion"
 
 base {
 	archivesName.set("$modId-forge")
@@ -80,7 +82,7 @@ modrinth {
 
 	projectId.set(modId)
 	versionNumber.set("forge-$modVersion")
-	versionName.set("[Forge $mcVersion] $modId-$modVersion")
+	versionName.set(modDisplayName)
 	versionType.set(modReleaseType)
 	uploadFile.set(tasks.jar)
 	changelog.set(changelogProvider)
@@ -95,7 +97,7 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
 	val file = upload(curseforgeProjectId, tasks.jar)
-	file.displayName = "[Forge $mcVersion] $modId-$modVersion"
+	file.displayName = modDisplayName
 	file.releaseType = modReleaseType
 	file.changelog = changelogProvider.get()
 	file.changelogType = Constants.CHANGELOG_MARKDOWN

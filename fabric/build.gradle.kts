@@ -10,6 +10,8 @@ val common = project(":common")
 evaluationDependsOn(common.path)
 loom.splitEnvironmentSourceSets()
 
+val generatedResources = common.file("src/main/generated")
+
 val javaVersion: Int by rootProject
 val mcVersion: String by project
 val modId: String by project
@@ -21,10 +23,10 @@ val clothConfigVersion: String by project
 val modMenuVersion: String by project
 val jeiVersion: String by project
 val curseforgeProjectId: String by project
-val modReleaseType: String by project
 val changelogProvider: Provider<String> by project
 
-val generatedResources = common.file("src/main/generated")
+val modReleaseType: String by project
+val modDisplayName = "[Fabric $mcVersion] $modId-$modVersion"
 
 base {
 	archivesName.set("$modId-fabric")
@@ -54,16 +56,6 @@ loom {
 		configureEach {
 			ideConfigGenerated(true)
 		}
-
-		register("datagen") {
-			server()
-			name("Data Generation")
-			property("fabric-api.datagen")
-			property("fabric-api.datagen.output-dir", generatedResources.toString())
-			property("fabric-api.datagen.modid", modId)
-			runDir("build/datagen")
-			ideConfigGenerated(false)
-		}
 	}
 
 	mods {
@@ -71,6 +63,13 @@ loom {
 			sourceSet(sourceSets.main.get())
 			sourceSet(sourceSets["client"])
 		}
+	}
+}
+
+fabricApi {
+	configureDataGeneration {
+		outputDirectory = generatedResources
+		addToResources = false
 	}
 }
 
@@ -102,7 +101,7 @@ modrinth {
 
 	projectId.set(modId)
 	versionNumber.set("fabric-$modVersion")
-	versionName.set("[Fabric $mcVersion] $modId-$modVersion")
+	versionName.set(modDisplayName)
 	versionType.set(modReleaseType)
 	uploadFile.set(tasks.remapJar)
 	changelog.set(changelogProvider)
@@ -119,7 +118,7 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
 	val file = upload(curseforgeProjectId, tasks.remapJar)
-	file.displayName = "[Fabric $mcVersion] $modId-$modVersion"
+	file.displayName = modDisplayName
 	file.releaseType = modReleaseType
 	file.changelog = changelogProvider.get()
 	file.changelogType = Constants.CHANGELOG_MARKDOWN

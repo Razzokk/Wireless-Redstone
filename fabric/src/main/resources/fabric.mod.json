@@ -4,7 +4,7 @@
 	"version": "${mod_version}",
 	"name": "${mod_display_name}",
 	"license": "${mod_license}",
-	"icon": "icon.png",
+	"icon": "assets/${mod_id}/icon.png",
 	"environment": "*",
 	"description": "${mod_description}",
 	"authors": [
