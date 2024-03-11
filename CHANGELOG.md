@@ -4,7 +4,10 @@ versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 with the minecraft version prepended to it.
 
 ## [Unreleased]
-	
+
+### Changed
+- GitHub repository url is now: https://github.com/Razzokk/wireless-redstone
+
 ### Added
 - Dev only: [Architectury Loom](https://docs.architectury.dev/loom/introduction) for easier multi-loader setup
 
@@ -59,9 +62,9 @@ Port to MC 1.20.1
 ### Changed
 - Increased contrast of T and R letters on transmitter and receiver texture
 
-[Unreleased]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.1.1...HEAD
-[1.20.1-1.1.0]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
-[1.20.1-1.0.2]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
-[1.20.1-1.0.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
-[1.20.1-1.0.0]: https://github.com/Razzokk/WirelessRedstone/commits/release/1.20.1-1.0.0
-[1.20.1-1.1.1]: https://github.com/Razzokk/WirelessRedstone/compare/release/1.20.1-1.1.0...release/1.20.1-1.1.1
+[Unreleased]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.1...HEAD
+[1.20.1-1.1.0]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
+[1.20.1-1.0.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
+[1.20.1-1.0.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
+[1.20.1-1.0.0]: https://github.com/Razzokk/wireless-redstone/commits/release/1.20.1-1.0.0
+[1.20.1-1.1.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.0...release/1.20.1-1.1.1

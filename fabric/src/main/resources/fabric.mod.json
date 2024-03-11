@@ -12,8 +12,8 @@
 	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/wirelessredstone",
-		"sources": "https://github.com/Razzokk/WirelessRedstone",
-		"issues": "https://github.com/Razzokk/WirelessRedstone/issues"
+		"sources": "https://github.com/Razzokk/wireless-redstone",
+		"issues": "https://github.com/Razzokk/wireless-redstone/issues"
 	},
 	"entrypoints": {
 		"main": [

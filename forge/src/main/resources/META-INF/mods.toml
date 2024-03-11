@@ -1,7 +1,7 @@
 modLoader = "javafml"
 loaderVersion = "${loader_version_range}"
 license = "${mod_license}"
-issueTrackerURL = "https://github.com/Razzokk/WirelessRedstone/issues"
+issueTrackerURL = "https://github.com/Razzokk/wireless-redstone/issues"
 
 [[mods]]
 modId = "${mod_id}"
