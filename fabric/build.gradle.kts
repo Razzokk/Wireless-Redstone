@@ -56,6 +56,16 @@ loom {
 		configureEach {
 			ideConfigGenerated(true)
 		}
+
+		register("datagen") {
+			server()
+			name("Data Generation")
+			property("fabric-api.datagen")
+			property("fabric-api.datagen.output-dir", generatedResources.toString())
+			property("fabric-api.datagen.modid", modId)
+			runDir("build/datagen")
+			ideConfigGenerated(false)
+		}
 	}
 
 	mods {
@@ -63,13 +73,6 @@ loom {
 			sourceSet(sourceSets.main.get())
 			sourceSet(sourceSets["client"])
 		}
-	}
-}
-
-fabricApi {
-	configureDataGeneration {
-		outputDirectory = generatedResources
-		addToResources = false
 	}
 }
 
