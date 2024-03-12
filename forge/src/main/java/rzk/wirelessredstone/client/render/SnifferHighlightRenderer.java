@@ -20,16 +20,14 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.network.NetworkEvent;
 import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.misc.WRConfig;
 
-import java.util.function.Supplier;
-
 public class SnifferHighlightRenderer
 {
-	public static void handleSnifferHighlightPacket(Supplier<NetworkEvent.Context> ctx, long timestamp, Hand hand, BlockPos[] coords)
+	public static void handleSnifferHighlightPacket(CustomPayloadEvent.Context ctx, long timestamp, Hand hand, BlockPos[] coords)
 	{
 		PlayerEntity player = MinecraftClient.getInstance().player;
 		ItemStack stack = player.getStackInHand(hand);

@@ -137,7 +137,7 @@ public abstract class FrequencyScreen extends Screen
 	@Override
 	public void render(DrawContext context, int mouseX, int mouseY, float delta)
 	{
-		renderBackground(context);
+		renderBackground(context, mouseX, mouseY, delta);
 		super.render(context, mouseX, mouseY, delta);
 		context.drawText(textRenderer, title, (width - textRenderer.getWidth(title)) / 2, frequencyInput.getY() - 30, 0xFFFFFF, false);
 	}

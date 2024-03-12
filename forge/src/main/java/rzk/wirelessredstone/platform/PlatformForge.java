@@ -36,18 +36,18 @@ public class PlatformForge implements Platform
 	@Override
 	public void sendFrequencyItemPacket(ServerPlayerEntity player, int frequency, Hand hand)
 	{
-		ModNetworking.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new FrequencyItemPacket.OpenScreen(frequency, hand));
+		ModNetworking.INSTANCE.send(new FrequencyItemPacket.OpenScreen(frequency, hand), PacketDistributor.PLAYER.with(player));
 	}
 
 	@Override
 	public void sendFrequencyBlockPacket(ServerPlayerEntity player, int frequency, BlockPos pos)
 	{
-		ModNetworking.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new FrequencyBlockPacket.OpenScreen(frequency, pos));
+		ModNetworking.INSTANCE.send(new FrequencyBlockPacket.OpenScreen(frequency, pos), PacketDistributor.PLAYER.with(player));
 	}
 
 	@Override
 	public void sendSniffer(ServerPlayerEntity player, long time, Hand hand, BlockPos[] transmitters)
 	{
-		ModNetworking.INSTANCE.send(PacketDistributor.PLAYER.with(() -> player), new SnifferHighlightPacket(time, hand, transmitters));
+		ModNetworking.INSTANCE.send(new SnifferHighlightPacket(time, hand, transmitters), PacketDistributor.PLAYER.with(player));
 	}
 }

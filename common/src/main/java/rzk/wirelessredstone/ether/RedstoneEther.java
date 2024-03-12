@@ -20,6 +20,9 @@ public class RedstoneEther extends PersistentState
 	private static final String DATA_NAME = "redstone_ether";
 	private final Int2ObjectMap<RedstoneChannel> channels = new Int2ObjectOpenHashMap<>();
 
+	private static final PersistentState.Type<RedstoneEther> TYPE =
+		new Type<>(RedstoneEther::new, RedstoneEther::new, null);
+
 	private RedstoneEther() {}
 
 	private RedstoneEther(NbtCompound nbt)
@@ -46,12 +49,12 @@ public class RedstoneEther extends PersistentState
 
 	public static RedstoneEther get(ServerWorld world)
 	{
-		return world.getPersistentStateManager().get(RedstoneEther::new, DATA_NAME);
+		return world.getPersistentStateManager().get(TYPE, DATA_NAME);
 	}
 
 	public static RedstoneEther getOrCreate(ServerWorld world)
 	{
-		return world.getPersistentStateManager().getOrCreate(RedstoneEther::new, RedstoneEther::new, DATA_NAME);
+		return world.getPersistentStateManager().getOrCreate(TYPE, DATA_NAME);
 	}
 
 	private RedstoneChannel getChannel(int frequency)

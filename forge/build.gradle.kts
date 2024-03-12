@@ -40,7 +40,7 @@ dependencies {
 
 	modApi("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion")
 
-	forgeRuntimeLibrary("mezz.jei:jei-$mcVersion-forge:$jeiVersion")
+//	forgeRuntimeLibrary("mezz.jei:jei-$mcVersion-forge:$jeiVersion")
 }
 
 loom {

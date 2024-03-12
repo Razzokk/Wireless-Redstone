@@ -4,11 +4,9 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
 import rzk.wirelessredstone.client.render.SnifferHighlightRenderer;
-
-import java.util.function.Supplier;
 
 public class SnifferHighlightPacket
 {
@@ -43,7 +41,7 @@ public class SnifferHighlightPacket
 			buf.writeBlockPos(pos);
 	}
 
-	public void handle(Supplier<NetworkEvent.Context> ctx)
+	public void handle(CustomPayloadEvent.Context ctx)
 	{
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> SnifferHighlightRenderer.handleSnifferHighlightPacket(ctx, timestamp, hand, coords));
 	}

@@ -4,12 +4,10 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.client.screen.ModScreens;
-
-import java.util.function.Supplier;
 
 public abstract class FrequencyBlockPacket extends FrequencyPacket
 {
@@ -45,9 +43,9 @@ public abstract class FrequencyBlockPacket extends FrequencyPacket
 			super(buf);
 		}
 
-		public void handle(Supplier<NetworkEvent.Context> ctx)
+		public void handle(CustomPayloadEvent.Context ctx)
 		{
-			World world = ctx.get().getSender().getWorld();
+			World world = ctx.getSender().getWorld();
 			if (world.isChunkLoaded(pos) && world.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock block)
 				block.setFrequency(world, pos, frequency);
 		}
@@ -65,7 +63,7 @@ public abstract class FrequencyBlockPacket extends FrequencyPacket
 			super(buf);
 		}
 
-		public void handle(Supplier<NetworkEvent.Context> ctx)
+		public void handle(CustomPayloadEvent.Context ctx)
 		{
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ModScreens.openBlockFrequencyScreen(frequency, pos));
 		}

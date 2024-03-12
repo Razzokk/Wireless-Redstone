@@ -5,12 +5,10 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
 import rzk.wirelessredstone.client.screen.ModScreens;
 import rzk.wirelessredstone.item.FrequencyItem;
-
-import java.util.function.Supplier;
 
 public abstract class FrequencyItemPacket extends FrequencyPacket
 {
@@ -46,9 +44,9 @@ public abstract class FrequencyItemPacket extends FrequencyPacket
 			super(buf);
 		}
 
-		public void handle(Supplier<NetworkEvent.Context> ctx)
+		public void handle(CustomPayloadEvent.Context ctx)
 		{
-			ServerPlayerEntity player = ctx.get().getSender();
+			ServerPlayerEntity player = ctx.getSender();
 			ItemStack stack = player.getStackInHand(hand);
 			if (stack.getItem() instanceof FrequencyItem item)
 				item.setFrequency(stack, frequency);
@@ -67,7 +65,7 @@ public abstract class FrequencyItemPacket extends FrequencyPacket
 			super(buf);
 		}
 
-		public void handle(Supplier<NetworkEvent.Context> ctx)
+		public void handle(CustomPayloadEvent.Context ctx)
 		{
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ModScreens.openItemFrequencyScreen(frequency, hand));
 		}
