@@ -25,11 +25,9 @@ import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.misc.WREvents;
 import rzk.wirelessredstone.network.ModNetworking;
 
-@Mod(WirelessRedstoneForge.MODID)
+@Mod(WirelessRedstone.MODID)
 public class WirelessRedstoneForge
 {
-	public static final String MODID = "wirelessredstone";
-
 	public WirelessRedstoneForge()
 	{
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();

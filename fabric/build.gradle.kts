@@ -64,7 +64,6 @@ loom {
 			property("fabric-api.datagen.output-dir", generatedResources.toString())
 			property("fabric-api.datagen.modid", modId)
 			runDir("build/datagen")
-			ideConfigGenerated(false)
 		}
 	}
 

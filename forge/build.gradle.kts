@@ -40,7 +40,7 @@ dependencies {
 
 	modApi("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion")
 
-	forgeRuntimeLibrary("mezz.jei:jei-$mcVersion-forge:$jeiVersion")
+//	modLocalRuntime("mezz.jei", "jei-$mcVersion-fabric", jeiVersion)
 }
 
 loom {
@@ -84,7 +84,7 @@ modrinth {
 	versionNumber.set("forge-$modVersion")
 	versionName.set(modDisplayName)
 	versionType.set(modReleaseType)
-	uploadFile.set(tasks.jar)
+	uploadFile.set(tasks.remapJar)
 	changelog.set(changelogProvider)
 
 	dependencies {
@@ -96,7 +96,7 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	if (project.hasProperty("debug")) debugMode = true
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
-	val file = upload(curseforgeProjectId, tasks.jar)
+	val file = upload(curseforgeProjectId, tasks.remapJar)
 	file.displayName = modDisplayName
 	file.releaseType = modReleaseType
 	file.changelog = changelogProvider.get()
