@@ -5,6 +5,12 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Added
+- [NeoForged](https://neoforged.net/) support
+
+### Changed
+- Refactored/cleaned up networking classes
+
 ## [1.20.4-1.1.2] - 2024-03-12
 Port to MC 1.20.4
 

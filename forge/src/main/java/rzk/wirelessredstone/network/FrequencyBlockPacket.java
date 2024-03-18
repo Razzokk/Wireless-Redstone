@@ -9,63 +9,34 @@ import net.minecraftforge.fml.DistExecutor;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.client.screen.ModScreens;
 
-public abstract class FrequencyBlockPacket extends FrequencyPacket
+public record FrequencyBlockPacket(int frequency, BlockPos pos)
 {
-	public final BlockPos pos;
-
-	public FrequencyBlockPacket(int frequency, BlockPos pos)
-	{
-		super(frequency);
-		this.pos = pos;
-	}
-
 	public FrequencyBlockPacket(PacketByteBuf buf)
 	{
-		super(buf);
-		pos = buf.readBlockPos();
+		this(buf.readInt(), buf.readBlockPos());
 	}
 
-	@Override
-	public void writeAdditional(PacketByteBuf buf)
+	public void write(PacketByteBuf buf)
 	{
+		buf.writeInt(frequency);
 		buf.writeBlockPos(pos);
 	}
 
-	public static class SetFrequency extends FrequencyBlockPacket
+	public void handle(CustomPayloadEvent.Context ctx)
 	{
-		public SetFrequency(int frequency, BlockPos pos)
-		{
-			super(frequency, pos);
-		}
-
-		public SetFrequency(PacketByteBuf buf)
-		{
-			super(buf);
-		}
-
-		public void handle(CustomPayloadEvent.Context ctx)
-		{
-			World world = ctx.getSender().getWorld();
-			if (world.isChunkLoaded(pos) && world.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock block)
-				block.setFrequency(world, pos, frequency);
-		}
+		if (ctx.isClientSide()) handleClient(ctx);
+		else handleServer(ctx);
 	}
 
-	public static class OpenScreen extends FrequencyBlockPacket
+	private void handleServer(CustomPayloadEvent.Context ctx)
 	{
-		public OpenScreen(int frequency, BlockPos pos)
-		{
-			super(frequency, pos);
-		}
+		World world = ctx.getSender().getWorld();
+		if (world.isChunkLoaded(pos) && world.getBlockState(pos).getBlock() instanceof RedstoneTransceiverBlock block)
+			block.setFrequency(world, pos, frequency);
+	}
 
-		public OpenScreen(PacketByteBuf buf)
-		{
-			super(buf);
-		}
-
-		public void handle(CustomPayloadEvent.Context ctx)
-		{
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ModScreens.openBlockFrequencyScreen(frequency, pos));
-		}
+	private void handleClient(CustomPayloadEvent.Context ctx)
+	{
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ModScreens.openBlockFrequencyScreen(frequency, pos));
 	}
 }

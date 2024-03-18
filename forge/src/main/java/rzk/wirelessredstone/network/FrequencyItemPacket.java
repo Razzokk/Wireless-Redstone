@@ -10,64 +10,35 @@ import net.minecraftforge.fml.DistExecutor;
 import rzk.wirelessredstone.client.screen.ModScreens;
 import rzk.wirelessredstone.item.FrequencyItem;
 
-public abstract class FrequencyItemPacket extends FrequencyPacket
+public record FrequencyItemPacket(int frequency, Hand hand)
 {
-	public final Hand hand;
-
-	public FrequencyItemPacket(int frequency, Hand hand)
-	{
-		super(frequency);
-		this.hand = hand;
-	}
-
 	public FrequencyItemPacket(PacketByteBuf buf)
 	{
-		super(buf);
-		hand = buf.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+		this(buf.readInt(), buf.readBoolean() ? Hand.MAIN_HAND : Hand.OFF_HAND);
 	}
 
-	@Override
-	public void writeAdditional(PacketByteBuf buf)
+	public void write(PacketByteBuf buf)
 	{
+		buf.writeInt(frequency);
 		buf.writeBoolean(hand == Hand.MAIN_HAND);
 	}
 
-	public static class SetFrequency extends FrequencyItemPacket
+	public void handle(CustomPayloadEvent.Context ctx)
 	{
-		public SetFrequency(int frequency, Hand hand)
-		{
-			super(frequency, hand);
-		}
-
-		public SetFrequency(PacketByteBuf buf)
-		{
-			super(buf);
-		}
-
-		public void handle(CustomPayloadEvent.Context ctx)
-		{
-			ServerPlayerEntity player = ctx.getSender();
-			ItemStack stack = player.getStackInHand(hand);
-			if (stack.getItem() instanceof FrequencyItem item)
-				item.setFrequency(stack, frequency);
-		}
+		if (ctx.isClientSide()) handleClient(ctx);
+		else handleServer(ctx);
 	}
 
-	public static class OpenScreen extends FrequencyItemPacket
+	private void handleServer(CustomPayloadEvent.Context ctx)
 	{
-		public OpenScreen(int frequency, Hand hand)
-		{
-			super(frequency, hand);
-		}
+		ServerPlayerEntity player = ctx.getSender();
+		ItemStack stack = player.getStackInHand(hand);
+		if (stack.getItem() instanceof FrequencyItem item)
+			item.setFrequency(stack, frequency);
+	}
 
-		public OpenScreen(PacketByteBuf buf)
-		{
-			super(buf);
-		}
-
-		public void handle(CustomPayloadEvent.Context ctx)
-		{
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ModScreens.openItemFrequencyScreen(frequency, hand));
-		}
+	private void handleClient(CustomPayloadEvent.Context ctx)
+	{
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> ModScreens.openItemFrequencyScreen(frequency, hand));
 	}
 }

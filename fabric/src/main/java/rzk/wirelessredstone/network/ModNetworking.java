@@ -17,15 +17,15 @@ public class ModNetworking
 		ServerPlayNetworking.registerGlobalReceiver(FrequencyBlockPacket.TYPE, (packet, player, responseSender) ->
 		{
 			World world = player.getWorld();
-			if (world.getBlockState(packet.pos).getBlock() instanceof RedstoneTransceiverBlock block)
-				block.setFrequency(world, packet.pos, packet.frequency);
+			if (world.getBlockState(packet.pos()).getBlock() instanceof RedstoneTransceiverBlock block)
+				block.setFrequency(world, packet.pos(), packet.frequency());
 		});
 
 		ServerPlayNetworking.registerGlobalReceiver(FrequencyItemPacket.TYPE, (packet, player, responseSender) ->
 		{
-			ItemStack stack = player.getStackInHand(packet.hand);
+			ItemStack stack = player.getStackInHand(packet.hand());
 			if (stack.getItem() instanceof FrequencyItem item)
-				item.setFrequency(stack, packet.frequency);
+				item.setFrequency(stack, packet.frequency());
 		});
 
 		ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->

@@ -34,16 +34,16 @@ public class WirelessRedstoneClientFabric implements ClientModInitializer
 
 		ClientPlayNetworking.registerGlobalReceiver(SnifferHighlightPacket.TYPE, (packet, player, responseSender) ->
 		{
-			ItemStack stack = player.getStackInHand(packet.hand);
+			ItemStack stack = player.getStackInHand(packet.hand());
 			if (stack.getItem() instanceof SnifferItem item)
-				item.setHighlightedBlocks(packet.timestamp, stack, packet.coords);
+				item.setHighlightedBlocks(packet.timestamp(), stack, packet.coords());
 		});
 
 		ClientPlayNetworking.registerGlobalReceiver(FrequencyBlockPacket.TYPE, (packet, player, responseSender) ->
-			MinecraftClient.getInstance().setScreen(new FrequencyBlockScreen(packet.frequency, packet.pos)));
+			MinecraftClient.getInstance().setScreen(new FrequencyBlockScreen(packet.frequency(), packet.pos())));
 
 		ClientPlayNetworking.registerGlobalReceiver(FrequencyItemPacket.TYPE, (packet, player, responseSender) ->
-			MinecraftClient.getInstance().setScreen(new FrequencyItemScreen(packet.frequency, packet.hand)));
+			MinecraftClient.getInstance().setScreen(new FrequencyItemScreen(packet.frequency(), packet.hand())));
 
 		ModelPredicateProviderRegistry.register(ModItems.remote, new Identifier("state"),
 			(stack, world, entity, seed) -> ((entity != null && stack == entity.getActiveItem()) ? 1f : 0f));

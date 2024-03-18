@@ -13,31 +13,19 @@ public class ModNetworking
 
 	public static void registerMessages()
 	{
-		ModNetworking.INSTANCE.messageBuilder(FrequencyBlockPacket.SetFrequency.class, NetworkDirection.PLAY_TO_SERVER)
-			.encoder(FrequencyBlockPacket.SetFrequency::write)
-			.decoder(FrequencyBlockPacket.SetFrequency::new)
-			.consumerMainThread(FrequencyBlockPacket.SetFrequency::handle)
+		INSTANCE.messageBuilder(FrequencyBlockPacket.class)
+			.encoder(FrequencyBlockPacket::write)
+			.decoder(FrequencyBlockPacket::new)
+			.consumerMainThread(FrequencyBlockPacket::handle)
 			.add();
 
-		ModNetworking.INSTANCE.messageBuilder(FrequencyItemPacket.SetFrequency.class, NetworkDirection.PLAY_TO_SERVER)
-			.encoder(FrequencyItemPacket.SetFrequency::write)
-			.decoder(FrequencyItemPacket.SetFrequency::new)
-			.consumerMainThread(FrequencyItemPacket.SetFrequency::handle)
+		INSTANCE.messageBuilder(FrequencyItemPacket.class)
+			.encoder(FrequencyItemPacket::write)
+			.decoder(FrequencyItemPacket::new)
+			.consumerMainThread(FrequencyItemPacket::handle)
 			.add();
 
-		ModNetworking.INSTANCE.messageBuilder(FrequencyBlockPacket.OpenScreen.class, NetworkDirection.PLAY_TO_CLIENT)
-			.encoder(FrequencyBlockPacket.OpenScreen::write)
-			.decoder(FrequencyBlockPacket.OpenScreen::new)
-			.consumerMainThread(FrequencyBlockPacket.OpenScreen::handle)
-			.add();
-
-		ModNetworking.INSTANCE.messageBuilder(FrequencyItemPacket.OpenScreen.class, NetworkDirection.PLAY_TO_CLIENT)
-			.encoder(FrequencyItemPacket.OpenScreen::write)
-			.decoder(FrequencyItemPacket.OpenScreen::new)
-			.consumerMainThread(FrequencyItemPacket.OpenScreen::handle)
-			.add();
-
-		ModNetworking.INSTANCE.messageBuilder(SnifferHighlightPacket.class, NetworkDirection.PLAY_TO_CLIENT)
+		INSTANCE.messageBuilder(SnifferHighlightPacket.class, NetworkDirection.PLAY_TO_CLIENT)
 			.encoder(SnifferHighlightPacket::write)
 			.decoder(SnifferHighlightPacket::new)
 			.consumerMainThread(SnifferHighlightPacket::handle)

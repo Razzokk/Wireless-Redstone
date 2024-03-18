@@ -3,22 +3,21 @@ package rzk.wirelessredstone.platform;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.network.PacketDistributor;
 import rzk.wirelessredstone.network.FrequencyBlockPacket;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
-import rzk.wirelessredstone.network.ModNetworking;
 import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 import java.io.File;
 
-public class PlatformForge implements Platform
+public class PlatformNeo implements Platform
 {
 	@Override
 	public PlatformLoader getLoader()
 	{
-		return PlatformLoader.FORGE;
+		return PlatformLoader.NEOFORGE;
 	}
 
 	@Override
@@ -36,18 +35,18 @@ public class PlatformForge implements Platform
 	@Override
 	public void sendFrequencyItemPacket(ServerPlayerEntity player, int frequency, Hand hand)
 	{
-		ModNetworking.INSTANCE.send(new FrequencyItemPacket(frequency, hand), PacketDistributor.PLAYER.with(player));
+		PacketDistributor.PLAYER.with(player).send(new FrequencyItemPacket(frequency, hand));
 	}
 
 	@Override
 	public void sendFrequencyBlockPacket(ServerPlayerEntity player, int frequency, BlockPos pos)
 	{
-		ModNetworking.INSTANCE.send(new FrequencyBlockPacket(frequency, pos), PacketDistributor.PLAYER.with(player));
+		PacketDistributor.PLAYER.with(player).send(new FrequencyBlockPacket(frequency, pos));
 	}
 
 	@Override
 	public void sendSniffer(ServerPlayerEntity player, long time, Hand hand, BlockPos[] transmitters)
 	{
-		ModNetworking.INSTANCE.send(new SnifferHighlightPacket(time, hand, transmitters), PacketDistributor.PLAYER.with(player));
+		PacketDistributor.PLAYER.with(player).send(new SnifferHighlightPacket(time, hand, transmitters));
 	}
 }

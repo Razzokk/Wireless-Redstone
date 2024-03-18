@@ -33,6 +33,8 @@ val clothConfigVersion: String by project
 val modMenuVersion: String by project
 val forgeVersionRange: String by project
 val loaderVersionRange: String by project
+val neoVersionRange: String by project
+val neoLoaderVersionRange: String by project
 val repoUrl: String by project
 
 val modReleaseType by extra {
@@ -125,7 +127,9 @@ subprojects {
 				"cloth_config_version" to clothConfigVersion,
 				"modmenu_version" to modMenuVersion,
 				"forge_version_range" to forgeVersionRange,
-				"loader_version_range" to loaderVersionRange
+				"loader_version_range" to loaderVersionRange,
+				"neo_version_range" to neoVersionRange,
+				"neo_loader_version_range" to neoLoaderVersionRange
 			)
 
 			// this will ensure that this task is redone when the versions change.

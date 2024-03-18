@@ -1,16 +1,16 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegisterEvent;
+import net.minecraft.registry.Registries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import rzk.wirelessredstone.misc.WREvents;
 
-public final class ModBlocksForge
+public final class ModBlocksNeo
 {
-	private ModBlocksForge() {}
+	private ModBlocksNeo() {}
 
 	public static void registerBlocks(RegisterEvent event)
 	{
-		event.register(ForgeRegistries.Keys.BLOCKS, helper ->
+		event.register(Registries.BLOCK.getKey(), helper ->
 		{
 			ModBlocks.redstoneTransmitter = WREvents.register(helper, "redstone_transmitter", new RedstoneTransmitterBlock());
 			ModBlocks.redstoneReceiver = WREvents.register(helper, "redstone_receiver", new RedstoneReceiverBlock());

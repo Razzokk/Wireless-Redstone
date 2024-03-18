@@ -29,4 +29,7 @@ public class TranslationKeys
 	public static final String MESSAGE_TRANSMITTERS_ACTIVE = "message.wirelessredstone.transmitters.active";
 	public static final String MESSAGE_TELEPORT = "message.wirelessredstone.teleport";
 	public static final String MESSAGE_NO_FREQUENCY = "message.wirelessredstone.no_frequency";
+
+	// Networking
+	public static final String NETWORKING_FAILED = "networking.wirelessredstone.failed";
 }

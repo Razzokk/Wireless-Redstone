@@ -6,6 +6,9 @@ pluginManagement {
 		maven("https://maven.minecraftforge.net/") {
 			name = "Forge"
 		}
+		maven("https://maven.neoforged.net/releases") {
+			name = "NeoForged"
+		}
 		maven("https://maven.architectury.dev/") {
 			name = "Architectury"
 		}
@@ -17,4 +20,4 @@ pluginManagement {
 val modName: String by extra
 rootProject.name = modName
 
-include("common", "fabric", "forge")
+include("common", "fabric", "forge", "neoforge")
