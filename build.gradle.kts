@@ -17,6 +17,10 @@ val javaVersion by extra {
 	JavaLanguageVersion.of(property("javaVersion").toString()).asInt()
 }
 
+val debug by extra {
+	hasProperty("debug") && property("debug").toString().toBoolean()
+}
+
 val mcVersion: String by project
 val mcVersionRange: String by project
 val modId: String by project

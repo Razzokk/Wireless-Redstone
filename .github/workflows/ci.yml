@@ -37,14 +37,14 @@ jobs:
             forge/build/libs/
             neoforge/build/libs/
 
-      - name: Publish to Modrinth & CurseForge
-        if: github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/release/')
-        shell: bash
-        run: |
-          if [[ "${{ github.ref }}" == "refs/tags/release/fabric/"* ]]; then
-            ./gradlew :fabric:modrinth && ./gradlew :fabric:curseforge
-          elif [[ "${{ github.ref }}" == "refs/tags/release/forge/"* ]]; then
-            ./gradlew :forge:modrinth && ./gradlew :forge:curseforge
-          elif [[ "${{ github.ref }}" == "refs/tags/release/neoforge/"* ]]; then
-            ./gradlew :neoforge:modrinth && ./gradlew :neoforge:curseforge
-          fi
+      - name: Publish Fabric to Modrinth & CurseForge
+        if: startsWith(github.ref, 'refs/tags/release/fabric/')
+        run: ./gradlew :fabric:modrinth :fabric:curseforge
+
+      - name: Publish Forge to Modrinth & CurseForge
+        if: startsWith(github.ref, 'refs/tags/release/forge/')
+        run: ./gradlew :forge:modrinth :forge:curseforge
+
+      - name: Publish NeoForge to Modrinth & CurseForge
+        if: startsWith(github.ref, 'refs/tags/release/neoforge/')
+        run: ./gradlew :neoforge:modrinth :neoforge:curseforge

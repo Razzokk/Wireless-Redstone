@@ -10,6 +10,7 @@ val common = project(":common")
 evaluationDependsOn(common.path)
 
 val javaVersion: Int by rootProject
+val debug: Boolean by rootProject
 val mcVersion: String by project
 val modId: String by project
 val modVersion: String by project
@@ -40,7 +41,7 @@ dependencies {
 
 	modApi("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion")
 
-//	modLocalRuntime("mezz.jei", "jei-$mcVersion-fabric", jeiVersion)
+//	forgeRuntimeLibrary("mezz.jei", "jei-$mcVersion-forge", jeiVersion)
 }
 
 loom {
@@ -77,7 +78,7 @@ tasks {
 // Publishing
 
 modrinth {
-	if (project.hasProperty("debug")) debugMode.set(true)
+	debugMode.set(debug)
 	token.set(System.getenv("MODRINTH_TOKEN"))
 
 	projectId.set(modId)
@@ -93,7 +94,7 @@ modrinth {
 }
 
 tasks.register<TaskPublishCurseForge>("curseforge") {
-	if (project.hasProperty("debug")) debugMode = true
+	debugMode = debug
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
 	val file = upload(curseforgeProjectId, tasks.remapJar)
@@ -102,5 +103,6 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	file.changelog = changelogProvider.get()
 	file.changelogType = Constants.CHANGELOG_MARKDOWN
 	file.addJavaVersion("Java $javaVersion")
+	file.addModLoader("forge")
 	file.addOptional("cloth-config")
 }

@@ -13,6 +13,7 @@ loom.splitEnvironmentSourceSets()
 val generatedResources = common.file("src/main/generated")
 
 val javaVersion: Int by rootProject
+val debug: Boolean by rootProject
 val mcVersion: String by project
 val modId: String by project
 val modVersion: String by project
@@ -39,8 +40,10 @@ repositories {
 }
 
 dependencies {
+	val clientImplementation = configurations.getByName("clientImplementation")
+
 	implementation(project(common.path, configuration = common.configurations.namedElements.name))
-	"clientImplementation"(common.sourceSets["client"].output)
+	clientImplementation(common.sourceSets["client"].output)
 
 	modImplementation("net.fabricmc", "fabric-loader", loaderVersion)
 	modApi("net.fabricmc.fabric-api", "fabric-api", fabricApiVersion)
@@ -98,7 +101,7 @@ tasks {
 // Publishing
 
 modrinth {
-	if (project.hasProperty("debug")) debugMode.set(true)
+	debugMode.set(debug)
 	token.set(System.getenv("MODRINTH_TOKEN"))
 
 	projectId.set(modId)
@@ -116,7 +119,7 @@ modrinth {
 }
 
 tasks.register<TaskPublishCurseForge>("curseforge") {
-	if (project.hasProperty("debug")) debugMode = true
+	debugMode = debug
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
 	val file = upload(curseforgeProjectId, tasks.remapJar)
@@ -125,6 +128,7 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	file.changelog = changelogProvider.get()
 	file.changelogType = Constants.CHANGELOG_MARKDOWN
 	file.addJavaVersion("Java $javaVersion")
+	file.addModLoader("fabric")
 	file.addRequirement("fabric-api")
 	file.addOptional("cloth-config", "modmenu")
 }
