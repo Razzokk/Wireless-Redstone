@@ -83,6 +83,7 @@ subprojects {
 	tasks {
 		jar {
 			from(license)
+			exclude(".cache/**")
 		}
 
 		named<Jar>("sourcesJar") {

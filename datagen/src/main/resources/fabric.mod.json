@@ -1,0 +1,16 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${mod_version}",
+	"entrypoints": {
+		"main": [
+			"rzk.wirelessredstone.WirelessRedstoneFabric"
+		],
+		"client": [
+			"rzk.wirelessredstone.WirelessRedstoneClientFabric"
+		],
+		"fabric-datagen": [
+			"rzk.wirelessredstone.datagen.DataGenerators"
+		]
+	}
+}

@@ -10,8 +10,6 @@ val common = project(":common")
 evaluationDependsOn(common.path)
 loom.splitEnvironmentSourceSets()
 
-val generatedResources = common.file("src/main/generated")
-
 val javaVersion: Int by rootProject
 val debug: Boolean by rootProject
 val mcVersion: String by project
@@ -58,15 +56,6 @@ loom {
 	runs {
 		configureEach {
 			ideConfigGenerated(true)
-		}
-
-		register("datagen") {
-			server()
-			name("Data Generation")
-			property("fabric-api.datagen")
-			property("fabric-api.datagen.output-dir", generatedResources.toString())
-			property("fabric-api.datagen.modid", modId)
-			runDir("build/datagen")
 		}
 	}
 
