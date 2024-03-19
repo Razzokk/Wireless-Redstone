@@ -1,8 +1,8 @@
 {
-	"parent": "minecraft:block/cube_bottom_top",
-	"textures": {
-		"bottom": "wirelessredstone:block/redstone_transmitter_bottom_off",
-		"side": "wirelessredstone:block/redstone_transmitter_side_off",
-		"top": "wirelessredstone:block/redstone_transmitter_top_off"
-	}
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "wirelessredstone:block/redstone_transmitter_bottom_off",
+    "side": "wirelessredstone:block/redstone_transmitter_side_off",
+    "top": "wirelessredstone:block/redstone_transmitter_top_off"
+  }
 }

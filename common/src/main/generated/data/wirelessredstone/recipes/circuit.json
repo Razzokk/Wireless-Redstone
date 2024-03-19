@@ -1,31 +1,30 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"category": "redstone",
-	"key": {
-		"E": {
-			"item": "minecraft:ender_pearl"
-		},
-		"G": {
-			"item": "minecraft:glowstone_dust"
-		},
-		"I": {
-			"item": "minecraft:gold_ingot"
-		},
-		"Q": {
-			"item": "minecraft:quartz"
-		},
-		"R": {
-			"item": "minecraft:redstone"
-		}
-	},
-	"pattern": [
-		"RGR",
-		"IEI",
-		"QGQ"
-	],
-	"result": {
-		"count": 2,
-		"item": "wirelessredstone:circuit"
-	},
-	"show_notification": true
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    },
+    "I": {
+      "item": "minecraft:gold_ingot"
+    },
+    "Q": {
+      "item": "minecraft:quartz"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "pattern": [
+    "RGR",
+    "IEI",
+    "QGQ"
+  ],
+  "result": {
+    "count": 2,
+    "item": "wirelessredstone:circuit"
+  }
 }

@@ -1,6 +1,6 @@
 {
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "wirelessredstone:item/remote_on"
-	}
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wirelessredstone:item/remote_on"
+  }
 }

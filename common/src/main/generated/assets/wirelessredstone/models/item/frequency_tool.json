@@ -1,6 +1,6 @@
 {
-	"parent": "minecraft:item/generated",
-	"textures": {
-		"layer0": "wirelessredstone:item/frequency_tool"
-	}
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wirelessredstone:item/frequency_tool"
+  }
 }

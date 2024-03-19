@@ -1,87 +1,86 @@
 {
-	"parent": "minecraft:recipes/root",
-	"criteria": {
-		"has_ender_pearl": {
-			"conditions": {
-				"items": [
-					{
-						"items": [
-							"minecraft:ender_pearl"
-						]
-					}
-				]
-			},
-			"trigger": "minecraft:inventory_changed"
-		},
-		"has_glowstone_dust": {
-			"conditions": {
-				"items": [
-					{
-						"items": [
-							"minecraft:glowstone_dust"
-						]
-					}
-				]
-			},
-			"trigger": "minecraft:inventory_changed"
-		},
-		"has_gold_ingot": {
-			"conditions": {
-				"items": [
-					{
-						"items": [
-							"minecraft:gold_ingot"
-						]
-					}
-				]
-			},
-			"trigger": "minecraft:inventory_changed"
-		},
-		"has_quartz": {
-			"conditions": {
-				"items": [
-					{
-						"items": [
-							"minecraft:quartz"
-						]
-					}
-				]
-			},
-			"trigger": "minecraft:inventory_changed"
-		},
-		"has_redstone": {
-			"conditions": {
-				"items": [
-					{
-						"items": [
-							"minecraft:redstone"
-						]
-					}
-				]
-			},
-			"trigger": "minecraft:inventory_changed"
-		},
-		"has_the_recipe": {
-			"conditions": {
-				"recipe": "wirelessredstone:circuit"
-			},
-			"trigger": "minecraft:recipe_unlocked"
-		}
-	},
-	"requirements": [
-		[
-			"has_redstone",
-			"has_glowstone_dust",
-			"has_gold_ingot",
-			"has_ender_pearl",
-			"has_quartz",
-			"has_the_recipe"
-		]
-	],
-	"rewards": {
-		"recipes": [
-			"wirelessredstone:circuit"
-		]
-	},
-	"sends_telemetry_event": false
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_ender_pearl": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:ender_pearl"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_glowstone_dust": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:glowstone_dust"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_gold_ingot": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:gold_ingot"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_quartz": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:quartz"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_redstone": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:redstone"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "wirelessredstone:circuit"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_redstone",
+      "has_glowstone_dust",
+      "has_gold_ingot",
+      "has_ender_pearl",
+      "has_quartz"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wirelessredstone:circuit"
+    ]
+  }
 }

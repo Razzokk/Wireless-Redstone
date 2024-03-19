@@ -1,27 +1,26 @@
 {
-	"type": "minecraft:crafting_shaped",
-	"category": "redstone",
-	"key": {
-		"C": {
-			"item": "wirelessredstone:circuit"
-		},
-		"I": {
-			"item": "minecraft:iron_ingot"
-		},
-		"R": {
-			"item": "minecraft:redstone"
-		},
-		"T": {
-			"item": "minecraft:comparator"
-		}
-	},
-	"pattern": [
-		"RTR",
-		"ICI",
-		" I "
-	],
-	"result": {
-		"item": "wirelessredstone:frequency_tool"
-	},
-	"show_notification": true
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": {
+      "item": "wirelessredstone:circuit"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "T": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "pattern": [
+    "RTR",
+    "ICI",
+    " I "
+  ],
+  "result": {
+    "item": "wirelessredstone:frequency_tool"
+  }
 }

@@ -1,7 +1,7 @@
 {
-	"replace": false,
-	"values": [
-		"wirelessredstone:redstone_transmitter",
-		"wirelessredstone:redstone_receiver"
-	]
+  "replace": false,
+  "values": [
+    "wirelessredstone:redstone_transmitter",
+    "wirelessredstone:redstone_receiver"
+  ]
 }
