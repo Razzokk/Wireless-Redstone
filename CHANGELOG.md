@@ -5,6 +5,13 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Added
+- Sides of transmitters and receivers can be disabled/enabled
+- Wrench item to configure the sides
+
+### Changed
+- Separate datagen project
+
 ## [1.20.4-1.1.3] - 2024-03-19
 
 ### Added

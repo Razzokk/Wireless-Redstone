@@ -8,6 +8,7 @@ public final class ModItems
 	public static Item frequencyTool;
 	public static Item frequencySniffer;
 	public static Item remote;
+	public static Item wrench;
 
 	private ModItems() {}
 }

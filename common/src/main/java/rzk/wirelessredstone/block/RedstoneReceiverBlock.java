@@ -22,7 +22,7 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
 	{
 		if (!world.isClient && WRConfig.redstoneReceiverStrongPower)
-			for (Direction direction : Direction.values())
+			for (Direction direction : DIRECTIONS)
 				world.updateNeighborsExcept(pos.offset(direction), this, direction.getOpposite());
 		super.onStateReplaced(state, world, pos, newState, moved);
 	}
@@ -38,9 +38,16 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	}
 
 	@Override
+	protected void onSideConnectableToggled(BlockState state, World world, BlockPos pos, Direction side)
+	{
+		world.setBlockState(pos, state);
+	}
+
+	@Override
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction)
 	{
-		return state.get(POWERED) ? WRConfig.redstoneReceiverSignalStrength : 0;
+		return isSideConnectable(state, world, pos, direction.getOpposite()) && state.get(POWERED) ?
+			WRConfig.redstoneReceiverSignalStrength : 0;
 	}
 
 	@Override

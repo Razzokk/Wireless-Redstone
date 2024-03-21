@@ -22,6 +22,7 @@ public final class ModItemsNeo
 			ModItems.frequencyTool = WREvents.register(helper, "frequency_tool", new FrequencyItem(new Item.Settings()));
 			ModItems.frequencySniffer = WREvents.register(helper, "frequency_sniffer", new SnifferItem(new Item.Settings()));
 			ModItems.remote = WREvents.register(helper, "remote", new RemoteItemWrapper(new Item.Settings()));
+			ModItems.wrench = WREvents.register(helper, "wrench", new WrenchItem(new Item.Settings()));
 		});
 	}
 }
