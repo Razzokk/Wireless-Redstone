@@ -6,48 +6,58 @@
 [![CurseForge Downloads](https://cf.way2muchnoise.eu/wirelessredstone.svg?badge_style=flat)][curseforge]
 [![CurseForge Versions](https://cf.way2muchnoise.eu/versions/wirelessredstone.svg?badge_style=flat)][curseforge]
 
-Wireless Redstone adds Redstone components to Minecraft that enable controlling Redstone components remotely.
-The concept works like any transmitter/receiver functionality.
+<p align="center">
+	<img alt="Wireless Redstone" src="resources/logo.png" width="500px" />
+</p>
 
-**Note**: If you press shift in the frequency GUI all the values to change the frequency are multiplied by 100 (so you can add/subtract 100 and 1000) or you just manually type in your desired frequency.
-You can also change the color of the frequency display on a receiver/transmitter in the configs.
-Same goes for the highlighting with the frequency sniffer!
+Wireless Redstone adds Redstone components to Minecraft, allowing Redstone components to be controlled remotely. The
+concept works like any transceiver functionality.
+
+**Note**: If you press `Shift` in the Frequency GUI, all values to change the frequency will be multiplied by 100 (so
+you can add/subtract 100 and 1000) or you can just type in your desired frequency manually. You can also change the
+color of the frequency display on a receiver/transmitter in the Configs. The same goes for highlighting with the
+Frequency Sniffer!
 
 ## Content
 
 ### Redstone Transmitter
 
-The Redstone Transmitter is transmitting a signal into the Redstone Network as soon as it gets turned on via a redstone signal and sets all Receivers on the same frequency also to high state.
-If there is more than one Transmitter transmitting on the same frequency then all Receivers on that frequency are high while at least one Transmitter on that frequency is on.
+The **Redstone Transmitter** transmits a signal to the Redstone Network when it is turned on by a Redstone signal and
+sets all receivers on the same frequency to high as well. If there is more than one transmitter transmitting on the same
+frequency, all receivers on that frequency will be high as long as at least one transmitter on that frequency is on.
 This block can be right-clicked to set the frequency.
 
 ### Redstone Receiver
 
-The Redstone Receiver outputs a redstone signal of 15 while there is at least one active Transmitter on the same frequency.
-This block can be right-clicked to set the frequency.
+The **Redstone Receiver** will output a Redstone signal of 15 as long as there is at least one active transmitter on the
+same frequency. This block can be right-clicked to set the frequency.
 
 ### Remote
 
-The Remote is the Item form of the Transmitter, while holding right-click the remote signal goes high.
-But it comes with the addition to copy the Frequency of a Transmitter or a Receiver by sneaking and right-click them.
-By sneak right-clicking the Remote (not onto a Transmitter/Receiver), you can set the frequency via the gui.
+The **Remote** is the item form of the Transmitter, while holding right-click the remote signal goes high. But it comes
+with the addition of being able to copy the frequency of a Transmitter or a Receiver by sneaking and right-clicking it.
+By sneaking and right-clicking the remote (not on a transmitter/receiver), you can set the frequency through the GUI.
 
 ### Frequency Tool
 
-The Frequency Tool is a handy tool that makes it easy for you to take a frequency and set multiple Transmitters and/or Receivers to the same frequency.
-When holding it in your hand you can copy a frequency into the Frequency Tool by sneaking and right-clicking onto a Transmitter or Receivers.
-To than copy the now stored frequency, simply right-click either a Transmitter or Receiver.
-By sneak right-clicking the Frequency Tool (not onto a Transmitter/Receiver), you can set the frequency via the gui.
+The **Frequency Tool** is a handy tool that makes it easy for you to take a frequency and set multiple transmitters
+and/or receivers to the same frequency. When holding it in your hand you can copy a frequency into the Frequency Tool by
+sneaking and right-clicking on a transmitter or receivers. To copy the now-stored frequency, simply right-click either a
+transmitter or receiver. By sneaking and right-clicking the frequency tool (not on a transmitter/receiver), you can set
+the frequency through the GUI.
 
 ### Frequency Sniffer
 
-The Frequency Sniffer can be used as a finding tool for active transmitter on a given frequency.
-As with other frequency tools too you can set the frequency by either manually via the sneak-rightclick gui or by sneak-rightclick a receiver/transmitter.
-By rightclicking this sniffer tool all active transmitters on the set frequency in range will be highlighted with a wireframe around the transmitter block.
-There is also a chat message telling where the all active transmitters are located at by showing the blockposition.
-If you are admin/op too you can also click on the blockposition to teleport there. Example in the screenshot area.
-You can also change the highlight color in the configs!
+The **Frequency Sniffer** can be used as a tool to find active transmitters on a given frequency. As with other
+frequency tools too you can set the frequency either manually over the gui or copying it from a transmitter/receiver.
+When you right-click the sniffer tool all active transmitters on the set frequency within range are highlighted with a
+wireframe around the transmitter block. There is also a chat message that tells you where all the active transmitters
+are located at by showing the block position. If you are an admin/op, you can also click on the block position to
+teleport there. See example in the screenshot section. You can also change the highlight color in the configs!
 
+### Circuit
+
+The **Circuit** is for crafting purposes only.
 
 [github-builds]: https://github.com/Razzokk/wireless-redstone/actions
 [modrinth]: https://modrinth.com/mod/wirelessredstone
