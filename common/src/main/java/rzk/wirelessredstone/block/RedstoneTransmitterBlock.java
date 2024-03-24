@@ -1,12 +1,12 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
@@ -40,7 +40,7 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		super.onStateReplaced(state, world, pos, newState, moved);
 	}
 
-	private boolean isReceivingRedstonePower(BlockState state, World world, BlockPos pos)
+	private boolean isReceivingRedstonePower(BlockState state, WorldAccess world, BlockPos pos)
 	{
 		for (Direction side : DIRECTIONS)
 			if (isSideConnectable(state, world, pos, side) && world.isEmittingRedstonePower(pos.offset(side), side))
@@ -53,16 +53,14 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 	{
 		var powered = isReceivingRedstonePower(state, world, pos);
 		if (state.get(POWERED) != powered) state = state.with(POWERED, powered);
-		world.setBlockState(pos, state, Block.NOTIFY_LISTENERS);
+		world.setBlockState(pos, state);
 	}
 
 	@Override
-	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify)
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos)
 	{
-		if (world.isClient) return;
 		boolean powered = isReceivingRedstonePower(state, world, pos);
-		if (state.get(POWERED) == powered) return;
-		world.setBlockState(pos, state.with(POWERED, powered), Block.NOTIFY_LISTENERS);
+		return state.with(POWERED, powered);
 	}
 
 	@Nullable

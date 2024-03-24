@@ -6,10 +6,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -17,9 +17,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.api.RedstoneConnectable;
 import rzk.wirelessredstone.api.SideConnectable;
 import rzk.wirelessredstone.block.entity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.item.FrequencyItem;
@@ -34,7 +34,7 @@ import static net.minecraft.state.property.Properties.SOUTH;
 import static net.minecraft.state.property.Properties.UP;
 import static net.minecraft.state.property.Properties.WEST;
 
-public abstract class RedstoneTransceiverBlock extends Block implements BlockEntityProvider, SideConnectable
+public abstract class RedstoneTransceiverBlock extends Block implements BlockEntityProvider, SideConnectable, RedstoneConnectable
 {
 	public RedstoneTransceiverBlock()
 	{
@@ -54,6 +54,19 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 			.with(WEST, true));
 	}
 
+	protected BooleanProperty propertyFromSide(Direction side)
+	{
+		return switch (side)
+		{
+			case DOWN -> DOWN;
+			case UP -> UP;
+			case NORTH -> NORTH;
+			case SOUTH -> SOUTH;
+			case WEST -> WEST;
+			case EAST -> EAST;
+		};
+	}
+
 	public void setFrequency(World world, BlockPos pos, int frequency)
 	{
 		if (WRUtils.isValidFrequency(frequency) && world.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
@@ -68,38 +81,23 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	}
 
 	@Override
-	public boolean emitsRedstonePower(BlockState state)
+	public boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, Direction side)
 	{
-		return true;
+		if (side == null) return false;
+		return state.get(propertyFromSide(side));
 	}
 
 	@Override
 	public boolean isSideConnectable(BlockState state, BlockView world, BlockPos pos, Direction side)
 	{
-		return switch (side)
-		{
-			case DOWN -> state.get(DOWN);
-			case UP -> state.get(UP);
-			case NORTH -> state.get(NORTH);
-			case SOUTH -> state.get(SOUTH);
-			case WEST -> state.get(WEST);
-			case EAST -> state.get(EAST);
-		};
+		return connectsToRedstone(state, world, pos, side);
 	}
 
 	@Override
 	public void toggleSideConnectable(BlockState state, World world, BlockPos pos, Direction side)
 	{
-		var newState = switch (side)
-		{
-			case DOWN -> state.cycle(DOWN);
-			case UP -> state.cycle(UP);
-			case NORTH -> state.cycle(NORTH);
-			case SOUTH -> state.cycle(SOUTH);
-			case WEST -> state.cycle(WEST);
-			case EAST -> state.cycle(EAST);
-		};
-
+		if (world.isClient) return;
+		var newState = state.cycle(propertyFromSide(side));
 		onSideConnectableToggled(newState, world, pos, side);
 	}
 

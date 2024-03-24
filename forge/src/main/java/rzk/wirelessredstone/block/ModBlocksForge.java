@@ -12,8 +12,8 @@ public final class ModBlocksForge
 	{
 		event.register(ForgeRegistries.Keys.BLOCKS, helper ->
 		{
-			ModBlocks.redstoneTransmitter = WREvents.register(helper, "redstone_transmitter", new RedstoneTransmitterBlock());
-			ModBlocks.redstoneReceiver = WREvents.register(helper, "redstone_receiver", new RedstoneReceiverBlock());
+			ModBlocks.redstoneTransmitter = WREvents.register(helper, "redstone_transmitter", new RedstoneTransmitterBlockWrapper());
+			ModBlocks.redstoneReceiver = WREvents.register(helper, "redstone_receiver", new RedstoneReceiverBlockWrapper());
 		});
 	}
 }
