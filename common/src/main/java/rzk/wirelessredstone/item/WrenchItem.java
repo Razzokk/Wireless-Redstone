@@ -9,7 +9,7 @@ public class WrenchItem extends Item
 {
 	public WrenchItem(Settings settings)
 	{
-		super(settings);
+		super(settings.maxCount(1));
 	}
 
 	@Override

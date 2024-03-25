@@ -54,17 +54,15 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 			.with(WEST, true));
 	}
 
-	protected BooleanProperty propertyFromSide(Direction side)
-	{
-		return switch (side)
-		{
-			case DOWN -> DOWN;
-			case UP -> UP;
-			case NORTH -> NORTH;
-			case SOUTH -> SOUTH;
-			case WEST -> WEST;
-			case EAST -> EAST;
-		};
+	private static final BooleanProperty[] SIDE_TO_PROPERTY = new BooleanProperty[Direction.values().length];
+
+	static {
+		SIDE_TO_PROPERTY[Direction.DOWN.getId()] = DOWN;
+		SIDE_TO_PROPERTY[Direction.UP.getId()] = UP;
+		SIDE_TO_PROPERTY[Direction.NORTH.getId()] = NORTH;
+		SIDE_TO_PROPERTY[Direction.SOUTH.getId()] = SOUTH;
+		SIDE_TO_PROPERTY[Direction.WEST.getId()] = WEST;
+		SIDE_TO_PROPERTY[Direction.EAST.getId()] = EAST;
 	}
 
 	public void setFrequency(World world, BlockPos pos, int frequency)
@@ -84,7 +82,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	public boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, Direction side)
 	{
 		if (side == null) return false;
-		return state.get(propertyFromSide(side));
+		return state.get(SIDE_TO_PROPERTY[side.getId()]);
 	}
 
 	@Override
@@ -97,7 +95,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	public void toggleSideConnectable(BlockState state, World world, BlockPos pos, Direction side)
 	{
 		if (world.isClient) return;
-		var newState = state.cycle(propertyFromSide(side));
+		var newState = state.cycle(SIDE_TO_PROPERTY[side.getId()]);
 		onSideConnectableToggled(newState, world, pos, side);
 	}
 

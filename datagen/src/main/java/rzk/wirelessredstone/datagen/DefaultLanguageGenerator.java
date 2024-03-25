@@ -25,6 +25,7 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(ModItems.frequencyTool, "Frequency Tool");
 		translations.add(ModItems.frequencySniffer, "Frequency Sniffer");
 		translations.add(ModItems.remote, "Remote");
+		translations.add(ModItems.wrench, "Wrench");
 
 		// Other
 		translations.add(TranslationKeys.ITEM_GROUP_WIRELESS_REDSTONE, "Wireless Redstone");
