@@ -4,13 +4,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.MapColor;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +29,10 @@ import rzk.wirelessredstone.api.SideConnectable;
 import rzk.wirelessredstone.block.entity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.item.FrequencyItem;
 import rzk.wirelessredstone.item.WrenchItem;
+import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRUtils;
+
+import java.util.List;
 
 import static net.minecraft.state.property.Properties.DOWN;
 import static net.minecraft.state.property.Properties.EAST;
@@ -141,5 +149,15 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
 	{
 		builder.add(POWERED, UP, DOWN, NORTH, SOUTH, EAST, WEST);
+	}
+
+	@Override
+	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options)
+	{
+		var frequency = WRUtils.readFrequency(BlockItem.getBlockEntityNbt(stack));
+		if (!WRUtils.isValidFrequency(frequency)) return;
+
+		Text frequencyComponent = Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
+		tooltip.add(Text.translatable(TranslationKeys.TOOLTIP_FREQUENCY, frequencyComponent).formatted(Formatting.GRAY));
 	}
 }
