@@ -38,15 +38,9 @@ public class RedstoneReceiverBlock extends RedstoneTransceiverBlock
 	}
 
 	@Override
-	protected void onSideConnectableToggled(BlockState state, World world, BlockPos pos, Direction side)
-	{
-		world.setBlockState(pos, state);
-	}
-
-	@Override
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction)
 	{
-		return isSideConnectable(state, world, pos, direction.getOpposite()) && state.get(POWERED) ?
+		return state.get(POWERED) && connectsToRedstone(state, world, pos, direction) ?
 			WRConfig.redstoneReceiverSignalStrength : 0;
 	}
 

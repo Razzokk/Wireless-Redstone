@@ -17,12 +17,13 @@ public class WrenchItem extends Item
 	{
 		var world = ctx.getWorld();
 		var pos = ctx.getBlockPos();
-		var state = world.getBlockState(pos);
 
-		if (!(state.getBlock() instanceof SideConnectable connectable))
+		if (!(world.getBlockEntity(pos) instanceof SideConnectable connectable))
 			return super.useOnBlock(ctx);
 
-		connectable.toggleSideConnectable(state, world, pos, ctx.getSide());
+		if (!world.isClient)
+			connectable.toggleSideConnectable(ctx.getSide());
+
 		return ActionResult.SUCCESS;
 	}
 }

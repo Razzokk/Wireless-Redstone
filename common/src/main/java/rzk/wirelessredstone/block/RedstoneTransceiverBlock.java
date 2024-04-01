@@ -7,12 +7,10 @@ import net.minecraft.block.MapColor;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Formatting;
@@ -34,15 +32,9 @@ import rzk.wirelessredstone.misc.WRUtils;
 
 import java.util.List;
 
-import static net.minecraft.state.property.Properties.DOWN;
-import static net.minecraft.state.property.Properties.EAST;
-import static net.minecraft.state.property.Properties.NORTH;
 import static net.minecraft.state.property.Properties.POWERED;
-import static net.minecraft.state.property.Properties.SOUTH;
-import static net.minecraft.state.property.Properties.UP;
-import static net.minecraft.state.property.Properties.WEST;
 
-public abstract class RedstoneTransceiverBlock extends Block implements BlockEntityProvider, SideConnectable, RedstoneConnectable
+public abstract class RedstoneTransceiverBlock extends Block implements BlockEntityProvider, RedstoneConnectable
 {
 	public RedstoneTransceiverBlock()
 	{
@@ -52,25 +44,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 			.strength(1.5F, 5.0F)
 			.sounds(BlockSoundGroup.METAL));
 
-		setDefaultState(stateManager.getDefaultState()
-			.with(POWERED, false)
-			.with(UP, true)
-			.with(DOWN, true)
-			.with(NORTH, true)
-			.with(SOUTH, true)
-			.with(EAST, true)
-			.with(WEST, true));
-	}
-
-	private static final BooleanProperty[] SIDE_TO_PROPERTY = new BooleanProperty[Direction.values().length];
-
-	static {
-		SIDE_TO_PROPERTY[Direction.DOWN.getId()] = DOWN;
-		SIDE_TO_PROPERTY[Direction.UP.getId()] = UP;
-		SIDE_TO_PROPERTY[Direction.NORTH.getId()] = NORTH;
-		SIDE_TO_PROPERTY[Direction.SOUTH.getId()] = SOUTH;
-		SIDE_TO_PROPERTY[Direction.WEST.getId()] = WEST;
-		SIDE_TO_PROPERTY[Direction.EAST.getId()] = EAST;
+		setDefaultState(stateManager.getDefaultState().with(POWERED, false));
 	}
 
 	public void setFrequency(World world, BlockPos pos, int frequency)
@@ -87,49 +61,11 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	}
 
 	@Override
-	public boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, Direction side)
+	public boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, Direction direction)
 	{
-		if (side == null) return false;
-		return state.get(SIDE_TO_PROPERTY[side.getId()]);
+		if (direction == null || !(world.getBlockEntity(pos) instanceof SideConnectable connectable)) return false;
+		return connectable.isSideConnectable(direction.getOpposite());
 	}
-
-	@Override
-	public boolean isSideConnectable(BlockState state, BlockView world, BlockPos pos, Direction side)
-	{
-		return connectsToRedstone(state, world, pos, side);
-	}
-
-	@Override
-	public void toggleSideConnectable(BlockState state, World world, BlockPos pos, Direction side)
-	{
-		if (world.isClient) return;
-		var newState = state.cycle(SIDE_TO_PROPERTY[side.getId()]);
-		onSideConnectableToggled(newState, world, pos, side);
-	}
-
-	@Nullable
-	@Override
-	public BlockState getPlacementState(ItemPlacementContext ctx)
-	{
-		var stack = ctx.getStack();
-		var nbt = stack.getNbt();
-		var state = getDefaultState();
-
-		if (nbt != null && nbt.contains("connection_state"))
-		{
-			var connectionState = nbt.getByte("connection_state");
-			state = state.with(UP, (connectionState & (1 << Direction.UP.getId())) != 0)
-				.with(DOWN, (connectionState & (1 << Direction.DOWN.getId())) != 0)
-				.with(NORTH, (connectionState & (1 << Direction.NORTH.getId())) != 0)
-				.with(SOUTH, (connectionState & (1 << Direction.SOUTH.getId())) != 0)
-				.with(EAST, (connectionState & (1 << Direction.EAST.getId())) != 0)
-				.with(WEST, (connectionState & (1 << Direction.WEST.getId())) != 0);
-		}
-
-		return state;
-	}
-
-	protected abstract void onSideConnectableToggled(BlockState state, World world, BlockPos pos, Direction side);
 
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
@@ -148,7 +84,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
 	{
-		builder.add(POWERED, UP, DOWN, NORTH, SOUTH, EAST, WEST);
+		builder.add(POWERED);
 	}
 
 	@Override

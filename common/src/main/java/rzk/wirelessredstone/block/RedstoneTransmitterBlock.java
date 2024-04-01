@@ -8,6 +8,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
+import rzk.wirelessredstone.api.SideConnectable;
 import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
 
@@ -22,7 +23,7 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		var world = ctx.getWorld();
 		var pos = ctx.getBlockPos();
 		var state = super.getPlacementState(ctx);
-		return state.with(POWERED, isReceivingRedstonePower(state, world, pos));
+		return state.with(POWERED, isReceivingRedstonePower(world, pos));
 	}
 
 	@Override
@@ -40,26 +41,21 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		super.onStateReplaced(state, world, pos, newState, moved);
 	}
 
-	private boolean isReceivingRedstonePower(BlockState state, WorldAccess world, BlockPos pos)
+	public boolean isReceivingRedstonePower(WorldAccess world, BlockPos pos)
 	{
-		for (Direction side : DIRECTIONS)
-			if (isSideConnectable(state, world, pos, side) && world.isEmittingRedstonePower(pos.offset(side), side))
-				return true;
-		return false;
-	}
+		if (!(world.getBlockEntity(pos) instanceof SideConnectable connectable)) return false;
 
-	@Override
-	protected void onSideConnectableToggled(BlockState state, World world, BlockPos pos, Direction side)
-	{
-		var powered = isReceivingRedstonePower(state, world, pos);
-		if (state.get(POWERED) != powered) state = state.with(POWERED, powered);
-		world.setBlockState(pos, state);
+		for (Direction side : DIRECTIONS)
+			if (connectable.isSideConnectable(side) && world.isEmittingRedstonePower(pos.offset(side), side))
+				return true;
+
+		return false;
 	}
 
 	@Override
 	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos)
 	{
-		boolean powered = isReceivingRedstonePower(state, world, pos);
+		boolean powered = isReceivingRedstonePower(world, pos);
 		return state.with(POWERED, powered);
 	}
 

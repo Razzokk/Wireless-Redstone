@@ -12,5 +12,5 @@ public interface RedstoneConnectable
 	 * For the same purpose as {@link net.minecraft.block.AbstractBlock#emitsRedstonePower(BlockState)}
 	 * but differentiating sides.
 	 */
-	boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, @Nullable Direction side);
+	boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, @Nullable Direction direction);
 }

@@ -4,6 +4,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.WRUtils;
@@ -40,5 +41,28 @@ public class RedstoneTransmitterBlockEntity extends RedstoneTransceiverBlockEnti
 		if (world.isClient || !state.get(POWERED) || !WRUtils.isValidFrequency(frequency)) return;
 		RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
 		ether.removeTransmitter(world, pos, frequency);
+	}
+
+	@Override
+	public void toggleSideConnectable(Direction side)
+	{
+		super.toggleSideConnectable(side);
+		var state = getCachedState();
+
+		if (!state.get(POWERED))
+		{
+			if (isSideConnectable(side) && world.isEmittingRedstonePower(pos.offset(side), side))
+				world.setBlockState(pos, state.with(POWERED, true));
+			return;
+		}
+
+		for (Direction dir : Direction.values())
+		{
+			if (dir == side) continue;
+			if (isSideConnectable(dir) && world.isEmittingRedstonePower(pos.offset(dir), dir))
+				return;
+		}
+
+		world.setBlockState(pos, state.with(POWERED, false));
 	}
 }
