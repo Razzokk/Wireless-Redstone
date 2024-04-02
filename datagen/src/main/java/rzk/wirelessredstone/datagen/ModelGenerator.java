@@ -53,9 +53,9 @@ public class ModelGenerator extends FabricModelProvider
 	private static void transceiverBlock(BlockStateModelGenerator generator, Block block)
 	{
 		Function<String, TextureMap> textureMap = state -> new TextureMap()
-			.put(TextureKey.SIDE, TextureMap.getSubId(block, "_side_" + state))
-			.put(TextureKey.TOP, TextureMap.getSubId(block, "_top_" + state))
-			.put(TextureKey.BOTTOM, TextureMap.getSubId(block, "_bottom_" + state));
+			.put(TextureKey.SIDE, TextureMap.getSubId(block, "/side_" + state))
+			.put(TextureKey.TOP, TextureMap.getSubId(block, "/top_" + state))
+			.put(TextureKey.BOTTOM, TextureMap.getSubId(block, "/bottom_" + state));
 
 		Identifier off = Models.CUBE_BOTTOM_TOP.upload(ModelIds.getBlockSubModelId(block, "_off"), textureMap.apply("off"), generator.modelCollector);
 		Identifier on = Models.CUBE_BOTTOM_TOP.upload(ModelIds.getBlockSubModelId(block, "_on"), textureMap.apply("on"), generator.modelCollector);

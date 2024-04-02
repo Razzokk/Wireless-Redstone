@@ -11,7 +11,9 @@ with the minecraft version prepended to it.
 - Show frequency of transmitters and receivers when picked up with nbt data
 
 ### Changed
-- Separate datagen project
+- Separate datagen sub-project
+- Moved block textures to their respective directories
+  - If you have a custom resource pack for Wireless Redstone, you have to move and rename them too
 
 ## [1.20.4-1.1.3] - 2024-03-19
 
