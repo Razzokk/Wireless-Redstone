@@ -11,14 +11,14 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.api.SideConnectable;
-import rzk.wirelessredstone.api.SidedBitSet;
+import rzk.wirelessredstone.api.Connectable;
+import rzk.wirelessredstone.api.ConnectableImpl;
 import rzk.wirelessredstone.misc.WRUtils;
 
-public abstract class RedstoneTransceiverBlockEntity extends BlockEntity implements SideConnectable
+public abstract class RedstoneTransceiverBlockEntity extends BlockEntity implements Connectable
 {
 	protected int frequency = WRUtils.INVALID_FREQUENCY;
-	protected SidedBitSet connections = SidedBitSet.allSet();
+	protected ConnectableImpl connections = ConnectableImpl.allSet();
 
 	public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
 	{
@@ -54,22 +54,21 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity impleme
 	{
 		NbtCompound nbt = new NbtCompound();
 		WRUtils.writeFrequency(nbt, frequency);
-		connections.saveNbt("connections", nbt);
+		connections.saveNbt(nbt);
 		return nbt;
 	}
 
 	@Override
-	public boolean isSideConnectable(Direction side)
+	public boolean isConnectable(Direction side)
 	{
-		return connections.get(side);
+		return connections.isConnectable(side);
 	}
 
 	@Override
-	public void toggleSideConnectable(Direction side)
+	public void toggleConnectable(Direction side)
 	{
-		connections.toggleBit(side);
+		connections.toggleConnectable(side);
 		markDirty();
-
 
 		var state = getCachedState();
 		world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
@@ -84,7 +83,7 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity impleme
 	{
 		super.readNbt(nbt);
 		frequency = WRUtils.readFrequency(nbt);
-		connections = new SidedBitSet("connections", nbt);
+		connections = new ConnectableImpl(nbt);
 	}
 
 	@Override
@@ -92,6 +91,6 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity impleme
 	{
 		super.writeNbt(nbt);
 		WRUtils.writeFrequency(nbt, frequency);
-		connections.saveNbt("connections", nbt);
+		connections.saveNbt(nbt);
 	}
 }

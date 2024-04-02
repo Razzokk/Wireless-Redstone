@@ -3,7 +3,7 @@ package rzk.wirelessredstone.item;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
-import rzk.wirelessredstone.api.SideConnectable;
+import rzk.wirelessredstone.api.Connectable;
 
 public class WrenchItem extends Item
 {
@@ -18,11 +18,11 @@ public class WrenchItem extends Item
 		var world = ctx.getWorld();
 		var pos = ctx.getBlockPos();
 
-		if (!(world.getBlockEntity(pos) instanceof SideConnectable connectable))
+		if (!(world.getBlockEntity(pos) instanceof Connectable connectable))
 			return super.useOnBlock(ctx);
 
 		if (!world.isClient)
-			connectable.toggleSideConnectable(ctx.getSide());
+			connectable.toggleConnectable(ctx.getSide());
 
 		return ActionResult.SUCCESS;
 	}

@@ -44,14 +44,14 @@ public class RedstoneTransmitterBlockEntity extends RedstoneTransceiverBlockEnti
 	}
 
 	@Override
-	public void toggleSideConnectable(Direction side)
+	public void toggleConnectable(Direction side)
 	{
-		super.toggleSideConnectable(side);
+		super.toggleConnectable(side);
 		var state = getCachedState();
 
 		if (!state.get(POWERED))
 		{
-			if (isSideConnectable(side) && world.isEmittingRedstonePower(pos.offset(side), side))
+			if (isConnectable(side) && world.isEmittingRedstonePower(pos.offset(side), side))
 				world.setBlockState(pos, state.with(POWERED, true));
 			return;
 		}
@@ -59,7 +59,7 @@ public class RedstoneTransmitterBlockEntity extends RedstoneTransceiverBlockEnti
 		for (Direction dir : Direction.values())
 		{
 			if (dir == side) continue;
-			if (isSideConnectable(dir) && world.isEmittingRedstonePower(pos.offset(dir), dir))
+			if (isConnectable(dir) && world.isEmittingRedstonePower(pos.offset(dir), dir))
 				return;
 		}
 
