@@ -1,10 +1,14 @@
-package rzk.wirelessredstone.item;
+package rzk.wirelessredstone.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.item.FrequencyItem;
+import rzk.wirelessredstone.item.RemoteItem;
+import rzk.wirelessredstone.item.SnifferItem;
+import rzk.wirelessredstone.item.WrenchItem;
 
 public final class ModItemsFabric
 {

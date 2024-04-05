@@ -16,8 +16,8 @@ import net.minecraft.item.Item;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.item.ModItems;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModItems;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

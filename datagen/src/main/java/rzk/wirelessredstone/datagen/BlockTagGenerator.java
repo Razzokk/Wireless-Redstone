@@ -8,7 +8,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Identifier;
-import rzk.wirelessredstone.block.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 import java.util.concurrent.CompletableFuture;
 

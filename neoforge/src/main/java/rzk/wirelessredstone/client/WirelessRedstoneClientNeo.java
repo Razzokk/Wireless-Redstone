@@ -5,9 +5,9 @@ import net.minecraft.util.Identifier;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
-import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.client.render.SnifferHighlightRenderer;
-import rzk.wirelessredstone.item.ModItems;
+import rzk.wirelessredstone.registry.ModBlockEntities;
+import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.render.RedstoneTransceiverBER;
 
 public class WirelessRedstoneClientNeo

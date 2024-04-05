@@ -7,8 +7,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.item.RemoteItem;
+import rzk.wirelessredstone.registry.ModItems;
 
 public class WREvents
 {

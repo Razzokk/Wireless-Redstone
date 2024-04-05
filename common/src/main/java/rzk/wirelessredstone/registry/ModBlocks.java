@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.block;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.block.Block;
 

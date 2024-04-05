@@ -8,8 +8,8 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.network.PacketDistributor;
 import rzk.wirelessredstone.network.FrequencyBlockPacket;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
-import rzk.wirelessredstone.network.ModNetworking;
 import rzk.wirelessredstone.network.SnifferHighlightPacket;
+import rzk.wirelessredstone.registry.ModNetworking;
 
 import java.io.File;
 

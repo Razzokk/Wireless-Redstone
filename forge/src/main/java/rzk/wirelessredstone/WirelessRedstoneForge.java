@@ -13,17 +13,17 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
-import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.block.ModBlocksForge;
-import rzk.wirelessredstone.block.entity.ModBlockEntitiesForge;
 import rzk.wirelessredstone.client.WirelessRedstoneClientForge;
 import rzk.wirelessredstone.client.screen.ModScreens;
-import rzk.wirelessredstone.item.ModItems;
-import rzk.wirelessredstone.item.ModItemsForge;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.misc.WREvents;
-import rzk.wirelessredstone.network.ModNetworking;
+import rzk.wirelessredstone.registry.ModBlockEntitiesForge;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocksForge;
+import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.registry.ModItemsForge;
+import rzk.wirelessredstone.registry.ModNetworking;
 
 @Mod(WirelessRedstone.MODID)
 public class WirelessRedstoneForge

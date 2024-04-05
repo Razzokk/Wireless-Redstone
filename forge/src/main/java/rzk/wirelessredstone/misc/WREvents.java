@@ -7,8 +7,8 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.RegisterEvent;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.item.RemoteItem;
+import rzk.wirelessredstone.registry.ModItems;
 
 public class WREvents
 {

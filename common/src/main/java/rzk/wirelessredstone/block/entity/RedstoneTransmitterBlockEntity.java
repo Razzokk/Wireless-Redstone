@@ -8,6 +8,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.WRUtils;
+import rzk.wirelessredstone.registry.ModBlockEntities;
 
 import static net.minecraft.state.property.Properties.POWERED;
 

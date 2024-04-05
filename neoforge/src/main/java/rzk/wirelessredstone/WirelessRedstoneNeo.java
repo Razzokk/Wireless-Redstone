@@ -11,17 +11,17 @@ import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.ConfigScreenHandler;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.block.ModBlocksNeo;
-import rzk.wirelessredstone.block.entity.ModBlockEntitiesNeo;
 import rzk.wirelessredstone.client.WirelessRedstoneClientNeo;
 import rzk.wirelessredstone.client.screen.ModScreens;
-import rzk.wirelessredstone.item.ModItems;
-import rzk.wirelessredstone.item.ModItemsNeo;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.misc.WREvents;
-import rzk.wirelessredstone.network.ModNetworking;
+import rzk.wirelessredstone.registry.ModBlockEntitiesNeo;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocksNeo;
+import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.registry.ModItemsNeo;
+import rzk.wirelessredstone.registry.ModNetworking;
 
 @Mod(WirelessRedstone.MODID)
 public class WirelessRedstoneNeo

@@ -9,8 +9,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.api.Connectable;
-import rzk.wirelessredstone.block.entity.ModBlockEntities;
 import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
+import rzk.wirelessredstone.registry.ModBlockEntities;
 
 import static net.minecraft.state.property.Properties.POWERED;
 

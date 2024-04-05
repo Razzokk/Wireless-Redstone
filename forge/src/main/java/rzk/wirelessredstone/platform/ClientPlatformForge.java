@@ -5,7 +5,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.network.PacketDistributor;
 import rzk.wirelessredstone.network.FrequencyBlockPacket;
 import rzk.wirelessredstone.network.FrequencyItemPacket;
-import rzk.wirelessredstone.network.ModNetworking;
+import rzk.wirelessredstone.registry.ModNetworking;
 
 public class ClientPlatformForge implements ClientPlatform
 {

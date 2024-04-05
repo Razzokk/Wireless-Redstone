@@ -1,7 +1,9 @@
-package rzk.wirelessredstone.block;
+package rzk.wirelessredstone.registry;
 
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
+import rzk.wirelessredstone.block.RedstoneReceiverBlockWrapper;
+import rzk.wirelessredstone.block.RedstoneTransmitterBlockWrapper;
 import rzk.wirelessredstone.misc.WREvents;
 
 public final class ModBlocksForge

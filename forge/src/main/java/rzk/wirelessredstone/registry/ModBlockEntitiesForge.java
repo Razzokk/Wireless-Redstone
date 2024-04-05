@@ -1,19 +1,20 @@
-package rzk.wirelessredstone.block.entity;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.registry.Registries;
-import net.neoforged.neoforge.registries.RegisterEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.block.ModBlocks;
+import rzk.wirelessredstone.block.entity.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
 
-public final class ModBlockEntitiesNeo
+public final class ModBlockEntitiesForge
 {
-	private ModBlockEntitiesNeo() {}
+	private ModBlockEntitiesForge() {}
 
 	public static void registerBlockEntities(RegisterEvent event)
 	{
-		event.register(Registries.BLOCK_ENTITY_TYPE.getKey(), helper ->
+		event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, helper ->
 		{
 			ModBlockEntities.redstoneTransmitterBlockEntityType = registerBlockEntityType(helper, "redstone_transmitter_block_entity", BlockEntityType.Builder.create(RedstoneTransmitterBlockEntity::new, ModBlocks.redstoneTransmitter).build(null));
 			ModBlockEntities.redstoneReceiverBlockEntityType = registerBlockEntityType(helper, "redstone_receiver_block_entity", BlockEntityType.Builder.create(RedstoneReceiverBlockEntity::new, ModBlocks.redstoneReceiver).build(null));

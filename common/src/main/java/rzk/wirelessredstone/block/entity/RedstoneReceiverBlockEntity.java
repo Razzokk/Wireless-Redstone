@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.WRUtils;
+import rzk.wirelessredstone.registry.ModBlockEntities;
 
 public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
 {

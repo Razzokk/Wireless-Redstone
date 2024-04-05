@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.block;
+package rzk.wirelessredstone.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
@@ -6,7 +6,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.item.ModItemsFabric;
+import rzk.wirelessredstone.block.RedstoneReceiverBlock;
+import rzk.wirelessredstone.block.RedstoneTransmitterBlock;
 
 public final class ModBlocksFabric
 {

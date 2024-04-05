@@ -7,14 +7,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
-import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.block.ModBlocksFabric;
-import rzk.wirelessredstone.block.entity.ModBlockEntitiesFabric;
-import rzk.wirelessredstone.item.ModItems;
-import rzk.wirelessredstone.item.ModItemsFabric;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRConfig;
-import rzk.wirelessredstone.network.ModNetworking;
+import rzk.wirelessredstone.registry.ModBlockEntitiesFabric;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocksFabric;
+import rzk.wirelessredstone.registry.ModItems;
+import rzk.wirelessredstone.registry.ModItemsFabric;
+import rzk.wirelessredstone.registry.ModNetworking;
 
 public class WirelessRedstoneFabric implements ModInitializer
 {

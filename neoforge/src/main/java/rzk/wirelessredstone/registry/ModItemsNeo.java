@@ -1,10 +1,13 @@
-package rzk.wirelessredstone.item;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.neoforged.neoforge.registries.RegisterEvent;
-import rzk.wirelessredstone.block.ModBlocks;
+import rzk.wirelessredstone.item.FrequencyItem;
+import rzk.wirelessredstone.item.RemoteItemWrapper;
+import rzk.wirelessredstone.item.SnifferItem;
+import rzk.wirelessredstone.item.WrenchItem;
 import rzk.wirelessredstone.misc.WREvents;
 
 public final class ModItemsNeo

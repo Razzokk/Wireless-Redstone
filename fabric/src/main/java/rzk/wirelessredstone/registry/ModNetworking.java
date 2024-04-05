@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.network;
+package rzk.wirelessredstone.registry;
 
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -7,8 +7,9 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import rzk.wirelessredstone.block.RedstoneTransceiverBlock;
 import rzk.wirelessredstone.item.FrequencyItem;
-import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.item.RemoteItem;
+import rzk.wirelessredstone.network.FrequencyBlockPacket;
+import rzk.wirelessredstone.network.FrequencyItemPacket;
 
 public class ModNetworking
 {

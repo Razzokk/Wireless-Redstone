@@ -7,8 +7,8 @@ import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import rzk.wirelessredstone.block.ModBlocks;
 import rzk.wirelessredstone.misc.WRUtils;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 import java.util.HashSet;
 import java.util.Set;

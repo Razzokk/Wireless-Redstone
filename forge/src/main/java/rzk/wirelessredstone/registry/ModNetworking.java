@@ -1,9 +1,12 @@
-package rzk.wirelessredstone.network;
+package rzk.wirelessredstone.registry;
 
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.SimpleChannel;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.network.FrequencyBlockPacket;
+import rzk.wirelessredstone.network.FrequencyItemPacket;
+import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 public class ModNetworking
 {

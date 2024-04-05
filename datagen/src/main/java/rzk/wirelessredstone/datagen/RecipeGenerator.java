@@ -6,8 +6,8 @@ import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
-import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.item.ModItems;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModItems;
 
 public class RecipeGenerator extends FabricRecipeProvider
 {

@@ -2,7 +2,7 @@ package rzk.wirelessredstone.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
-import rzk.wirelessredstone.block.ModBlocks;
+import rzk.wirelessredstone.registry.ModBlocks;
 
 public class BlockLootTableGenerator extends FabricBlockLootTableProvider
 {

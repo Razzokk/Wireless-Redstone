@@ -1,6 +1,8 @@
-package rzk.wirelessredstone.block.entity;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.block.entity.BlockEntityType;
+import rzk.wirelessredstone.block.entity.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
 
 public class ModBlockEntities
 {

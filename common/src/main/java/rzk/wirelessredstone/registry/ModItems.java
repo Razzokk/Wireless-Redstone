@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.item;
+package rzk.wirelessredstone.registry;
 
 import net.minecraft.item.Item;
 

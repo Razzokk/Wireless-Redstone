@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.block.entity;
+package rzk.wirelessredstone.registry;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntity;
@@ -6,7 +6,8 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.block.ModBlocks;
+import rzk.wirelessredstone.block.entity.RedstoneReceiverBlockEntity;
+import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
 
 public final class ModBlockEntitiesFabric
 {

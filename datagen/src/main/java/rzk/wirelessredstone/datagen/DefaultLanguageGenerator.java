@@ -2,9 +2,9 @@ package rzk.wirelessredstone.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import rzk.wirelessredstone.block.ModBlocks;
-import rzk.wirelessredstone.item.ModItems;
 import rzk.wirelessredstone.misc.TranslationKeys;
+import rzk.wirelessredstone.registry.ModBlocks;
+import rzk.wirelessredstone.registry.ModItems;
 
 public class DefaultLanguageGenerator extends FabricLanguageProvider
 {

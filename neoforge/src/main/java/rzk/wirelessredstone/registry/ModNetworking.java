@@ -1,8 +1,11 @@
-package rzk.wirelessredstone.network;
+package rzk.wirelessredstone.registry;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlerEvent;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.network.FrequencyBlockPacket;
+import rzk.wirelessredstone.network.FrequencyItemPacket;
+import rzk.wirelessredstone.network.SnifferHighlightPacket;
 
 public class ModNetworking
 {
