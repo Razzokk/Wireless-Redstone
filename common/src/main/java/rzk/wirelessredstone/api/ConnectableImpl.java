@@ -2,6 +2,7 @@ package rzk.wirelessredstone.api;
 
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Direction;
+import rzk.wirelessredstone.misc.NbtKeys;
 
 public class ConnectableImpl implements Connectable
 {
@@ -14,7 +15,7 @@ public class ConnectableImpl implements Connectable
 
 	public ConnectableImpl(NbtCompound nbt)
 	{
-		this.connections = nbt.getByte("connections");
+		this.connections = nbt.getByte(NbtKeys.CONNECTIONS);
 	}
 
 	public static byte sideMask(Direction side)
@@ -29,7 +30,7 @@ public class ConnectableImpl implements Connectable
 
 	public void saveNbt(NbtCompound nbt)
 	{
-		nbt.putByte("connections", connections);
+		nbt.putByte(NbtKeys.CONNECTIONS, connections);
 	}
 
 	@Override

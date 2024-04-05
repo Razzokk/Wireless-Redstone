@@ -16,13 +16,13 @@ public class WRUtils
 	public static void writeFrequency(NbtCompound nbt, int frequency)
 	{
 		if (nbt == null || !isValidFrequency(frequency)) return;
-		nbt.putInt("frequency", frequency);
+		nbt.putInt(NbtKeys.FREQUENCY, frequency);
 	}
 
 	public static int readFrequency(NbtCompound nbt)
 	{
-		if (nbt == null || !nbt.contains("frequency")) return INVALID_FREQUENCY;
-		return nbt.getInt("frequency");
+		if (nbt == null || !nbt.contains(NbtKeys.FREQUENCY)) return INVALID_FREQUENCY;
+		return nbt.getInt(NbtKeys.FREQUENCY);
 	}
 
 	public static int clamp(int min, int max, int value)
