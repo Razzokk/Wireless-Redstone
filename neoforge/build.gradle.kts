@@ -40,7 +40,7 @@ dependencies {
 
 	neoForge("net.neoforged", "neoforge", neoVersion)
 
-	modApi("me.shedaniel.cloth:cloth-config-forge:$clothConfigVersion")
+	modApi("me.shedaniel.cloth:cloth-config-neoforge:$clothConfigVersion")
 
 	modLocalRuntime("mezz.jei:jei-$mcVersion-neoforge:$jeiVersion")
 }

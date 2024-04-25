@@ -5,8 +5,8 @@ import java.util.*
 
 plugins {
 	java
-	id("org.jetbrains.changelog") version "2.1.0"
-	id("dev.architectury.loom") version "1.5-SNAPSHOT" apply false
+	id("org.jetbrains.changelog") version "2.2.0"
+	id("dev.architectury.loom") version "1.6-SNAPSHOT" apply false
 	id("com.modrinth.minotaur") version "2.+" apply false
 	id("net.darkhax.curseforgegradle") version "1.+" apply false
 }
