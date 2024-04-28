@@ -18,19 +18,22 @@ with the minecraft version prepended to it.
 
 ### Changed
 
-- Separate datagen sub-project
+- Updated german translation
 - Moved block textures to their respective directories
-  - If you have a custom resource pack for Wireless Redstone, you have to move and rename them too
+	- If you have a custom resource pack for Wireless Redstone, you have to move and rename them too
 - Sniffer chat messages:
-	- From: `There are no active transmitters on this frequency (<frequency>)`, to: `No active transmitters on frequency <frequency>`
-	- From: `Active transmitters on this frequency (<frequency>): <transmitters>`, to: `Active transmitters on frequency <frequency>: <transmitters>`
-    - Changed style of how block positions are shown in chat (can now also be adjusted in lang file)
+	- From: `There are no active transmitters on this frequency (<frequency>)`,
+	  to: `No active transmitters on frequency <frequency>`
+	- From: `Active transmitters on this frequency (<frequency>): <transmitters>`,
+	  to: `Active transmitters on frequency <frequency>: <transmitters>`
+	- Changed style of how block positions are shown in chat (can now also be adjusted in lang file)
 - Dev only:
-  - Update architectury loom to 1.6
-  - Update changelog plugin to 2.2.0
-  - Update fabric loader and api to 0.15.10 and 0.97.0+1.20.4 respectively
-  - Update forge to 49.0.49
-  - Update neoforged to 20.4.233
+	- Separate datagen sub-project
+	- Update architectury loom to 1.6
+	- Update changelog plugin to 2.2.0
+	- Update fabric loader and api to 0.15.10 and 0.97.0+1.20.4 respectively
+	- Update forge to 49.0.49
+	- Update neoforged to 20.4.233
 
 ## [1.20.4-1.1.3] - 2024-03-19
 
@@ -54,11 +57,12 @@ Port to MC 1.20.4
 - GitHub repository url is now: https://github.com/Razzokk/wireless-redstone
 - Moved icon from `resources/` to `resources/assets/wirelessredstone/`
 - Dev only:
-	- Yarn mappings for fabric **and** forge (using [Architectury Loom](https://docs.architectury.dev/loom/introduction))
-    - Extracted most of the code into the common project -> less fabric and forge specific code
-    - Update forge to 47.2.20
-    - Update fabric loader and api to 0.15.6 and 0.92.0+1.20.1 respectively
-    - Use gradle v8.6
+	- Yarn mappings for fabric **and** forge (using
+	  [Architectury Loom](https://docs.architectury.dev/loom/introduction))
+	- Extracted most of the code into the common project -> less fabric and forge specific code
+	- Update forge to 47.2.20
+	- Update fabric loader and api to 0.15.6 and 0.92.0+1.20.1 respectively
+	- Use gradle v8.6
 
 ### Added
 
