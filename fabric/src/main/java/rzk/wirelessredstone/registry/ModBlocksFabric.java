@@ -1,8 +1,8 @@
 package rzk.wirelessredstone.registry;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import rzk.wirelessredstone.WirelessRedstone;
@@ -28,7 +28,7 @@ public final class ModBlocksFabric
 	public static Block registerBlock(String name, Block block)
 	{
 		registerBlockWithoutItem(name, block);
-		ModItemsFabric.registerItem(name, new BlockItem(block, new FabricItemSettings()));
+		ModItemsFabric.registerItem(name, new BlockItem(block, new Item.Settings()));
 		return block;
 	}
 }

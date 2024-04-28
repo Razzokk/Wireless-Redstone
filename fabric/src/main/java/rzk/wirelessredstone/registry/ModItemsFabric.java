@@ -1,6 +1,5 @@
 package rzk.wirelessredstone.registry;
 
-import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -17,10 +16,10 @@ public final class ModItemsFabric
 	public static void registerItems()
 	{
 		ModItems.circuit = registerItem("circuit", new Item(new Item.Settings()));
-		ModItems.frequencyTool = registerItem("frequency_tool", new FrequencyItem(new FabricItemSettings()));
-		ModItems.frequencySniffer = registerItem("frequency_sniffer", new SnifferItem(new FabricItemSettings()));
-		ModItems.remote = registerItem("remote", new RemoteItem(new FabricItemSettings()));
-		ModItems.wrench = registerItem("wrench", new WrenchItem(new FabricItemSettings()));
+		ModItems.frequencyTool = registerItem("frequency_tool", new FrequencyItem(new Item.Settings()));
+		ModItems.frequencySniffer = registerItem("frequency_sniffer", new SnifferItem(new Item.Settings()));
+		ModItems.remote = registerItem("remote", new RemoteItem(new Item.Settings()));
+		ModItems.wrench = registerItem("wrench", new WrenchItem(new Item.Settings()));
 	}
 
 	public static Item registerItem(String name, Item item)

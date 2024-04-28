@@ -17,7 +17,7 @@ import rzk.wirelessredstone.network.SnifferHighlightPacket;
 import rzk.wirelessredstone.registry.ModBlockEntities;
 import rzk.wirelessredstone.registry.ModItems;
 import rzk.wirelessredstone.render.RedstoneTransceiverBER;
-import rzk.wirelessredstone.render.SnifferHighlightRenderer;
+import rzk.wirelessredstone.render.WRWorldRendererFabric;
 import rzk.wirelessredstone.screen.FrequencyBlockScreen;
 import rzk.wirelessredstone.screen.FrequencyItemScreen;
 
@@ -30,13 +30,12 @@ public class WirelessRedstoneClientFabric implements ClientModInitializer
 		BlockEntityRendererFactories.register(ModBlockEntities.redstoneTransmitterBlockEntityType, RedstoneTransceiverBER::new);
 		BlockEntityRendererFactories.register(ModBlockEntities.redstoneReceiverBlockEntityType, RedstoneTransceiverBER::new);
 
-		WorldRenderEvents.AFTER_TRANSLUCENT.register(SnifferHighlightRenderer::renderSnifferHighlights);
+		WorldRenderEvents.AFTER_TRANSLUCENT.register(WRWorldRendererFabric::renderAfterTranslucent);
 
 		ClientPlayNetworking.registerGlobalReceiver(SnifferHighlightPacket.TYPE, (packet, player, responseSender) ->
 		{
 			ItemStack stack = player.getStackInHand(packet.hand());
-			if (stack.getItem() instanceof SnifferItem item)
-				item.setHighlightedBlocks(packet.timestamp(), stack, packet.coords());
+			SnifferItem.setHighlightedBlocks(packet.timestamp(), stack, packet.coords());
 		});
 
 		ClientPlayNetworking.registerGlobalReceiver(FrequencyBlockPacket.TYPE, (packet, player, responseSender) ->

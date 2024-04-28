@@ -1,6 +1,10 @@
 package rzk.wirelessredstone.misc;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.math.BlockPos;
 
 public class WRUtils
 {
@@ -28,5 +32,18 @@ public class WRUtils
 	public static int clamp(int min, int max, int value)
 	{
 		return Math.min(Math.max(min, value), max);
+	}
+
+	public static MutableText frequencyText(int frequency)
+	{
+		return Text.literal(String.valueOf(frequency)).formatted(Formatting.AQUA);
+	}
+
+	public static MutableText positionText(BlockPos pos)
+	{
+		var x = Text.literal(String.valueOf(pos.getX())).formatted(Formatting.YELLOW);
+		var y = Text.literal(String.valueOf(pos.getY())).formatted(Formatting.YELLOW);
+		var z = Text.literal(String.valueOf(pos.getZ())).formatted(Formatting.YELLOW);
+		return Text.translatable(TranslationKeys.TOOLTIP_POSITION, x, y, z).formatted(Formatting.WHITE);
 	}
 }

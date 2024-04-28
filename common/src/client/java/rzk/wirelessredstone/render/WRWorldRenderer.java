@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.client.render;
+package rzk.wirelessredstone.render;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -12,48 +12,30 @@ import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.minecraft.world.World;
 import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.misc.WRConfig;
 
-public class SnifferHighlightRenderer
+public class WRWorldRenderer
 {
-	public static void handleSnifferHighlightPacket(long timestamp, Hand hand, BlockPos[] coords)
+	public static void renderAfterTranslucent(World world, Vec3d cameraPosition, MatrixStack matrixStack, float tickDelta)
 	{
-		PlayerEntity player = MinecraftClient.getInstance().player;
-		ItemStack stack = player.getStackInHand(hand);
-		if (stack.getItem() instanceof SnifferItem item)
-			item.setHighlightedBlocks(timestamp, stack, coords);
-	}
-
-	@SubscribeEvent
-	public static void renderSnifferHighlights(RenderLevelStageEvent event)
-	{
-		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
+		matrixStack.push();
+		matrixStack.translate(-cameraPosition.x, -cameraPosition.y, -cameraPosition.z);
 
 		PlayerEntity player = MinecraftClient.getInstance().player;
 		ItemStack stack = player.getMainHandStack();
+		renderSnifferHighlights(player, stack, matrixStack);
 
-		if (!(stack.getItem() instanceof SnifferItem))
-			stack = player.getOffHandStack();
+		matrixStack.pop();
+	}
 
-		if (!(stack.getItem() instanceof SnifferItem) || !stack.hasNbt()) return;
-
-		NbtList coords = stack.getOrCreateNbt().getList("highlights", NbtElement.COMPOUND_TYPE);
-		if (coords.isEmpty()) return;
-
-		Vec3d cam = event.getCamera().getPos();
-		MatrixStack matrices = event.getPoseStack();
-		matrices.push();
-		matrices.translate(-cam.x, -cam.y, -cam.z);
+	private static void renderSnifferHighlights(PlayerEntity player, ItemStack stack, MatrixStack matrixStack)
+	{
+		var coords = SnifferItem.getHighlightedBlocks(stack);
+		if (coords == null) coords = SnifferItem.getHighlightedBlocks(player.getOffHandStack());
+		if (coords == null) return;
 
 		float red = ((WRConfig.highlightColor >> 16) & 0xFF) / 256.0f;
 		float green = ((WRConfig.highlightColor >> 8) & 0xFF) / 256.0f;
@@ -71,11 +53,10 @@ public class SnifferHighlightRenderer
 		BufferBuilder builder = tessellator.getBuffer();
 		builder.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
-		for (NbtElement posNbt : coords)
+		for (var pos : coords)
 		{
-			BlockPos pos = NbtHelper.toBlockPos((NbtCompound) posNbt);
 			player.shouldRender(pos.getX(), pos.getY(), pos.getZ());
-			WorldRenderer.drawBox(matrices, builder, pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1, red, green, blue, 1f);
+			WorldRenderer.drawBox(matrixStack, builder, pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1, red, green, blue, 1f);
 		}
 
 		tessellator.draw();
@@ -83,7 +64,5 @@ public class SnifferHighlightRenderer
 		RenderSystem.enableDepthTest();
 		RenderSystem.disableBlend();
 		RenderSystem.lineWidth(1f);
-
-		matrices.pop();
 	}
 }

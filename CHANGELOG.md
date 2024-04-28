@@ -17,6 +17,10 @@ with the minecraft version prepended to it.
 - Separate datagen sub-project
 - Moved block textures to their respective directories
   - If you have a custom resource pack for Wireless Redstone, you have to move and rename them too
+- Sniffer chat messages:
+	- From: `There are no active transmitters on this frequency (<frequency>)`, to: `No active transmitters on frequency <frequency>`
+	- From: `Active transmitters on this frequency (<frequency>): <transmitters>`, to: `Active transmitters on frequency <frequency>: <transmitters>`
+    - Changed style of how block positions are shown in chat (can now also be adjusted in lang file)
 - Dev only:
   - Update architectury loom to 1.6
   - Update changelog plugin to 2.2.0

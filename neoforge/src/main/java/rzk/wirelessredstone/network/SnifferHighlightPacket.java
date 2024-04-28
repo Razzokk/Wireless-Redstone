@@ -10,7 +10,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.client.render.SnifferHighlightRenderer;
+import rzk.wirelessredstone.client.render.WRWorldRendererNeo;
 import rzk.wirelessredstone.misc.TranslationKeys;
 
 public record SnifferHighlightPacket(long timestamp, Hand hand, BlockPos[] coords) implements CustomPayload
@@ -50,7 +50,7 @@ public record SnifferHighlightPacket(long timestamp, Hand hand, BlockPos[] coord
 	{
 		ctx.workHandler().submitAsync(() -> {
 			if (FMLEnvironment.dist == Dist.CLIENT)
-				SnifferHighlightRenderer.handleSnifferHighlightPacket(timestamp, hand, coords);
+				WRWorldRendererNeo.handleSnifferHighlightPacket(timestamp, hand, coords);
 		}).exceptionally(e -> {
 			ctx.packetHandler().disconnect(Text.translatable(TranslationKeys.NETWORKING_FAILED, e.getMessage()));
 			return null;

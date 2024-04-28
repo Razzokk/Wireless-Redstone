@@ -6,7 +6,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.fml.DistExecutor;
-import rzk.wirelessredstone.client.render.SnifferHighlightRenderer;
+import rzk.wirelessredstone.client.render.WRWorldRendererForge;
 
 public record SnifferHighlightPacket(long timestamp, Hand hand, BlockPos[] coords)
 {
@@ -35,6 +35,6 @@ public record SnifferHighlightPacket(long timestamp, Hand hand, BlockPos[] coord
 
 	public void handle(CustomPayloadEvent.Context ctx)
 	{
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> SnifferHighlightRenderer.handleSnifferHighlightPacket(ctx, timestamp, hand, coords));
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> WRWorldRendererForge.handleSnifferHighlightPacket(ctx, timestamp, hand, coords));
 	}
 }

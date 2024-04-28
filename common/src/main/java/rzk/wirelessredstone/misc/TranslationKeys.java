@@ -23,6 +23,7 @@ public class TranslationKeys
 	public static final String TOOLTIP_STATE = "item.wirelessredstone.tooltip.state";
 	public static final String TOOLTIP_STATE_OFF = "item.wirelessredstone.tooltip.state.off";
 	public static final String TOOLTIP_STATE_ON = "item.wirelessredstone.tooltip.state.on";
+	public static final String TOOLTIP_POSITION = "item.wirelessredstone.tooltip.position";
 
 	// Messages
 	public static final String MESSAGE_TRANSMITTERS_EMPTY = "message.wirelessredstone.transmitters.empty";
