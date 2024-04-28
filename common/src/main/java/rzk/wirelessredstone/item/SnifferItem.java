@@ -133,11 +133,16 @@ public class SnifferItem extends FrequencyItem
 		var result = TypedActionResult.success(stack);
 		if (world.isClient) return result;
 
+		var frequencyText = WRUtils.frequencyText(frequency);
 		var ether = RedstoneEther.get((ServerWorld) world);
-		if (ether == null) return result;
+
+		if (ether == null)
+		{
+			player.sendMessage(Text.translatable(TranslationKeys.MESSAGE_TRANSMITTERS_EMPTY, frequencyText));
+			return result;
+		}
 
 		var transmitters = ether.getTransmitters(frequency);
-		var frequencyText = WRUtils.frequencyText(frequency);
 
 		if (transmitters.isEmpty())
 		{

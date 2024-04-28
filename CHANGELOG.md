@@ -6,6 +6,10 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Fixed
+
+- Sniffer not outputting message on newly created world (no redstone ether present)
+
 ### Added
 
 - Sides of transmitters and receivers can be disabled/enabled
