@@ -6,6 +6,8 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+## [1.20.4-1.1.4] - 2024-04-30
+
 ### Fixed
 
 - Sniffer not outputting message on newly created world (no redstone ether present)
@@ -20,11 +22,11 @@ with the minecraft version prepended to it.
 - Moved block textures to their respective directories
 	- If you have a custom resource pack for Wireless Redstone, you have to move and rename them too
 - Sniffer chat messages:
+	- Changed style of how block positions are shown in chat (can now also be adjusted in lang file)
 	- From: `There are no active transmitters on this frequency (<frequency>)`,
 	  to: `No active transmitters on frequency <frequency>`
 	- From: `Active transmitters on this frequency (<frequency>): <transmitters>`,
 	  to: `Active transmitters on frequency <frequency>: <transmitters>`
-	- Changed style of how block positions are shown in chat (can now also be adjusted in lang file)
 - Dev only:
 	- Separate datagen sub-project
 	- Update architectury loom to 1.6
@@ -120,13 +122,13 @@ Port to MC 1.20.1
 
 - Increased contrast of T and R letters on transmitter and receiver texture
 
-[Unreleased]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.4-1.1.3...HEAD
-[1.20.4-1.1.3]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.4-1.1.2...release/1.20.4-1.1.3
-[1.20.4-1.1.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.2...release/1.20.4-1.1.2
+[Unreleased]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.4-1.1.4...HEAD
 [1.20.4-1.1.4]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.4-1.1.3...release/1.20.4-1.1.4
-[1.20.1-1.1.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.1...release/1.20.1-1.1.2
-[1.20.1-1.1.0]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
-[1.20.1-1.0.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
-[1.20.1-1.0.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
-[1.20.1-1.0.0]: https://github.com/Razzokk/wireless-redstone/commits/release/1.20.1-1.0.0
+[1.20.4-1.1.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.2...release/1.20.4-1.1.2
+[1.20.4-1.1.3]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.4-1.1.2...release/1.20.4-1.1.3
 [1.20.1-1.1.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.0...release/1.20.1-1.1.1
+[1.20.1-1.0.0]: https://github.com/Razzokk/wireless-redstone/commits/release/1.20.1-1.0.0
+[1.20.1-1.0.1]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.0...release/1.20.1-1.0.1
+[1.20.1-1.0.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.1...release/1.20.1-1.0.2
+[1.20.1-1.1.0]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.0.2...release/1.20.1-1.1.0
+[1.20.1-1.1.2]: https://github.com/Razzokk/wireless-redstone/compare/release/1.20.1-1.1.1...release/1.20.1-1.1.2

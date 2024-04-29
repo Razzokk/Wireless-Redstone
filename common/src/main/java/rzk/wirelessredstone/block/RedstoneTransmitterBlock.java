@@ -1,9 +1,9 @@
 package rzk.wirelessredstone.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -30,7 +30,7 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify)
 	{
 		world.getBlockEntity(pos, ModBlockEntities.redstoneTransmitterBlockEntityType)
-			.ifPresent(entity -> entity.onBlockPlaced(state, (ServerWorld) world, pos));
+			.ifPresent(entity -> entity.onBlockPlaced(state, world, pos));
 	}
 
 	@Override
@@ -50,10 +50,12 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos)
+	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify)
 	{
+		if (world.isClient) return;
 		boolean powered = isReceivingRedstonePower(state, world, pos);
-		return state.with(POWERED, powered);
+		if (state.get(POWERED) == powered) return;
+		world.setBlockState(pos, state.with(POWERED, powered), Block.NOTIFY_LISTENERS);
 	}
 
 	@Nullable

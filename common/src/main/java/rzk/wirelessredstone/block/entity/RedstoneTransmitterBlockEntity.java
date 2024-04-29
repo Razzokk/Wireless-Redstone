@@ -29,10 +29,10 @@ public class RedstoneTransmitterBlockEntity extends RedstoneTransceiverBlockEnti
 			ether.addTransmitter(world, pos, newFrequency);
 	}
 
-	public void onBlockPlaced(BlockState state, ServerWorld world, BlockPos pos)
+	public void onBlockPlaced(BlockState state, World world, BlockPos pos)
 	{
 		if (world.isClient || !state.get(POWERED) || !WRUtils.isValidFrequency(frequency)) return;
-		RedstoneEther ether = RedstoneEther.getOrCreate(world);
+		RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
 		ether.addTransmitter(world, pos, frequency);
 	}
 
