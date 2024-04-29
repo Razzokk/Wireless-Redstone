@@ -22,11 +22,9 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.WirelessRedstone;
-import rzk.wirelessredstone.api.Connectable;
 import rzk.wirelessredstone.api.RedstoneConnectable;
 import rzk.wirelessredstone.block.entity.RedstoneTransceiverBlockEntity;
 import rzk.wirelessredstone.item.FrequencyItem;
-import rzk.wirelessredstone.item.WrenchItem;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRUtils;
 
@@ -63,8 +61,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	@Override
 	public boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, Direction direction)
 	{
-		if (direction == null || !(world.getBlockEntity(pos) instanceof Connectable connectable)) return false;
-		return connectable.isConnectable(direction.getOpposite());
+		return true;
 	}
 
 	@Override
@@ -72,7 +69,7 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 	{
 		var item = player.getStackInHand(hand).getItem();
 
-		if (item instanceof FrequencyItem || item instanceof WrenchItem)
+		if (item instanceof FrequencyItem)
 			return ActionResult.PASS;
 
 		if (!world.isClient)

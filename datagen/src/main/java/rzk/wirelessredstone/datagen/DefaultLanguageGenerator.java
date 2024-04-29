@@ -25,7 +25,6 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(ModItems.frequencyTool, "Frequency Tool");
 		translations.add(ModItems.frequencySniffer, "Frequency Sniffer");
 		translations.add(ModItems.remote, "Remote");
-		translations.add(ModItems.wrench, "Wrench");
 
 		// Guis
 		translations.add(TranslationKeys.GUI_FREQUENCY_TITLE, "Frequency");

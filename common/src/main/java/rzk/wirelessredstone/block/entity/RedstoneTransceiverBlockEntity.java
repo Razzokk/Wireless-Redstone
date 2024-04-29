@@ -9,16 +9,12 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.api.Connectable;
-import rzk.wirelessredstone.api.ConnectableImpl;
 import rzk.wirelessredstone.misc.WRUtils;
 
-public abstract class RedstoneTransceiverBlockEntity extends BlockEntity implements Connectable
+public abstract class RedstoneTransceiverBlockEntity extends BlockEntity
 {
 	protected int frequency = WRUtils.INVALID_FREQUENCY;
-	protected ConnectableImpl connections = ConnectableImpl.allSet();
 
 	public RedstoneTransceiverBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state)
 	{
@@ -54,28 +50,7 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity impleme
 	{
 		NbtCompound nbt = new NbtCompound();
 		WRUtils.writeFrequency(nbt, frequency);
-		connections.saveNbt(nbt);
 		return nbt;
-	}
-
-	@Override
-	public boolean isConnectable(Direction side)
-	{
-		return connections.isConnectable(side);
-	}
-
-	@Override
-	public void toggleConnectable(Direction side)
-	{
-		connections.toggleConnectable(side);
-		markDirty();
-
-		var state = getCachedState();
-		world.updateListeners(pos, state, state, Block.NOTIFY_LISTENERS);
-
-		var targetPos = pos.offset(side);
-		world.replaceWithStateForNeighborUpdate(side.getOpposite(), state, targetPos, pos, Block.FORCE_STATE, 1);
-		world.updateNeighbor(targetPos, state.getBlock(), pos);
 	}
 
 	@Override
@@ -83,7 +58,6 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity impleme
 	{
 		super.readNbt(nbt);
 		frequency = WRUtils.readFrequency(nbt);
-		connections = new ConnectableImpl(nbt);
 	}
 
 	@Override
@@ -91,6 +65,5 @@ public abstract class RedstoneTransceiverBlockEntity extends BlockEntity impleme
 	{
 		super.writeNbt(nbt);
 		WRUtils.writeFrequency(nbt, frequency);
-		connections.saveNbt(nbt);
 	}
 }

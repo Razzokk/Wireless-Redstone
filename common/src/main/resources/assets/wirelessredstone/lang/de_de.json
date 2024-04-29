@@ -19,7 +19,6 @@
 	"item.wirelessredstone.tooltip.state": "Status: %s",
 	"item.wirelessredstone.tooltip.state.off": "Aus",
 	"item.wirelessredstone.tooltip.state.on": "An",
-	"item.wirelessredstone.wrench": "Schraubenschlüssel",
 	"item_group.wirelessredstone.wirelessredstone": "Wireless Redstone",
 	"message.wirelessredstone.no_frequency": "Keine Frequenz gesetzt",
 	"message.wirelessredstone.teleport": "Hierher teleportieren",

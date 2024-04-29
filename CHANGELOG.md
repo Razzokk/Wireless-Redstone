@@ -12,8 +12,6 @@ with the minecraft version prepended to it.
 
 ### Added
 
-- Sides of transmitters and receivers can be disabled/enabled
-- Wrench item to configure the sides
 - Show frequency of transmitters and receivers when picked up with nbt data
 
 ### Changed
