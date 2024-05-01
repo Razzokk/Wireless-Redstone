@@ -52,6 +52,12 @@ public class ConfigScreen
 			.setSaveConsumer(seconds -> WRConfig.highlightTimeSeconds = seconds)
 			.build());
 
+		client.addEntry(ConfigEntryBuilder.create()
+			.startColorField(Text.translatable(TranslationKeys.GUI_CONFIG_TARGET_COLOR), WRConfig.linkerTargetColor)
+			.setDefaultValue(0x32C8FF)
+			.setSaveConsumer(color -> WRConfig.linkerTargetColor = color)
+			.build());
+
 		return builder.build();
 	}
 }

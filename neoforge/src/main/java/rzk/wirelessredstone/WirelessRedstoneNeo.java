@@ -64,6 +64,7 @@ public class WirelessRedstoneNeo
 					output.add(ModItems.frequencyTool);
 					output.add(ModItems.frequencySniffer);
 					output.add(ModItems.remote);
+					output.add(ModItems.linker);
 				})
 				.build()));
 	}

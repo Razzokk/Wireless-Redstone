@@ -1,4 +1,4 @@
-package rzk.wirelessredstone.client.render;
+package rzk.wirelessredstone.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
@@ -9,9 +9,9 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import rzk.wirelessredstone.item.SnifferItem;
-import rzk.wirelessredstone.render.WRWorldRenderer;
+import rzk.wirelessredstone.render.WorldOverlayRenderer;
 
-public class WRWorldRendererForge
+public class WRClientEventsForge
 {
 	public static void handleSnifferHighlightPacket(CustomPayloadEvent.Context ctx, long timestamp, Hand hand, BlockPos[] coords)
 	{
@@ -21,10 +21,10 @@ public class WRWorldRendererForge
 	}
 
 	@SubscribeEvent
-	public static void render(RenderLevelStageEvent event)
+	public static void renderWorld(RenderLevelStageEvent event)
 	{
 		if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) return;
 		var world = MinecraftClient.getInstance().world;
-		WRWorldRenderer.renderAfterTranslucent(world, event.getCamera().getPos(), event.getPoseStack(), event.getPartialTick());
+		WorldOverlayRenderer.render(world, event.getCamera().getPos(), event.getPoseStack(), event.getPartialTick());
 	}
 }

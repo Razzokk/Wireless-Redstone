@@ -25,6 +25,7 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(ModItems.frequencyTool, "Frequency Tool");
 		translations.add(ModItems.frequencySniffer, "Frequency Sniffer");
 		translations.add(ModItems.remote, "Remote");
+		translations.add(ModItems.linker, "Linker");
 
 		// Guis
 		translations.add(TranslationKeys.GUI_FREQUENCY_TITLE, "Frequency");
@@ -36,6 +37,7 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(TranslationKeys.GUI_CONFIG_DISPLAY_COLOR, "Display color");
 		translations.add(TranslationKeys.GUI_CONFIG_HIGHLIGHT_COLOR, "Highlight color");
 		translations.add(TranslationKeys.GUI_CONFIG_HIGHLIGHT_TIME, "Highlight time");
+		translations.add(TranslationKeys.GUI_CONFIG_TARGET_COLOR, "Target highlight color");
 
 		// Tooltips
 		translations.add(TranslationKeys.TOOLTIP_FREQUENCY, "Frequency: %s");
@@ -43,6 +45,7 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(TranslationKeys.TOOLTIP_STATE_OFF, "Off");
 		translations.add(TranslationKeys.TOOLTIP_STATE_ON, "On");
 		translations.add(TranslationKeys.TOOLTIP_POSITION, "[x: %s, y: %s, z: %s]");
+		translations.add(TranslationKeys.TOOLTIP_TARGET, "Target: %s");
 
 		// Other
 		translations.add(TranslationKeys.ITEM_GROUP_WIRELESS_REDSTONE, "Wireless Redstone");

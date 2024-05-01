@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import rzk.wirelessredstone.item.FrequencyItem;
+import rzk.wirelessredstone.item.LinkerItem;
 import rzk.wirelessredstone.item.RemoteItemWrapper;
 import rzk.wirelessredstone.item.SnifferItem;
 import rzk.wirelessredstone.misc.WREvents;
@@ -24,6 +25,7 @@ public final class ModItemsForge
 			ModItems.frequencyTool = WREvents.register(helper, "frequency_tool", new FrequencyItem(new Item.Settings()));
 			ModItems.frequencySniffer = WREvents.register(helper, "frequency_sniffer", new SnifferItem(new Item.Settings()));
 			ModItems.remote = WREvents.register(helper, "remote", new RemoteItemWrapper(new Item.Settings()));
+			ModItems.linker = WREvents.register(helper, "linker", new LinkerItem(new Item.Settings()));
 		});
 	}
 }

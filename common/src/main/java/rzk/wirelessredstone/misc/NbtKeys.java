@@ -6,4 +6,5 @@ public class NbtKeys
 	public static final String CONNECTIONS = "connections";
 	public static final String HIGHLIGHTS = "highlights";
 	public static final String TIMESTAMP = "timestamp";
+	public static final String LINKER_TARGET = "target";
 }

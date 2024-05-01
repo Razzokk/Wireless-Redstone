@@ -5,6 +5,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import rzk.wirelessredstone.WirelessRedstone;
 import rzk.wirelessredstone.item.FrequencyItem;
+import rzk.wirelessredstone.item.LinkerItem;
 import rzk.wirelessredstone.item.RemoteItem;
 import rzk.wirelessredstone.item.SnifferItem;
 
@@ -18,6 +19,7 @@ public final class ModItemsFabric
 		ModItems.frequencyTool = registerItem("frequency_tool", new FrequencyItem(new Item.Settings()));
 		ModItems.frequencySniffer = registerItem("frequency_sniffer", new SnifferItem(new Item.Settings()));
 		ModItems.remote = registerItem("remote", new RemoteItem(new Item.Settings()));
+		ModItems.linker = registerItem("linker", new LinkerItem(new Item.Settings()));
 	}
 
 	public static Item registerItem(String name, Item item)

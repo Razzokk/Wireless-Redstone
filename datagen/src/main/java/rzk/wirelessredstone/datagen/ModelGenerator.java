@@ -42,6 +42,7 @@ public class ModelGenerator extends FabricModelProvider
 		generator.register(ModItems.circuit, Models.GENERATED);
 		generator.register(ModItems.frequencyTool, Models.GENERATED);
 		generator.register(ModItems.frequencySniffer, Models.GENERATED);
+		generator.register(ModItems.linker, Models.GENERATED);
 
 		registerOverrides(generator, ModItems.remote, TextureMap.layer0(TextureMap.getSubId(ModItems.remote, "_off")),
 			new ItemOverride("state", 1, (key, state) ->

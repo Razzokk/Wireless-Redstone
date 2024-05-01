@@ -17,6 +17,7 @@ public class TranslationKeys
 	public static final String GUI_CONFIG_DISPLAY_COLOR = "gui.wirelessredstone.config.display.color";
 	public static final String GUI_CONFIG_HIGHLIGHT_COLOR = "gui.wirelessredstone.config.highlight.color";
 	public static final String GUI_CONFIG_HIGHLIGHT_TIME = "gui.wirelessredstone.config.highlight.time";
+	public static final String GUI_CONFIG_TARGET_COLOR = "gui.wirelessredstone.config.target.color";
 
 	// Tooltips
 	public static final String TOOLTIP_FREQUENCY = "item.wirelessredstone.tooltip.frequency";
@@ -24,6 +25,7 @@ public class TranslationKeys
 	public static final String TOOLTIP_STATE_OFF = "item.wirelessredstone.tooltip.state.off";
 	public static final String TOOLTIP_STATE_ON = "item.wirelessredstone.tooltip.state.on";
 	public static final String TOOLTIP_POSITION = "item.wirelessredstone.tooltip.position";
+	public static final String TOOLTIP_TARGET = "item.wirelessredstone.tooltip.target";
 
 	// Messages
 	public static final String MESSAGE_TRANSMITTERS_EMPTY = "message.wirelessredstone.transmitters.empty";
