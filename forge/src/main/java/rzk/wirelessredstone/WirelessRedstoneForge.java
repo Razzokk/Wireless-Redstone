@@ -69,6 +69,8 @@ public class WirelessRedstoneForge
 				{
 					output.add(ModBlocks.redstoneTransmitter);
 					output.add(ModBlocks.redstoneReceiver);
+					output.add(ModBlocks.p2pRedstoneTransmitter);
+					output.add(ModBlocks.p2pRedstoneReceiver);
 					output.add(ModItems.circuit);
 					output.add(ModItems.frequencyTool);
 					output.add(ModItems.frequencySniffer);

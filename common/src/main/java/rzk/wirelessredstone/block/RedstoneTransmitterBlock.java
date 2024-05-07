@@ -5,9 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
 import rzk.wirelessredstone.registry.ModBlockEntities;
@@ -39,14 +37,6 @@ public class RedstoneTransmitterBlock extends RedstoneTransceiverBlock
 		world.getBlockEntity(pos, ModBlockEntities.redstoneTransmitterBlockEntityType)
 			.ifPresent(entity -> entity.onBlockRemoved(state, world, pos));
 		super.onStateReplaced(state, world, pos, newState, moved);
-	}
-
-	private boolean isReceivingRedstonePower(BlockState state, WorldAccess world, BlockPos pos)
-	{
-		for (Direction side : DIRECTIONS)
-			if (connectsToRedstone(state, world, pos, side) && world.isEmittingRedstonePower(pos.offset(side), side))
-				return true;
-		return false;
 	}
 
 	@Override

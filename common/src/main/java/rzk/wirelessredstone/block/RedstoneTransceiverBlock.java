@@ -17,7 +17,6 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -56,12 +55,6 @@ public abstract class RedstoneTransceiverBlock extends Block implements BlockEnt
 		if (world.getBlockEntity(pos) instanceof RedstoneTransceiverBlockEntity transceiver)
 			return transceiver.getFrequency();
 		return 0;
-	}
-
-	@Override
-	public boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, Direction direction)
-	{
-		return true;
 	}
 
 	@Override

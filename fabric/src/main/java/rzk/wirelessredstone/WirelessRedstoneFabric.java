@@ -23,6 +23,8 @@ public class WirelessRedstoneFabric implements ModInitializer
 		{
 			entries.add(ModBlocks.redstoneTransmitter);
 			entries.add(ModBlocks.redstoneReceiver);
+			entries.add(ModBlocks.p2pRedstoneTransmitter);
+			entries.add(ModBlocks.p2pRedstoneReceiver);
 			entries.add(ModItems.circuit);
 			entries.add(ModItems.frequencyTool);
 			entries.add(ModItems.frequencySniffer);

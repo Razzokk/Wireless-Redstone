@@ -8,6 +8,7 @@ with the minecraft version prepended to it.
 
 ### Added
 
+- P2P redstone transmitter and receiver for direct wireless linkage
 - Linker to link p2p transmitter and receiver
 
 ## [1.20.4-1.1.4] - 2024-04-30

@@ -1,6 +1,7 @@
 package rzk.wirelessredstone.misc;
 
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -27,6 +28,18 @@ public class WRUtils
 	{
 		if (nbt == null || !nbt.contains(NbtKeys.FREQUENCY)) return INVALID_FREQUENCY;
 		return nbt.getInt(NbtKeys.FREQUENCY);
+	}
+
+	public static void writeTarget(NbtCompound nbt, BlockPos target)
+	{
+		if (target == null) return;
+		nbt.put(NbtKeys.LINKER_TARGET, NbtHelper.fromBlockPos(target));
+	}
+
+	public static BlockPos readTarget(NbtCompound nbt)
+	{
+		if (nbt == null || !nbt.contains(NbtKeys.LINKER_TARGET)) return null;
+		return NbtHelper.toBlockPos(nbt.getCompound(NbtKeys.LINKER_TARGET));
 	}
 
 	public static int clamp(int min, int max, int value)

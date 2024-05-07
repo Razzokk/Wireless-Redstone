@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import rzk.wirelessredstone.WirelessRedstone;
+import rzk.wirelessredstone.block.entity.P2pRedstoneTransmitterBlockEntity;
 import rzk.wirelessredstone.block.entity.RedstoneReceiverBlockEntity;
 import rzk.wirelessredstone.block.entity.RedstoneTransmitterBlockEntity;
 
@@ -18,6 +19,7 @@ public final class ModBlockEntitiesForge
 		{
 			ModBlockEntities.redstoneTransmitterBlockEntityType = registerBlockEntityType(helper, "redstone_transmitter_block_entity", BlockEntityType.Builder.create(RedstoneTransmitterBlockEntity::new, ModBlocks.redstoneTransmitter).build(null));
 			ModBlockEntities.redstoneReceiverBlockEntityType = registerBlockEntityType(helper, "redstone_receiver_block_entity", BlockEntityType.Builder.create(RedstoneReceiverBlockEntity::new, ModBlocks.redstoneReceiver).build(null));
+			ModBlockEntities.p2pRedstoneTransmitterBlockEntityType = registerBlockEntityType(helper, "p2p_redstone_receiver_block_entity", BlockEntityType.Builder.create(P2pRedstoneTransmitterBlockEntity::new, ModBlocks.p2pRedstoneTransmitter).build(null));
 		});
 	}
 

@@ -21,7 +21,7 @@ import rzk.wirelessredstone.misc.WRConfig;
 public class WorldOverlayRenderer
 {
 	private static float alpha = 1f;
-	private static float delta = 0.02f;
+	private static float delta = 0.04f;
 
 	public static void render(World world, Vec3d cameraPosition, MatrixStack matrixStack, float tickDelta)
 	{
