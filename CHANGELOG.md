@@ -11,6 +11,14 @@ with the minecraft version prepended to it.
 - P2P redstone transmitter and receiver for direct wireless linkage
 - Linker to link p2p transmitter and receiver
 
+### Changed
+
+- Redstone transmitters and receivers now use the `cube_column` block model instead of `cube_bottom_top`
+	- Why? The bottom and top textures have been the same since the initial release,
+	  and the corresponding textures have also been removed.
+	- If you have a custom resource pack for Wireless Redstone, you can still use the `cube_bottom_top` model,
+	  but you will need to provide your own model files, see [Model](https://minecraft.wiki/w/Model).
+
 ## [1.20.4-1.1.4] - 2024-04-30
 
 ### Fixed

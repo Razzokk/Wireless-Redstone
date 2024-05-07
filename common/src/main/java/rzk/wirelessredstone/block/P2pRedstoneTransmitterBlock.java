@@ -1,23 +1,18 @@
 package rzk.wirelessredstone.block;
 
-import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.MapColor;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import rzk.wirelessredstone.api.RedstoneConnectable;
 import rzk.wirelessredstone.block.entity.P2pRedstoneTransmitterBlockEntity;
 import rzk.wirelessredstone.item.LinkerItem;
 import rzk.wirelessredstone.misc.WRUtils;
@@ -27,21 +22,8 @@ import rzk.wirelessredstone.registry.ModItems;
 import static net.minecraft.state.property.Properties.POWERED;
 import static rzk.wirelessredstone.misc.WRProperties.LINKED;
 
-public class P2pRedstoneTransmitterBlock extends Block implements RedstoneConnectable, BlockEntityProvider
+public class P2pRedstoneTransmitterBlock extends P2pRedstoneTransceiverBlock implements BlockEntityProvider
 {
-	public P2pRedstoneTransmitterBlock()
-	{
-		super(AbstractBlock.Settings.create()
-			.mapColor(MapColor.IRON_GRAY)
-			.solidBlock((state, blockGetter, pos) -> false)
-			.strength(1.5F, 5.0F)
-			.sounds(BlockSoundGroup.METAL));
-
-		setDefaultState(stateManager.getDefaultState()
-			.with(POWERED, false)
-			.with(LINKED, false));
-	}
-
 	@Nullable
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx)
@@ -110,11 +92,4 @@ public class P2pRedstoneTransmitterBlock extends Block implements RedstoneConnec
 	{
 		return new P2pRedstoneTransmitterBlockEntity(pos, state);
 	}
-
-	@Override
-	protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
-	{
-		builder.add(POWERED, LINKED);
-	}
-
 }

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "wirelessredstone:block/p2p_redstone_receiver/end_unlinked_on",
+    "side": "wirelessredstone:block/p2p_redstone_receiver/side_unlinked_on"
+  }
+}

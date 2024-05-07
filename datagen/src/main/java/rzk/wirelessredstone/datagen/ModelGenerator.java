@@ -6,14 +6,16 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.block.Block;
 import net.minecraft.data.client.BlockStateModelGenerator;
+import net.minecraft.data.client.BlockStateVariant;
+import net.minecraft.data.client.BlockStateVariantMap;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.ModelIds;
 import net.minecraft.data.client.Models;
 import net.minecraft.data.client.TextureKey;
 import net.minecraft.data.client.TextureMap;
+import net.minecraft.data.client.VariantSettings;
 import net.minecraft.data.client.VariantsBlockStateSupplier;
 import net.minecraft.item.Item;
-import net.minecraft.state.property.Properties;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import rzk.wirelessredstone.registry.ModBlocks;
@@ -21,6 +23,9 @@ import rzk.wirelessredstone.registry.ModItems;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;
+
+import static net.minecraft.state.property.Properties.POWERED;
+import static rzk.wirelessredstone.misc.WRProperties.LINKED;
 
 public class ModelGenerator extends FabricModelProvider
 {
@@ -34,6 +39,8 @@ public class ModelGenerator extends FabricModelProvider
 	{
 		transceiverBlock(generator, ModBlocks.redstoneTransmitter);
 		transceiverBlock(generator, ModBlocks.redstoneReceiver);
+		p2pTransceiverBlock(generator, ModBlocks.p2pRedstoneTransmitter);
+		p2pTransceiverBlock(generator, ModBlocks.p2pRedstoneReceiver);
 	}
 
 	@Override
@@ -54,15 +61,35 @@ public class ModelGenerator extends FabricModelProvider
 	{
 		Function<String, TextureMap> textureMap = state -> new TextureMap()
 			.put(TextureKey.SIDE, TextureMap.getSubId(block, "/side_" + state))
-			.put(TextureKey.TOP, TextureMap.getSubId(block, "/top_" + state))
-			.put(TextureKey.BOTTOM, TextureMap.getSubId(block, "/bottom_" + state));
+			.put(TextureKey.END, TextureMap.getSubId(block, "/end_" + state));
 
-		Identifier off = Models.CUBE_BOTTOM_TOP.upload(ModelIds.getBlockSubModelId(block, "_off"), textureMap.apply("off"), generator.modelCollector);
-		Identifier on = Models.CUBE_BOTTOM_TOP.upload(ModelIds.getBlockSubModelId(block, "_on"), textureMap.apply("on"), generator.modelCollector);
+		Identifier off = Models.CUBE_COLUMN.upload(ModelIds.getBlockSubModelId(block, "_off"), textureMap.apply("off"), generator.modelCollector);
+		Identifier on = Models.CUBE_COLUMN.upload(ModelIds.getBlockSubModelId(block, "_on"), textureMap.apply("on"), generator.modelCollector);
 
 		generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
-			.coordinate(BlockStateModelGenerator.createBooleanModelMap(Properties.POWERED, on, off)));
+			.coordinate(BlockStateModelGenerator.createBooleanModelMap(POWERED, on, off)));
 		generator.registerParentedItemModel(block, off);
+	}
+
+	private static void p2pTransceiverBlock(BlockStateModelGenerator generator, Block block)
+	{
+		BiFunction<String, String, TextureMap> textureMap = (linked, state) -> new TextureMap()
+			.put(TextureKey.SIDE, TextureMap.getSubId(block, "/side_" + linked + "_" + state))
+			.put(TextureKey.END, TextureMap.getSubId(block, "/end_" + linked + "_" + state));
+
+		Identifier unlinkedOff = Models.CUBE_COLUMN.upload(ModelIds.getBlockSubModelId(block, "_unlinked_off"), textureMap.apply("unlinked", "off"), generator.modelCollector);
+		Identifier unlinkedOn = Models.CUBE_COLUMN.upload(ModelIds.getBlockSubModelId(block, "_unlinked_on"), textureMap.apply("unlinked", "on"), generator.modelCollector);
+		Identifier linkedOff = Models.CUBE_COLUMN.upload(ModelIds.getBlockSubModelId(block, "_linked_off"), textureMap.apply("linked", "off"), generator.modelCollector);
+		Identifier linkedOn = Models.CUBE_COLUMN.upload(ModelIds.getBlockSubModelId(block, "_linked_on"), textureMap.apply("linked", "on"), generator.modelCollector);
+
+		generator.blockStateCollector.accept(VariantsBlockStateSupplier.create(block)
+				.coordinate(BlockStateVariantMap.create(LINKED, POWERED)
+					.register(false, false, BlockStateVariant.create().put(VariantSettings.MODEL, unlinkedOff))
+					.register(false, true, BlockStateVariant.create().put(VariantSettings.MODEL, unlinkedOn))
+					.register(true, false, BlockStateVariant.create().put(VariantSettings.MODEL, linkedOff))
+					.register(true, true, BlockStateVariant.create().put(VariantSettings.MODEL, linkedOn))));
+
+		generator.registerParentedItemModel(block, unlinkedOff);
 	}
 
 	private record ItemOverride(String key, float value,

@@ -19,6 +19,8 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		// Blocks
 		translations.add(ModBlocks.redstoneTransmitter, "Redstone Transmitter");
 		translations.add(ModBlocks.redstoneReceiver, "Redstone Receiver");
+		translations.add(ModBlocks.p2pRedstoneTransmitter, "P2P Redstone Transmitter");
+		translations.add(ModBlocks.p2pRedstoneReceiver, "P2P Redstone Receiver");
 
 		// Items
 		translations.add(ModItems.circuit, "Circuit");

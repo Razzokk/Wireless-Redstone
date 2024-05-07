@@ -1,4 +1,6 @@
 {
+	"block.wirelessredstone.p2p_redstone_receiver": "P2P Redstone Empfänger",
+	"block.wirelessredstone.p2p_redstone_transmitter": "P2P Redstone Sender",
 	"block.wirelessredstone.redstone_receiver": "Redstone Empfänger",
 	"block.wirelessredstone.redstone_transmitter": "Redstone Sender",
 	"gui.wirelessredstone.config.category.client": "Client",
