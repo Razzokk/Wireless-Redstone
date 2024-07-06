@@ -16,5 +16,7 @@ public class BlockLootTableGenerator extends FabricBlockLootTableProvider
 	{
 		addDrop(ModBlocks.redstoneTransmitter);
 		addDrop(ModBlocks.redstoneReceiver);
+		addDrop(ModBlocks.p2pRedstoneTransmitter);
+		addDrop(ModBlocks.p2pRedstoneReceiver);
 	}
 }

@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "wirelessredstone:redstone_transmitter",
-    "wirelessredstone:redstone_receiver"
+    "wirelessredstone:redstone_receiver",
+    "wirelessredstone:p2p_redstone_transmitter",
+    "wirelessredstone:p2p_redstone_receiver"
   ]
 }

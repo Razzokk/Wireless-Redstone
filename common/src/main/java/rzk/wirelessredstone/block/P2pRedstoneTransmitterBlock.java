@@ -4,20 +4,28 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rzk.wirelessredstone.block.entity.P2pRedstoneTransmitterBlockEntity;
 import rzk.wirelessredstone.item.LinkerItem;
+import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRUtils;
 import rzk.wirelessredstone.registry.ModBlockEntities;
 import rzk.wirelessredstone.registry.ModItems;
+
+import java.util.List;
 
 import static net.minecraft.state.property.Properties.POWERED;
 import static rzk.wirelessredstone.misc.WRProperties.LINKED;
@@ -91,5 +99,15 @@ public class P2pRedstoneTransmitterBlock extends P2pRedstoneTransceiverBlock imp
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state)
 	{
 		return new P2pRedstoneTransmitterBlockEntity(pos, state);
+	}
+
+	@Override
+	public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options)
+	{
+		var target = WRUtils.readTarget(BlockItem.getBlockEntityNbt(stack));
+		if (target == null) return;
+
+		var targetText = WRUtils.positionText(target);
+		tooltip.add(Text.translatable(TranslationKeys.TOOLTIP_TARGET, targetText).formatted(Formatting.GRAY));
 	}
 }
