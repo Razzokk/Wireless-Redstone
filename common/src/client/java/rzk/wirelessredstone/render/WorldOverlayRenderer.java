@@ -20,15 +20,12 @@ import rzk.wirelessredstone.misc.WRConfig;
 
 public class WorldOverlayRenderer
 {
-	private static float alpha = 1f;
-	private static float delta = 0.04f;
-
 	public static void render(World world, Vec3d cameraPosition, MatrixStack matrixStack, float tickDelta)
 	{
 		var player = MinecraftClient.getInstance().player;
 		var stack = player.getMainHandStack();
 		renderSnifferHighlights(player, stack, cameraPosition, matrixStack);
-		renderLinkerTarget(player, stack, cameraPosition, matrixStack, tickDelta);
+		renderLinkerTarget(world, player, stack, cameraPosition, matrixStack, tickDelta);
 	}
 
 	private static Tessellator renderLinesPre(Vec3d cameraPosition, MatrixStack matrixStack)
@@ -83,7 +80,7 @@ public class WorldOverlayRenderer
 		renderLinesPost(tessellator, matrixStack);
 	}
 
-	private static void renderLinkerTarget(PlayerEntity player, ItemStack stack, Vec3d cameraPosition, MatrixStack matrixStack, float tickDelta)
+	private static void renderLinkerTarget(World world, PlayerEntity player, ItemStack stack, Vec3d cameraPosition, MatrixStack matrixStack, float tickDelta)
 	{
 		BlockPos target = LinkerItem.getTarget(stack);
 		if (target == null) LinkerItem.getTarget(player.getOffHandStack());
@@ -97,20 +94,20 @@ public class WorldOverlayRenderer
 		var builder = tessellator.getBuffer();
 		builder.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
+		var time = ((world.getTime() + tickDelta) % 40) / 20;
+		float alpha;
+
+		if (time <= 1)
+		{
+			alpha = (3 - 2 * time) * time * time;
+		}
+		else
+		{
+			time -= 1;
+			alpha = 1 - (3 - 2 * time) * time * time;
+		}
+
 		WorldRenderer.drawBox(matrixStack, builder, target.getX(), target.getY(), target.getZ(), target.getX() + 1, target.getY() + 1, target.getZ() + 1, red, green, blue, alpha);
-
-		alpha += delta * tickDelta;
-
-		if (alpha < 0)
-		{
-			alpha = 0;
-			delta = -delta;
-		}
-		else if (alpha > 1)
-		{
-			alpha = 1;
-			delta = -delta;
-		}
 
 		renderLinesPost(tessellator, matrixStack);
 	}
