@@ -10,8 +10,6 @@ import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
 import net.minecraft.util.ActionResult;
@@ -99,15 +97,8 @@ public class SnifferItem extends FrequencyItem
 			}
 
 			var text = WRUtils.positionText(pos);
+			WRUtils.appendTeleportCommandIfAllowed(text, player, pos);
 			texts.add(text);
-
-			if (player.hasPermissionLevel(2))
-			{
-				var teleportCommand = String.format("/tp %d %d %d", pos.getX(), pos.getY() + 1, pos.getZ());
-				ClickEvent click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, teleportCommand);
-				HoverEvent hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(TranslationKeys.MESSAGE_TELEPORT));
-				text.setStyle(text.getStyle().withClickEvent(click).withHoverEvent(hover));
-			}
 		}
 
 		return Texts.join(texts, Text.literal("\n"));

@@ -32,6 +32,8 @@ public class TranslationKeys
 	public static final String MESSAGE_TRANSMITTERS_ACTIVE = "message.wirelessredstone.transmitters.active";
 	public static final String MESSAGE_TELEPORT = "message.wirelessredstone.teleport";
 	public static final String MESSAGE_NO_FREQUENCY = "message.wirelessredstone.no_frequency";
+	public static final String MESSAGE_P2P_NO_RECEIVER = "message.wirelessredstone.p2p.no_receiver";
+	public static final String MESSAGE_P2P_LINKED = "message.wirelessredstone.p2p.linked";
 
 	// Networking
 	public static final String NETWORKING_FAILED = "networking.wirelessredstone.failed";

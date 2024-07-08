@@ -26,6 +26,8 @@
   "item.wirelessredstone.tooltip.target": "Target: %s",
   "item_group.wirelessredstone.wirelessredstone": "Wireless Redstone",
   "message.wirelessredstone.no_frequency": "No frequency set",
+  "message.wirelessredstone.p2p.linked": "Linked to target at: %s",
+  "message.wirelessredstone.p2p.no_receiver": "Target is not a %s",
   "message.wirelessredstone.teleport": "Teleport here",
   "message.wirelessredstone.transmitters.active": "Active transmitters on frequency %s: %s",
   "message.wirelessredstone.transmitters.empty": "No active transmitters on frequency %s",

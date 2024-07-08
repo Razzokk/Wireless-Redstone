@@ -24,17 +24,39 @@ public class P2pRedstoneTransmitterBlockEntity extends BlockEntity
 
 	public void link(BlockPos target)
 	{
+		if (world.isClient) return;
+
+		unlink();
 		this.target = target;
-		markDirty();
+
+		if (target == null || !world.isChunkLoaded(target)) return;
 
 		var state = getCachedState();
+		var targetState = world.getBlockState(target);
+		var powered = state.get(POWERED);
+
 		world.setBlockState(pos, state.with(LINKED, true), Block.NOTIFY_LISTENERS);
-		setTargetState(state.get(POWERED));
+		world.setBlockState(target, targetState.with(LINKED, true).with(POWERED, powered));
+	}
+
+	public void unlink()
+	{
+		if (world.isClient || target == null) return;
+
+		if (world.isChunkLoaded(target))
+		{
+			var targetState = world.getBlockState(target);
+			if (targetState.isOf(ModBlocks.p2pRedstoneReceiver))
+				world.setBlockState(target, targetState.with(LINKED, false).with(POWERED, false));
+		}
+
+		target = null;
+		markDirty();
 	}
 
 	public void setTargetState(boolean powered)
 	{
-		if (world.isClient || target == null) return;
+		if (world.isClient || target == null || !world.isChunkLoaded(target)) return;
 
 		var targetState = world.getBlockState(target);
 		if (!targetState.isOf(ModBlocks.p2pRedstoneReceiver) || (targetState.get(POWERED) == powered)) return;

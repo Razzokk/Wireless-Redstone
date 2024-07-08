@@ -56,5 +56,7 @@ public class DefaultLanguageGenerator extends FabricLanguageProvider
 		translations.add(TranslationKeys.MESSAGE_TELEPORT, "Teleport here");
 		translations.add(TranslationKeys.MESSAGE_NO_FREQUENCY, "No frequency set");
 		translations.add(TranslationKeys.NETWORKING_FAILED, "Networking error: %s");
+		translations.add(TranslationKeys.MESSAGE_P2P_NO_RECEIVER, "Target is not a %s");
+		translations.add(TranslationKeys.MESSAGE_P2P_LINKED, "Linked to target at: %s");
 	}
 }

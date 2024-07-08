@@ -23,6 +23,7 @@ import rzk.wirelessredstone.item.LinkerItem;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRUtils;
 import rzk.wirelessredstone.registry.ModBlockEntities;
+import rzk.wirelessredstone.registry.ModBlocks;
 import rzk.wirelessredstone.registry.ModItems;
 
 import java.util.List;
@@ -57,7 +58,12 @@ public class P2pRedstoneTransmitterBlock extends P2pRedstoneTransceiverBlock imp
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved)
 	{
-		if (state.get(POWERED))
+		if (state.getBlock() != newState.getBlock())
+		{
+			world.getBlockEntity(pos, ModBlockEntities.p2pRedstoneTransmitterBlockEntityType)
+				.ifPresent(P2pRedstoneTransmitterBlockEntity::unlink);
+		}
+		else if (state.get(POWERED))
 		{
 			world.getBlockEntity(pos, ModBlockEntities.p2pRedstoneTransmitterBlockEntityType)
 				.ifPresent(entity -> entity.setTargetState(false));
@@ -77,10 +83,35 @@ public class P2pRedstoneTransmitterBlock extends P2pRedstoneTransceiverBlock imp
 		var target = LinkerItem.getTarget(stack);
 		if (target == null) return ActionResult.PASS;
 
+		var targetState = world.getBlockState(target);
+		if (!targetState.isOf(ModBlocks.p2pRedstoneReceiver))
+		{
+			if (!world.isClient)
+			{
+				var receiverTranslated = Text
+					.translatable(ModBlocks.p2pRedstoneReceiver.getTranslationKey())
+					.formatted(Formatting.AQUA);
+				var text = Text.translatable(TranslationKeys.MESSAGE_P2P_NO_RECEIVER, receiverTranslated);
+				player.sendMessage(text);
+			}
+
+			return ActionResult.FAIL;
+		}
+
 		var blockEntity = world.getBlockEntity(pos);
 		if (!(blockEntity instanceof P2pRedstoneTransmitterBlockEntity p2pEntity)) return ActionResult.PASS;
 
 		p2pEntity.link(target);
+
+		if (!world.isClient)
+		{
+			var targetText = WRUtils.positionText(pos);
+			WRUtils.appendTeleportCommandIfAllowed(targetText, player, pos);
+
+			var text = Text.translatable(TranslationKeys.MESSAGE_P2P_LINKED, targetText);
+			player.sendMessage(text);
+		}
+
 		return ActionResult.SUCCESS;
 	}
 
@@ -91,7 +122,7 @@ public class P2pRedstoneTransmitterBlock extends P2pRedstoneTransceiverBlock imp
 		var powered = isReceivingRedstonePower(state, world, pos);
 
 		if (state.get(POWERED) == powered) return;
-		world.setBlockState(pos, state.with(POWERED, powered), Block.NOTIFY_LISTENERS);
+		world.setBlockState(pos, state.with(POWERED, powered), NOTIFY_LISTENERS);
 	}
 
 	@Nullable

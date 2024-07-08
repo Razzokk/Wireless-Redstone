@@ -1,7 +1,10 @@
 package rzk.wirelessredstone.misc;
 
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.text.ClickEvent;
+import net.minecraft.text.HoverEvent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
@@ -58,5 +61,15 @@ public class WRUtils
 		var y = Text.literal(String.valueOf(pos.getY())).formatted(Formatting.YELLOW);
 		var z = Text.literal(String.valueOf(pos.getZ())).formatted(Formatting.YELLOW);
 		return Text.translatable(TranslationKeys.TOOLTIP_POSITION, x, y, z).formatted(Formatting.WHITE);
+	}
+
+	public static void appendTeleportCommandIfAllowed(MutableText text, PlayerEntity player, BlockPos pos)
+	{
+		if (player == null || !player.hasPermissionLevel(2)) return;
+
+		var command = String.format("/tp %d %d %d", pos.getX(), pos.getY() + 1, pos.getZ());
+		var click = new ClickEvent(ClickEvent.Action.RUN_COMMAND, command);
+		var hover = new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable(TranslationKeys.MESSAGE_TELEPORT));
+		text.setStyle(text.getStyle().withClickEvent(click).withHoverEvent(hover));
 	}
 }
