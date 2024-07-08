@@ -34,8 +34,8 @@ repositories {
 }
 
 dependencies {
-	implementation(project(common.path, configuration = common.configurations.namedElements.name))
-	implementation(common.sourceSets["client"].output)
+	compileOnly(project(common.path, configuration = common.configurations.namedElements.name))
+	compileOnly(common.sourceSets["client"].output)
 
 	forge("net.minecraftforge", "forge", "$mcVersion-$forgeVersion")
 
