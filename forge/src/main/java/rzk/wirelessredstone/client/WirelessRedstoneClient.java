@@ -16,8 +16,8 @@ public class WirelessRedstoneClient
 	{
 		MinecraftForge.EVENT_BUS.register(SnifferHighlightRenderer.class);
 
-		ItemProperties.register(ModItems.REMOTE.get(), new ResourceLocation("state"),
-			(stack, world, entity, seed) -> ((entity != null && stack == entity.getUseItem()) ? 1f : 0f));
+		event.enqueueWork(() -> ItemProperties.register(ModItems.REMOTE.get(), new ResourceLocation("state"),
+			(stack, world, entity, seed) -> ((entity != null && stack == entity.getUseItem()) ? 1f : 0f)));
 	}
 
 	public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event)

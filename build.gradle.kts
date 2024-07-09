@@ -4,9 +4,9 @@ import java.util.*
 
 plugins {
 	java
-	id("org.jetbrains.changelog") version "2.1.0"
+	id("org.jetbrains.changelog") version "2.2.0"
 	id("com.modrinth.minotaur") version "2.+" apply false
-	id("net.darkhax.curseforgegradle") version "1.1.15" apply false
+	id("net.darkhax.curseforgegradle") version "1.+" apply false
 }
 
 val javaVersion by extra {
