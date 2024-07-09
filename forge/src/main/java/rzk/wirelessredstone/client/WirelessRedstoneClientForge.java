@@ -15,8 +15,8 @@ public class WirelessRedstoneClientForge
 	{
 		MinecraftForge.EVENT_BUS.register(WRClientEventsForge.class);
 
-		ModelPredicateProviderRegistry.register(ModItems.remote, new Identifier("state"),
-			(stack, world, entity, seed) -> ((entity != null && stack == entity.getActiveItem()) ? 1f : 0f));
+		event.enqueueWork(() -> ModelPredicateProviderRegistry.register(ModItems.remote, new Identifier("state"),
+			(stack, world, entity, seed) -> ((entity != null && stack == entity.getActiveItem()) ? 1f : 0f)));
 	}
 
 	public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event)
