@@ -16,8 +16,8 @@ public class WirelessRedstoneClientNeo
 	{
 		NeoForge.EVENT_BUS.register(WRWorldRendererNeo.class);
 
-		ModelPredicateProviderRegistry.register(ModItems.remote, new Identifier("state"),
-			(stack, world, entity, seed) -> ((entity != null && stack == entity.getActiveItem()) ? 1f : 0f));
+		event.enqueueWork(() -> ModelPredicateProviderRegistry.register(ModItems.remote, new Identifier("state"),
+			(stack, world, entity, seed) -> ((entity != null && stack == entity.getActiveItem()) ? 1f : 0f)));
 	}
 
 	public static void onRegisterRenderers(EntityRenderersEvent.RegisterRenderers event)
