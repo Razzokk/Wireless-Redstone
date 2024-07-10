@@ -17,7 +17,7 @@ public interface RedstoneConnectable
 	 */
 	default boolean connectsToRedstone(BlockState state, BlockView world, BlockPos pos, @Nullable Direction direction)
 	{
-		return true;
+		return direction != null;
 	}
 
 	/**

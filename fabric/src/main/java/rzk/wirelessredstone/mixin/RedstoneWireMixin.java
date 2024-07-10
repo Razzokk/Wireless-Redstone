@@ -29,32 +29,9 @@ public abstract class RedstoneWireMixin
 			"connectsTo(Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;)Z"))
 	private boolean onConnectsTo(BlockState state, Direction side, BlockView world, BlockPos pos, Direction direction)
 	{
-		if (state.getBlock() instanceof RedstoneConnectable connectable)
-			return connectable.connectsToRedstone(state, world, pos.offset(direction), side);
-		return connectsTo(state, direction);
-	}
+		if (!(state.getBlock() instanceof RedstoneConnectable connectable))
+			return connectsTo(state, direction);
 
-	@Redirect(method = "getRenderConnectionType(" +
-		"Lnet/minecraft/world/BlockView;" +
-		"Lnet/minecraft/util/math/BlockPos;" +
-		"Lnet/minecraft/util/math/Direction;Z)" +
-		"Lnet/minecraft/block/enums/WireConnection;",
-		at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/block/RedstoneWireBlock;" +
-			"connectsTo(Lnet/minecraft/block/BlockState;)Z"))
-	private boolean onConnectsToUp(BlockState state, BlockView world, BlockPos pos, Direction direction)
-	{
-		return onConnectsTo(state, null, world, pos.up(), direction);
-	}
-
-	@Redirect(method = "getRenderConnectionType(" +
-		"Lnet/minecraft/world/BlockView;" +
-		"Lnet/minecraft/util/math/BlockPos;" +
-		"Lnet/minecraft/util/math/Direction;Z)" +
-		"Lnet/minecraft/block/enums/WireConnection;",
-		at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/block/RedstoneWireBlock;" +
-			"connectsTo(Lnet/minecraft/block/BlockState;)Z"))
-	private boolean onConnectsToDown(BlockState state, BlockView world, BlockPos pos, Direction direction)
-	{
-		return onConnectsTo(state, null, world, pos.down(), direction);
+		return connectable.connectsToRedstone(state, world, pos.offset(direction), side);
 	}
 }

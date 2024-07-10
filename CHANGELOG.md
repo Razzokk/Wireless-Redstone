@@ -6,6 +6,11 @@ with the minecraft version prepended to it.
 
 ## [Unreleased]
 
+### Fixed
+
+- Forge & NeoForge: redstone wires connecting up or down to transmitters/receivers
+- Fabric: redstone wires connecting up or down to redstone utility blocks
+
 ### Added
 
 - P2P redstone transmitter and receiver for direct wireless linkage
