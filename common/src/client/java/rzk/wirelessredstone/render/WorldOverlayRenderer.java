@@ -7,7 +7,6 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
-import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -24,7 +23,7 @@ public class WorldOverlayRenderer
 	{
 		var player = MinecraftClient.getInstance().player;
 		var stack = player.getMainHandStack();
-		renderSnifferHighlights(player, stack, cameraPosition, matrixStack);
+		renderSnifferHighlights(world, player, stack, cameraPosition, matrixStack);
 		renderLinkerTarget(world, player, stack, cameraPosition, matrixStack, tickDelta);
 	}
 
@@ -57,7 +56,7 @@ public class WorldOverlayRenderer
 		matrixStack.pop();
 	}
 
-	private static void renderSnifferHighlights(PlayerEntity player, ItemStack stack, Vec3d cameraPosition, MatrixStack matrixStack)
+	private static void renderSnifferHighlights(World world, PlayerEntity player, ItemStack stack, Vec3d cameraPosition, MatrixStack matrixStack)
 	{
 		var coords = SnifferItem.getHighlightedBlocks(stack);
 		if (coords == null) coords = SnifferItem.getHighlightedBlocks(player.getOffHandStack());
@@ -71,10 +70,15 @@ public class WorldOverlayRenderer
 		var builder = tessellator.getBuffer();
 		builder.begin(VertexFormat.DrawMode.LINES, VertexFormats.LINES);
 
+		var matrix = matrixStack.peek();
+
 		for (var pos : coords)
 		{
-			player.shouldRender(pos.getX(), pos.getY(), pos.getZ());
-			WorldRenderer.drawBox(matrixStack, builder, pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1, red, green, blue, 1f);
+			if (!player.shouldRender(pos.getX(), pos.getY(), pos.getZ())) continue;
+
+			var state = world.getBlockState(pos);
+			var shape = state.getOutlineShape(world, pos);
+			RenderUtils.drawOutlineShape(builder, matrix, shape, pos, red, green, blue, 1);
 		}
 
 		renderLinesPost(tessellator, matrixStack);
@@ -107,7 +111,10 @@ public class WorldOverlayRenderer
 			alpha = 1 - (3 - 2 * time) * time * time;
 		}
 
-		WorldRenderer.drawBox(matrixStack, builder, target.getX(), target.getY(), target.getZ(), target.getX() + 1, target.getY() + 1, target.getZ() + 1, red, green, blue, alpha);
+		var state = world.getBlockState(target);
+		var shape = state.getOutlineShape(world, target);
+		var matrix = matrixStack.peek();
+		RenderUtils.drawOutlineShape(builder, matrix, shape, target, red, green, blue, alpha);
 
 		renderLinesPost(tessellator, matrixStack);
 	}

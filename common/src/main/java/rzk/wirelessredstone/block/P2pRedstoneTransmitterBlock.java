@@ -106,7 +106,7 @@ public class P2pRedstoneTransmitterBlock extends P2pRedstoneTransceiverBlock imp
 		if (!world.isClient)
 		{
 			var targetText = WRUtils.positionText(pos);
-			WRUtils.appendTeleportCommandIfAllowed(targetText, player, pos);
+			WRUtils.appendTeleportCommandIfAllowed(targetText, player, target);
 
 			var text = Text.translatable(TranslationKeys.MESSAGE_P2P_LINKED, targetText);
 			player.sendMessage(text);

@@ -19,6 +19,7 @@ with the minecraft version prepended to it.
 	  and the corresponding textures have also been removed.
 	- If you have a custom resource pack for Wireless Redstone, you can still use the `cube_bottom_top` model,
 	  but you will need to provide your own model files, see [Model](https://minecraft.wiki/w/Model).
+- Highlight renderers now use the outline of the block instead of just a 1x1x1 block
 
 ## [1.20.4-1.1.5] - 2024-07-09
 
