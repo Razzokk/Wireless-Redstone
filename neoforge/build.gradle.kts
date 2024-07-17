@@ -18,7 +18,8 @@ val clothConfigVersion: String by project
 val jeiVersion: String by project
 val neoVersion: String by project
 val parchmentMappings: String by project
-val curseforgeProjectId: String by project
+val modrinthProjectId: String by project
+val curseForgeProjectId: String by project
 val changelogProvider: Provider<String> by project
 
 val modReleaseType: String by project
@@ -82,7 +83,7 @@ modrinth {
 	debugMode.set(debug)
 	token.set(System.getenv("MODRINTH_TOKEN"))
 
-	projectId.set(modId)
+	projectId.set(modrinthProjectId)
 	versionNumber.set("neoforge-$modVersion")
 	versionName.set(modDisplayName)
 	versionType.set(modReleaseType)
@@ -98,7 +99,7 @@ tasks.register<TaskPublishCurseForge>("curseforge") {
 	debugMode = debug
 	apiToken = System.getenv("CURSEFORGE_TOKEN")
 
-	val file = upload(curseforgeProjectId, tasks.remapJar)
+	val file = upload(curseForgeProjectId, tasks.remapJar)
 	file.displayName = modDisplayName
 	file.releaseType = modReleaseType
 	file.changelog = changelogProvider.get()

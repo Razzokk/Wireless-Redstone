@@ -1,7 +1,8 @@
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import org.jetbrains.changelog.Changelog
-import java.text.SimpleDateFormat
-import java.util.*
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 plugins {
 	java
@@ -18,7 +19,7 @@ val javaVersion by extra {
 }
 
 val debug by extra {
-	hasProperty("debug") && property("debug").toString().toBoolean()
+	findProperty("debug")?.toString()?.toBoolean() ?: false
 }
 
 val mcVersion: String by project
@@ -48,13 +49,18 @@ val modReleaseType by extra {
 }
 
 val changelogProvider by extra {
-	provider { changelog.renderItem(changelog.get(modVersion), Changelog.OutputType.MARKDOWN) }
+	provider {
+		changelog.renderItem(changelog.get(modVersion), Changelog.OutputType.MARKDOWN)
+	}
 }
 
+val now: OffsetDateTime = OffsetDateTime.now(ZoneOffset.UTC)
+val isReleaseBuild = System.getenv("GITHUB_REF")?.startsWith("refs/tags/v") ?: false
+val buildNumber: String = now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
 val license = file("LICENSE")
 
 allprojects {
-	version = modVersion
+	version = if (isReleaseBuild) modVersion else "$modVersion-SNAPSHOT+$buildNumber"
 	group = modGroup
 }
 
@@ -98,7 +104,6 @@ subprojects {
 
 		withType<Jar> {
 			configureEach {
-				val now = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date())
 				manifest {
 					attributes(mapOf(
 						"Specification-Title" to modId,
@@ -107,7 +112,7 @@ subprojects {
 						"Implementation-Title" to modDisplayName,
 						"Implementation-Version" to modVersion,
 						"Implementation-Vendor" to modAuthor,
-						"Implementation-Timestamp" to now,
+						"Implementation-Timestamp" to now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")),
 						"Timestamp" to System.currentTimeMillis(),
 						"Built-On-Java" to "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})",
 						"Built-On-Minecraft" to mcVersion

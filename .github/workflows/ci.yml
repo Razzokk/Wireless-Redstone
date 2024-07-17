@@ -13,9 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v2
-
       - name: Setup JDK ${{ env.JAVA_VERSION }}
         uses: actions/setup-java@v4
         with:
@@ -25,17 +22,27 @@ jobs:
       - name: Make Gradle wrapper executable
         run: chmod +x ./gradlew
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          validate-wrappers: true
+
       - name: Build
-        run: ./gradlew build
+        run: ./gradlew :fabric:build :neoforge:build :forge:build
+
+      - name: Move build artifacts to central artifacts directory
+        run: |
+          mkdir artifacts
+          mv fabric/build/libs/* artifacts
+          mv forge/build/libs/* artifacts
+          mv neoforge/build/libs/* artifacts
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Artifacts
-          path: |
-            fabric/build/libs/
-            forge/build/libs/
-            neoforge/build/libs/
+          name: artifacts
+          if-no-files-found: error
+          path: artifacts/*
 
       - name: Publish Fabric to Modrinth & CurseForge
         if: startsWith(github.ref, 'refs/tags/release/fabric/')
