@@ -31,7 +31,6 @@ public class WirelessRedstoneFabric implements ModInitializer
 			entries.add(ModItems.frequencySniffer);
 			entries.add(ModItems.remote);
 			entries.add(ModItems.linker);
-			entries.add(ModItems.debugger);
 		})
 		.displayName(Text.translatable(TranslationKeys.ITEM_GROUP_WIRELESS_REDSTONE))
 		.icon(() -> new ItemStack(ModBlocks.redstoneTransmitter))
