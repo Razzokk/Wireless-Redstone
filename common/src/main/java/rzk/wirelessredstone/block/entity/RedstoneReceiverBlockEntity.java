@@ -1,15 +1,14 @@
 package rzk.wirelessredstone.block.entity;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.server.ServerTask;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import rzk.wirelessredstone.api.ChunkLoadListener;
 import rzk.wirelessredstone.ether.RedstoneEther;
 import rzk.wirelessredstone.misc.WRUtils;
 import rzk.wirelessredstone.registry.ModBlockEntities;
 
-public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
+public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity implements ChunkLoadListener
 {
 	public RedstoneReceiverBlockEntity(BlockPos pos, BlockState state)
 	{
@@ -28,26 +27,17 @@ public class RedstoneReceiverBlockEntity extends RedstoneTransceiverBlockEntity
 	}
 
 	@Override
-	public void setWorld(World world)
+	public void onChunkLoad(ServerWorld world)
 	{
-		super.setWorld(world);
-		if (world.isClient) return;
-
-		world.getServer().send(new ServerTask(1, () ->
-		{
-			RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
-			ether.addReceiver(world, pos, frequency);
-		}));
+		var ether = RedstoneEther.getOrCreate(world);
+		ether.addReceiver(world, pos, frequency);
 	}
 
 	@Override
-	public void markRemoved()
+	public void onChunkUnload(ServerWorld world)
 	{
-		if (!world.isClient)
-		{
-			RedstoneEther ether = RedstoneEther.getOrCreate((ServerWorld) world);
-			ether.removeReceiver(pos, frequency);
-		}
-		super.markRemoved();
+		var ether = RedstoneEther.get(world);
+		if (ether == null) return;
+		ether.removeReceiver(pos, frequency);
 	}
 }

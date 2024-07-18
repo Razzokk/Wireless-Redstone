@@ -1,12 +1,14 @@
 package rzk.wirelessredstone;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerChunkEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
+import rzk.wirelessredstone.api.ChunkLoadListener;
 import rzk.wirelessredstone.misc.TranslationKeys;
 import rzk.wirelessredstone.misc.WRConfig;
 import rzk.wirelessredstone.registry.ModBlockEntitiesFabric;
@@ -19,8 +21,7 @@ import rzk.wirelessredstone.registry.ModNetworking;
 public class WirelessRedstoneFabric implements ModInitializer
 {
 	private static final ItemGroup ITEM_GROUP = FabricItemGroup.builder()
-		.entries((displayContext, entries) ->
-		{
+		.entries((displayContext, entries) -> {
 			entries.add(ModBlocks.redstoneTransmitter);
 			entries.add(ModBlocks.redstoneReceiver);
 			entries.add(ModBlocks.p2pRedstoneTransmitter);
@@ -30,6 +31,7 @@ public class WirelessRedstoneFabric implements ModInitializer
 			entries.add(ModItems.frequencySniffer);
 			entries.add(ModItems.remote);
 			entries.add(ModItems.linker);
+			entries.add(ModItems.debugger);
 		})
 		.displayName(Text.translatable(TranslationKeys.ITEM_GROUP_WIRELESS_REDSTONE))
 		.icon(() -> new ItemStack(ModBlocks.redstoneTransmitter))
@@ -46,5 +48,21 @@ public class WirelessRedstoneFabric implements ModInitializer
 		ModNetworking.register();
 
 		Registry.register(Registries.ITEM_GROUP, WirelessRedstone.identifier(WirelessRedstone.MODID), ITEM_GROUP);
+
+		ServerChunkEvents.CHUNK_LOAD.register((world, chunk) -> {
+			var blockEntities = chunk.getBlockEntities().values();
+
+			for (var blockEntity : blockEntities)
+				if (blockEntity instanceof ChunkLoadListener be)
+					be.onChunkLoad(world);
+		});
+
+		ServerChunkEvents.CHUNK_UNLOAD.register((world, chunk) -> {
+			var blockEntities = chunk.getBlockEntities().values();
+
+			for (var blockEntity : blockEntities)
+				if (blockEntity instanceof ChunkLoadListener be)
+					be.onChunkUnload(world);
+		});
 	}
 }
